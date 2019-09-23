@@ -1,0 +1,72 @@
+
+.address-box {
+	padding: 15px 10px;
+	border: 1px solid #ECECEC;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	span {
+		font-size: 14px;
+		font-weight: 600;
+		color: #000;
+	}
+	a {
+		color: #212121;
+		font-size: 10px;
+		font-weight: 600;
+		border: 1.1px solid #FFFFFF;
+		border-radius: 4.4px;
+		padding: 4px 5px;
+		margin: 0 0px 5px 10px;
+		background-color: #F3F3F3;
+		text-decoration: none;
+		display: inline-block;
+	}
+	p {
+		color: #212121;
+		font-size: 14px;
+		margin: 0;
+	}
+}
+
+.add-address{
+    height: 40px;	
+    width: 100%;	
+    border: 1px dashed #1896BA;	
+    border-radius: 4px;
+    margin: 20px 0 20px 0px;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.bot-box{
+    float:right;
+    cursor: pointer;
+    position: relative;
+    margin-top: -6px;
+}
+.bot-box span {
+    display: block;
+    line-height: 7px;
+    width: 15px;
+    font-size: 32px!important;
+    opacity: 0.3;	
+    color: #000000;
+}
+
+
+.bot-box:hover .drop-edit{
+    visibility: visible;
+    z-index: 1;
+    opacity: 1;
+    transform: translateY(0%);
+    transition-delay: 0s, 0s, 0.3s;
+}
+
+.errorMessage {
+	display: block;
+	width: 100%;
+	margin-top: 0.5rem !important;
+	font-size: 85% !important;
+	color: #ff0000 !important;
+	font-weight: 500 !important;
+  }

@@ -1,0 +1,67 @@
+<div class="sidebar-left">
+    <div class="whiteboxbrd">
+        <div class="user-photo">
+            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" alt="">
+        </div>
+        <div class="profile-intro">
+            <div class="user-name" *ngIf="user.sellerPersonalProfile.firstName">{{ user.sellerPersonalProfile.firstName }}</div>
+            
+            <div class="phone-number" *ngIf="user.phone">
+                <img src="assets/img/call.png"> {{ user.phone }}
+            </div>
+
+            <ng-container *ngIf="user.sellerPersonalProfile.verifyStatusCode != 'seller.sts.verify.verified'; else verifiedEmailId">
+                <div class="profile-status">
+                    <span>Profile-status</span>
+                    <span class="text-uppercase unverfied" *ngIf="user.sellerPersonalProfile.verifyStatus">{{user.sellerPersonalProfile.verifyStatus}}</span>
+                    <div class="progress">
+                        <div class="progress-bar" 
+                            role="progressbar" 
+                            aria-valuenow="70" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100" 
+                            [ngStyle]="{'width': percentage + '%'}">
+                            <span class="progress-per green">{{ percentage }}%</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #verifiedEmailId>
+                <div class="profile-status pro-emil">
+                    <span><i class="fa fa-envelope mr-2"></i> {{ user.sellerPersonalProfile.email }}</span>
+                </div>
+            </ng-template>
+            
+        </div>
+    </div>
+    <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
+        <div class="requestbox">
+            <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
+            <div class="request-bttn">
+                <a (click)="requestToJoin()" class="orangeBttn">Request</a>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #pendingBox>
+        <div class="requestbox pro-verified">
+            <ng-container *ngIf="user.sellerPersonalProfile.verifyStatusCode != 'seller.sts.verify.verified'; else successBox">
+                <div class="title">
+                    <img src="assets/img/pending.png">Your profile verification is pending by BuildSupply
+                </div>
+            </ng-container>
+
+            <ng-template #successBox>
+                <div class="title"><img src="assets/img/green-check.png"> Your profile is verified by BuildSupply</div>
+            </ng-template>
+        </div>
+    </ng-template>
+    
+    <div class="sidebar-menu">
+        <ul>
+            <li *ngFor="let item of profileSideBarDropDown" ><a  [routerLink]="[item.link]" routerLinkActive="active" href="javascript:void(0)"> {{item.name}}</a></li>
+        </ul>
+    </div>
+   
+</div>

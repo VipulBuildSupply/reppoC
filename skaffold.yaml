@@ -1,0 +1,12 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+    - image: gcr.io/bld-commerce/seller-web
+      context: .
+  local:
+    push: true
+
+

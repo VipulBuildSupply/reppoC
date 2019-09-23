@@ -1,0 +1,25 @@
+<div class="address-box mb-3" [class.no-bdr]="!isOptions" [class.m-0]="!isOptions" [class.p-0]="!isOptions" >
+    <div class="bot-box">
+        <button *ngIf="isOptions" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button (click)="edit()" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button (click)="delete(bankDetail.id)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+        </mat-menu>
+    </div>
+    <span>{{bankDetail.accountHolderName}} </span><span style="color:#979797;"> | </span><span>{{bankDetail.accountNumber}}</span>
+    <p>{{bankDetail.bankName}}</p>
+    <p>{{bankDetail.ifscCode }}</p>
+    <div *ngIf="bankDetail.cancelledChequePhotoImage" class="pdf">
+        <a href="javascript:void(0)" (click)="downloadBankDetailProof(bankDetail.cancelledChequePhotoImage)">Download</a>
+        <img src="assets/img/svg-img/ic_download.svg" alt="">
+        <span>Cancelled Cheque</span>
+    </div>
+</div>

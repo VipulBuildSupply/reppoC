@@ -1,0 +1,28 @@
+<div class="address-box mb-3" [class.no-bdr]="!isOptions" [class.m-0]="!isOptions" [class.p-0]="!isOptions" >
+    <div class="bot-box">
+        <button *ngIf="isOptions && selectedProfile.type != 'corporate'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button (click)="edit()" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button (click)="delete(address.addressId)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+        </mat-menu>
+    </div>
+    <span>{{address.name}} </span><span style="color:#979797;"> | </span><span>{{address.phoneNo}}</span>
+    <a *ngIf="address.defaultAddress" href="javascript:void(0)">DEFAULT</a>
+    <p>{{address.addressLine1}}</p>
+    <p *ngIf="address.addressLine2">{{address.addressLine2}} </p>
+    <p>{{address.city.name }}, {{address.state.name}} - {{address.pincode}}</p>
+    <p *ngIf="address.gstin && addressType == 'billing'">GSTIN: {{address.gstin}}</p>
+    <div *ngIf="address.addressProofFile" class="pdf">
+        <a href="javascript:void(0)" (click)="downloadAddressProof(address.addressProofFile)">Download</a>
+        <img src="assets/img/svg-img/ic_download.svg" alt="">
+        <span>Address Proof</span>
+    </div>
+</div>

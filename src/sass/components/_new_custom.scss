@@ -1,0 +1,154 @@
+body{
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+.footer-inbox-left .form-control{
+    border-radius: 50px;
+}
+
+.footer-inbox-left span#basic-addon2 {
+    border-radius: 50px;
+    position: relative;
+    right: 90px;
+}
+
+.foote-links-row a{
+    font-weight: 500;
+}
+
+.navbar-dark .navbar-nav .active > .nav-link{
+    line-height: 14px;
+}
+
+.business-field-area .form-control-placeholder{
+    left: 0;
+}
+
+.save-orange .orangeBttn a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.requestbox .title span{
+    display: inline;
+    margin-left: 4px;
+}
+
+.mat-menu-panel.mat-menu-below {
+    min-width: 210px;
+    right: 15px;
+    position: relative;
+    box-shadow: 0 2px 10px 0 rgba(97, 97, 97, 0.1);
+    z-index: 1;
+    padding: 0 0;
+    //transform: translateY(-1em);
+   // transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.0s, z-index 0s linear 0.00s;
+    top: 26px;
+}
+
+.mat-menu-panel.mat-menu-below button.mat-menu-item {
+    width: 100%;
+    height: 45px;
+    color: #212121;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    background: #fff;
+    transition: all 0.5s ease-in-out;
+}
+
+.mat-menu-panel.mat-menu-below .mat-menu-content:not(:empty){
+    padding: 0px;
+}
+
+.mat-menu-panel.mat-menu-below button.mat-menu-item:hover {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: #1896BA;
+    text-decoration: none;
+}
+
+/****** OTP Page CSS ******/
+
+a.disabled {
+    pointer-events: none;
+cursor: default;
+    opacity: .6;
+}
+
+/********* Header CSS *********/
+.widget-header:after{
+    display: none;
+}
+
+.widget-header.admin-box {
+    margin-left: 7px;
+    margin-right: 7px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    padding: 0 15px;
+    height: 50px;
+    line-height: 26px;
+    div a {
+        line-height: 44px;
+        color: #000;
+        font-size: 12px;
+        font-weight: 600;
+        img{
+            object-fit: cover;
+            border-radius: 50%;
+            float: left;
+            margin: 7px 15px 7px 0;
+        }
+        .fa-user {
+            color: #b2b2b2;
+            margin: 3px 10px 0 0;
+            border: 1px solid #ececec;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            padding: 6px;
+            text-align: center;
+        }
+        .dark-transp {
+            color: #212121;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        span{
+            color: #212121;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .profileName {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 115px;
+            overflow: hidden;
+            float: left;
+            line-height: 32px;
+        }
+        p{
+            line-height: 7px;
+            text-transform: capitalize;
+            width: 180px;
+            color: #212121;
+            font-size: 10px;
+            margin: 0;
+        }
+        .user-profile {
+            margin-top: 4px;
+        }
+    }
+}
+
+.snack-msg{
+    text-align: center;
+    margin-bottom: 0px;
+}

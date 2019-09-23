@@ -1,0 +1,103 @@
+<app-address-form></app-address-form>
+<!-- <form *ngIf="false" [formGroup]="addressForm" (ngSubmit)="submit()">
+    <h4>ADD NEW {{addrs.addressCategory}} ADDRESS</h4>
+
+    <div class="form-group">
+        <label>Name</label>
+        <input formControlName="gstHolderName" type="text" class="form-control" placeholder="" required>
+    </div>
+    <div
+        *ngIf="addressForm.controls['gstHolderName'].errors && (addressForm.controls['gstHolderName'].dirty || addressForm.controls['gstHolderName'].touched)">
+        <p *ngIf="addressForm.controls['gstHolderName'].hasError('required')" class="errorMessage">
+            Name is required</p>
+    </div>
+
+    <div class="form-group">
+        <label>Address Line 1</label>
+        <input formControlName="addressLine1" type="text" class="form-control" placeholder="" required>
+    </div>
+    <div
+        *ngIf="addressForm.controls['addressLine1'].errors && (addressForm.controls['addressLine1'].dirty || addressForm.controls['addressLine1'].touched)">
+        <p *ngIf="addressForm.controls['addressLine1'].hasError('required')" class="errorMessage">
+            Address Line 1 is required</p>
+    </div>
+
+    <div class="form-group">
+        <label>Address Line 2</label>
+        <input formControlName="addressLine2" type="text" class="form-control" placeholder="">
+    </div>
+
+    <div class="form-group">
+        <label>Pincode</label>
+        <input type="number" formControlName="pincode" class="form-control" placeholder="" (keyup)="ValidatePincode($event)" maxlength="6" required>
+    </div>
+
+    <div
+        *ngIf="addressForm.controls['pincode'].errors && (addressForm.controls['pincode'].dirty || addressForm.controls['pincode'].touched)">
+        <p *ngIf="addressForm.controls['pincode'].hasError('required')" class="errorMessage">
+            PinCode is required</p>
+        <p *ngIf="addressForm.controls['pincode'].hasError('pattern')" class="errorMessage">
+            PinCode is invalid</p>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <label>State</label>
+                <input formControlName="stateId" hidden class="mb-3 bs__select-box" disabled>
+                <input  [value]="addrs.state.name" class="mb-3 bs__select-box" disabled>
+            </div>
+
+            <div class="col-md-6">
+                <label>City</label>
+                <input formControlName="cityId" hidden class="mb-3 bs__select-box" disabled>
+                <input  [value]="addrs.city.name" class="mb-3 bs__select-box" disabled>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class=" form-group m-0" style="width: 100%;">
+                    <label>Mobile Number</label>
+                    <div class="form-row">
+                        <div class="bs__select-box txt-center col-md-3 mobile-flag"><img alt="" src="assets/img/ind-flag.png"></div>
+                        <input formControlName="phoneNo" type="number" maxlength="10" class="form-control small-input input-type-tel col-md-9" placeholder="10 digit mobile number" required>
+                    </div>
+                </div>
+
+                <div
+                    *ngIf="addressForm.controls['phoneNo'].errors && (addressForm.controls['phoneNo'].dirty || addressForm.controls['phoneNo'].touched)">
+                    <p *ngIf="addressForm.controls['phoneNo'].hasError('required')" class="errorMessage marginTop">
+                        Mobile number is required</p>
+                    <p *ngIf="addressForm.controls['phoneNo'].hasError('pattern')" class="errorMessage marginTop">
+                        Mobile number is invalid</p>
+                </div>
+
+            </div>
+            <div class="col-md-6" *ngIf="addrs.addressCategory=='BILLING' || addressForm.controls['isAdditionalAddress'].value">
+                <label>GSTIN Number</label>
+                <input formControlName="gstin" (input)="validateGstin($event)" (paste)="onPaste($event)" type="text" class="form-control" placeholder="eg. 24 ABCDE1234F 1 K 9" required>
+                <div
+                    *ngIf="addressForm.controls['gstin'].errors && (addressForm.controls['gstin'].dirty || addressForm.controls['gstin'].touched)">
+                    <p *ngIf="addressForm.controls['gstin'].hasError('required')" class="errorMessage marginTop">
+                        GSTIN number is required</p>
+                    <p *ngIf="addressForm.controls['gstin'].hasError('pattern')" class="errorMessage marginTop">
+                        GSTIN number is invalid</p>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <div class="form-check p-0">
+        <input type="checkbox" formControlName="defaultAddress"  class="checkbox-style" id="check1">
+        <label for="check1"> <strong> Set address as default {{addrs.addressCategory | lowercase}} address.</strong> </label>
+    </div>
+
+    <div *ngIf="!isEdit" class="form-check p-0">
+        <input type="checkbox" formControlName="isAdditionalAddress" (change)="isAdditionalAddressClicked($event)" class="checkbox-style" id="check2">
+        <label for="check2"><strong> Also add this address as {{ addrs.addressCategory==='BILLING' ? 'Delivery' : 'Billing'  }} address.</strong>
+        </label>
+    </div>
+    <button type="button" class="save-button" (click)="goToAddressPage()">Cancel</button>
+    <button type="submit" class="save-button  save-button2" [disabled]="!addressForm.valid">SAVE</button>
+</form> -->

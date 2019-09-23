@@ -1,0 +1,20 @@
+cd seller
+touch README.md
+git add README.md
+git commit -m "add README"
+git push -u origin master
+
+modify files:
+cat README.md
+echo "Added another line to REAMD.md" >> README.md
+cat README.md
+git status
+git add .
+git commit -m "add README"
+
+delete file:
+rm file.txt
+git add file.txt
+git status
+git commit -m "Delete file.txt"
+git push -u origin master

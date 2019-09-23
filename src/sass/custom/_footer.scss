@@ -1,0 +1,107 @@
+.footer{
+    background-color:$bg-color-blue;
+    padding:60px 0 40px 0;
+    margin-top: 30px;
+}
+.footer-inbox-left span{
+    color:rgba(255,255,255,0.95);
+    font-size: $font-size-14;
+    font-weight: $font-weight-600;
+    padding-bottom: 10px;
+    display: $dispalyinline-block;
+}
+.footer-inbox-left .form-control{
+    @include footer-form-control();
+    padding: 0px 30px ;
+    border: transparent;
+    border-right: none;
+    background-color: $bg-color-white;
+    color: rgba(0,0,0,0.95);
+    font-size: $font-size-16;
+    font-weight: $font-weight-600;
+}
+
+.footer-inbox-left .input-group-text{
+    @include footer-form-control();	
+    background-color: #F47721;
+    transition: all 0.3s ease-in-out;
+}
+.footer-inbox-left .input-group-text:hover{
+    background-color: #fa8534;
+}
+.input-group-append {
+    margin-left:0px;
+    border-radius: 0 26px 26px 0;
+}
+.input-group-append span {
+    display: $dispalyinline-block;
+    line-height:43px;
+    text-transform: uppercase;
+   @include fontsize-weight();
+    letter-spacing: 0.4px;
+}
+.footer-inbox-left .input-group-text {
+    width: 155px;
+    background-color: #F47721;
+}
+.footer-inbox-left .input-group {
+    width: 85%;
+    margin: 15px 0 5px;
+}
+.footer-inbox-left span#basic-addon2 {
+    border-radius:0;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    line-height: 40px;
+    margin-left: 10px;
+}
+
+.footer-inbox-left p{
+    color: #71ACCC;
+    font-size: $font-size-16;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+.download-app span {
+    color: rgba(255,255,255,0.95);
+    font-size: $font-size-14;
+    font-weight: $font-weight-600;
+    display: $dispalyblock;
+    margin: 0 0 25px 0;
+    text-align: center;
+}
+.download-app {
+    text-align: center;
+}
+.download-app img {
+    margin: 0 4px;
+}
+.foote-links-row {
+    padding-top: 75px;
+}
+.foote-links-row h5{
+    color: rgba(255,255,255,0.95);
+    @include fontsize-weight();	
+    letter-spacing: 0.4px;
+    text-transform: $text-transform;
+}
+.foote-links-row ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.foote-links-row a{
+    font-size: 12px;
+    font-weight: $font-weight-600;
+    color: rgba(255,255,255,0.95);
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    display: $dispalyinline-block;
+    padding-top: 10px;
+    transition: $transition;
+
+}
+.foote-links-row a:hover{
+    color: #F47721;
+}

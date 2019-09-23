@@ -1,0 +1,20 @@
+<section class="login_panel">
+    <div class="row no-gutters">
+        <div class="col-md-7 col-lg-8">
+            <div class="logo-login">
+                <a [routerLink]="['/']"><img src="assets/img/logo.svg"></a>
+            </div>
+            <div class="loginbg">
+                <img src="assets/img/login-bg.png">
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-4">
+            <div class="loginfield">
+                <div class="loginfield-detail">
+                    <router-outlet></router-outlet>
+                    <!-- <div class="copyright">Copyright © 2016 BuildSupply.com</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,36 @@
+<form [formGroup]="otpVerifyForm" (ngSubmit)="submit()">
+    <h2>Verification</h2>
+    <div class="otp-decr">We have sent you a 4 digit verification code on <span>+91 {{this.phone}}</span></div>
+    <div class="form-field-area">
+        <div class="OTP-verification">
+            <div class="form-group ">
+                <div class="form-row align-items-center form-group">
+                    <div class="col">
+                        <input type="number" formControlName="otp1" otp class="form-control" placeholder="-">
+                    </div>
+                    <div class="col">
+                        <input type="number" formControlName="otp2" otp class="form-control" placeholder="-">
+                    </div>
+                    <div class="col">
+                        <input type="number" formControlName="otp3" otp class="form-control" placeholder="-">
+                    </div>
+                    <div class="col">
+                        <input type="number" formControlName="otp4" otp class="form-control" placeholder="-">
+                    </div>
+                </div>
+
+                <div>
+                    <p *ngIf="errorMsg" class="error-validation mt-4 mb-1">OTP is invalid</p>
+                </div>
+
+            </div>
+            <div class="form-row OTP">
+                <a href="javascript:void(0)" class="resend-code" (click)="resendOtp()" [class.disabled]="!activeOtp">Resend OTP</a>
+                <a href="javascript:void(0)" class="resend-code-time" [class.text-danger]="activeOtp">{{time.min}}:{{time.sec}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="save-orange">
+        <button type="submit" [disabled]="!otpVerifyForm.valid" class="btn orangeBttn">Continue</button>
+    </div>
+</form>

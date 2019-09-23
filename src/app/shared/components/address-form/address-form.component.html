@@ -1,0 +1,168 @@
+<form [formGroup]="addressForm" (ngSubmit)="submit()">
+    <h4>ADD NEW {{addrs.addressCategory}} ADDRESS</h4>
+    <div class="business-field-area">
+        <div class="row">
+
+            <div class="col-md-12">
+                <mat-form-field class="full-width"
+                    *ngIf="addrs.addressCategory=='BILLING' || addressForm.controls['isAdditionalAddress'].value">
+                    <input matInput formControlName="gstHolderName" type="text" placeholder="Name (as mentioned in GST)"
+                        required>
+                </mat-form-field>
+                <mat-form-field class="full-width"
+                    *ngIf="addrs.addressCategory=='WAREHOUSE' && (!addressForm.controls['isAdditionalAddress'].value)">
+                    <input matInput formControlName="gstHolderName" type="text" placeholder="Name" required>
+                </mat-form-field>
+                <small
+                    *ngIf="addressForm.controls['gstHolderName'].errors && (addressForm.controls['gstHolderName'].dirty || addressForm.controls['gstHolderName'].touched)">
+                    <p *ngIf="addressForm.controls['gstHolderName'].hasError('required')" class="errorMessage">
+                        Name is required</p>
+                </small>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="addressLine1" type="text" placeholder="Address Line 1" required>
+                </mat-form-field>
+                <small
+                    *ngIf="addressForm.controls['addressLine1'].errors && (addressForm.controls['addressLine1'].dirty || addressForm.controls['addressLine1'].touched)">
+                    <p *ngIf="addressForm.controls['addressLine1'].hasError('required')" class="errorMessage">
+                        Address Line 1 is required</p>
+                </small>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="addressLine2" type="text" placeholder="Address Line 2">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="phoneNo" type="number" maxlength="10"
+                        placeholder="10 digit mobile number" required>
+                </mat-form-field>
+                <small
+                    *ngIf="addressForm.controls['phoneNo'].errors && (addressForm.controls['phoneNo'].dirty || addressForm.controls['phoneNo'].touched)">
+                    <p *ngIf="addressForm.controls['phoneNo'].hasError('required')" class="errorMessage marginTop">
+                        Mobile number is required</p>
+                    <p *ngIf="addressForm.controls['phoneNo'].hasError('pattern')" class="errorMessage marginTop">
+                        Mobile number is invalid</p>
+                </small>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="full-width">
+                    <input matInput type="number" formControlName="pincode" placeholder="Pincode"
+                        (keyup)="validatePincode($event)" maxlength="6" required>
+                </mat-form-field>
+                <small
+                    *ngIf="addressForm.controls['pincode'].errors && (addressForm.controls['pincode'].dirty || addressForm.controls['pincode'].touched)">
+                    <p *ngIf="addressForm.controls['pincode'].hasError('required')" class="errorMessage">
+                        PinCode is required</p>
+                    <p *ngIf="addressForm.controls['pincode'].hasError('pattern')" class="errorMessage">
+                        PinCode is invalid</p>
+                </small>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="stateId" hidden placeholder="State">
+                    <input matInput [value]="addrs.state.name" placeholder="State" [disabled]="true">
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="cityId" hidden placeholder="City">
+                    <input matInput [value]="addrs.city.name" placeholder="City" [disabled]="true">
+                </mat-form-field>
+            </div>
+            <ng-container *ngIf="!isNonProfile">
+                <div class="col-md-6"
+                    *ngIf="addrs.addressCategory=='BILLING' || addressForm.controls['isAdditionalAddress'].value">
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="gstin" (input)="validateGstin($event)"
+                            (paste)="onPaste($event)" type="text" placeholder="GSTIN" required>
+                    </mat-form-field>
+
+                    <small
+                        *ngIf="addressForm.controls['gstin'].errors && (addressForm.controls['gstin'].dirty || addressForm.controls['gstin'].touched)">
+                        <p *ngIf="addressForm.controls['gstin'].hasError('required')" class="errorMessage marginTop">
+                            GSTIN number is required</p>
+                        <p *ngIf="addressForm.controls['gstin'].hasError('pattern')" class="errorMessage marginTop">
+                            GSTIN number is invalid</p>
+                    </small>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!isNonProfile">
+                <div class="col-md-6"
+                    *ngIf="addrs.addressCategory==='WAREHOUSE' || addressForm.controls['isAdditionalAddress'].value">
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="deliveryRange" (input)="validatedeliveryRange($event)"
+                            (paste)="onPastedeliveryRange($event)" type="text" placeholder="deliveryRange in KMs Only"
+                            required>
+                    </mat-form-field>
+
+                    <small
+                        *ngIf="addressForm.controls['deliveryRange'].errors && (addressForm.controls['deliveryRange'].dirty || addressForm.controls['deliveryRange'].touched)">
+                        <p *ngIf="addressForm.controls['deliveryRange'].hasError('required')"
+                            class="errorMessage marginTop">
+                            deliveryRange number is required</p>
+                        <p *ngIf="addressForm.controls['deliveryRange'].hasError('pattern')"
+                            class="errorMessage marginTop">
+                            deliveryRange number is invalid</p>
+                    </small>
+                </div>
+            </ng-container>
+
+            <div class="col-md-6" *ngIf="!isEdit">
+                <div class="form-group lableup form-control">
+                    <div class="browser-method">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel">
+                            <input type="file" name="file" #file
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onFileSelected($event)" style="display: none;" required=""
+                                class="inputLableUp">
+<!-- 
+                            <input type="file" name="file" #file accept=" application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                text/plain, application/pdf, image/*" (change)="onFileSelected($event)"
+                                style="display: none;" required="" class="inputLableUp"> -->
+                            <span>UPLOAD ADDRESS PROOF</span>
+                        </label>
+                        <a href="#" *ngIf="!fileName"> <img src="assets/img/svg-img/ic_information.svg" alt=""></a>
+                        <span style="font-size: 12px;color:#716767;">{{ fileName }}</span>
+                    </div>
+                    <label class="form-control-placeholder" for="buisness">Address Proof</label>
+                </div>
+
+
+            </div>
+
+            <ng-container *ngIf="!isNonProfile">
+                <div *ngIf="!isEdit" class="col-md-6">
+                    <div class="form-check pl-0 mt-4">
+                        <input type="checkbox" class="checkbox-style" formControlName="isAdditionalAddress"
+                            (change)="isAdditionalAddressClicked($event)" id="check2">
+                        <label for="check2"><strong> Also add this as
+                                {{addrs.addressCategory==='BILLING' ? 'Warehouse' : 'Billing'}} address.</strong>
+                        </label>
+                    </div>
+                </div>
+
+            </ng-container>
+
+            <div class="col-md-12 save-orange">
+                <!-- <button type="submit" class="btn orangeBttn brdbttn">Cancel</button>
+                <button type="submit" class="btn orangeBttn">Save</button> -->
+
+                <button type="button" class="btn orangeBttn brdbttn" (click)="goToAddressPage()">Cancel</button>
+                <button type="submit" class="btn orangeBttn" [disabled]="!addressForm.valid">SAVE</button>
+            </div>
+
+        </div>
+    </div>
+
+</form>

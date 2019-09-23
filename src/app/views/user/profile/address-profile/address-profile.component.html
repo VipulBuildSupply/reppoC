@@ -1,0 +1,12 @@
+<h4> {{addressType}} Address</h4>
+
+<a [routerLink]="['add']" href="javascript:void(0)" *ngIf="selectedProfile.type != 'corporate'">
+    <div class="add-address">
+        <p>+ Add New Address</p>
+    </div>
+</a>
+
+<app-address  (onDelete)="deleteAddrs(address.addressId)" *ngFor="let address of addresses" [address]="address" ></app-address>
+
+<!-- 
+(onEdit)="editAddrs(address.addressId)" -->

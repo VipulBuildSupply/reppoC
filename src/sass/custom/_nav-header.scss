@@ -1,0 +1,138 @@
+.header-main{
+    // border: $border;	
+    background-color: #FFFFFF;	
+    box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+}
+.header-main .navbar {
+    padding: 14px 0;
+}
+.logo-main img {
+    width: 211px;
+}
+.navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .nav-link.active {
+    color: #1896BA;
+}
+.navbar-dark .navbar-nav .nav-link {
+    font-size: $font-size-14;
+    color: rgba(0,0,0,0.5);
+}
+.nav-link img {
+    padding-right: 5px;
+    vertical-align: bottom;
+}
+.navbar-dark .navbar-toggler {
+    color: rgba(255, 255, 255, 0.5);
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1px 8px;
+    border-radius: 0;
+}
+.navbar-toggler-icon{
+    width: 26px;
+    height: 25px;
+}
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 21px;
+    padding-left: 21px;
+    &:hover{
+        color: #1896BA;
+    }
+}
+
+.nav-link .icon{
+    display: inline-block;
+    vertical-align: text-bottom;
+    width: 22px;
+    height: 18px;
+    margin-right: 5px;
+}
+.nav-link .catalogue{
+    background: url(assets/img/catlogue.png) no-repeat left top;
+}
+.nav-link:hover .catalogue{
+    background: url(assets/img/catlogue-hover.png) no-repeat left top;
+}
+.nav-link .bell{
+    background: url(assets/img/bell.png) no-repeat left top;
+}
+.nav-link:hover .bell{
+    background: url(assets/img/bell-hover.png) no-repeat left top;
+}
+.nav-link .po{
+    background: url(assets/img/po.png) no-repeat left top;
+}
+.nav-link:hover .po{
+    background: url(assets/img/po-hover.png) no-repeat left top;
+}
+.nav-link .order{
+    background: url(assets/img/order.png) no-repeat left top;
+}
+.nav-link:hover .order{
+    background: url(assets/img/order-hover.png) no-repeat left top;
+}
+.nav-link .leads{
+    background: url(assets/img/leads.png) no-repeat left top;
+}
+.nav-link:hover .leads, .nav-item.active .leads{
+    background: url(assets/img/leads-hover.png) no-repeat left top;
+}
+
+// Drop down
+
+.admin-box {
+    position: $position-relative;
+    display: inline-block;
+    padding-right: 17px;
+    cursor: pointer;
+    margin-left: 21px
+}
+.widget-header .user-profile {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.drop-edit {
+    list-style: none;
+    right: 0;
+    top: 42px;
+    position: absolute;
+    padding: 0;
+    border: 1px solid #ECECEC;
+    background-color: #fff;
+    box-shadow: 0 2px 10px 0 rgba(97, 97, 97, 0.1);
+    z-index: 1;
+    padding: 0 0;
+    min-width: 181px;
+}
+.drop-edit {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    transform: translateY(-1em);
+    transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.0s, z-index 0s linear 0.00s;
+}
+.drop-edit a {
+    display: block;
+    height: 45px;
+    color: #212121;
+    font-size: $font-size-14;
+    font-weight: 400;
+    padding: 10px 15px;
+    margin: 0;
+    background: #fff;
+    transition: all 0.5s ease-in-out;
+}
+.admin-box:hover .drop-edit {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0%);
+    transition-delay: 0s, 0s, 0.3s;
+}
+.drop-edit a:hover {
+    background-color: #fafafa;
+    font-weight: 600
+}
+// Drop down

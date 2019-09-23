@@ -1,0 +1,31 @@
+<section class="midpanel bg-white pb-5">
+    <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tile-heading flex-sb-m open-tile">
+                        <h4>Please select materials that you deal in</h4>
+                        <div class="save-orange">
+                            <button (click)="continue()" class="btn orangeBttn" [disabled]="isDisabled">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <ng-container *ngFor="let category of categories">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="catalogue-box-area">
+                            <div class="catalogue-box-inner" 
+                                (click)="category.isSelected = !category.isSelected"
+                                [class.active]="category.isSelected">
+                                <div class="tile-name">
+                                    <img src="assets/img/white-tick.png">
+                                    {{ category.name }}
+                                </div>
+                                <img [src]="category.imageUrl ? category.imageUrl : 'assets/img/bricks.png'" class="img-fluid" />
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                
+            </div>
+    </div>
+</section>

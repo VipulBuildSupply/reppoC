@@ -1,0 +1,63 @@
+<form *ngIf="photoForm" [formGroup]="photoForm" (ngSubmit)="submit()">
+
+    <a href="javascript:void(0)" class="edit" (click)="edit()" *ngIf="!_isEdit">
+        <img src="assets/img/edit-icon.png" alt="">Edit
+    </a>
+
+    <h4>Personal Details</h4>
+
+    <div class="phot-title">profile-photo</div>
+    <div class="user-photo">
+        <img [ngClass]="(user.sellerPersonalProfile.profileImageUrl || localImg) ? 'user-img' : 'user-icon'"
+            [src]="user.sellerPersonalProfile.profileImageUrl || localImg || 'assets/img/photo.jpg'"
+            class="img-fulid user_photo" alt="">
+    </div>
+
+    <div class="browser-method">
+        <label class="myLabel">
+            <input type="file" accept=".jpg,.jpeg,.png,.webp" (change)="onFileSelect($event)" />
+            <span>+ Add Photo</span>
+        </label>
+    </div>
+</form>
+
+
+<form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="submit()">
+    <div class="form-field-area profile-form-fields mt-4">
+
+        <mat-form-field class="profile-input">
+            <input matInput placeholder="Name" type="text" class="profileInput" formControlName="firstName">
+        </mat-form-field>
+
+        <mat-form-field class="profile-input">
+            <input matInput placeholder="Mobile Number" type="number" class="profileInput" formControlName="phone">
+        </mat-form-field>
+
+        <mat-form-field class="profile-input email-input">
+            <input matInput placeholder="Email Address" type="email" class="profileInput" formControlName="email">
+        </mat-form-field>
+        <mat-hint class="email-verified" *ngIf="user.sellerPersonalProfile.emailVerified == true">Verified</mat-hint>
+
+        <div
+            *ngIf="userForm.controls['email'].errors && (userForm.controls['email'].dirty || userForm.controls['email'].touched)">
+            <p *ngIf="userForm.controls['email'].hasError('pattern')" class="errorMessage">
+                Email is invalid</p>
+        </div>
+
+        <ng-container *ngIf="_isEdit">
+            <div class="save-orange">
+                <button type="submit" class="btn orangeBttn">Save</button>
+            </div>
+            
+        </ng-container>
+        
+        <ng-container>
+            <div class="text-right" *ngIf="user.sellerPersonalProfile.emailVerified == false">
+                <a href="javascript:void(0)" class="verify-email" (click)="verifyEmail()">Verify-email</a>
+            </div>
+        </ng-container>
+        
+
+    </div>   
+    
+</form>

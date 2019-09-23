@@ -1,0 +1,52 @@
+<mat-dialog-content class="content__parent">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-body">
+                    <h5 class="top-title">{{ title }}</h5>
+                    <div class="remove-product-info">
+                        <p>{{msg}}</p>
+                    </div>
+                    <div class="remove-btn">
+                        <button *ngIf="payload.cancel" (click)="closeDialog()" class="save-button cancel-button">Cancel</button>
+                        <button (click)="confirmAction()" class="save-button save-button2 mr-0">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<!-- 
+
+    <div class="_block">
+        <div class="relative _block menu-popup">
+            <div class="popup__body _block">
+                <div class="col-sm-12 menu__tooltip-container _block">
+                    <div class="row menu__tooltip-inner-wrapper tm30">
+                        <div class="_block">
+                            <div class="menu__tooltip-title _block text-center">header</div>
+                            <div class="bm15 _block sign-out-message">msg</div>
+                            <div class="menu__tooltip-action _block  myprofile__restbtn">
+                                <div class="text-center">
+                                  <div class="col-xs-6">
+                                    <a class="btn btn__default btn-xs" href="javascript:void(0)"
+                                       (click)="closeDialog()">{{htmlText.CANCEL}}</a>
+                                  </div>
+
+                                  <div class="col-xs-6 btn-ok">
+                                    <a class="btn btn__default btn-xs" href="javascript:void(0)"
+                                       (click)="confirmAction()">{{htmlText.OK}}</a>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button *ngIf="showCloseButton" class="popup__close" (click)="closeDialog()"><span class="icon-cross"></span></button>
+            </div>
+        </div>
+    </div> -->
+
+</mat-dialog-content>

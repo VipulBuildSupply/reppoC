@@ -1,0 +1,52 @@
+@mixin bg-color-class($parent, $color) {
+    #{$parent} {
+      background-color: $color !important;
+    }
+}
+@mixin bg-color($color) {
+    background-color: $color;
+}
+@mixin wtBoxbrd() {
+    background: $bg-color-white;
+    border: $border;
+    border-radius: $border-radius-4;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+@mixin footer-form-control() {
+    height: 52px;
+    border-radius: 0;
+}
+@mixin fontsize-weight() {
+    font-size: 16px;
+    font-weight:bold;
+}
+@mixin loginfield() {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+@mixin flex-sb-m{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    -ms-align-items: center;
+    align-items: center;
+}
+@mixin tile-name{
+    position: absolute;
+    z-index: 2;
+    transform: translate(0, -50%);
+    top: 50%;
+    left: 0;
+    right: 0;
+    font-size: 24px;
+    font-weight: $font-weight-600;	
+    color: $text-color-white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}

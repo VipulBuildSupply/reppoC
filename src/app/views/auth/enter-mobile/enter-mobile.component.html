@@ -1,0 +1,35 @@
+<form [formGroup]="mobileVerifyForm" (ngSubmit)="submit()">
+    <h2>Welcome to BuildSupply</h2>
+    <h2>Login / Signup</h2>
+    <div class="form-group flag-box mb-2">
+            <div class="flag dropdown dropdown-toggle">
+                <button class=" input-bg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/img/ind-flag.png" alt="">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"> 
+                    <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a></li>
+                    <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a> </li>
+                    <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a></li>
+                </ul>
+            </div>
+        <input 
+            type="number" 
+            id="phone" 
+            name="phone" 
+            formControlName="phone" 
+            class="form-control" 
+            placeholder="Enter mobile number"
+            required />
+        <label class="form-control-placeholder" for="phone">Mobile no.</label>
+    </div>
+    <div
+        *ngIf="mobileVerifyForm.controls['phone'].errors && (mobileVerifyForm.controls['phone'].dirty || mobileVerifyForm.controls['phone'].touched)">
+        <p *ngIf="mobileVerifyForm.controls['phone'].hasError('required')" class="error-validation mb-0">
+            Phone number is required</p>
+        <p *ngIf="mobileVerifyForm.controls['phone'].hasError('pattern')" class="error-validation mb-0">
+            Phone number is invalid</p>
+    </div>
+    <div class="save-orange">
+        <button type="submit" [disabled]="!mobileVerifyForm.valid" class="btn orangeBttn">Continue</button>
+            <!-- <a [routerLink]="'/auth/otp-verify'"></a> -->
+    </div>
+</form>

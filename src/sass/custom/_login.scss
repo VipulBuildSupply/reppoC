@@ -1,0 +1,249 @@
+.login_panel {
+    position: $position-relative;
+    overflow: hidden;
+    background: $bg-color-white;
+}
+.logo-login {
+    position: absolute;
+    left: 35px;
+    top: 35px;
+}
+.logo-login img {
+    max-width: 263px;
+}
+.loginfield-detail {
+    width: 100%;
+}
+.loginbg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.loginbg {
+    height: 100vh;
+}
+.loginfield {
+    @include loginfield();
+    padding-left: 60px;
+    padding-right: 60px;
+    width: $width-100;
+}
+.loginfield h2{
+    padding-bottom: 45px;	
+    color: $text-color-black;		
+    font-size: $font-size-24;	
+    font-weight: $font-weight-600;	
+    margin-bottom: 0;
+}
+.flag-box  .form-control{
+    color: #000;
+    height: 60px;
+    padding-top: 33px;
+    border-bottom: transparent;
+    padding-left: 48px;
+}
+.flag-box {	
+    padding-left: 15px;
+    border-left: 2px solid #00A6B2;
+    background-color: #FFFFFF;	
+    box-shadow: 0 0 4px 0 rgba(155,155,155,0.5);
+}
+.flag-box .form-control-placeholder{
+    font-size: 13px;
+    opacity: 0.8;
+}
+.flag-box .form-control:focus + .form-control-placeholder {
+    transform: inherit;
+    font-size: 13px;
+}
+
+
+.flag {
+    position: absolute;
+    border-right: none;
+    bottom: 0;
+    background: #fff;
+    bottom: 2px;
+}
+.flag button {
+    height: 30px;
+    background: #fff;
+    border: none;
+    padding: 0;
+}
+.flag .dropdown-menu {
+    min-width: auto;
+    padding: 0px;
+    border-radius: 0px;
+}
+.flag .dropdown-menu .dropdown-item {
+    margin: 0;
+    padding: 5px;
+}
+.flag-box .input-bg:after {
+    display: inline-block;
+    margin-left: 1px;
+    vertical-align: 3px;
+    content: "";
+    border-top: 0.3em solid #a8a9ac;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+.flag-box .dropdown-toggle::after{
+    display: none;
+}
+.flag button img {
+    width: 25px;
+}
+.inputbox .form-control {
+    padding-left: 0;
+}
+.flag-box.inputbox {
+    box-shadow: none;
+    border-left: 2px solid #fff;
+    border: 1px solid #E4E4E4;
+}
+.byTapping {
+    font-size: 14px;
+    color: rgba(0,0,0,0.8);
+    line-height: 24px;
+}
+.byTapping a{
+    color: #00A6B2;
+}
+.login .orangeBttn{
+    font-size: $font-size-16;
+    font-weight: bold;
+}
+.copyright {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 0;
+    border-top: 1px solid rgba(151,151,151,0.5);
+    color: rgba(0,0,0,0.4);
+    font-size: 14px;
+    padding: 13px 0;
+}
+.error-validation {
+    color: $error;	
+    font-size: 12px;	
+    line-height: 15px;
+}
+.error-color{
+    color: $error;
+}
+.inputbox .error-validation {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+}
+.flex-sb-m{
+    @include flex-sb-m();
+}
+.fgtpass {
+    font-size: 12px;
+    color: #00A6B2;
+    font-weight: 600;
+    margin-top: -10px;
+}
+.loginfield-detail .form-field-area {
+    max-width: inherit;
+}
+.loginfield-detail .otp-decr span {
+    display: inline-block;
+}
+.tile-heading h4{
+    color: rgba(0,0,0,0.6);
+    font-size: 21px;
+    margin-bottom: 0;
+}
+.tile-heading .save-orange {
+    margin-top: 0;
+}
+.tile-heading .orangeBttn {
+    font-size: $font-size-16;
+    font-weight: bold;
+}
+
+.tile-box-area{
+    margin-top: 30px;
+}
+.tile-box-area input[type="checkbox"][id^="tile"] {
+    display: none;
+}
+
+.tile-box-area label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-bottom: 0;
+}
+.tile-box-area label:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+}
+.tile-box-area label:before {
+    content: "";
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition-duration: 0.4s;
+}
+
+
+.tile-box-area label img {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    transition-duration: 0.2s;
+    transform-origin: 50% 50%;
+    object-fit: cover;
+}
+
+.tile-box-area:checked + label {
+    border-color: #ddd;
+}
+
+.tile-box-area:checked + label:before {
+    background-color: rgba(24,150,186,0.7);
+}
+.tile-name img {
+    width: 18px!important;
+    height: 18px!important;
+    display: none;
+    margin-right:10px;
+}
+.tile-box-area :checked + label .tile-name img{
+    display: inline-block;
+}
+.tile-box-area :checked + label img {
+    z-index: -1;
+}
+.tile-box-area label img:before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 999;
+    top: 0;
+    left: 0;
+}
+.tile-name {
+    @include tile-name();	
+}
