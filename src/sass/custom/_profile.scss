@@ -441,22 +441,7 @@ textarea.form-control.inputLableUp {
     font-weight: $font-weight-600;
     font-size: $font-size-14;
 }
-.checkbox-style + label:before {
-    content: '';
-    border: 1px solid #979797;
-    padding: 1px 10px;
-    font-size: $font-size-12;
-    color: transparent;
-    margin-right: 11px;
-}
-.checkbox-style:checked + label:before {
-    color: #fff;
-    background: #03B10F;
-    border: 1px solid transparent;
-    background-image: url(assets/img/right-sing.png);
-    background-repeat: no-repeat;
-    background-position: center;
-}
+
 .labrlkm {
     position: $position-absolute;
     right: 12px;
@@ -553,7 +538,7 @@ input[type=number]::-webkit-inner-spin-button,
     position: $position-absolute;
     top: 0;
     z-index: 999;
-    left: 40%;
+    left: 30%;
     border-radius: 30px;
     background-color: #03B10F;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
