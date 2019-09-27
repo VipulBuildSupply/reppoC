@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "seller": {
+    "seller-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/seller",
+            "outputPath": "dist/seller-web",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -36,13 +36,14 @@
             ]
           },
           "configurations": {
-            "production": {
+            "prd": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.prd.ts"
                 }
               ],
+              "outputPath": "dist/prd",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -65,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "seller:build"
+            "browserTarget": "seller-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "seller:build:production"
+              "browserTarget": "seller-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "seller:build"
+            "browserTarget": "seller-web:build"
           }
         },
         "test": {
@@ -113,11 +114,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "seller:serve"
+            "devServerTarget": "seller-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "seller:serve:production"
+              "devServerTarget": "seller-web:serve:production"
             }
           }
         }
