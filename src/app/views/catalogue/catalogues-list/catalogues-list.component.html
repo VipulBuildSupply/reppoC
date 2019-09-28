@@ -47,8 +47,10 @@
                     <div class="switch-box border-b">
 
                         <label class="switch">
-                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'N'" class="off-button"  (change)="toggleStock($event)">
-                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'Y'" class="on-button" checked="" (change)="toggleStock($event)">
+                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'N'"
+                                class="off-button" (change)="toggleStock($event)">
+                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'Y'"
+                                class="on-button" checked="" (change)="toggleStock($event)">
                             <span class="slider round"></span>
                         </label>
                         <h4 class="cement-title ml-4">Available In Stock</h4>
@@ -66,49 +68,67 @@
                             </label>
                         </div>
 
-                        <div *ngIf="!addPriceForRemainingQuantity">
-                            <div class="row" *ngFor="let addAnotherRange of addAnotherRangeCount; let i=index">
-                                <div class="col-md-6">
-                                    <div class="Quantity-Range">
-                                        <div class="form-group">
-                                            <label>Quantity Range</label>
-                                            <input type="number" class="form-control" placeholder="min" value="">
-                                            <input type="number" class="form-control" placeholder="max" value="">
+                        <div>
+                            <form [formGroup]="pricingForm">
+                                <div class="row" *ngFor="let pricingForm of pricingForms; let i=index">
+                                    <div class="col-md-6">
+                                        <div class="Quantity-Range">
+                                            <div class="form-group">
+                                                <label>Quantity Range</label>
+                                                <!-- <label *ngIf="errorMin || errorMax" style="color: red;">Error
+                                                    Range</label> -->
+                                                    
+                                                <input type="number" class="form-control" formControlName="min"  placeholder="min">
+                                                
+
+                                                <input type="number" class="form-control" formControlName="max"
+                                                    placeholder="max">
+
+                                                    <mat-error *ngIf="pricingForm.controls.max.errors">
+                                                         {{pricingForm.controls.max.errors.min}}   Min is invalid</mat-error>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group lableup mb-0 mt-4">
+                                            <input type="number" id="mobile" formControlName="price"
+                                                class="form-control inputLableUp" value="">
+                                            <label class="form-control-placeholder" for="buisness">Price Per Bag
+                                                (₹)</label>
 
                                         </div>
                                     </div>
-
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group lableup mb-0 mt-4">
-                                        <input type="number" id="mobile" class="form-control inputLableUp" value="">
-                                        <label class="form-control-placeholder" for="buisness">Price Per Bag (₹)</label>
-
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
 
-                        <div *ngIf="addPriceForRemainingQuantity">
+                        <!-- <div *ngIf="addPriceForRemainingQuantity">
                             <div class="row" *ngFor="let addAnotherRange of addAnotherRangeCount; let i=index">
                                 <div class="col-md-6">
                                     <div class="Quantity-Range" *ngIf="((i+1) === addAnotherRangeCount.length)">
                                         <div class="form-group">
                                             <label>Quantity Range</label>
-                                            <input type="number" class="form-control" placeholder="min" value="">
-                                            <input type="number" class="form-control" placeholder="infinty" value="">
+                                            <label *ngIf="errorMin || errorMax" style="color: red;">Error Range</label>
+                                            <input type="number" class="form-control" placeholder="min"
+                                                (keyup)="allMinQty($event,i)">
+                                            <input type="number" class="form-control" placeholder="   ∞" disabled>
 
                                         </div>
                                     </div>
 
                                     <div class="Quantity-Range" *ngIf="!((i+1) === addAnotherRangeCount.length)">
-                                            <div class="form-group">
-                                                <label>Quantity Range</label>
-                                                <input type="number" class="form-control" placeholder="min" value="">
-                                                <input type="number" class="form-control" placeholder="max" value="">
-    
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Quantity Range</label>
+                                            <label *ngIf="errorMin || errorMax" style="color:red;">Error Range</label>
+                                            <input type="number" class="form-control" placeholder="min"
+                                                (keyup)="allMinQty($event,i)">
+                                            <input type="number" class="form-control" placeholder="max"
+                                                (keyup)="allMaxQty($event,i)">
+
                                         </div>
+                                    </div>
 
                                 </div>
                                 <div class="col-md-6">
@@ -119,7 +139,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div>
                             <a href="javascript:void(0)" (click)="addAnotherRange()" class="edit mt-lg-3">+ ADD
