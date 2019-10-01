@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   profileDropdown;
+  headerNavBar;
   selectedProfile: any;
   user: UserModel;
   private subscriptions: Subscription[] = [];
@@ -39,6 +40,13 @@ export class HeaderComponent implements OnInit {
       { name: 'Approval Requests', link: '' },
       { name: 'Settings', link: '' },
       { name: 'Help Centre', link: '' }
+    ]
+
+    this.headerNavBar = [
+      { name: 'Leads', link: '/user/profile/personal', imgUrl: 'assets/img/leads.png' },
+      { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' },
+      { name: 'Catalogue', link: '/../catalogue/add-catalogue', imgUrl: 'assets/img/catlogue.png' },
+      { name: 'PO', link: '', imgUrl: 'assets/img/po.png' }
     ]
   }
 

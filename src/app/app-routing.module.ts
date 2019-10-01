@@ -84,7 +84,20 @@ export const routes: Routes = [
       }
     ]
   },
-
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    canActivate: [AuthGuardService],
+    // component: ProductsComponent,
+    //resolve: { products: ListResolver },
+    children: [
+      {
+        path: 'catalogue',
+        loadChildren: () => import('./views/catalogue/catalogue.module').then(m => m.CatalogueModule),
+        data: { title: 'Catalogue', breadcrumb: 'Catalogue'}
+      }
+    ]
+  },
   {
     path: '404',
     component: NotFoundComponent

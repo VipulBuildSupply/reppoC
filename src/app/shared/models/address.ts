@@ -95,9 +95,12 @@ export class SelectedAddress {
     warehouse:Address;
 }
 
+
+
 export class BankDetails{
     id ?: number;
     accountHolderName ?: string;
+    bank ?: BankName;
     bankName ?: string;
     accountNumber ?: string;
     ifscCode ?: string;
@@ -148,4 +151,8 @@ export class AnnualTurnover {
 export class BusinessType{
     code?: string;
     displayName?: string;
+}
+export class BankName {
+    code: string;
+    name: string;
 }

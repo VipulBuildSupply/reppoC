@@ -1,0 +1,262 @@
+<section class="midpanel">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="catalogue-panel">
+                    <div class="tile-heading flex-sb-m">
+                          
+                        <h4>My Catalogue <span class="items">10 Items</span></h4>
+                        <!-- <div class="sucessfull mr-3 px-3">
+                            <img src="assets/img/white-tick.png">
+                            <div class="password-msg">4 SKU Added to My Catalouge</div>
+                        </div> -->
+                        <div class="leads-srch">
+
+                            <div class="form-group has-search mb-0">
+                                <span class="form-control-feedback"><img src="assets/img/search-icon.png" alt=""></span>
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+
+                            <a href="" class="add-new">+ ADD NEW</a>
+
+                            <a href="#myModal" role="button" data-toggle="modal" style="color:rgba(125,125,125,0.95);">
+                                <img src="assets/img/svg-img/ic_filter.svg" alt="">
+                                Filters
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="select-box-left" *ngFor="let catalogue of catalogueList">
+                    <div (click)="selectUniqueCatalogue(catalogue.id)">
+                        <div class="quote-smt" *ngIf="catalogue.stockStatus == 'N'">
+                            Out of Stock
+                        </div>
+                        <div class="quote-smt" *ngIf="!catalogue.priceAdded">
+                            Pricing Unavailable
+                        </div>
+                        <p> {{catalogue.skuName}} </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="lead-details-box px-0" *ngIf="uniqueCatalogueData">
+                        <a href="#" class="edit pr-4"><img src="assets/img/edit-icon.png" alt="">Edit</a>
+                    <h4 class="cement-title px-4 border-b">{{uniqueCatalogueData.catalogueItem.skuName}} </h4>
+                    <div class="switch-box border-b">
+
+                        <label class="switch">
+                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'N'"
+                                class="off-button" (change)="toggleStock($event)">
+                            <input type="checkbox" *ngIf="uniqueCatalogueData.catalogueItem.stockStatus == 'Y'"
+                                class="on-button" checked="" (change)="toggleStock($event)">
+                            <span class="slider round"></span>
+                        </label>
+                        <h4 class="cement-title ml-4">Available In Stock</h4>
+
+                    </div>
+                    <div class="Pricing-Information  border-b">
+                      
+                            <h4>Pricing Information</h4>
+                            <div *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList && uniqueCatalogueData.warehouseList[0].warehousePriceList.length == 0" class="form-check pl-0 mt-3">
+                                <label class="container addRemainingPriceCheckBox">Add price to all Warehouses
+                                    <input type="checkbox" id="check1">
+                                    <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
+                                </label>
+
+                            </div>
+                        <div *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList && uniqueCatalogueData.warehouseList[0].warehousePriceList.length == 0">
+                            <div *ngFor="let pricingForm of pricingForms; let i=index">
+                                <form [formGroup]="pricingForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="Quantity-Range">
+                                                <div class="form-group">
+                                                    <label>Quantity Range</label>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="quantity-mat-form inputFieldOfPrice">
+                                                                <input matInput (input)="compareMinMax(i)" type="number"
+                                                                    class="form-control" formControlName="minPrice"
+                                                                    placeholder="min">
+                                                                <mat-error
+                                                                    *ngIf="pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid)">
+                                                                    Min is invalid</mat-error>
+                                                                    <mat-error *ngIf="pricingForm.controls.minPrice.errors && pricingForm.controls.minPrice.hasError('required')">
+                                                                            Min is Required</mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="quantity-mat-form inputFieldOfPrice">
+                                                                <input matInput (input)="compareMinMax(i)" type="number"
+                                                                    class="form-control" formControlName="maxPrice"
+                                                                    placeholder="max">
+
+                                                                <mat-error
+                                                                    *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
+                                                                    Max is invalid</mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group lableup mb-0 mt-4">
+                                                <mat-form-field class="quantity-mat-form">
+                                                    <input matInput type="number" id="mobile" formControlName="price"
+                                                        placeholder="Price Per Bag (₹)"
+                                                        class="form-control inputLableUp">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div *ngFor="let pricingOfWarehouse of uniqueCatalogueData.warehouseList[0].warehousePriceList; let i=index">
+                                    <div class="row" >
+                                        <div class="col-md-6">
+                                            <div class="Quantity-Range">
+                                                <div class="form-group">
+                                                    <label>Quantity Range</label>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="quantity-mat-form inputFieldOfPrice">
+                                                                <input matInput
+                                                                    class="form-control catalogue-list-input-disabled"
+                                                                    placeholder="min" [value]="pricingOfWarehouse.minQty" disabled>
+                                                              
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="quantity-mat-form inputFieldOfPrice">
+                                                                <input matInput type="number"
+                                                                    class="form-control catalogue-list-input-disabled"
+                                                                    placeholder="max" [value]="pricingOfWarehouse.maxQty" disabled>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group lableup mb-0 mt-4">
+                                                <mat-form-field class="quantity-mat-form">
+                                                    <input matInput type="number" id="mobile"
+                                                        placeholder="Price Per Bag (₹)"
+                                                        class="form-control inputLableUp catalogue-list-input-disabled" [value]="pricingOfWarehouse.price" disabled>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                       
+                        </div>
+
+                        <!-- <div *ngIf="addPriceForRemainingQuantity">
+                            <div class="row" *ngFor="let addAnotherRange of addAnotherRangeCount; let i=index">
+                                <div class="col-md-6">
+                                    <div class="Quantity-Range" *ngIf="((i+1) === addAnotherRangeCount.length)">
+                                        <div class="form-group">
+                                            <label>Quantity Range</label>
+                                            <label *ngIf="errorMin || errorMax" style="color: red;">Error Range</label>
+                                            <input type="number" class="form-control" placeholder="min"
+                                                (keyup)="allMinQty($event,i)">
+                                            <input type="number" class="form-control" placeholder="   ∞" disabled>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="Quantity-Range" *ngIf="!((i+1) === addAnotherRangeCount.length)">
+                                        <div class="form-group">
+                                            <label>Quantity Range</label>
+                                            <label *ngIf="errorMin || errorMax" style="color:red;">Error Range</label>
+                                            <input type="number" class="form-control" placeholder="min"
+                                                (keyup)="allMinQty($event,i)">
+                                            <input type="number" class="form-control" placeholder="max"
+                                                (keyup)="allMaxQty($event,i)">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group lableup mb-0 mt-4">
+                                        <input type="number" id="mobile" class="form-control inputLableUp" value="">
+                                        <label class="form-control-placeholder" for="buisness">Price Per Bag (₹)</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList && uniqueCatalogueData.warehouseList[0].warehousePriceList.length == 0" class="row">
+                            <div class="col-md-6">
+                                <div class="form-check pl-0 mt-3">
+                                    <!-- <input type="checkbox"  id="check1" checked="">
+                                            <label for="check1">Use the same pricing for all warehouses</label> -->
+
+                                    <label class="container addRemainingPriceCheckBox">Add price for the
+                                        remaining
+                                        quantity
+                                        <input type="checkbox" id="check1" (change)="addPriceForRemainingQty($event)">
+                                        <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <a href="javascript:void(0)" (click)="addAnotherRange()" class="edit mt-lg-3">+ ADD
+                                        ANOTHER RANGE</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="col-md-12">
+                        <div class="house-address p-3">
+                            <h4 class="cement-title">Warehouse Address</h4>
+
+                            <ng-container *ngFor="let warehouse of uniqueCatalogueData.warehouseList">
+                                <div class="addres-details mb-2">
+                                    <p class="ads-t">{{warehouse.warehouseAddress.name}}</p>
+                                    <p>{{warehouse.warehouseAddress.addressLine1}}</p>
+                                    <p>{{warehouse.warehouseAddress.addressLine2}}</p>
+                                    <p>{{warehouse.warehouseAddress.city.name}},
+                                        {{warehouse.warehouseAddress.state.name}} -
+                                        {{warehouse.warehouseAddress.pincode}}</p>
+                                    <p>Phone : {{warehouse.warehouseAddress.phoneNo}}</p>
+                                </div>
+                            </ng-container>
+
+                            <p class="note-par"> <span>Note:</span> BuildSupply will pick up the material from above
+                                mentioned location.</p>
+
+                            <div class="save-orange">
+                                <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0">Add Pricing</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
