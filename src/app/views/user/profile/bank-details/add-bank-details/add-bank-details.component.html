@@ -29,7 +29,7 @@
 <!-- 
                     <input matInput formControlName="bankName" type="text" hidden placeholder="Bank" required> -->
 
-                    <mat-select formControlName="bankName" placeholder="Bank Name" (selectionChange)="changeBank($event,bankName)"
+                    <mat-select formControlName="bankName" placeholder="Bank Name" (selectionChange)="changeBank($event)"
                         id="Category-1">
                         <mat-option *ngFor="let bankName of bankNames" [value]="bankName.code">
                             {{bankName.name}}
