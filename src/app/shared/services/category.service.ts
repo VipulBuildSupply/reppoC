@@ -5,7 +5,9 @@ import { API } from '../constants';
 @Injectable()
 
 export class CategoryService {
-    catalogue: any;
+
+    getCatList: any;
+    getCatIds: any[] = [];
 
     constructor(
         private dataService: DataService
@@ -20,11 +22,40 @@ export class CategoryService {
         });
     }
 
-    setCatalogueCat(data){
+    setCatalogueCategories(data){
+        localStorage.setItem('SelectedCategories', JSON.stringify(data));
         return this.dataService.sendPostRequest(API.GET_CATALOGUE_CATEGORIES, data).then((res: any) => res);
     }
 
-    getCatalogueCat() {
-        return this.dataService.getRequest(API.GET_CATALOGUE_CATEGORIES).then(res => res);
+    getCatalogueCategories() {
+        return this.dataService.getRequest(API.GET_CATALOGUE_CATEGORIES).then(res => {
+            //this.getCatList = res.data;
+            //this.getCatList.map(id => this.getCatIds.push(id.categoryId));
+            //this.setCatalogueCategories(this.getCatList);
+            // return this.setCatalogueCategories(this.getCatIds);
+            return res;
+        });
     }
+
+    // get isCategories() {
+    //     return localStorage.getItem('SelectedCategories') != null;
+    // }
+
+    // setCatalogueCategories(data){
+    //     if(data){
+    //         localStorage.setItem('SelectedCategories', JSON.stringify(data));
+    //     }
+    //     return this.dataService.sendPostRequest(API.GET_CATALOGUE_CATEGORIES, data).then((res: any) => res);
+    // }
+
+    // getCatalogueCategories() {
+    //     return this.dataService.getRequest(API.GET_CATALOGUE_CATEGORIES).then(res => {
+    //         return this.setCatalogueCategories(res.data);
+    //     });
+    // }
+
+    removeCategories() {
+        localStorage.removeItem('SelectedCategories');
+    }
+    
 }

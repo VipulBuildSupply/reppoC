@@ -11,6 +11,7 @@ import { AddressResolver } from './address-profile/resolver/address.resolver';
 import { StateResolver } from './address-profile/add-address/resolver/states.resolver';
 import { AddBankDetailsComponent } from './bank-details/add-bank-details/add-bank-details.component';
 import { BankDetailsResolver } from './bank-details/resolver/bank-details.resolver';
+import { BusinessDetailsResolver } from './business-details/resolver/business-details.resolver';
 
 export const ProfileRoutes: Routes = [
     {
@@ -19,9 +20,16 @@ export const ProfileRoutes: Routes = [
             {
                 path: "business-details",
                 component: BusinessDetailsComponent,
-                data: { title: "Business Details" }
+                data: { title: "Business Details" },
+                resolve: { business: BusinessDetailsResolver }
             },
-             {
+            {
+                path: "business-details/edit",
+                component: BusinessDetailsComponent,
+                data: { title: "Business Details" },
+                resolve: { business: BusinessDetailsResolver }
+            },
+            {
                 path: "personal",
                 component: PersonalProfileComponent,
                 data: { title: "Personal Profile" },

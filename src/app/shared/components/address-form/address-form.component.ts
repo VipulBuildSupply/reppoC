@@ -34,12 +34,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     cities;
     submitBtn = false;
     isEdit: boolean;
-    fileName : any;
+    fileName: any;
 
 
     ngOnInit(): void {
 
-        this.fileName=null;
+        this.fileName = null;
         this.addrs = {
             addressLine1: '',
             addressLine2: '',
@@ -50,8 +50,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             name: '',
             phoneNo: '',
             pincode: '',
-            deliveryRange : '',
-            addressProof : '',
+            deliveryRange: '',
+            addressProof: '',
             userType: ConfigurationConstants.USER_TYPE,
             state: { name: '', id: 0 },
             city: { name: '', id: 0 },
@@ -67,12 +67,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             this.startSubscriptions();
         }
 
-       
+
 
         // this.states = this._activatedRout.snapshot.data.states
-      //  this.addrs.companyId = this._userService.selectedProfile.companyId;
+        //  this.addrs.companyId = this._userService.selectedProfile.companyId;
         this.addrs.userType = ConfigurationConstants.USER_TYPE;
-      //  this.selectedProfile = this._userService.selectedProfile
+        //  this.selectedProfile = this._userService.selectedProfile
 
         this.formInit();
         this.checkGstin();
@@ -85,8 +85,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 this.addrs.addressCategory = params.type.toUpperCase();
             }),
             this._activatedRout.url.subscribe(url => {
-                this.isEdit = url[ 2 ].path == 'edit';
-                if (url[ 2 ].path == 'edit' && this._userService.addressToEdit) {
+                this.isEdit = url[2].path == 'edit';
+                if (url[2].path == 'edit' && this._userService.addressToEdit) {
                     this.addrs = this._userService.addressToEdit;
                 }
             })
@@ -101,47 +101,47 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-          // console.log(event.target.files[0].name);
-          this.fileName = event.target.files[0].name;
-          const file = event.target.files[0];
-          this.addressForm.get('addressProof').setValue(file);
+            // console.log(event.target.files[0].name);
+            this.fileName = event.target.files[0].name;
+            const file = event.target.files[0];
+            this.addressForm.get('addressProof').setValue(file);
 
         }
-      }
+    }
 
 
     formInit() {
         this.addressForm = this._formBuilder.group({
-            gstHolderName: [ this.addrs.name, Validators.required ],
-            addressLine1: [ this.addrs.addressLine1, Validators.required ],
-            addressLine2: [ this.addrs.addressLine2 ],
-            cityId: [ this.addrs.city.id, Validators.required ],
-            defaultAddress: [ this.addrs.defaultAddress ],
-            phoneNo: [ this.addrs.phoneNo, {
+            gstHolderName: [this.addrs.name, Validators.required],
+            addressLine1: [this.addrs.addressLine1, Validators.required],
+            addressLine2: [this.addrs.addressLine2],
+            cityId: [this.addrs.city.id, Validators.required],
+            defaultAddress: [this.addrs.defaultAddress],
+            phoneNo: [this.addrs.phoneNo, {
                 validators: [
                     Validators.pattern(FieldRegExConst.PHONE),
                     Validators.maxLength(10),
                     Validators.minLength(10),
                     Validators.required
                 ]
-            } ],
-            gstin: [ this.addrs.gstin, {
+            }],
+            gstin: [this.addrs.gstin, {
                 validators: [
                     Validators.pattern(FieldRegExConst.GSTIN)
                 ]
-            } ],
-            pincode: [ this.addrs.pincode, {
+            }],
+            pincode: [this.addrs.pincode, {
                 validators: [
                     Validators.required,
                     Validators.pattern(FieldRegExConst.PINCODE),
                     Validators.minLength(6),
                     Validators.maxLength(6)
                 ]
-            } ],
-            stateId: [this.addrs.state.id, Validators.required ],
-            deliveryRange: [ this.addrs.deliveryRange ],
+            }],
+            stateId: [this.addrs.state.id, Validators.required],
+            deliveryRange: [this.addrs.deliveryRange],
             addressProof: [this.addrs.addressProof],
-            isAdditionalAddress: [ false ]
+            isAdditionalAddress: [false]
         });
     }
 
@@ -166,7 +166,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     checkGstin() {
         if (this.isNonProfile) {
             if (this.addrs.addressCategory == 'billing' || this.addressForm.get('isAdditionalAddress').value == true) {
-                this.addressForm.get('gstin').setValidators([ Validators.required, Validators.pattern(FieldRegExConst.GSTIN) ]);
+                this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
 
             } else {
                 this.addressForm.get('gstin').clearValidators();
@@ -178,7 +178,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     checkdeliveryRange() {
         if (this.isNonProfile) {
             if (this.addrs.addressCategory == 'Warehouse' || this.addressForm.get('isAdditionalAddress').value == true) {
-                this.addressForm.get('deliveryRange').setValidators([ Validators.required]);
+                this.addressForm.get('deliveryRange').setValidators([Validators.required]);
 
             } else {
                 this.addressForm.get('deliveryRange').clearValidators();
@@ -195,41 +195,39 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     isAdditionalAddressClicked(e) {
-        if(this.addrs.addressCategory === 'Warehouse')
-        {
+        if (this.addrs.addressCategory === 'Warehouse') {
             if (e.target.checked) {
-                this.addressForm.get('deliveryRange').setValidators([ Validators.required ]);
-    
+                this.addressForm.get('deliveryRange').setValidators([Validators.required]);
+
             } else {
                 // this.addressForm.get('deliveryRange').setValue("");
                 this.addressForm.get('deliveryRange').clearValidators();
                 this.addressForm.get('deliveryRange').updateValueAndValidity();
-    
+
             }
         }
-        else if (this.addrs.addressCategory === 'billing')
-        {
+        else if (this.addrs.addressCategory === 'billing') {
             if (e.target.checked) {
-                this.addressForm.get('gstin').setValidators([ Validators.required, Validators.pattern(FieldRegExConst.GSTIN) ]);
-    
+                this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
+
             } else {
                 // this.addressForm.get('gstin').setValue("");
                 this.addressForm.get('gstin').clearValidators();
                 this.addressForm.get('gstin').updateValueAndValidity();
-    
+
             }
         }
-       
+
     }
 
     validateGstin(e) {
         if (e.target.value) {
-            this.addressForm.get('gstin').setValidators([ Validators.required, Validators.pattern(FieldRegExConst.GSTIN) ]);
+            this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
         }
     }
-    validatedeliveryRange(e){
+    validatedeliveryRange(e) {
         if (e.target.value) {
-            this.addressForm.get('deliveryRange').setValidators([ Validators.required ]);
+            this.addressForm.get('deliveryRange').setValidators([Validators.required]);
         }
     }
     onPaste(event: ClipboardEvent) {
@@ -268,7 +266,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             };
 
             //if (this.selectedProfile.type == 'corporate') {
-                // defaults.companyId = this.addrs.companyId;
+            // defaults.companyId = this.addrs.companyId;
             //}
 
 
@@ -344,7 +342,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (this.isNonProfile) {
             this.onCancel.emit();
         } else {
-            this._router.navigate([ `/user/profile/address/${this.addrs.addressCategory.toLowerCase()}` ])
+            this._router.navigate([`/user/profile/address/${this.addrs.addressCategory.toLowerCase()}`])
         }
     }
 }

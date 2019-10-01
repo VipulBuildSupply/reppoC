@@ -20,16 +20,21 @@ export class EnterMobileComponent implements OnInit {
       private _router: Router) { }
 
   ngOnInit(): void {
-      this.mobileVerifyForm = this._formBuilder.group({
-          phone: [ '', {
-              validators: [ 
-                  Validators.required, 
-                  Validators.maxLength(10), 
-                  Validators.minLength(10), 
-                  Validators.pattern(FieldRegExConst.PHONE) 
-              ]
-          }]
-      });
+
+        if(this.signinService.isLoggedIn){
+            this._router.navigate(['/user/profile/personal']);
+        }
+
+        this.mobileVerifyForm = this._formBuilder.group({
+            phone: [ '', {
+                validators: [ 
+                    Validators.required, 
+                    Validators.maxLength(10), 
+                    Validators.minLength(10), 
+                    Validators.pattern(FieldRegExConst.PHONE) 
+                ]
+            }]
+        });
   }
 
   /**

@@ -44,19 +44,19 @@ export class SellerPersonalProfile {
     firstName?: string;
 
     constructor({
-        deleted,
+        deleted = false,
         email = "",
-        emailVerified,
-        hideRequestVerification,
+        emailVerified = false,
+        hideRequestVerification = false,
         profileCompletePercentage = 0,
         profileImageUrl = "",
         roleTag = "",
-        suspended,
+        suspended = false,
         userId = 0,
         verifyStatus = "",
         verifyStatusCode = "",
         firstName = "",
-        isSelected,
+        isSelected = false,
         type = '',
         companyId = 0
     }){

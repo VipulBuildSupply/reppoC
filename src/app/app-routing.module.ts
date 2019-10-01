@@ -8,7 +8,7 @@ import { NotFoundComponent } from './views/not-found/not-found.component';
 import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy-policy.component';
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { AuthGuardService } from './shared/guards/auth.guard';
-import { RegisterGuardService } from './shared/guards/register.guard';
+import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 
 export const routes: Routes = [
   {
@@ -20,7 +20,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
-    //canActivate: [RegisterGuardService],
+    canActivate: [CatalogueGuardService],
     children: [
       { 
         path: 'home', 
@@ -36,8 +36,15 @@ export const routes: Routes = [
       {
         path: 'terms-and-conditions',
         component: TermsAndConditionsComponent
-      },
+      }
+    ]
+  },
 
+  {
+    path: '',
+    component: DefaultLayoutComponent,
+    canActivate: [AuthGuardService],
+    children: [
       {
         path: '',
         children: [
@@ -55,7 +62,7 @@ export const routes: Routes = [
   {
     path: '', 
     component: AuthLayoutComponent,
-    //canActivate: [RegisterGuardService],
+    //canActivate: [CatalogueGuardService],
     children: [
       { 
         path: 'auth', 
@@ -68,7 +75,7 @@ export const routes: Routes = [
   {
     path: '', 
     component: ProfileLayoutComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, CatalogueGuardService],
     children: [
       { 
         path: 'user', 
