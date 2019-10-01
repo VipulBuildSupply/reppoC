@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
             });
 
             this.signinService.signin(data).then(res => {
-                this._categoryService.getCatalogueCat().then(res => console.log(res));              
+                //this._categoryService.getCatalogueCat().then(res => console.log(res));              
                 this._router.navigate(['/user/profile/personal'])
             }, err => {
                 this.errorMsg = err.message;

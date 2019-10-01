@@ -5,6 +5,7 @@ export class Category {
     imageUrl?: string;
     name?: string;
     categoryIdList?: SubCategories[];
+    isSelected?: boolean;
 
     /*constructor({
         code = '',

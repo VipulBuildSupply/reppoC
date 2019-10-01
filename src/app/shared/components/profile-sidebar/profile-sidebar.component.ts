@@ -15,6 +15,7 @@ export class ProfileSidebarComponent implements OnInit {
   private userInfoUpdated: Subscription;
   user: UserModel;
   percentage: any;
+  // onUpdatePercentage: Subscription;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -26,6 +27,7 @@ export class ProfileSidebarComponent implements OnInit {
      */
     this.user = this.userService.user;
     
+    // this.getProfilePercentage();
 
     /**
      * @description get the updated user info
@@ -33,6 +35,11 @@ export class ProfileSidebarComponent implements OnInit {
     this.userInfoUpdated = this.userService.userUpdated$.subscribe(user => {
         this.user = this.userService.user;    
     })
+
+
+    // this.onUpdatePercentage = this.userService.updatePercentage$.subscribe(data => {
+    //     this.getProfilePercentage();    
+    // });
 
     /**
      * @description display profile sidebar menus on profile page
@@ -49,9 +56,12 @@ export class ProfileSidebarComponent implements OnInit {
     /**
      * @description api to get profile percentage value
      */
-    this.userService.getUserPercentage().then(res => {
+    // getProfilePercentage(){
+      this.userService.getUserPercentage().then(res => {
         this.percentage = res;
-    });
+        // console.log(this.percentage);
+      });
+    // }
   }
 
   /**
@@ -63,5 +73,12 @@ export class ProfileSidebarComponent implements OnInit {
         disableClose: true,
         panelClass: 'profile-verification-popup'
     });
+  }
+
+  /**
+   * @description function to get image if it disappears
+   */
+  getUserAPI() {
+    this.userService.getUserData();
   }
 }

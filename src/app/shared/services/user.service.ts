@@ -6,6 +6,7 @@ import { TokenService } from './token.service';
 import { Utils } from '../helpers/utils';
 import { Address, BankDetails } from '../models/address';
 import { API } from '../constants';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,7 @@ export class UserService {
     isEdit: boolean;
     addressProofAdd : any = "";
     onProfileSwitch$ = new Subject();
+    updatePercentage$ = new Subject();
     private _user: UserModel;
 
     get user(): UserModel {
@@ -38,7 +40,7 @@ export class UserService {
         /**
          * @description Setup User
          */
-        if (user) {
+        if(user) {
             localStorage.setItem('user', JSON.stringify(user));
         }
         this.userUpdated$.next(user);
@@ -81,7 +83,7 @@ export class UserService {
 
 
 
-   getAddress(addressType) {
+    getAddress(addressType) {
         return this.dataService.getRequest(`${API.ADDRESS}/${addressType}`).then(res => res);
     }
     getBankDetails(){
@@ -103,8 +105,6 @@ export class UserService {
         return this.dataService.getRequest(API.CITY(stateId)).then(res => res)
     }
 
-  
-
     addAddress(data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
@@ -117,20 +117,7 @@ export class UserService {
         return this.dataService.sendPostRequest(API.ADDRESS, fData).then(res => {
             return res.data
         })
-
     }
-
-    // editAddress(addressId: number, data) {
-    //     const fData = new FormData();
-    //     Object.keys(data).map(key => {
-    //         fData.append(key, data[ key ]);
-    //     });
-
-
-    //     return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
-    //         return res.data;
-    //     });
-    // }
 
     addBankDetails(data) {
         const fData = new FormData();
@@ -153,18 +140,6 @@ export class UserService {
         return this.dataService.getRequest(API.PINCODE(pincode)).then(res => res)
     }
 
-    // editAddress(addressId: number, data) {
-    //     const fData = new FormData();
-    //     Object.keys(data).map(key => {
-    //         fData.append(key, data[ key ]);
-    //     });
-
-
-    //     return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
-    //         return res.data;
-    //     });
-    // }
-
     updateProfile(data) {
         return this.dataService.sendPutRequest(API.PROFILE_UPDATE, data).then(res => res.data)
     }
@@ -174,7 +149,10 @@ export class UserService {
     }
 
     getUserPercentage() {
-        return this.dataService.getRequest(API.GET_PERCENTAGE).then(res => res.data);
+        return this.dataService.getRequest(API.GET_PERCENTAGE).then(res => {
+            //this.onUpdatePercentage$.next(res.data);
+            return res.data;
+        });
     }
 
     profileVerify(data, email) {
@@ -201,7 +179,6 @@ export class UserService {
             }
         });
 
-
         return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
           return res.data; 
         });
@@ -215,9 +192,40 @@ export class UserService {
             }
         });
 
-
         return this.dataService.sendPutRequest(API.EDIT_BANK_DETAILS(bankId), fData).then(res => {
           return res.data; 
         });
+    }
+
+
+    addBusinessDetails(data){
+        
+        localStorage.setItem('business', JSON.stringify(data));
+        const fData = new FormData();
+        // const aData = new FormData();
+        Object.keys(data).map(key => {
+
+            if(key == 'address'){
+                data = data.address;
+                Object.keys(data).map(key => {
+                    if(data[key]){
+                        // key = 'address'.concat(key);
+                        fData.append('address.'.concat(key), data[ key ]);
+                    }
+                })
+            }else if(data[key] == ""){
+                fData.delete(key);
+            }else{
+                fData.append(key, data[ key ]);
+            }
+        });
+
+        return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => {
+            return res.data;
+        });
+    }
+
+    getBusinessDetails(){
+        return this.dataService.getRequest(API.BUSINESS_DETAILS).then(res => res.data);
     }
 }

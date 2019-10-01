@@ -1,7 +1,8 @@
 <div class="sidebar-left">
     <div class="whiteboxbrd">
         <div class="user-photo">
-            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" alt="">
+            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" 
+            (error)="getUserAPI()" alt="">
         </div>
         <div class="profile-intro">
             <div class="user-name" *ngIf="user.sellerPersonalProfile.firstName">{{ user.sellerPersonalProfile.firstName }}</div>

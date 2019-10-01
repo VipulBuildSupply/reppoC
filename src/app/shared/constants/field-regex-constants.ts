@@ -7,5 +7,6 @@ export const FieldRegExConst = {
     POSITIVE_NUMBERS: '[0-9]+',
     CARD_NUMBER: '[0-9 ]+',
     EMAIL_OR_PHONE: '/^((.+@.+\\..+)|[1-9]{1}[0-9]{9})$/',
-    GSTIN: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+    GSTIN: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+    PANNO: /(^([a-zA-Z]{5})([0-9]{4})([a-zA-Z]{1})$)/
 };

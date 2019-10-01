@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SigninSignupService } from 'src/app/shared/services/signin-signup.service';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/shared/services/category.service';
