@@ -34,12 +34,12 @@ export class HeaderComponent implements OnInit {
     
     this.profileDropdown = [ 
       { name: 'Profile', link: '/user/profile/personal' },
-      { name: 'My Orders', link: '' },
-      { name: 'My RFQ', link: '' },
-      { name: 'My Wishlist', link: '' },
-      { name: 'Approval Requests', link: '' },
-      { name: 'Settings', link: '' },
-      { name: 'Help Centre', link: '' }
+      // { name: 'My Orders', link: '' },
+      // { name: 'My RFQ', link: '' },
+      // { name: 'My Wishlist', link: '' },
+      // { name: 'Approval Requests', link: '' },
+      // { name: 'Settings', link: '' },
+      // { name: 'Help Centre', link: '' }
     ]
 
     this.headerNavBar = [

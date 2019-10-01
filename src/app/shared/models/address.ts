@@ -34,6 +34,7 @@ export class Address {
         cityId = null,
         userType = 'SELLER',
         addressProofFile = '',
+        addressId = null
     }){
         this.addressCategory = addressCategory;
         this.addressLine1 = addressLine1;
@@ -46,6 +47,7 @@ export class Address {
         this.cityId = cityId;
         this.userType = userType;
         this.addressProofFile = addressProofFile;
+        this.addressId = addressId;
     }
 }
 
