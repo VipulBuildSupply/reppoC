@@ -55,7 +55,6 @@ export class BusinessDetailsComponent implements OnInit {
         
         if (this._router.url != '/user/profile/business-details/edit') {
             this._userService.isEdit = false;
-            // this.isEdit  = false;
             this.formInit();
         }
         
@@ -75,6 +74,7 @@ export class BusinessDetailsComponent implements OnInit {
             this._userService.enableProfile$.next(true);
         }
 
+        
         this._userService.getUserData().then(res => {
             this.userVerified = res.sellerPersonalProfile.verifyStatus;
         });
@@ -311,11 +311,9 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     deleteAddressProof(id: number): void{
-
-        console.log(id);
-        
-
-        // this._userService.deleteAddressProof(id).then(res => console.log(this.businessDetails));
+        this._userService.deleteAddressProof(id).then(res => {
+            this.businessDetails.address.addressProofFile = '';            
+        });
     }
 
     /**
