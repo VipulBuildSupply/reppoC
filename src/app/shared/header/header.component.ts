@@ -73,4 +73,9 @@ export class HeaderComponent implements OnInit {
     this.signinService.logout();
   }
 
+  getUserAPI() {
+    // for user image update 
+    console.log("user image updated");
+    this.userService.getUserData();
+  }
 }

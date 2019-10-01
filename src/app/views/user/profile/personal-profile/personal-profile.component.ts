@@ -28,7 +28,7 @@ export class PersonalProfileComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        
+
         if (this.router.url != '/user/profile/personal/edit') {
             this.userService.isEdit = false;
             this.user = new UserModel(this.activatedRout.snapshot.data.user);
@@ -80,23 +80,23 @@ export class PersonalProfileComponent implements OnInit {
     }
 
     formInit() {
-        
+
         this.userForm = this._formBuilder.group({
 
             firstName: [{
                 value: this.user.sellerPersonalProfile.firstName,
                 disabled: (!this._isEdit)
             }],
-            phone: [{ 
-                value: this.user.phone, 
+            phone: [{
+                value: this.user.phone,
                 disabled: true
             }, {
-                validators: [ 
+                validators: [
                     Validators.required
                 ]
             }],
-            email: [{ 
-                value: this.user.sellerPersonalProfile.email, 
+            email: [{
+                value: this.user.sellerPersonalProfile.email,
                 disabled: (!this._isEdit)
             }, {
                 validators: [
@@ -150,7 +150,7 @@ export class PersonalProfileComponent implements OnInit {
                 this.router.navigate(['/user/profile/personal']);
             });
         }
-        this.uploadImage()
+        this.uploadImage();
     }
 
     ngOnDestroy() {
@@ -159,7 +159,7 @@ export class PersonalProfileComponent implements OnInit {
         });
     }
 
-    verifyEmail(){
+    verifyEmail() {
         this.userService.emailVerify(this.user).then(res => {
             console.log(res);
         });

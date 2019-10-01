@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { NotificationService } from './notification-service';
 import { UserModel } from '../models/user.model';
+import { CategoryService } from './category.service';
 
 @Injectable()
 export class SigninSignupService {
@@ -20,7 +21,8 @@ export class SigninSignupService {
         private token: TokenService,
         private userService: UserService,
         private router: Router,
-        private notify: NotificationService) {
+        private notify: NotificationService,
+        private _categoryService: CategoryService) {
 
     }
 
@@ -138,13 +140,14 @@ export class SigninSignupService {
     private _localLogin(token) {
         this._loginStatus = true;
         this.token.saveAccessToken(token);
-       return this.userService.getUserData();
+        return this.userService.getUserData();
     }
 
     logout() {
         this.router.navigate([ '/auth/enter-mobile' ]).then(_ => {
             this.token.clearToken();
             this.userService.removeUser();
+            this._categoryService.removeCategories();
         });
     }
 }

@@ -1,7 +1,8 @@
 <div class="sidebar-left">
     <div class="whiteboxbrd">
         <div class="user-photo">
-            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" alt="">
+            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" 
+            (error)="getUserAPI()" alt="">
         </div>
         <div class="profile-intro">
             <div class="user-name" *ngIf="user.sellerPersonalProfile.firstName">{{ user.sellerPersonalProfile.firstName }}</div>
@@ -38,7 +39,7 @@
     <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
         <div class="requestbox">
             <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
-            <div class="request-bttn">
+            <div class="request-bttn" *ngIf="profileVerfyStatus">
                 <a (click)="requestToJoin()" class="orangeBttn">Request</a>
             </div>
         </div>

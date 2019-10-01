@@ -1,12 +1,18 @@
-<form>
-    <h4>Buisness Details</h4>
+<form *ngIf="businessDetailsForm && businessDetails" [formGroup]="businessDetailsForm">
+        <!-- (ngSubmit)="submit($event)" -->
+
+    <a href="javascript:void(0)" class="edit" (click)="edit()" *ngIf="!_isEdit" [class.display-none]="userVerified == 'Verified'">
+        <img src="assets/img/edit-icon.png" alt="">Edit
+    </a>
+
+    <h4>Add Buisness Details</h4>
     <div class="business-field-area">
         <div class="row">
             
             <div class="col-md-6">
                 <mat-form-field>
-                    <mat-label>Buisness Type</mat-label>
-                    <mat-select>
+                    <mat-label>Business Type</mat-label>
+                    <mat-select formControlName="sellerBusinessType">
                         <mat-option *ngFor="let business of businessType" [value]="business.code">
                             {{business.displayName}}
                         </mat-option>
@@ -16,25 +22,23 @@
 
             <div class="col-md-6">
                 <mat-form-field class="business-name">
-                    <input matInput placeholder="Registered Company Name" type="text" class="businessInput">
+                    <input matInput placeholder="Registered Company Name" type="text" class="businessInput"
+                    formControlName="companyName">
                 </mat-form-field>
             </div>
 
             <div class="col-md-6">
-                <mat-form-field>
-                    <mat-label>Deals In</mat-label>
-                    <mat-select>
-                        <!-- <mat-option *ngFor="let turnover of turnovers" [value]="turnover.code">
-                            {{turnover.displayName}}
-                        </mat-option> -->
-                    </mat-select>
-                </mat-form-field>
+                <!-- <mat-label>Deals In</mat-label> -->
+                <app-multi-select *ngIf="categoriesList && categoriesList.length" [class.err]="categoryErr" [isErr]="categoryErr"
+                    placeholder="Deals In" [listData]="categoriesList" class="bs-multiselect" [checkDisabled]="!_isEdit"
+                    (onDataChange)="updateCategory($event)">
+                </app-multi-select>
             </div>
 
             <div class="col-md-6">
                 <mat-form-field>
                     <mat-label>Annual Turnover (₹)</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="minAnnualTurnover" name="turnover">
                         <mat-option *ngFor="let turnover of turnovers" [value]="turnover.code">
                             {{turnover.displayName}}
                         </mat-option>
@@ -49,65 +53,69 @@
             </div>
 
             <div class="col-md-12">
-                <mat-form-field class="business-name">
-                    <input matInput placeholder="Address Line 1" type="text" class="businessInput">
+                <mat-form-field class="business-name" >
+                    <input matInput placeholder="Address Line 1" type="text" class="businessInput"
+                    formControlName="addressLine1" required>
                 </mat-form-field>
-                <!-- <div class="form-group">
-                    <textarea type="text" class="form-control inputLableUp" value=""></textarea>
-                    <label class="form-control-placeholder" for="buisness">Address Line 1</label>
-                </div> -->
+
+                <small
+                    *ngIf="businessDetailsForm.controls['addressLine1'].errors && (businessDetailsForm.controls['addressLine1'].dirty || businessDetailsForm.controls['addressLine1'].touched)">
+                    <p *ngIf="businessDetailsForm.controls['addressLine1'].hasError('required')" class="errorMessage">
+                        Address Line 1 is required</p>
+                </small>
             </div>
 
             <div class="col-md-12">
-                <!-- <div class="form-group">
-                    <textarea type="text" class="form-control inputLableUp" value=""></textarea>
-                    <label class="form-control-placeholder" for="buisness">Address Line 2</label>
-                </div> -->
                 <mat-form-field class="business-name">
-                    <input matInput placeholder="Address Line 2" type="text" class="businessInput">
+                    <input matInput placeholder="Address Line 2" type="text" class="businessInput"
+                    formControlName="addressLine2">
                 </mat-form-field>               
             </div>
 
             <div class="col-md-6">
-                <!-- <div class="form-group">
-                    <input type="text" class="form-control inputLableUp" value="">
-                    <label class="form-control-placeholder" for="buisness">Phone No.</label>
-                </div> -->
                 <mat-form-field class="business-name">
-                    <input matInput placeholder="Phone No." type="number" class="businessInput">
+                    <input matInput placeholder="10 digit mobile number" class="businessInput"
+                    formControlName="phoneNo" type="number" maxlength="10" required>
+                </mat-form-field>
+
+                <small
+                    *ngIf="businessDetailsForm.controls['phoneNo'].errors && (businessDetailsForm.controls['phoneNo'].dirty || businessDetailsForm.controls['phoneNo'].touched)">
+                    <p *ngIf="businessDetailsForm.controls['phoneNo'].hasError('required')" class="errorMessage marginTop">
+                        Mobile number is required</p>
+                    <p *ngIf="businessDetailsForm.controls['phoneNo'].hasError('pattern')" class="errorMessage marginTop">
+                        Mobile number is invalid</p>
+                </small>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name">
+                    <input matInput placeholder="Pincode" type="number" class="businessInput"
+                    (keyup)="validatePincode($event)" formControlName="pincode" maxlength="6" required>
+                </mat-form-field>
+
+                <small
+                    *ngIf="businessDetailsForm.controls['pincode'].errors && (businessDetailsForm.controls['pincode'].dirty || businessDetailsForm.controls['pincode'].touched)">
+                    <p *ngIf="businessDetailsForm.controls['pincode'].hasError('required')" class="errorMessage">
+                        PinCode is required</p>
+                    <p *ngIf="businessDetailsForm.controls['pincode'].hasError('pattern')" class="errorMessage">
+                        PinCode is invalid</p>
+                </small>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name">
+                    <input matInput formControlName="stateId" hidden placeholder="State">
+                    <input matInput [value]="businessDetails.address.state.name" placeholder="State" [disabled]="true" 
+                    class="businessInput">
                 </mat-form-field>
             </div>
 
             <div class="col-md-6">
-                <!-- <div class="form-group">
-                    <input type="text" class="form-control inputLableUp" value="">
-                    <label class="form-control-placeholder" for="buisness">Pin Code</label>
-                </div> -->
                 <mat-form-field class="business-name">
-                    <input matInput placeholder="Pin Code" type="number" class="businessInput">
+                    <input matInput formControlName="cityId" hidden placeholder="City">
+                    <input matInput [value]="businessDetails.address.city.name"  placeholder="City" [disabled]="true" 
+                    class="businessInput">
                 </mat-form-field>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <select class="custom-select form-control inputLableUp">
-                        <option value="1"></option>
-                        <option value="2">Delhi</option>
-                        <option value="3">Kanpur</option>
-                    </select>
-                    <label class="form-control-placeholder" for="buisness">State</label>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <select class="custom-select form-control inputLableUp">
-                        <option value="1"></option>
-                        <option value="2">New Delhi</option>
-                        <option value="3">Kanpur</option>
-                    </select>
-                    <label class="form-control-placeholder" for="buisness">City</label>
-                </div>
             </div>
 
             <div class="col-md-6">
@@ -115,51 +123,81 @@
                     <div class="browser-method">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel">
-                            <input type="file" required="" class="inputLableUp">
+                            <input type="file" name="addressProofFile" #file
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onFileSelected($event)" style="display: none;" required=""
+                                class="inputLableUp">
                             <span>UPLOAD ADDRESS PROOF</span>
                         </label>
-                        <a href="#"> <img src="assets/img/svg-img/ic_information.svg" alt=""></a>
+                        <a href="#" *ngIf="!addressProofFiles">
+                            <img src="assets/img/svg-img/ic_information.svg" alt="">
+                        </a>
+                        <span style="font-size: 12px;color:#716767;">{{ addressProofFiles }}</span>
                     </div>
+
+                    <div *ngIf="businessDetails.address.addressProofFile" class="pdf">
+                        <a *ngIf="_isEdit" class="ml-0" (click)="deleteAddressProof(businessDetails.address.addressId)">x</a>
+                        <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.address.addressProofFile)">Download</a>
+                        <img src="assets/img/svg-img/ic_download.svg" alt="">
+                        <span>Address Proof</span>
+                    </div>
+
                     <label class="form-control-placeholder" for="buisness">Address Proof</label>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <!-- <div class="form-group">
-                    <input type="text" class="form-control inputLableUp" value="">
-                    <label class="form-control-placeholder" for="buisness">GSTIN</label>
-                </div> -->
-                <mat-form-field class="business-name">
-                    <input matInput placeholder="GSTIN" type="text" class="businessInput">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="gstin" (input)="validateGstin($event)"
+                        (paste)="onPaste($event)" type="text" placeholder="GSTIN" required>
                 </mat-form-field>
+
+                <small
+                    *ngIf="businessDetailsForm.controls['gstin'].errors && (businessDetailsForm.controls['gstin'].dirty || businessDetailsForm.controls['gstin'].touched)">
+                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('required')" class="errorMessage marginTop">
+                        GSTIN number is required</p>
+                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('pattern')" class="errorMessage marginTop">
+                        GSTIN number is invalid</p>
+                </small>
             </div>
 
             <div class="col-md-6">
-                <!-- <div class="form-group">
-                    <input type="text" class="form-control inputLableUp" value="">
-                    <label class="form-control-placeholder" for="buisness">PAN</label>
-                </div> -->
                 <mat-form-field class="business-name">
-                    <input matInput placeholder="PAN" type="text" class="businessInput">
+                    <input matInput placeholder="PAN" type="text" class="businessInput" 
+                    formControlName="panNo">
                 </mat-form-field>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group lableup form-control">
-                    <div class="browser-method">
+                    <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel">
-                            <input type="file" required="" class="inputLableUp">
-                            <span>Upload  PAN Document</span>
+                            <input type="file" name="panphoto" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload PAN Document</span>
                         </label>
-                        <a href="#"><img src="assets/img/svg-img/ic_information.svg" alt=""></a>
+                        <a href="#" *ngIf="!panPhotoImage">
+                            <img src="assets/img/svg-img/ic_information.svg" alt="">
+                        </a>
+                        <span style="font-size: 12px;color:#716767;">{{ panPhotoImage }}</span>
                     </div>
-                    <label class="form-control-placeholder" for="buisness">PAN Proof</label>
+
+                    <div *ngIf="businessDetails.panPhoto" class="pdf">
+                        <a *ngIf="_isEdit" class="ml-0" (click)="delete()">x</a>
+                        <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.panPhoto)">Download</a>
+                        <img src="assets/img/svg-img/ic_download.svg" alt="">
+                        <span>Pan Proof</span>
+                    </div>
+
+                    <label class="form-control-placeholder">PAN Proof</label>
                 </div>
             </div>
 
-            <div class="col-md-12 save-orange">
-                <button type="submit" class="btn orangeBttn">Save</button>
+            <div class="col-md-12 save-orange" *ngIf="_isEdit">
+                <button type="button" class="btn orangeBttn brdbttn" (click)="goToBusinessDetailsPage()">Cancel</button>
+                <button (click)="submit($event)" class="btn orangeBttn">SAVE</button>
             </div>
 
         </div>

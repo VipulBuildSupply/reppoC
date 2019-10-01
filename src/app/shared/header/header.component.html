@@ -43,7 +43,8 @@
                 <ng-template #userProfile>
                     <div>
                         <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
-                            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user-profile" alt="">
+                            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" 
+                            (error)="getUserAPI()" class="img-fulid user-profile" alt="">
                             <span *ngIf="user.sellerPersonalProfile.firstName; else name" class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
                             <ng-template #name>
                                 <span class="profileName">--</span>

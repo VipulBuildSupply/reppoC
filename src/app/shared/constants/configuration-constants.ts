@@ -56,5 +56,7 @@ export const API = {
     PROFILE_VERIFY: (email) => `account/api/seller/profile/verify?verifiyEmail=${email}`,
     EMAIL_VERIFY: 'account/api/profile/personal/email/verify',
     ANNUAL_TURNOVERS: 'account/api/seller/profile/turnovers',
-    BUSINESS_TYPES: 'account/api/seller/profile/types'
+    BUSINESS_TYPES: 'account/api/seller/profile/types',
+    BUSINESS_DETAILS: 'account/api/seller/profile',
+    DELETE_ADDRESS_PROOF: (addressId) => `account/api/address/${addressId}/addressProof`
 }

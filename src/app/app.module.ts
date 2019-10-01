@@ -23,7 +23,7 @@ import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy
 import { HttpInterceptorProviders } from './shared/http-interceptors/http-interceptor-providers';import { OpenTileModule } from './views/open-tile/open-tile.module';
 import { CategoryService } from './shared/services/category.service';
 import { AuthGuardService } from './shared/guards/auth.guard';
-import { RegisterGuardService } from './shared/guards/register.guard';
+import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { RegisterGuardService } from './shared/guards/register.guard';
     HttpInterceptorProviders,
     CategoryService,
     AuthGuardService,
-    RegisterGuardService
+    CatalogueGuardService
   ],
   bootstrap: [AppComponent]
 })

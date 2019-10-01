@@ -1,0 +1,21 @@
+<mat-form-field>
+  <mat-chip-list #chipList aria-label="item selection">
+    <mat-chip *ngFor="let item of items" [selectable]="selectable" [removable]="removable" (removed)="remove(item.id)" disabled={{isDisable}}>
+      {{item.name}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input [placeholder]="'Add ' + placeholder" #itemInput [formControl]="itemCtrl" [matAutocomplete]="auto"
+      #trigger="matAutocompleteTrigger" [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option (click)="open(trigger)" [disabled]="item.isSelected" *ngFor="let item of filteredItems | async"
+      [value]="item.id">
+      {{item.name}}
+    </mat-option>
+  </mat-autocomplete>
+  
+  <mat-hint *ngIf="isErr" class="err">{{placeholder}} is required</mat-hint>
+</mat-form-field>

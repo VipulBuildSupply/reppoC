@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { UserModel } from '../../models/user.model';
@@ -9,12 +9,14 @@ import { ProfileVerifyComponent } from '../../dialogs/profile-verify/profile-ver
   selector: 'app-profile-sidebar',
   templateUrl: './profile-sidebar.component.html'
 })
-export class ProfileSidebarComponent implements OnInit {
+export class ProfileSidebarComponent implements OnInit, OnDestroy {
   
   profileSideBarDropDown;
   private userInfoUpdated: Subscription;
   user: UserModel;
   percentage: any;
+  subscriptions: Subscription[] = [];
+  profileVerfyStatus: boolean;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -26,6 +28,7 @@ export class ProfileSidebarComponent implements OnInit {
      */
     this.user = this.userService.user;
     
+    // this.getProfilePercentage();
 
     /**
      * @description get the updated user info
@@ -33,6 +36,11 @@ export class ProfileSidebarComponent implements OnInit {
     this.userInfoUpdated = this.userService.userUpdated$.subscribe(user => {
         this.user = this.userService.user;    
     })
+
+
+    // this.onUpdatePercentage = this.userService.updatePercentage$.subscribe(data => {
+    //     this.getProfilePercentage();    
+    // });
 
     /**
      * @description display profile sidebar menus on profile page
@@ -49,11 +57,26 @@ export class ProfileSidebarComponent implements OnInit {
     /**
      * @description api to get profile percentage value
      */
-    this.userService.getUserPercentage().then(res => {
+    // getProfilePercentage(){
+      this.userService.getUserPercentage().then(res => {
         this.percentage = res;
-    });
+        // console.log(this.percentage);
+      });
+    // }
+
+    this.startSubscriptions();
   }
 
+
+  startSubscriptions(){
+      this.subscriptions.push(
+          this.userService.enableProfile$.subscribe(value => {
+              if(value){
+                this.profileVerfyStatus = value;
+              }
+          })
+      )
+  }
   /**
    * function to display popup after click on "Request" button in profile sidebar
    */
@@ -62,6 +85,19 @@ export class ProfileSidebarComponent implements OnInit {
         data: { userinfo:  this.user.sellerPersonalProfile },
         disableClose: true,
         panelClass: 'profile-verification-popup'
+    });
+  }
+
+  /**
+   * @description function to get image if it disappears
+   */
+  getUserAPI() {
+    this.userService.getUserData();
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe();
     });
   }
 }
