@@ -1,16 +1,13 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// The file contents for the current environment will overwrite these during build.
+// The build system defaults to the dev environment which uses `environment.ts`, but if you do
+// `ng build --env=prod` then `environment.prod.ts` will be used instead.
+// The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
-  debug_mode: true,       // for debug logs
-  // api_url: 'http://192.168.1.111:8080/'
-  // api_url:'http://dev.commerce.buildsupply.com/',   
-  api_url:'https://api.yeho.ga/',
-  //stg:'http://sabho.ga/',
-  // server base path,
- // api_url:'http://satish.ecom.com/',
+ga: "",
+production: false,
+debug_mode: true,
+apiURL:'https://api.yeho.ga'
 };
 
 /*

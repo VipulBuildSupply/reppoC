@@ -19,7 +19,7 @@ export class DataService {
         private notifier: NotificationService,
         private token: TokenService
     ) {
-        this.baseUrl = environment.api_url;
+        this.baseUrl = environment.apiURL + '/';
     }
 
     getRequest(url: string, params: HttpParams = new HttpParams(), reqOptions: DataServiceOptions = null): ResolveData {
