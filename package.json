@@ -1,5 +1,5 @@
 {
-  "name": "seller",
+  "name": "seller-web",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,6 +7,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build-prd": "ng build --prod=true --aot=true --extractCss=true --optimization=true --configuration=prd",
     "build": "ng build --aot=true --extractCss=true --optimization=true"
   },
   "private": true,
