@@ -8,7 +8,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prd": "ng build --prod=true --aot=true --extractCss=true --optimization=true --configuration=prd",
-    "build": "ng build --aot=true --extractCss=true --optimization=true"
+    "build": "ng build --aot=true --extractCss=true --optimization=true --configuration=prd"
   },
   "private": true,
   "dependencies": {
