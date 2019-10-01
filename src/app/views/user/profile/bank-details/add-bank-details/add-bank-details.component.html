@@ -16,14 +16,30 @@
             </div>
 
             <div class="col-md-6">
+                <!-- <mat-form-field class="full-width">
+                        <input matInput formControlName="bankName" type="text" placeholder="Bank" required>
+                    </mat-form-field>
+                    <small
+                        *ngIf="bankDetailsForm.controls['bankName'].errors && (bankDetailsForm.controls['bankName'].dirty || bankDetailsForm.controls['bankName'].touched)">
+                        <p *ngIf="bankDetailsForm.controls['bankName'].hasError('required')" class="errorMessage">
+                           Bank is required</p>
+                    </small> -->
+
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="bankName" type="text" placeholder="Bank" required>
+<!-- 
+                    <input matInput formControlName="bankName" type="text" hidden placeholder="Bank" required> -->
+
+                    <mat-select formControlName="bankName" placeholder="Bank Name" (selectionChange)="changeBank($event)"
+                        id="Category-1">
+                        <mat-option *ngFor="let bankName of bankNames" [value]="bankName.code">
+                            {{bankName.name}}
+                        </mat-option>
+                    </mat-select>
+
+
                 </mat-form-field>
-                <small
-                    *ngIf="bankDetailsForm.controls['bankName'].errors && (bankDetailsForm.controls['bankName'].dirty || bankDetailsForm.controls['bankName'].touched)">
-                    <p *ngIf="bankDetailsForm.controls['bankName'].hasError('required')" class="errorMessage">
-                       Bank is required</p>
-                </small>
+
+
             </div>
 
             <div class="col-md-6">
@@ -31,16 +47,15 @@
                     <input matInput formControlName="accountNumber" type="text" placeholder="Account Number" required>
                 </mat-form-field>
                 <small
-                *ngIf="bankDetailsForm.controls['accountNumber'].errors && (bankDetailsForm.controls['accountNumber'].dirty || bankDetailsForm.controls['accountNumber'].touched)">
-                <p *ngIf="bankDetailsForm.controls['accountNumber'].hasError('required')" class="errorMessage">
-                   accountNumber is required</p>
-            </small>
+                    *ngIf="bankDetailsForm.controls['accountNumber'].errors && (bankDetailsForm.controls['accountNumber'].dirty || bankDetailsForm.controls['accountNumber'].touched)">
+                    <p *ngIf="bankDetailsForm.controls['accountNumber'].hasError('required')" class="errorMessage">
+                        accountNumber is required</p>
+                </small>
             </div>
 
             <div class="col-md-6">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="ifscCode" type="text" 
-                        placeholder="IFSC Code" required>
+                    <input matInput formControlName="ifscCode" type="text" placeholder="IFSC Code" required>
                 </mat-form-field>
                 <small
                     *ngIf="bankDetailsForm.controls['ifscCode'].errors && (bankDetailsForm.controls['ifscCode'].dirty || bankDetailsForm.controls['ifscCode'].touched)">
@@ -68,9 +83,35 @@
                     <label class="form-control-placeholder" for="buisness">Cancelled Cheque</label>
                 </div>
             </div>
+            <div class="col-md-6" *ngIf="isEdit">
+                <div class="pdf mb-4 mt-0"
+                    *ngIf="(bankDetails.cancelledChequePhotoImage && (!cancelledChequeDeleted)); else showCancelledChequeField">
+                    <a href="javascript:void(0)" (click)="deleteCancelledCheque()">x</a>
+                    <span>Cancelled Cheque</span>
+                </div>
+                <ng-template #showCancelledChequeField>
+                    <div class="form-group lableup form-control">
+                        <div class="browser-method">
+                            <img src="assets/img/upload.png" class="download-img" alt="">
+                            <label class="myLabel">
+                                <input type="file" name="file" #file
+                                    accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                    (change)="onFileSelected($event)" style="display: none;" required=""
+                                    class="inputLableUp">
+                                <span>UPLOAD CANCELLED CHEQUE</span>
+                            </label>
+                            <a href="#" *ngIf="!fileName"> <img src="assets/img/svg-img/ic_information.svg" alt=""></a>
+                            <span style="font-size: 12px;color:#716767;">{{ fileName }}</span>
+                        </div>
+                        <label class="form-control-placeholder" for="buisness">Cancelled Cheque</label>
+                    </div>
+                </ng-template>
+
+            </div>
+
             <div class="col-md-12 save-orange">
                 <!-- <button type="submit" class="btn orangeBttn brdbttn">Cancel</button>
-                <button type="submit" class="btn orangeBttn">Save</button> -->
+                    <button type="submit" class="btn orangeBttn">Save</button> -->
 
                 <button type="button" class="btn orangeBttn brdbttn" (click)="goToBankDetailsPage()">Cancel</button>
                 <button type="submit" class="btn orangeBttn" [disabled]="!bankDetailsForm.valid">SAVE</button>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
-import { Address, BankDetails } from 'src/app/shared/models/address';
+import { Address, BankDetails, BankName } from 'src/app/shared/models/address';
 import { ConfigurationConstants, FieldRegExConst } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 
@@ -11,6 +11,7 @@ import { FormHelper } from 'src/app/shared/helpers/form-helper';
     templateUrl: './add-bank-details.component.html'
 })
 export class AddBankDetailsComponent implements OnInit {
+    cancelledChequeDeleted: boolean;
     constructor(private _formBuilder: FormBuilder,
         private _activatedRout: ActivatedRoute,
         private _router: Router,
@@ -18,7 +19,9 @@ export class AddBankDetailsComponent implements OnInit {
 
     bankDetailsForm: FormGroup;
     bankDetails: BankDetails;
-   
+    bankNames : any;
+    ifscPrefix : any;
+    bankNameCode :any ;
     selectedProfile;
     cities;
     submitBtn = false;
@@ -30,10 +33,11 @@ export class AddBankDetailsComponent implements OnInit {
         // if((this.bankDetailsForm.valid) && (this.bankDetails.state.id > 0)){
         //     this.submitBtn=true;
         // }
-
+        this.cancelledChequeDeleted = false;
         this.bankDetails = {
            accountHolderName : '',
-           bankName : '',
+           bank:null ,
+           bankName:'',
            accountNumber : '',
            ifscCode : '',
            cancelledChequePhotoImage : '',
@@ -57,16 +61,26 @@ export class AddBankDetailsComponent implements OnInit {
             }
         })
 
+        this._userService.getBankName().then(res => {
+            if (res.data) {
+                this.bankNames = res.data;
+            }
+        });
 
 
 
         this.bankDetailsForm = this._formBuilder.group({
             accountHolderName: [this.bankDetails.accountHolderName, Validators.required],
-            bankName: [this.bankDetails.bankName, Validators.required],
+            bankName: [{ value: (this.bankDetails.bankName ? this.bankDetails.bank.code : '') }, Validators.required],
             accountNumber: [this.bankDetails.accountNumber, Validators.required],
             ifscCode: [  this.bankDetails.ifscCode , Validators.required],
             cancelledChequePhotoImage:[this.bankDetails.cancelledChequePhotoImage]
         });
+
+        if(this.isEdit){
+            this.bankDetailsForm.get('bankName').setValue(this.bankDetails.bank.code);
+            console.log(this.bankDetails.bank.code);
+        }
 
     }
 
@@ -78,6 +92,15 @@ export class AddBankDetailsComponent implements OnInit {
           this.bankDetailsForm.get('cancelledChequePhotoImage').setValue(file);
 
         }
+      }
+      deleteCancelledCheque(){
+
+        this._userService.deleteCancelledChequeAPI(this.bankDetails.id).then(res => {
+            if (res.data.success) {
+               this.cancelledChequeDeleted = true;
+               this.bankDetails.cancelledChequePhotoImage = '';
+            }
+        });
       }
 
     submit() {
@@ -126,5 +149,21 @@ export class AddBankDetailsComponent implements OnInit {
 
     goToBankDetailsPage() {
         this._router.navigate([`/user/profile/bank-details`]);
+    }
+
+    changeBank(event){
+        console.log(event.value);
+
+        for(let i=0; i<this.bankNames.length ; i++)
+        {
+            if(this.bankNames[i].code === event.value)
+            {
+                this.ifscPrefix = this.bankNames[i].ifscPrefix;
+            }
+        }
+
+        console.log(this.ifscPrefix);
+       // this.bankDetailsForm.get('bankName').setValue(this.bankNameCode);
+        this.bankDetailsForm.get('ifscCode').setValue(this.ifscPrefix);
     }
 }

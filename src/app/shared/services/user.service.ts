@@ -61,25 +61,9 @@ export class UserService {
     get selectedProfile(): SellerPersonalProfile {
         return this.user.sellerPersonalProfile;
     }
-
-    // get selectedProfile() {
-
-    //     const status = () => {
-    //         if (this.user.sellerPersonalProfile.isSelected) {
-    //             return this.user.sellerPersonalProfile;
-    //         } 
-    //     }
-
-    //     if (this.user) {
-    //         return status();
-    //     } else {
-
-    //         return null;
-
-    //     }
-    // }
-
-
+    deleteCancelledChequeAPI(bankAccountId){
+        return this.dataService.sendDeleteRequest(API.DELETE_CANCELLED_CHEQUE(bankAccountId), {}).then(res => res);
+    }
 
    getAddress(addressType) {
         return this.dataService.getRequest(`${API.ADDRESS}/${addressType}`).then(res => res);
@@ -88,10 +72,11 @@ export class UserService {
         return this.dataService.getRequest(`${API.BANK_DETAILS_GET}`).then(res => res);
     }
     deleteAddress(addressId: number) {
-        return this.dataService.sendDeleteRequest(`${API.ADDRESS}/${addressId}`, {}).then(res => res)
+        return this.dataService.sendDeleteRequest(`${API.ADDRESS}/${addressId}`, {}).then(res => res);
     }
     
     deleteBankDetails(bankId : number){
+     //   console.log(`${API.DELETE_BANK_DETAILS}/${bankId}`);
         return this.dataService.sendDeleteRequest(API.DELETE_BANK_DETAILS(bankId), {}).then(res => res);
         
     }
@@ -103,8 +88,6 @@ export class UserService {
         return this.dataService.getRequest(API.CITY(stateId)).then(res => res)
     }
 
-  
-
     addAddress(data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
@@ -113,24 +96,13 @@ export class UserService {
             }
             
         });
+        // const headers = 'Content-Type, multipart/form-data';
 
         return this.dataService.sendPostRequest(API.ADDRESS, fData).then(res => {
             return res.data
         })
 
     }
-
-    // editAddress(addressId: number, data) {
-    //     const fData = new FormData();
-    //     Object.keys(data).map(key => {
-    //         fData.append(key, data[ key ]);
-    //     });
-
-
-    //     return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
-    //         return res.data;
-    //     });
-    // }
 
     addBankDetails(data) {
         const fData = new FormData();
@@ -147,7 +119,6 @@ export class UserService {
         })
 
     }
-
 
     getPincode(pincode){
         return this.dataService.getRequest(API.PINCODE(pincode)).then(res => res)
@@ -181,18 +152,6 @@ export class UserService {
         return this.dataService.sendPutRequest(API.PROFILE_VERIFY(email), data).then((res: any) => res);
     };
 
-    emailVerify(data){
-        return this.dataService.sendPostRequest(API.EMAIL_VERIFY, data).then((res: any) => res);
-    }
-
-    annualTurnovers(){
-        return this.dataService.getRequest(API.ANNUAL_TURNOVERS).then(res => res.data);
-    }
-
-    businessType(){
-        return this.dataService.getRequest(API.BUSINESS_TYPES).then(res => res.data);
-    }
-
     editAddress(addressId,data){
         const fData = new FormData();
         Object.keys(data).map(key => {
@@ -205,19 +164,74 @@ export class UserService {
         return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
           return res.data; 
         });
-    }
+      }
 
-    editBankDetails(bankId , data){
+      editBankDetails(bankId , data){
         const fData = new FormData();
         Object.keys(data).map(key => {
-            if(key != "cancelledChequePhotoImage"){
+            if(key == "cancelledChequePhotoImage"){
+                if(data[key].name){
+                    fData.append(key, data[ key ]);
+                } 
+            }
+            else{
                 fData.append(key, data[ key ]);
             }
         });
 
 
-        return this.dataService.sendPutRequest(API.EDIT_BANK_DETAILS(bankId), fData).then(res => {
+        return this.dataService.sendPostRequest(API.EDIT_BANK_DETAILS(bankId), fData).then(res => {
           return res.data; 
         });
+      }
+
+    emailVerify(data){
+        return this.dataService.sendPostRequest(API.EMAIL_VERIFY, data).then((res: any) => res);
+    }
+
+    annualTurnovers(){
+        return this.dataService.getRequest(API.ANNUAL_TURNOVERS).then(res => res.data);
+    }
+
+    businessType(){
+        return this.dataService.getRequest(API.BUSINESS_TYPES).then(res => res.data);
+    }
+
+    getCategory(){
+        return this.dataService.getRequest(API.GET_CATEGORY_ONE).then(res => res.data);
+    }
+    getBrand(categoryId){
+        return this.dataService.getRequest(API.GET_BRAND(categoryId)).then(res => res.data);
+    }
+    getSearchResults(data){
+        // const fData = new FormData();
+        // Object.keys(data).map(key => {
+        //     if(data[key]){
+        //         fData.append(key, data[ key ]);
+        //     }
+            
+        // });
+
+        return this.dataService.sendPostRequest(API.SEARCH_SKU, data).then((res: any) => res);
+    }
+    addCatalogueItems(data){
+        return this.dataService.sendPutRequest(API.ADD_CATALOGUE, data).then((res: any) => res);
+    }
+    getCatalogueItems(){
+        return this.dataService.getRequest(API.GET_CATALOGUE_LIST).then((res: any) => res);
+    }
+    getUniqueCatalogueItem(catalogueItemId){
+        return this.dataService.getRequest(API.GET_UNIQUE_CATALOGUE(catalogueItemId)).then((res: any) => res);
+    }
+    toggleStockStatus(catalogueId, status){
+        return this.dataService.sendPutRequest(API.TOGGLE_STOCK_STATUS(catalogueId,status),null).then((res: any) => res);
+    }
+
+    sendPricingToAllWarehouse(arrayData){
+        return this.dataService.sendPutRequest(API.PRICING_FOR_ALL_WAREHOUSE,arrayData).then((res: any) => res);
+    }
+
+    getBankName(){
+        return this.dataService.getRequest(API.GET_BANK_NAME).then((res: any) => res);
     }
 }

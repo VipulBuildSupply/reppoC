@@ -25,6 +25,7 @@ export class BankDetailsShowComponent implements OnInit {
     }
 
     edit(){
+        console.log(this.bankDetail);
         this._userService.editBankDetails$.next(this.bankDetail);
         this._router.navigate(['user/profile/bank-details/edit']);
     }

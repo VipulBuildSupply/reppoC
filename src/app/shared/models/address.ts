@@ -56,13 +56,20 @@ export class SelectedAddress {
 
 }
 
+
+
 export class BankDetails{
     id ?: number;
     accountHolderName ?: string;
+    bank ?: BankName;
     bankName ?: string;
     accountNumber ?: string;
     ifscCode ?: string;
     cancelledChequePhotoImage ?: any;
     userDomain: string;
     companyId?:any;
+}
+export class BankName {
+    code: string;
+    name: string;
 }
