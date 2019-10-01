@@ -12,7 +12,7 @@ export class CataloguesList implements OnInit {
   catalogueList: any;
   uniqueCatalogueData: any;
   pricingForm: FormGroup;
-  
+
   stockResponse: any;
   addAnotherRangeCount: any[] = [];
   addPriceForRemainingQuantity: boolean;
@@ -20,12 +20,15 @@ export class CataloguesList implements OnInit {
   maxValuesQty: number[] = [];
   errorMin: boolean;
   errorMax: boolean;
-  pricingForms:FormGroup[] = [];
+  pricingForms: FormGroup[] = [];
+  sendPricingToAllArray : any[] =[];
+
+
   constructor(private Userservice: UserService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.errorMin = true;
-    this.errorMax = true;
+    this.errorMin = false;
+    this.errorMax = false;
     this.addPriceForRemainingQuantity = false;
     this.addAnotherRangeCount.push('1');
     this.Userservice.getCatalogueItems().then(res => {
@@ -34,20 +37,10 @@ export class CataloguesList implements OnInit {
         // console.log(this.catalogueList);
       }
     });
-    this.formInit();
+    this.addAnotherRange();
   }
 
-  formInit() {
-
-    this.pricingForm = this._formBuilder.group({
-        min: [ '',Validators.required ],
-        max: [ '', {
-          validators:[Validators.required]
-        } ],
-        price: [  '', Validators.required ]});
-
-    this.pricingForms.push(this.pricingForm);
-}
+  
 
   selectUniqueCatalogue(id) {
     this.Userservice.getUniqueCatalogueItem(id).then(res => {
@@ -58,25 +51,25 @@ export class CataloguesList implements OnInit {
   }
 
   addAnotherRange() {
-    const newForm = this._formBuilder.group({
-      min: [ '', Validators.required ],
-      max: [ '', Validators.required ],
-      price: [ '', Validators.required ]})
-
-  this.pricingForms.push(this.pricingForm);
-  console.log(this.pricingForms);
-   this.addAnotherRangeCount.push('1');
+    this.pricingForms.push(
+      this._formBuilder.group({
+        minPrice: ['',Validators.required],
+        maxPrice: [''],
+        price: ['', Validators.required]
+      },{validators: this.isMinMaxInValid})
+    );
   }
 
-  isMinMaxValid(form: FormGroup){
-    const min = form.controls.min.value;
-    const max = form.controls.max.value;
+  isMinMaxInValid(form: FormGroup) {
+    const min = form.controls.minPrice.value;
+    const max = form.controls.maxPrice.value;
 
-    if (min > max) {
-        form.controls.min.setErrors({ isMinMaxValid: false });
+    if (min !== "" && max !== "" && (Number(min) > Number(max))){
+      form.controls.minPrice.setErrors({ isMinMaxInValid:false });
     }
-    
-    return { isMinMaxValid: false };
+   
+
+    return { isMinMaxInValid: false };
   }
 
 
@@ -90,6 +83,15 @@ export class CataloguesList implements OnInit {
     }
   }
 
+
+  compareMinMax(currentFormIndex) {
+    if (currentFormIndex > 0 && this.pricingForms) {
+      if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
+        this.pricingForms[currentFormIndex].controls.minPrice.setErrors(null);
+        this.pricingForms[currentFormIndex].controls.minPrice.setErrors({ isMinMaxInValid: false });
+      }
+    }
+  }
 
   toggleStock(event) {
     if (event.target.checked) {
@@ -120,89 +122,28 @@ export class CataloguesList implements OnInit {
     }
   }
 
-  allMinQty(event, index) {
 
-    if (this.maxValuesQty[index]) {
-      var s = this.maxValuesQty[index];
-      var b = event.target.value;
-      if (s < b) {
-        this.errorMin = false;
-        this.errorMax = false;
+
+  addPricingAllWarehouseAddress(){
+    for(var i=0; i<this.pricingForms.length; i++)
+    {
+      console.log(this.pricingForms[i].controls.minPrice.value);
+      console.log(this.pricingForms[i].controls.maxPrice.value);
+      console.log(this.pricingForms[i].controls.price.value);
+      const object = {
+        "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
+        "maxQty": this.pricingForms[i].controls.maxPrice.value,
+        "minQty": this.pricingForms[i].controls.minPrice.value,
+        "price": this.pricingForms[i].controls.price.value,
+        "samePriceAllWarehouse": true
       }
-      else {
-        this.minValuesQty.splice(index, 1, b);
-        console.log("ALL MIN : " + this.minValuesQty);
-        this.errorMin = false;
-        this.errorMax = false;
-      }
-    }
-    else if (this.maxValuesQty[(index - 1)]) {
-      var s = this.maxValuesQty[(index - 1)];
-      var b = event.target.value;
-      if (s < b) {
-        this.minValuesQty.splice(index, 1, b);
-        console.log("ALL MIN : " + this.minValuesQty);
-        this.errorMin = false;
-      }
-      else {
-        this.errorMin = true;
-      }
-    }
-    else {
-      this.minValuesQty.splice(index, 1);
-      this.minValuesQty.splice(index, 0, event.target.value);
-      console.log("ALL MIN : " + this.minValuesQty);
-      this.errorMin = false;
+
+      this.sendPricingToAllArray.push(object);
     }
 
-    // this.validateMinMax();    
+    console.log(this.sendPricingToAllArray);
+
+    this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray);
   }
-
-  allMaxQty(event, index) {
-    if (this.minValuesQty[index]) {
-      if (this.minValuesQty[index] < event.target.value) {
-        if (this.minValuesQty[(index + 1)]) {
-          if (event.target.value < this.minValuesQty[(index + 1)]) {
-            this.maxValuesQty.splice(index, 1, event.target.value);
-            console.log("ALL MAX : " + this.maxValuesQty);
-            this.errorMax = true;
-          }
-          else {
-            this.errorMax = false;
-          }
-        }
-        else {
-          this.maxValuesQty.splice(index, 1, event.target.value);
-          console.log("ALL MAX : " + this.maxValuesQty);
-          this.errorMax = true;
-        }
-
-      }
-      else {
-        this.errorMax = false;
-      }
-    }
-    else {
-      this.maxValuesQty.splice(index, 1, event.target.value);
-      console.log("ALL MAX : " + this.maxValuesQty);
-      this.errorMax = true;
-    }
-
-    //  this.validateMinMax();
-  }
-
-  validateMinMax() {
-    for (var i = 0; i < (this.addAnotherRangeCount.length - 1); i++) {
-      var max = this.maxValuesQty[i];
-      var min = this.minValuesQty[i + 1];
-      if (min != undefined && max > min) {
-        console.log("ERROR.. " + this.maxValuesQty[i] + " .. " + this.minValuesQty[i]);
-      }
-      else {
-        console.log("hey");
-      }
-    }
-  }
-
 
 }

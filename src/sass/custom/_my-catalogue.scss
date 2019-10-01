@@ -83,30 +83,22 @@
 }
 
 .addToCatBtn{
-  //  border-radius: 25px;
+    border-radius: 25px;
     border: 0px;
-    padding: 10px 30px;
+    padding: 5px 20px;
     font-size: 15px;
     background: #f47721;
     color: white;
-    border-radius: 17.5px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-    font-size: 11px;
-    font-weight: 700;
 }
 .addToCatBtnDisable{
+    border-radius: 25px;
     border: 0px;
-    padding: 10px 30px;
+    padding: 5px 20px;
     font-size: 15px;
     background: #f47721;
     color: white;
-    border-radius: 17.5px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-    font-size: 11px;
-    font-weight: 700;
-    opacity: 0.7;
     cursor: not-allowed;
-  pointer-events: all ;
+    opacity : 0.7;
 }
 
 .sku-categeory .input-group-text {
@@ -162,17 +154,7 @@
     height: 39px;
     border-left: transparent;
 }
-.mat-form-field-appearance-legacy .mat-form-field-underline{
-    height: 0px;
-    display: none;
-}
-.matFormFieldMultiSelect {
-    width: 240px;
-    padding: 0 !important;
-    margin-top: -21px;
-    border-radius: 0px;
-    height: 0px;
-}
+
 .sku-categeory .input-group .input-group-append .fa.fa-search {
     color: #7C7C7C;
     font-size: $font-size-12;
@@ -180,6 +162,15 @@
 
 .sku-categeory {
     padding-top: 17px;
+}
+.matFormFieldMultiSelect{
+    width : 240px;
+    margin-top: -21px;
+    
+}
+
+.matFormFieldMultiSelect.mat-form-field-appearance-legacy .mat-form-field-underline{
+    display: none;
 }
 
 .select-item-box {
@@ -241,10 +232,9 @@
     margin-top:15px;
     background-color: #eee;
   }
-  .checkmarkInCatalogue{
-      margin-top:0px !important;
+  .checkCataloguePage{
+      margin-top: 0px;
   }
-  
   /* On mouse-over, add a grey background color */
   .container:hover input ~ .checkmark {
     background-color: #ccc;
@@ -266,9 +256,7 @@
   .container input:checked ~ .checkmark:after {
     display: block;
   }
-  .addRemainingPriceCheckBox{
-      float: left;
-  }
+  
   /* Style the checkmark/indicator */
   .container .checkmark:after {
     left: 9px;
@@ -314,14 +302,21 @@
         float: $right;
         border-color: $error;
         color: $error;
-        font-size: 12px;
-
     }
 
 
 }
 
+.inputFieldOfPrice{
+    width : 50%;
 
+    .mat-form-field-flex {
+        display: inline-flex;
+        align-items: baseline;
+        box-sizing: border-box;
+        width: 265px;
+    }
+}
 .leads-srch {
     display: flex;
     position: relative;
@@ -340,6 +335,9 @@
     margin-right: 5px;
 }
 
+.form-control.catalogue-list-input-disabled:disabled{
+    background: #ffffff;
+}
 .leads-srch a .filter-no {
     position: absolute;
     top: 18px;
@@ -420,19 +418,10 @@
         height: 29.91px;
         line-height: 29.91px;
         font-size: $font-size-12;
-        padding-top: 3px !important;
-        padding-left: 5px !important;
     }
 
 }
 
-.select-box-left .quote-smt{
-    max-width: 160px;
-    height: 29.91px;
-    line-height: 29.91px;
-    font-size: $font-size-12;
-    padding-left: 5px !important;
-}
 .switch {
     position: $position-relative;
     width: 34px;

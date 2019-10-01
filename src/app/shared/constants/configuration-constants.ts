@@ -49,6 +49,8 @@ export const API = {
     GET_CATALOGUE_LIST : `product/api/catalogue/list`,
     GET_UNIQUE_CATALOGUE : catalogueItemId => `product/api/catalogueitem/${catalogueItemId}/obj`,
     TOGGLE_STOCK_STATUS : (catalogueId,status) => `product/api/catalogueitem/${catalogueId}/stockstatus/${status}/submit`,
+    PRICING_FOR_ALL_WAREHOUSE : `product/api/catalogueitem/warehouse/price/submit`,
+    GET_BANK_NAME : `account/api/bank/account/name`,
     //USER PROFILE API's
     GET_PERCENTAGE: 'account/api/seller/profile/percentage',
     PROFILE_VERIFY: (email) => `account/api/seller/profile/verify?verifiyEmail=${email}`,

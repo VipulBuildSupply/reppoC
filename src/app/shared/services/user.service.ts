@@ -226,4 +226,12 @@ export class UserService {
     toggleStockStatus(catalogueId, status){
         return this.dataService.sendPutRequest(API.TOGGLE_STOCK_STATUS(catalogueId,status),null).then((res: any) => res);
     }
+
+    sendPricingToAllWarehouse(arrayData){
+        return this.dataService.sendPutRequest(API.PRICING_FOR_ALL_WAREHOUSE,arrayData).then((res: any) => res);
+    }
+
+    getBankName(){
+        return this.dataService.getRequest(API.GET_BANK_NAME).then((res: any) => res);
+    }
 }
