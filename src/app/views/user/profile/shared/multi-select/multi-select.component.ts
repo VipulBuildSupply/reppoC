@@ -35,6 +35,7 @@ export class MultiSelectChipComponent implements OnInit {
     @Input('placeholder') placeholder: string;
     @Input('isErr') isErr: boolean;
     @Output('onDataChange') onDataChange = new EventEmitter<item[]>();
+    @Input('checkDisabled') isDisable: boolean;
 
     constructor() {}
 

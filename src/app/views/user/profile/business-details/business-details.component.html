@@ -13,7 +13,7 @@
                 <mat-form-field>
                     <mat-label>Business Type</mat-label>
                     <mat-select formControlName="sellerBusinessType">
-                        <mat-option *ngFor="let business of businessType" [value]="businessDetails.sellerBusinessType ? businessDetails.sellerBusinessType : business.displayName">
+                        <mat-option *ngFor="let business of businessType" [value]="business.code">
                             {{business.displayName}}
                         </mat-option>
                     </mat-select>
@@ -28,9 +28,9 @@
             </div>
 
             <div class="col-md-6">
-                <mat-label>Deals In</mat-label>
+                <!-- <mat-label>Deals In</mat-label> -->
                 <app-multi-select *ngIf="categoriesList && categoriesList.length" [class.err]="categoryErr" [isErr]="categoryErr"
-                    placeholder="Deals In" [listData]="categoriesList" class="bs-multiselect"
+                    placeholder="Deals In" [listData]="categoriesList" class="bs-multiselect" [checkDisabled]="!_isEdit"
                     (onDataChange)="updateCategory($event)">
                 </app-multi-select>
             </div>
@@ -38,8 +38,8 @@
             <div class="col-md-6">
                 <mat-form-field>
                     <mat-label>Annual Turnover (₹)</mat-label>
-                    <mat-select formControlName="minAnnualTurnover">
-                        <mat-option *ngFor="let turnover of turnovers" [value]="turnover.displayName">
+                    <mat-select formControlName="minAnnualTurnover" name="turnover">
+                        <mat-option *ngFor="let turnover of turnovers" [value]="turnover.code">
                             {{turnover.displayName}}
                         </mat-option>
                     </mat-select>
@@ -123,17 +123,25 @@
                     <div class="browser-method">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel">
-                            <input type="file" name="file" #file
+                            <input type="file" name="addressProofFile" #file
                                 accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
                                 (change)="onFileSelected($event)" style="display: none;" required=""
                                 class="inputLableUp">
                             <span>UPLOAD ADDRESS PROOF</span>
                         </label>
-                        <a href="#" *ngIf="!fileName">
+                        <a href="#" *ngIf="!addressProofFiles">
                             <img src="assets/img/svg-img/ic_information.svg" alt="">
                         </a>
-                        <span style="font-size: 12px;color:#716767;">{{ fileName }}</span>
+                        <span style="font-size: 12px;color:#716767;">{{ addressProofFiles }}</span>
                     </div>
+
+                    <div *ngIf="businessDetails.address.addressProofFile" class="pdf">
+                        <a *ngIf="_isEdit" class="ml-0" (click)="deleteAddressProof()">x</a>
+                        <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.address.addressProofFile)">Download</a>
+                        <img src="assets/img/svg-img/ic_download.svg" alt="">
+                        <span>Address Proof</span>
+                    </div>
+
                     <label class="form-control-placeholder" for="buisness">Address Proof</label>
                 </div>
             </div>
@@ -162,7 +170,7 @@
 
             <div class="col-md-6">
                 <div class="form-group lableup form-control">
-                    <div class="browser-method" *ngIf="(businessDetails.panPhoto && _isEdit) || businessDetails.panPhoto == ''">
+                    <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel">
                             <input type="file" name="panphoto" 
@@ -177,7 +185,7 @@
                     </div>
 
                     <div *ngIf="businessDetails.panPhoto" class="pdf">
-                        <a *ngIf="_isEdit" class="ml-0" (click)="this.businessDetails.panPhoto = ''">x</a>
+                        <a *ngIf="_isEdit" class="ml-0" (click)="delete()">x</a>
                         <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.panPhoto)">Download</a>
                         <img src="assets/img/svg-img/ic_download.svg" alt="">
                         <span>Pan Proof</span>

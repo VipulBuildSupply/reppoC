@@ -39,7 +39,7 @@
     <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
         <div class="requestbox">
             <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
-            <div class="request-bttn">
+            <div class="request-bttn" *ngIf="profileVerfyStatus">
                 <a (click)="requestToJoin()" class="orangeBttn">Request</a>
             </div>
         </div>

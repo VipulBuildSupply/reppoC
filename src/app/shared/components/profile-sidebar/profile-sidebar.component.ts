@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { UserModel } from '../../models/user.model';
@@ -9,13 +9,14 @@ import { ProfileVerifyComponent } from '../../dialogs/profile-verify/profile-ver
   selector: 'app-profile-sidebar',
   templateUrl: './profile-sidebar.component.html'
 })
-export class ProfileSidebarComponent implements OnInit {
+export class ProfileSidebarComponent implements OnInit, OnDestroy {
   
   profileSideBarDropDown;
   private userInfoUpdated: Subscription;
   user: UserModel;
   percentage: any;
-  // onUpdatePercentage: Subscription;
+  subscriptions: Subscription[] = [];
+  profileVerfyStatus: boolean;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -62,8 +63,20 @@ export class ProfileSidebarComponent implements OnInit {
         // console.log(this.percentage);
       });
     // }
+
+    this.startSubscriptions();
   }
 
+
+  startSubscriptions(){
+      this.subscriptions.push(
+          this.userService.enableProfile$.subscribe(value => {
+              if(value){
+                this.profileVerfyStatus = value;
+              }
+          })
+      )
+  }
   /**
    * function to display popup after click on "Request" button in profile sidebar
    */
@@ -80,5 +93,11 @@ export class ProfileSidebarComponent implements OnInit {
    */
   getUserAPI() {
     this.userService.getUserData();
+  }
+
+  ngOnDestroy(){
+    this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe();
+    });
   }
 }

@@ -18,7 +18,7 @@ export class Address {
     userType?: string;
     companyId?:any;
     users?: AddressUser[];
-    addressProof ?: string;
+    addressProof?: string;
     cityId?: number;
     stateId?: number;
 
@@ -32,7 +32,8 @@ export class Address {
         city,
         stateId = null,
         cityId = null,
-        addressProof = '',
+        userType = 'SELLER',
+        addressProofFile = '',
     }){
         this.addressCategory = addressCategory;
         this.addressLine1 = addressLine1;
@@ -43,7 +44,8 @@ export class Address {
         this.city = new City(city || {});
         this.stateId = stateId;
         this.cityId = cityId;
-        this.addressProof = addressProof;
+        this.userType = userType;
+        this.addressProofFile = addressProofFile;
     }
 }
 
@@ -104,64 +106,46 @@ export class BankDetails{
     companyId?:any;
 }
 
-// class BusinessAddress{
-//     addressLine1: string;
-//     addressLine2: string;
-//     phoneNo: string;
-//     pincode: string;
-//     city?: City;
-//     addressProofFile?: string;
-//     addressId?: number;
-//     state?: State;
-
-//     constructor({
-//         addressLine1 = '',
-//         addressLine2 = '',
-//         phoneNo = '',
-//         pincode = '',
-//         state,
-//         city,
-//         addressProofFile = '',
-//         addressId = 0
-//     }){
-//         this.addressLine1 = addressLine1;
-//         this.addressLine2 = addressLine2;
-//         this.phoneNo = phoneNo;
-//         this.pincode = pincode;
-//         this.state = new State(state || {});
-//         this.city = new City(city || {});
-//         this.addressProofFile = addressProofFile;
-//         this.addressId = addressId;
-//     }
-// }
-
 export class BusinessDetails{
     address?: Address;
     companyName?: string;
     gstin: string;
-    minAnnualTurnover?: string;
+    minAnnualTurnover?: AnnualTurnover;
     panNo?: string;
     panPhoto?: string;
-    sellerBusinessType: string;
+    sellerBusinessType?: BusinessType;
     categoryIds: catalogueCategories;
+    addressProof: string;
 
     constructor({
         address,
-        sellerBusinessType = '',
-        minAnnualTurnover = '',
+        sellerBusinessType,
+        minAnnualTurnover,
         companyName = '',
         gstin = '',
         panNo = '',
         panPhoto = '',
-        catagoryIds
+        catagoryIds,
+        addressProof = ''
     }){
         this.address = new Address(address || {});
-        this.sellerBusinessType = sellerBusinessType;
-        this.minAnnualTurnover = minAnnualTurnover;
+        this.sellerBusinessType = sellerBusinessType || {};
+        this.minAnnualTurnover = minAnnualTurnover || {};
         this.companyName = companyName;
         this.gstin = gstin;
         this.panNo = panNo;
         this.panPhoto = panPhoto;
         this.categoryIds = new catalogueCategories;
+        this.addressProof = addressProof;
     }
+}
+
+export class AnnualTurnover {
+    code?: string;
+    displayName?: string;
+}
+
+export class BusinessType{
+    code?: string;
+    displayName?: string;
 }

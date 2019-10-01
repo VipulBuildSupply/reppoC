@@ -23,16 +23,14 @@ export class BusinessDetailsComponent implements OnInit {
     categoriesList: Category[];
     selectedIds: any[] = [];
     categoryErr: boolean = false;
-    isEdit: boolean;
     businessDetailsForm: FormGroup;
     businessDetails: BusinessDetails;
     cities;
     states;
-    fileName: any;
+    addressProofFiles: any;
     panPhotoImage: any;
     data: any;
-    _isEdit: boolean = true;
-    // subscriptions: Subscription[] = [];
+    _isEdit: boolean = false;
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -41,21 +39,10 @@ export class BusinessDetailsComponent implements OnInit {
         private _activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
-        /**
-         * @description get turnovers data
-         */
+
         this.businessDetails = new BusinessDetails(this._activatedRoute.snapshot.data.business);
-
-        this._userService.annualTurnovers().then((res: any) => {
-            this.turnovers = res;
-        }, (err: any) => { });
-
-        /**
-         * get business type
-         */
-        this._userService.businessType().then((res: any) => {
-            this.businessType = res;
-        });
+        this.getAnnualTurnover();
+        this.getBusinessType();
 
         /**
          * @description get selected category lists
@@ -65,20 +52,40 @@ export class BusinessDetailsComponent implements OnInit {
             this.getCategoriesList(this.categoryNames);
         });
         
-
         if (this._router.url != '/user/profile/business-details/edit') {
             this._userService.isEdit = false;
+            // this.isEdit  = false;
             this.formInit();
         }
         
-        this._isEdit = this._userService.isEdit;        
+        this._isEdit = this._userService.isEdit;
     
         if (this._router.url === '/user/profile/business-details/edit' && !this._isEdit) {
             this._router.navigate(['/user/profile/business-details']);
         }
+
         this.formInit();
+
+        /**
+         * @description to check if business details form submitted or not 
+         * (by checking the condition - gstin exists or not)
+         */
+        if(this.businessDetails.gstin){
+            this._userService.enableProfile$.next(true);
+        }
     }
 
+    getAnnualTurnover(){
+        this._userService.annualTurnovers().then((res: any) => {
+            this.turnovers = res;
+        }, (err: any) => { });
+    }
+
+    getBusinessType(){
+        this._userService.businessType().then((res: any) => {
+            this.businessType = res;
+        });
+    }
 
     /**
      * @description function to generate form controls and set values in it
@@ -88,7 +95,7 @@ export class BusinessDetailsComponent implements OnInit {
         this.businessDetailsForm = this._formBuilder.group({
 
             sellerBusinessType: [{
-                value: this.businessDetails.sellerBusinessType,
+                value: this.businessDetails.sellerBusinessType ? this.businessDetails.sellerBusinessType.code : '',
                 disabled: !(this._isEdit)
             },{
                 validators: [ Validators.required ]
@@ -102,7 +109,7 @@ export class BusinessDetailsComponent implements OnInit {
             }],
 
             minAnnualTurnover: [{
-                value: this.businessDetails.minAnnualTurnover,
+                value: this.businessDetails.minAnnualTurnover ? this.businessDetails.minAnnualTurnover.code : '',
                 disabled: !(this._isEdit)
             },{
                 validators: [ Validators.required ]
@@ -120,20 +127,13 @@ export class BusinessDetailsComponent implements OnInit {
                 disabled: !(this._isEdit)
             }],
 
-            cityId: [{
-                value: this.businessDetails.address.city ? this.businessDetails.address.city.id : null,
-            }, {
-                validators: [ Validators.required ]
-            }],
+            cityId: [this.businessDetails.address.city ? this.businessDetails.address.city.id : null,
+                Validators.required
+            ],
 
-            stateId: [{
-                value: this.businessDetails.address.state ? this.businessDetails.address.state.id : null,
-            },{
-                validators: [ Validators.required ]
-            }],
-
-            // city:[''],
-            // state:[''],
+            stateId: [this.businessDetails.address.state ? this.businessDetails.address.state.id : null,
+                Validators.required
+            ],
 
             phoneNo: [{
                 value: this.businessDetails.address ? this.businessDetails.address.phoneNo : '',
@@ -169,11 +169,13 @@ export class BusinessDetailsComponent implements OnInit {
                 ]
             }],
 
+            // addressProof: [''],
+
             addressProof: [
-                this.businessDetails.address ? this.businessDetails.address.addressProof : '',
+                this.businessDetails.addressProof ? this.businessDetails.addressProof : '',
             ],
 
-            panPhoto: [this.businessDetails.panPhoto],
+            panPhoto: [this.businessDetails.panPhoto ? this.businessDetails.panPhoto : ''],
             
             panNo: [{
                 value: this.businessDetails.panNo,
@@ -185,7 +187,7 @@ export class BusinessDetailsComponent implements OnInit {
                 ]
             }],
 
-            catalogueCategories: [this.businessDetails.categoryIds]
+            categoryIds: [this.businessDetails.categoryIds]
         });        
     }
 
@@ -193,19 +195,6 @@ export class BusinessDetailsComponent implements OnInit {
         this._userService.isEdit = true;
         this._router.navigate(['/user/profile/business-details/edit']);
     }
-
-    /*startSubscriptions() {
-        this.subscriptions.push(
-            this._activatedRoute.url.subscribe(url => {
-            }),
-
-            this._activatedRoute.params.subscribe(prm => {
-                if (prm.edit) {
-                    this._isEdit = prm.edit;
-                }
-            })
-        );
-    }*/
 
     /**
      * @description function to return all categories list and also selected categories list
@@ -221,14 +210,14 @@ export class BusinessDetailsComponent implements OnInit {
                     }
                 });
             }
-            this.businessDetailsForm.get('catalogueCategories').setValue(this.selectedIds);
+            this.businessDetailsForm.get('categoryIds').setValue(this.selectedIds);
             return this.categoriesList;
         });
     }
 
     updateMuliselect(name, items) {
         const categoryIds = items.map(cat => cat.id);
-        this.businessDetailsForm.get('catalogueCategories').setValue(categoryIds);
+        this.businessDetailsForm.get('categoryIds').setValue(categoryIds);
     }
 
     /**
@@ -247,12 +236,8 @@ export class BusinessDetailsComponent implements OnInit {
                 if(res.data) {
                     this.businessDetailsForm.get('cityId').setValue(res.data.cityId);
                     this.businessDetailsForm.get('stateId').setValue(res.data.stateId);
-                    // this.businessDetailsForm.get('city').setValue({name:res.data.city, id:res.data.cityId});
-                    // this.businessDetailsForm.get('state').setValue({name:res.data.state, id:res.data.stateId});
                     this.businessDetails.address.state.name = res.data.state;
                     this.businessDetails.address.city.name = res.data.city;
-                    this.businessDetails.address.stateId = res.data.stateId;
-                    this.businessDetails.address.cityId = res.data.cityId;
                 }
             })
         }
@@ -301,7 +286,7 @@ export class BusinessDetailsComponent implements OnInit {
      */
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-            this.fileName = event.target.files[0].name;
+            this.addressProofFiles = event.target.files[0].name;
             const file = event.target.files[0];
             this.businessDetailsForm.get('addressProof').setValue(file);
         }
@@ -315,20 +300,25 @@ export class BusinessDetailsComponent implements OnInit {
         }
     }
 
+    delete(){
+        this.businessDetails.panPhoto = '';
+        this.businessDetailsForm.value.panPhoto = '';
+    }
+
+    deleteAddressProof(){
+        
+    }
+
     /**
      * @description function to submit busisness details form
      */
     submit(e) {
         e.preventDefault();
-        if (this.businessDetailsForm.valid) {
-
-            const address = new Address(this.businessDetailsForm.value as any);
-            // const data = Object.assign(this.businessDetailsForm.value, defaults);
-            
+        if (this.businessDetailsForm.valid) {            
+            const address = new Address(this.businessDetailsForm.value as any);            
             const data = this.businessDetailsForm.value;
             delete data.addressLine1;
             delete data.addressLine2;
-            delete data.addressProof;
             delete data.cityId;
             delete data.stateId;
             delete data.phoneNo;
@@ -337,29 +327,22 @@ export class BusinessDetailsComponent implements OnInit {
             delete data.userType;
             delete address.city;
             delete address.state;
-
             data.address = address;
-
-            this.submitEditAddress(data);
-
-            console.log(data);
+            this.submitBusinessAddress(data);
         }
         else {
             FormHelper.validateAllFormFields(this.businessDetailsForm);
         }
     }
 
-    /**
-     * @description function to edit business details
-     */
-    submitEditAddress(data) {
-        
-        this._userService.addBusinessDetails(data).then(res => {
-            this._userService.isEdit = false;
-            this._isEdit = false;
-            // if (res.status == 1001) {
-                // this.goToBusinessDetailsPage();
-            // }
+
+    submitBusinessAddress(data){
+        this._userService.updateBusinessDetails(data).then(res => {
+            if (res.status == 1001) {
+
+                this.goToBusinessDetailsPage();
+                
+            }
         });
     }
 

@@ -24,6 +24,7 @@ export class UserService {
     onProfileSwitch$ = new Subject();
     updatePercentage$ = new Subject();
     private _user: UserModel;
+    enableProfile$ = new Subject<boolean>();
 
     get user(): UserModel {
         return localStorage.getItem('user') ? new UserModel(JSON.parse(localStorage.getItem('user'))) : null;
@@ -198,34 +199,49 @@ export class UserService {
     }
 
 
-    addBusinessDetails(data){
-        
-        localStorage.setItem('business', JSON.stringify(data));
+    updateBusinessDetails(data){
         const fData = new FormData();
-        // const aData = new FormData();
         Object.keys(data).map(key => {
 
-            if(key == 'address'){
-                data = data.address;
-                Object.keys(data).map(key => {
-                    if(data[key]){
-                        // key = 'address'.concat(key);
-                        fData.append('address.'.concat(key), data[ key ]);
+            //if(edit == true){
+                if(key == 'address'){
+                    data = data.address;
+                    Object.keys(data).map(key => {
+                        if(data[key]){
+                            fData.append('address.'.concat(key), data[ key ]);
+                        }
+                    })
+                }else if(key == "panPhoto"){
+                    if(data[key].name){
+                        fData.append(key, data[ key ]);
                     }
-                })
-            }else if(data[key] == ""){
-                fData.delete(key);
-            }else{
-                fData.append(key, data[ key ]);
-            }
+                }else{
+                    fData.append(key, data[ key ]);
+                }
+            
+            /*}else{
+                if(key == 'address'){
+                    data = data.address;
+                    Object.keys(data).map(key => {
+                        if(data[key]){
+                            fData.append('address.'.concat(key), data[ key ]);
+                        }
+                    })
+                }else if(data[key] == ""){
+                    fData.delete(key);
+                }else{
+                    fData.append(key, data[ key ]);
+                }
+            } */           
         });
 
-        return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => {
-            return res.data;
-        });
+        return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => res);
     }
 
     getBusinessDetails(){
-        return this.dataService.getRequest(API.BUSINESS_DETAILS).then(res => res.data);
+        return this.dataService.getRequest(API.BUSINESS_DETAILS).then(res => {
+            
+            return res.data;
+        });
     }
 }
