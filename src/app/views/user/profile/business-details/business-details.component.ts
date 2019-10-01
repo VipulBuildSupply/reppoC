@@ -74,18 +74,24 @@ export class BusinessDetailsComponent implements OnInit {
             this._userService.enableProfile$.next(true);
         }
 
-        
+
         this._userService.getUserData().then(res => {
             this.userVerified = res.sellerPersonalProfile.verifyStatus;
         });
     }
 
+    /**
+     * @description Function to get all annual turnover data
+     */
     getAnnualTurnover(){
         this._userService.annualTurnovers().then((res: any) => {
             this.turnovers = res;
         }, (err: any) => { });
     }
 
+    /**
+     * @description function to get all seller business types data
+     */
     getBusinessType(){
         this._userService.businessType().then((res: any) => {
             this.businessType = res;
@@ -174,8 +180,6 @@ export class BusinessDetailsComponent implements OnInit {
                 ]
             }],
 
-            // addressProof: [''],
-
             addressProof: [
                 this.businessDetails.addressProof ? this.businessDetails.addressProof : '',
             ],
@@ -196,6 +200,9 @@ export class BusinessDetailsComponent implements OnInit {
         });        
     }
 
+    /**
+     * @description function is used to edit business details
+     */
     edit() {
         this._userService.isEdit = true;
         this._router.navigate(['/user/profile/business-details/edit']);
@@ -219,6 +226,10 @@ export class BusinessDetailsComponent implements OnInit {
             return this.categoriesList;
         });
     }
+
+    /**
+     * @description function to update multiple categories and set these id's
+     */
 
     updateMuliselect(name, items) {
         const categoryIds = items.map(cat => cat.id);
@@ -264,7 +275,7 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function to validate gstin
+     * @description function to validate gstin number
      */
     validateGstin(e) {
         if (e.target.value) {
@@ -273,7 +284,7 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function to validate gstin number if we paste gstin number
+     * @description function to validate gstin number if someone paste gstin number rather than type
      */
     onPaste(event: ClipboardEvent) {
         let clipboardData = event.clipboardData;
@@ -287,7 +298,7 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function work for file upolading process
+     * @description function works for address proof file upolad
      */
     onFileSelected(event) {
         if (event.target.files.length > 0) {
@@ -297,6 +308,9 @@ export class BusinessDetailsComponent implements OnInit {
         }
     }
 
+    /**
+     * @description function works for pan proof file upload
+     */
     onPhotoSelected(event) {
         if (event.target.files.length > 0) {
             this.panPhotoImage = event.target.files[0].name;
@@ -305,11 +319,18 @@ export class BusinessDetailsComponent implements OnInit {
         }
     }
 
+    /**
+     * @description function is used to remove existed address proof document
+     */
     delete(){
         this.businessDetails.panPhoto = '';
         this.businessDetailsForm.value.panPhoto = '';
     }
 
+
+    /**
+     * @description function is used to delete existed pan proof photo from api
+     */
     deleteAddressProof(id: number): void{
         this._userService.deleteAddressProof(id).then(res => {
             this.businessDetails.address.addressProofFile = '';            
@@ -317,7 +338,7 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function to submit busisness details form
+     * @description function to submit business details form
      */
     submit(e) {
         e.preventDefault();
@@ -343,16 +364,20 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
 
+    /**
+     * @description function to submit and update business details data
+     */
     submitBusinessAddress(data){
         this._userService.updateBusinessDetails(data).then(res => {
             if (res.status == 1001) {
-
                 this.goToBusinessDetailsPage();
-                
             }
         });
     }
 
+    /**
+     * @description function to download attached documents (address proof as well as pan photo)
+     */
     downloadpanProof(proofImage){
         var win = window.open(proofImage, '_blank');
         win.focus();
