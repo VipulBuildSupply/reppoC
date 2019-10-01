@@ -31,6 +31,7 @@ export class BusinessDetailsComponent implements OnInit {
     panPhotoImage: any;
     data: any;
     _isEdit: boolean = false;
+    userVerified: any;
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -73,6 +74,10 @@ export class BusinessDetailsComponent implements OnInit {
         if(this.businessDetails.gstin){
             this._userService.enableProfile$.next(true);
         }
+
+        this._userService.getUserData().then(res => {
+            this.userVerified = res.sellerPersonalProfile.verifyStatus;
+        });
     }
 
     getAnnualTurnover(){
@@ -305,8 +310,12 @@ export class BusinessDetailsComponent implements OnInit {
         this.businessDetailsForm.value.panPhoto = '';
     }
 
-    deleteAddressProof(){
+    deleteAddressProof(id: number): void{
+
+        console.log(id);
         
+
+        // this._userService.deleteAddressProof(id).then(res => console.log(this.businessDetails));
     }
 
     /**

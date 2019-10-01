@@ -244,4 +244,8 @@ export class UserService {
             return res.data;
         });
     }
+
+    deleteAddressProof(addressId: number){
+        return this.dataService.sendDeleteRequest(API.DELETE_ADDRESS_PROOF(addressId), {}).then(res => res);
+    }
 }
