@@ -13,7 +13,7 @@
 
             <ng-container *ngIf="user.sellerPersonalProfile.verifyStatusCode != 'seller.sts.verify.verified'; else verifiedEmailId">
                 <div class="profile-status">
-                    <span>Profile-status</span>
+                    <span>Profile Status</span>
                     <span class="text-uppercase unverfied" *ngIf="user.sellerPersonalProfile.verifyStatus">{{user.sellerPersonalProfile.verifyStatus}}</span>
                     <div class="progress">
                         <div class="progress-bar" 
@@ -23,6 +23,7 @@
                             aria-valuemax="100" 
                             [ngStyle]="{'width': percentage + '%'}">
                             <span class="progress-per green">{{ percentage }}%</span>
+                            <!-- <span class="progress-per green" *ngIf="existPercentage">{{ existPercentage }}%</span> -->
                         </div>
                     </div>
                 </div>
@@ -37,9 +38,9 @@
         </div>
     </div>
     <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
-        <div class="requestbox">
+        <div class="requestbox" *ngIf="profileVerfyStatus">
             <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
-            <div class="request-bttn" *ngIf="profileVerfyStatus">
+            <div class="request-bttn">
                 <a (click)="requestToJoin()" class="orangeBttn">Request</a>
             </div>
         </div>

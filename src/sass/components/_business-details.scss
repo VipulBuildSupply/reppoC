@@ -18,3 +18,8 @@
         cursor: pointer;
     }
 }
+
+.remove_pointer{
+    pointer-events: none;
+    opacity: 0.6;
+}

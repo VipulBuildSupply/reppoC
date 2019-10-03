@@ -17,6 +17,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
   percentage: any;
   subscriptions: Subscription[] = [];
   profileVerfyStatus: boolean;
+  // existPercentage: any;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -57,12 +58,9 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
     /**
      * @description api to get profile percentage value
      */
-    // getProfilePercentage(){
-      this.userService.getUserPercentage().then(res => {
+    this.userService.getUserPercentage().then(res => {
         this.percentage = res;
-        // console.log(this.percentage);
-      });
-    // }
+    });
 
     this.startSubscriptions();
   }
@@ -74,18 +72,28 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
               if(value){
                 this.profileVerfyStatus = value;
               }
-          })
+          }),
+
+          /*this.userService.updatePercentage$.subscribe(value => {
+            this.existPercentage = value;
+          })*/
       )
   }
   /**
    * function to display popup after click on "Request" button in profile sidebar
    */
   requestToJoin(){
-    const d = this.dialog.open(ProfileVerifyComponent, {
-        data: { userinfo:  this.user.sellerPersonalProfile },
-        disableClose: true,
-        panelClass: 'profile-verification-popup'
-    });
+    if(this.user.sellerPersonalProfile.emailVerified != true){
+        const d = this.dialog.open(ProfileVerifyComponent, {
+            data: { userinfo:  this.user.sellerPersonalProfile },
+            disableClose: true,
+            panelClass: 'profile-verification-popup'
+        });
+    }else{
+      this.userService.profileVerify(this.user.sellerPersonalProfile, this.user.sellerPersonalProfile.email).then(res => {
+          this.userService.setUser(res.data);
+      });
+    }    
   }
 
   /**

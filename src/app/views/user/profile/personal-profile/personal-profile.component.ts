@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { FieldRegExConst } from 'src/app/shared/constants';
+import { NotificationService } from 'src/app/shared/services/notification-service';
 
 @Component({
     selector: 'app-personal-profile',
@@ -24,7 +25,8 @@ export class PersonalProfileComponent implements OnInit {
     constructor(private userService: UserService,
         private _formBuilder: FormBuilder,
         private activatedRout: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private _notify: NotificationService
     ) { }
 
     ngOnInit(): void {
@@ -160,9 +162,14 @@ export class PersonalProfileComponent implements OnInit {
     }
 
     verifyEmail() {
-        this.userService.emailVerify(this.user).then(res => {
-            console.log(res);
-        });
+        if(this.user.sellerPersonalProfile.email){
+            this.userService.emailVerify(this.user).then(res => {
+                // console.log(res);
+                this._notify.snack('a verification mail sent to your email address');
+            });
+        }else{
+            this._notify.snack('Please enter a valid email address');
+        }
     }
 
 }

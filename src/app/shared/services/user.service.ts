@@ -3,10 +3,8 @@ import { UserModel, SellerPersonalProfile } from '../models/user.model';
 import { DataService } from './data.service';
 import { Subject } from 'rxjs';
 import { TokenService } from './token.service';
-import { Utils } from '../helpers/utils';
 import { Address, BankDetails } from '../models/address';
 import { API } from '../constants';
-import { identifierModuleUrl } from '@angular/compiler';
 
 @Injectable()
 export class UserService {
