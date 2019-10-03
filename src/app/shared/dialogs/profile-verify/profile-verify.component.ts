@@ -47,7 +47,6 @@ export class ProfileVerifyComponent implements OnInit {
      */
     submit(){
       if(this.profileVerifyForm.valid){
-
           if(this.email == undefined || this.email == null || this.email == ''){
             this.email = this.profileVerifyForm.controls.emailAddress.value;
           }

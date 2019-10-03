@@ -27,6 +27,7 @@ export class AddBankDetailsComponent implements OnInit {
     submitBtn = false;
     isEdit: boolean;
     fileName: any;
+    // percentage: number;
 
     ngOnInit(): void {
 
@@ -81,7 +82,6 @@ export class AddBankDetailsComponent implements OnInit {
             this.bankDetailsForm.get('bankName').setValue(this.bankDetails.bank.code);
             console.log(this.bankDetails.bank.code);
         }
-
     }
 
     onFileSelected(event) {
@@ -123,14 +123,19 @@ export class AddBankDetailsComponent implements OnInit {
 
                 this._userService.editBankDetails(this.bankDetails.id, data).then(res => {
                     if (res.success) {
+                        // this.getUpdatedProfilePer();
+                        // this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
+                        
                         //this._router.navigate([ `/user/address/${this.bankDetails.addressCategory.toLowerCase()}` ])
                         this.goToBankDetailsPage();
+                        
                     }
                 });
 
             } else {
                 this._userService.addBankDetails(data).then(res => {
                     if (res.success) {
+                        // this.getUpdatedProfilePer();
                         //this._router.navigate([ `/user/address/${this.bankDetails.addressCategory.toLowerCase()}` ])
                         this.goToBankDetailsPage();
                     }
@@ -166,4 +171,10 @@ export class AddBankDetailsComponent implements OnInit {
        // this.bankDetailsForm.get('bankName').setValue(this.bankNameCode);
         this.bankDetailsForm.get('ifscCode').setValue(this.ifscPrefix);
     }
+
+
+    /*getUpdatedProfilePer(){
+        this.percentage = this._userService.getUserPercentage().then(res => res);
+        this._userService.updatePercentage$.next(this.percentage);
+    }*/
 }
