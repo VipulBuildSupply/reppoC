@@ -1,7 +1,7 @@
 <form *ngIf="businessDetailsForm && businessDetails" [formGroup]="businessDetailsForm">
         <!-- (ngSubmit)="submit($event)" -->
 
-    <a href="javascript:void(0)" class="edit" (click)="edit()" *ngIf="!_isEdit" [class.display-none]="userVerified == 'Verified'">
+    <a href="javascript:void(0)" class="edit" (click)="edit()" *ngIf="!_isEdit" [class.d-none]="userVerified == 'Verified'">
         <img src="assets/img/edit-icon.png" alt="">Edit
     </a>
 

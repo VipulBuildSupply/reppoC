@@ -87,7 +87,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, CatalogueGuardService],
     // component: ProductsComponent,
     //resolve: { products: ListResolver },
     children: [
