@@ -90,15 +90,17 @@ export class SigninSignupService {
 
     signin(data) {
         data.userType = ConfigurationConstants.USER_TYPE;
-
         return this.dataService.sendPostRequest(API.SIGNIN, data).then(res => {
             if (res.status == 1001) {
-                return this._localLogin(res.data.jwtToken).then(_ => {
-                    this.notify.snack('Logged In Successfully');
+                if(res.data.loggedInUserType == 'BUYER'){
                     return res;
-                });
-               
-            } else {
+                }else{
+                    return this._localLogin(res.data.jwtToken).then(_ => {
+                        this.notify.snack('Logged In Successfully');
+                        return res;
+                    });
+                }
+            }else {
                 throw res;
             }
         });

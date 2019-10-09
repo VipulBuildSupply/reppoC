@@ -6,6 +6,8 @@ import { FieldRegExConst } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-profile/switch-user-profile.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,8 @@ export class LoginComponent implements OnInit {
         private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _categoryService: CategoryService) { 
+        private _categoryService: CategoryService,
+        private _dialog: MatDialog) { 
     }
 
     ngOnInit(): void {
@@ -66,8 +69,11 @@ export class LoginComponent implements OnInit {
             });
 
             this.signinService.signin(data).then(res => {
-                //this._categoryService.getCatalogueCat().then(res => console.log(res));              
-                this._router.navigate(['/user/profile/personal'])
+                if(res.data.loggedInUserType == 'BUYER'){
+                    this.switchUserProfile(res.data);
+                }else{
+                    this._router.navigate(['/user/profile/personal']);
+                }
             }, err => {
                 this.errorMsg = err.message;
             });
@@ -89,6 +95,14 @@ export class LoginComponent implements OnInit {
         this.signinService.isLoginWithOtp = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
             this._router.navigate(['auth/otp-verify'])
+        });
+    }
+
+    switchUserProfile(userProfileData){
+        const d = this._dialog.open(SwitchUserProfileComponent, {
+            data: { userData: userProfileData },
+            disableClose: true,
+            panelClass: 'profile-verification-popup'
         });
     }
 }

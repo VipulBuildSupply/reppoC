@@ -54,7 +54,7 @@ export class OpenTileComponent implements OnInit {
         allCats.itemList.push(item.id);
       }
       return allCats;
-    }, { itemList: [] });    
+    }, { itemList: [] });
 
     /**
      * @description to add selected categories in api and localstorage
