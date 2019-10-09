@@ -172,7 +172,7 @@
                 <div class="form-group lableup form-control">
                     <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
-                        <label class="myLabel">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
                             <input type="file" name="panphoto" 
                                 accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
                                 (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
