@@ -56,6 +56,11 @@ export class UserService {
     getUserData() {
         return this.dataService.getRequest(API.PROFILE).then(res => {
             return this.setUser(res.data);
+            /*if(res.data.seller){
+                return this.setUser(res.data);
+            }else{
+                return this.isBuyer('SELLER', res.data);
+            }*/
         })
     }
    
@@ -272,5 +277,11 @@ export class UserService {
 
     deleteAddressProof(addressId: number){
         return this.dataService.sendDeleteRequest(API.DELETE_ADDRESS_PROOF(addressId), {}).then(res => res);
+    }
+
+    isBuyer(data){
+        return this.dataService.sendPostRequest(API.IS_BUYER_USER, data).then(res => {
+            return this.token.saveAccessToken(res.data.jwtToken);
+        });
     }
 }

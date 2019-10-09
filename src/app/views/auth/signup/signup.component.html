@@ -28,7 +28,7 @@
         <p *ngIf="signupForm.controls['password'].hasError('required')" class="error-validation mb-4">
             Password is required</p>
         <p *ngIf="signupForm.controls['password'].hasError('pattern')" class="error-validation mb-4">
-            Password is invalid</p>
+            Password should have minimum 8 characters with uppercase, lowercase, number and a special character.</p>
     </div>
 
 

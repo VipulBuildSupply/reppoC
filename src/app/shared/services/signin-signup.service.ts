@@ -37,29 +37,23 @@ export class SigninSignupService {
             "phone": phone,
             "userType": ConfigurationConstants.USER_TYPE
         }
-
         return this.dataService.sendPostRequest(`${API.IS_PHONE_EXIST}`, obj)
             .then(res => res.data);
     }
 
     createOTP(phone) {
         const api = `${API.CREATE_OTP}${phone}`;
-
         if (this.isForgot) {
             api + `?userType=${ConfigurationConstants.USER_TYPE}`
         }
-
         return this.dataService.sendPostRequest(api, {}).then(res => res);
     }
 
     verifyOTP(obj, userType?) {
-
         if (userType == "true") {
             obj.userType = ConfigurationConstants.USER_TYPE;
         }
-
         const headers = 'Content-Type, application/x-www-form-urlencoded';
-
         return this.dataService.sendPostRequest(`${API.VERIFY_OTP}`,
             Utils.JSON_to_URLEncoded(obj, null, null), { headers }).then(res => {
 
@@ -73,9 +67,7 @@ export class SigninSignupService {
     }
 
     signUp(data) {
-
         data.userType = ConfigurationConstants.USER_TYPE;
-
         return this.dataService.sendPostRequest(`${API.SIGNUP}`, data).then(res => {
             if (res.status == 1001) {
                return this._localLogin(res.data.jwtToken).then(_ => {
@@ -90,24 +82,24 @@ export class SigninSignupService {
 
     signin(data) {
         data.userType = ConfigurationConstants.USER_TYPE;
-
         return this.dataService.sendPostRequest(API.SIGNIN, data).then(res => {
             if (res.status == 1001) {
-                return this._localLogin(res.data.jwtToken).then(_ => {
-                    this.notify.snack('Logged In Successfully');
+                if(res.data.loggedInUserType == 'BUYER'){
                     return res;
-                });
-               
-            } else {
+                }else{
+                    return this._localLogin(res.data.jwtToken).then(_ => {
+                        this.notify.snack('Logged In Successfully');
+                        return res;
+                    });
+                }
+            }else {
                 throw res;
             }
         });
     }
 
     resetPassword(data) {
-
         data.userType = ConfigurationConstants.USER_TYPE;
-
         return this.dataService.sendPostRequest(API.RESET_PASSWORD, data).then(res => {
             if (res.data.jwtToken) {
                 return this._localLogin(res.data.jwtToken).then(_ => {
@@ -117,23 +109,17 @@ export class SigninSignupService {
             }else{
                 return res;
             }
-           
         });
-
     }
 
     refreshUserToken(companyId, selectedProfileType) {
         return this.dataService.sendPostRequest(`${API.REFRESH_USER_TOKEN}${companyId}`, {}).then(res => {
-
             if (res.data.jwtToken) {
                return this._localLogin(res.data.jwtToken).then(_ => {
-
                     return res
                 });
-            } 
-
-                return res;
-            
+            }
+            return res;
         })
     }
 

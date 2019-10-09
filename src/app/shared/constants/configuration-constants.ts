@@ -58,5 +58,6 @@ export const API = {
     ANNUAL_TURNOVERS: 'account/api/seller/profile/turnovers',
     BUSINESS_TYPES: 'account/api/seller/profile/types',
     BUSINESS_DETAILS: 'account/api/seller/profile',
-    DELETE_ADDRESS_PROOF: (addressId) => `account/api/address/${addressId}/addressProof`
+    DELETE_ADDRESS_PROOF: (addressId) => `account/api/address/${addressId}/addressProof`,
+    IS_BUYER_USER: 'account/api/user/profile/add/SELLER'
 }
