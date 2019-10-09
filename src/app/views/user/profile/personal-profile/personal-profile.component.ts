@@ -6,6 +6,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { NotificationService } from 'src/app/shared/services/notification-service';
+import { CategoryService } from 'src/app/shared/services/category.service';
 
 @Component({
     selector: 'app-personal-profile',
@@ -26,10 +27,13 @@ export class PersonalProfileComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private activatedRout: ActivatedRoute,
         private router: Router,
-        private _notify: NotificationService
+        private _notify: NotificationService,
+        private _categoryService: CategoryService
     ) { }
 
     ngOnInit(): void {
+
+        this.setCatalogueCategories();        
 
         if (this.router.url != '/user/profile/personal/edit') {
             this.userService.isEdit = false;
@@ -50,6 +54,21 @@ export class PersonalProfileComponent implements OnInit {
 
         this.startSubscriptions();
         this.formInit();
+    }
+
+    /**
+     * @description Set all selected categories in local storage
+     */
+    setCatalogueCategories(){
+        this._categoryService.getCatalogueCategories().then(res => {      
+            if(res.data.length){        
+                const cats = res.data.reduce((allCats, item) => {
+                    allCats.itemList.push(item.categoryId);
+                    return allCats;
+                }, { itemList: [] });
+                localStorage.setItem('SelectedCategories', JSON.stringify(cats));
+            }
+        });
     }
 
     edit() {

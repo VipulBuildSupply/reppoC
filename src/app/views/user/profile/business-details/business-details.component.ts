@@ -32,6 +32,9 @@ export class BusinessDetailsComponent implements OnInit {
     data: any;
     _isEdit: boolean = false;
     userVerified: any;
+    updatedCategories: any = {
+        "itemList": []
+    }
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -219,10 +222,12 @@ export class BusinessDetailsComponent implements OnInit {
                 this.categoriesList.map(allCatIds => {
                     if (this.selectedIds.indexOf(allCatIds.id) !== -1) {
                         allCatIds.isSelected = true;
+                        this.updatedCategories.itemList.push(allCatIds.id);
                     }
                 });
             }
-            this.businessDetailsForm.get('categoryIds').setValue(this.selectedIds);
+            this.businessDetailsForm.get('categoryIds').setValue(this.selectedIds);            
+            localStorage.setItem('SelectedCategories', JSON.stringify(this.updatedCategories));
             return this.categoriesList;
         });
     }

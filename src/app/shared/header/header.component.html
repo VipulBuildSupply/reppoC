@@ -1,7 +1,7 @@
 <header class="header-main">
     <nav class="navbar navbar-expand-md navbar-dark bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand logo-main" href="#"><img src="assets/img/logo.svg"></a>
+            <a class="navbar-brand logo-main" href="javascript:void(0)" [routerLink]="['/auth/enter-mobile']"><img src="assets/img/logo.svg"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
                             (error)="getUserAPI()" class="img-fulid user-profile" alt="">
                             <span *ngIf="user.sellerPersonalProfile.firstName; else name" class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
                             <ng-template #name>
-                                <span class="profileName">--</span>
+                                <span class="profileName">{{user.phone}}</span>
                             </ng-template>
                             <p>Personal Profile</p>
                         </a>

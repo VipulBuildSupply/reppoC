@@ -28,11 +28,8 @@ export class CategoryService {
     }
 
     getCatalogueCategories() {
+        localStorage.getItem('SelectedCategories');
         return this.dataService.getRequest(API.GET_CATALOGUE_CATEGORIES).then(res => {
-            //this.getCatList = res.data;
-            //this.getCatList.map(id => this.getCatIds.push(id.categoryId));
-            //this.setCatalogueCategories(this.getCatList);
-            // return this.setCatalogueCategories(this.getCatIds);
             return res;
         });
     }
