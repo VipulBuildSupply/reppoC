@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 
 
 @Component({
@@ -28,7 +30,10 @@ export class CataloguesList implements OnInit {
   sendPricingToAllArrayEdit: any[] = [];
 
 
-  constructor(private Userservice: UserService, private _formBuilder: FormBuilder, private _router: Router) { }
+  constructor(private Userservice: UserService, 
+              private _formBuilder: FormBuilder, 
+              private _router: Router,
+              private _dialog: MatDialog) { }
 
   ngOnInit() {
     this.errorMin = false;
@@ -235,6 +240,13 @@ export class CataloguesList implements OnInit {
   }
 
 
+  filters(){
+    const d = this._dialog.open(CatalogueFiltersComponent, {
+        data: {  },
+        disableClose: true,
+        panelClass: 'catalogue-filters-popup'
+    });
+  }
 
 
 }
