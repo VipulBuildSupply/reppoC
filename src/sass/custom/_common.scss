@@ -1,56 +1,73 @@
-body{
+body {
     font-family: 'Open Sans', sans-serif;
-    background: $bg-color-gray;
+    //  background: $bg-color-gray;
+    background: #ffffff;
     @include border-bottom-left-radius(5px);
 }
-a, a:hover{ text-decoration: $none;color: #1896BA;}
-.container-fluid{
+
+a,
+a:hover {
+    text-decoration: $none;
+    color: #1896BA;
+}
+
+.container-fluid {
     padding: $pd-lr-150;
 }
-.midpanel{
+
+.midpanel {
     padding-top: $pd-top-25;
 }
-.orangeBttn{
-    font-size: 12px;	
-    font-weight: $font-weight-600;	
+
+.orangeBttn {
+    font-size: 12px;
+    font-weight: $font-weight-600;
     line-height: 37px;
     padding: 0 25px;
     display: inline-block;
     color: $text-color-white;
-    height: 37px;		
-    border-radius: 17.5px;	
-    background-color: #F47721;	
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12);
+    height: 37px;
+    border-radius: 17.5px;
+    background-color: #F47721;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
 }
-.orangeBttn:hover{
+
+.orangeBttn:hover {
     color: #fff;
     background: #fa8534;
 }
+
 button:focus {
     outline: $none;
 }
-.btn:focus, .btn.focus{
+
+.btn:focus,
+.btn.focus {
     box-shadow: $none;
 }
+
 .disable {
     opacity: 0.5;
     pointer-events: $none;
 }
-.dottbttn{
-    border: dashed 1.2px #1896BA;	
+
+.dottbttn {
+    border: dashed 1.2px #1896BA;
     background-color: #FFFFFF;
     padding: 10px 0;
     text-align: center;
     margin-bottom: 10px;
 }
-.dottbttn a{
+
+.dottbttn a {
     display: block;
-    font-size: $font-size-14;	
+    font-size: $font-size-14;
     font-weight: $font-weight-600;
     color: #1896BA;
 }
-.bg-white{
+
+.bg-white {
     background: $bg-color-white;
 }
