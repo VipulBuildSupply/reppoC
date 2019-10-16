@@ -27,7 +27,7 @@ export class SwitchUserProfileComponent implements OnInit {
       private _router: Router) { }
 
     ngOnInit(){
-      console.log(this.data.userData);
+      //console.log(this.data.userData);
     }
 
     /**

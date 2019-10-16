@@ -14,12 +14,30 @@
 
                             <div class="form-group has-search mb-0">
                                 <span class="form-control-feedback"><img src="assets/img/search-icon.png" alt=""></span>
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" class="form-control" (keyup)="applySearchFilter($event.target.value)" placeholder="Search">
                             </div>
 
-                            <a href="" class="add-new">+ ADD NEW</a>
+                            <a href="javascript:void(0)" class="add-new" [matMenuTriggerFor]="menu">+ ADD NEW</a>
 
-                            <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);" (click)="filters()">
+                            <mat-menu #menu="matMenu">
+                                    <button (click)="goToAddSku()" mat-menu-item>
+                                        <mat-icon>add</mat-icon>
+                                        <span>ADD SKU</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>file_upload</mat-icon>
+                                        <span>Upload Pricing File</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                            <mat-icon>get_app</mat-icon>
+                                            <span>Download Pricing Template</span>
+                                        </button>
+                                    
+                                </mat-menu>
+
+
+                            <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"
+                                (click)="filters()">
                                 <img src="assets/img/svg-img/ic_filter.svg" alt="">
                                 Filters
                             </a>
@@ -104,17 +122,37 @@
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <mat-form-field
+                                                                <mat-form-field *ngIf="i<pricingForms.length-1"
                                                                     class="quantity-mat-form inputFieldOfPrice">
                                                                     <input matInput (input)="compareMinMax(i)"
-                                                                    [type]="addPriceForRemainingQuantity ? 'text' : 'number'"
-                                                                     class="form-control"
-                                                                        formControlName="maxPrice" placeholder="max">
+                                                                        [type]="addPriceForRemainingQuantity ? 'text' : 'number'"
+                                                                        class="form-control" formControlName="maxPrice"
+                                                                        placeholder="max">
 
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
                                                                         Max is invalid</mat-error>
                                                                 </mat-form-field>
+
+                                                                <mat-form-field *ngIf="i == pricingForms.length-1"
+                                                                class="quantity-mat-form inputFieldOfPrice" [hidden]="addPriceForRemainingQuantity">
+                                                                <input matInput (input)="compareMinMax(i)"
+                                                                    type="number"
+                                                                    class="form-control" formControlName="maxPrice"
+                                                                    placeholder="max">
+
+                                                                <mat-error
+                                                                    *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
+                                                                    Max is invalid</mat-error>
+                                                            </mat-form-field>
+
+                                                            <mat-form-field *ngIf="i == pricingForms.length-1"
+                                                            class="quantity-mat-form inputFieldOfPrice" [hidden]="!addPriceForRemainingQuantity">
+                                                            <input matInput
+                                                                class="form-control" value="∞" disabled
+                                                                placeholder="max">
+                                                        </mat-form-field>
+
                                                             </div>
                                                         </div>
 
@@ -207,7 +245,7 @@
                                                                 </mat-form-field>
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <mat-form-field
+                                                                <mat-form-field *ngIf="i<editPricingAllForms.length-1"
                                                                     class="quantity-mat-form inputFieldOfPrice">
                                                                     <input matInput (input)="compareMinMaxEdit(i)"
                                                                         type="number" class="form-control"
@@ -217,6 +255,21 @@
                                                                         *ngIf="editPricingAllForm.controls.maxPrice.errors && (editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
                                                                         Max is invalid</mat-error>
                                                                 </mat-form-field>
+                                                                <mat-form-field *ngIf="i == editPricingAllForms.length-1"
+                                                                class="quantity-mat-form inputFieldOfPrice" [hidden]="addPriceForRemainingQuantity">
+                                                                <input matInput (input)="compareMinMaxEdit(i)"
+                                                                    type="number" class="form-control"
+                                                                    formControlName="maxPrice" placeholder="max">
+
+                                                                <mat-error
+                                                                    *ngIf="editPricingAllForm.controls.maxPrice.errors && (editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
+                                                                    Max is invalid</mat-error>
+                                                            </mat-form-field>
+
+                                                            <mat-form-field *ngIf="i == editPricingAllForms.length-1"
+                                                                class="quantity-mat-form inputFieldOfPrice" [hidden]="!addPriceForRemainingQuantity">
+                                                                <input matInput class="form-control" placeholder="max" value="∞" disabled >
+                                                            </mat-form-field>
                                                             </div>
                                                         </div>
 
@@ -339,8 +392,7 @@
                     </div>
 
                     <div *ngIf="!addPriceToAllWareHouseCheckBox">
-                        <div class="house-address p-3"
-                            *ngIf="uniqueCatalogueData.warehouseList.length>0;">
+                        <div class="house-address p-3" *ngIf="uniqueCatalogueData.warehouseList.length>0;">
                             <h4 class="cement-title">Warehouse Address</h4>
 
                             <ng-container *ngFor="let warehouse of warehouseData;let indx = index">
@@ -379,18 +431,37 @@
                                                                     </mat-form-field>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <mat-form-field
-                                                                        class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMax(i)"
-                                                                        [type]="addPriceForRemainingIndividualQuantity ? 'text' : 'number'"
-                                                                        class="form-control"
-                                                                            formControlName="maxPrice"
-                                                                            placeholder="max">
+                                                                            <mat-form-field
+                                                                            class="quantity-mat-form inputFieldOfPrice" *ngIf="(i<(warehouse.pricingForms.length-1))">
+                                                                            <input matInput (input)="compareMinMax(i)"
+                                                                                type="number" class="form-control"
+                                                                                formControlName="maxPrice"
+                                                                                placeholder="max">
+    
+                                                                            <mat-error
+                                                                                *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
+                                                                                Max is invalid</mat-error>
+                                                                        </mat-form-field>
 
-                                                                        <mat-error
-                                                                            *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                            Max is invalid</mat-error>
-                                                                    </mat-form-field>
+                                                                            <mat-form-field *ngIf="(i===warehouse.pricingForms.length-1)"
+                                                                            class="quantity-mat-form inputFieldOfPrice"
+                                                                            [hidden]="addPriceForRemainingIndividualQuantity">
+                                                                            <input matInput (input)="compareMinMax(i)"
+                                                                                type="number" class="form-control"
+                                                                                formControlName="maxPrice"
+                                                                                placeholder="max">
+    
+                                                                            <mat-error
+                                                                                *ngIf="pricingForm.controls.maxPrice.errors && (pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
+                                                                                Max is invalid</mat-error>
+                                                                        </mat-form-field>
+                                                                        <mat-form-field  *ngIf="(i===warehouse.pricingForms.length-1)"
+                                                                            class="quantity-mat-form inputFieldOfPrice"
+                                                                            [hidden]="!addPriceForRemainingIndividualQuantity">
+                                                                            <input matInput  class="form-control" value="∞"
+                                                                                placeholder="max" disabled>
+                                                                        </mat-form-field>
+
                                                                 </div>
                                                             </div>
 

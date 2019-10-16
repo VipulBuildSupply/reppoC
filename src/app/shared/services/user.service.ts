@@ -284,4 +284,9 @@ export class UserService {
             return this.token.saveAccessToken(res.data.jwtToken);
         });
     }
+
+    getSkuListFromSearch(text){
+        return this.dataService.sendPostRequest(API.SEARCH_SKU_TEXT, text).then(res => res );
+    }
+
 }
