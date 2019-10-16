@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 
 
 interface Warehouse {
@@ -18,6 +20,7 @@ export class CataloguesList implements OnInit {
 
   isEditBtnClicked: boolean;
   catalogueList: any;
+  catalogueListTemp : any;
   uniqueCatalogueData: any;
   pricingForm: FormGroup;
   addPriceToAllWareHouseCheckBox: boolean;
@@ -40,7 +43,7 @@ export class CataloguesList implements OnInit {
 
   warehouseData: Warehouse[] = [];
 
-  constructor(private Userservice: UserService, private _formBuilder: FormBuilder, private _router: Router, private ref: ChangeDetectorRef) { }
+  constructor(private Userservice: UserService, private _formBuilder: FormBuilder, private _router: Router, private ref: ChangeDetectorRef, private _dialog: MatDialog) { }
 
   ngOnInit() {
     this.errorMin = false;
@@ -59,6 +62,10 @@ export class CataloguesList implements OnInit {
     this.Userservice.getCatalogueItems().then(res => {
       if (res) {
         this.catalogueList = res.data;
+        this.catalogueListTemp = this.catalogueList;
+      }
+      else{
+        this._router.navigate([`/catalogue/add-catalogue`]);
       }
     });
   }
@@ -93,30 +100,25 @@ export class CataloguesList implements OnInit {
           }, { validators: this.isMinMaxInValid })
         );
       }
-
       this.warehouseData.push({
         address: warehouse.warehouseAddress,
         pricingForms: forms
       });
-
-
-
     });
-
-
   }
 
   selectUniqueCatalogue(id) {
     this.errorMin = false;
     this.isEditBtnClicked = false;
     this.errorMax = false;
+    this.addPriceForRemainingIndividualQuantity = false;
     this.addPriceToAllWareHouseCheckBox = false;
     this.addPriceForRemainingQuantity = false;
     this.sendPricingToIndividualArrayAdd = [];
     this.pricingForms = [];
     this.pricingFormsIndividual = [];
-  
-  
+
+
     this.editPricingAllForms = [];
     this.sendPricingToAllArray = [];
     this.sendPricingToAllArrayEdit = [];
@@ -145,9 +147,6 @@ export class CataloguesList implements OnInit {
 
       }
     });
-
-
-
   }
 
   addAnotherRange() {
@@ -181,9 +180,7 @@ export class CataloguesList implements OnInit {
         }
         this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.disable();
       }
-
     }
-
   }
 
   addAnotherRangeIndividual(form) {
@@ -195,15 +192,14 @@ export class CataloguesList implements OnInit {
           price: ['', Validators.required]
         }, { validators: this.isMinMaxInValid })
       );
-     
-      if(this.addPriceForRemainingIndividualQuantity){
-        for(let i=0; i<form.length-1;i++){
+
+      if (this.addPriceForRemainingIndividualQuantity) {
+        for (let i = 0; i < form.length - 1; i++) {
           form[i].controls.maxPrice.enable();
         }
-        form[form.length-1].controls.maxPrice.disable();
-        form[form.length-1].controls.maxPrice.setValue("");
+        form[form.length - 1].controls.maxPrice.disable();
+        form[form.length - 1].controls.maxPrice.setValue("");
       }
-
     }
     else if (!this.isEditBtnClicked) {
       form.push(
@@ -213,22 +209,17 @@ export class CataloguesList implements OnInit {
           price: ['', Validators.required]
         }, { validators: this.isMinMaxInValid })
       );
-      if(this.addPriceForRemainingIndividualQuantity){
-        for(let i=0; i<form.length-1;i++){
+      if (this.addPriceForRemainingIndividualQuantity) {
+        for (let i = 0; i < form.length - 1; i++) {
           form[i].controls.maxPrice.enable();
         }
-        form[form.length-1].controls.maxPrice.disable();
-        form[form.length-1].controls.maxPrice.setValue("");
+        form[form.length - 1].controls.maxPrice.disable();
+        form[form.length - 1].controls.maxPrice.setValue("");
       }
-
-     
     }
-
-   
-
   }
 
-  editPricingForms(i) {
+  editPricingForms(i:any) {
     this.editPricingAllForms.push(
       this._formBuilder.group({
         minPrice: [this.uniqueCatalogueData.warehouseList[0].warehousePriceList[i].minQty, Validators.required],
@@ -261,24 +252,42 @@ export class CataloguesList implements OnInit {
     }
     return { isMinMaxInValid: false };
   }
-
-
-
+  
   addPriceForRemainingQty(event) {
     if (event.target.checked) {
       this.addPriceForRemainingQuantity = true;
-      for (let i = 0; i < this.editPricingAllForms.length - 1; i++) {
-        this.editPricingAllForms[i].controls.maxPrice.enable();
+      if(this.editPricingAllForms.length > 0){
+        for (let i = 0; i < this.editPricingAllForms.length - 1; i++) {
+          this.editPricingAllForms[i].controls.maxPrice.enable();
+        }
+        this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.disable();
+        this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.setValue("");
+        console.log(this.editPricingAllForms);
       }
-      this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.disable();
-      this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.setValue("");
-      console.log(this.editPricingAllForms);
+
+      if(this.pricingForms.length > 0){
+        for (let i = 0; i < this.pricingForms.length - 1; i++) {
+          this.pricingForms[i].controls.maxPrice.enable();
+        }
+        this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.disable();
+        this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.setValue("");
+        console.log(this.pricingForms);
+      }   
     }
     else {
       this.addPriceForRemainingQuantity = false;
-      this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.setValue("");
-      for (let i = 0; i < this.editPricingAllForms.length; i++) {
-        this.editPricingAllForms[i].controls.maxPrice.enable();
+      if(this.editPricingAllForms.length>0){
+        this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.setValue("");
+        for (let i = 0; i < this.editPricingAllForms.length; i++) {
+          this.editPricingAllForms[i].controls.maxPrice.enable();
+        }
+      }
+
+      if(this.pricingForms.length>0){
+        this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.setValue("");
+        for (let i = 0; i < this.pricingForms.length; i++) {
+          this.pricingForms[i].controls.maxPrice.enable();
+        }
       }
     }
   }
@@ -289,8 +298,8 @@ export class CataloguesList implements OnInit {
       for (let i = 0; i < priceforms.length - 1; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-      this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.disable();
-      this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.setValue('');
+    // this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.disable();
+      this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.setValue("");
       console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     } else {
       this.addPriceForRemainingIndividualQuantity = false;
@@ -298,24 +307,22 @@ export class CataloguesList implements OnInit {
       for (let i = 0; i < priceforms.length; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-
       console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     }
-
   }
 
 
   compareMinMax(currentFormIndex) {
     if (currentFormIndex > 0 && this.pricingForms) {
-      if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
-        this.pricingForms[currentFormIndex].controls.minPrice.setErrors(null);
-        this.pricingForms[currentFormIndex].controls.minPrice.setErrors({ isMinMaxInValid: false });
-      }
+        if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
+          this.pricingForms[currentFormIndex].controls.minPrice.setErrors(null);
+          this.pricingForms[currentFormIndex].controls.minPrice.setErrors({ isMinMaxInValid: false });
+        } 
     }
   }
 
   compareMinMaxEdit(currentFormIndex) {
-    if (currentFormIndex > 0 && this.pricingForms) {
+    if (currentFormIndex > 0 && this.editPricingAllForms) {
       if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value < this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.value) {
         this.editPricingAllForms[currentFormIndex].controls.minPrice.setErrors(null);
         this.editPricingAllForms[currentFormIndex].controls.minPrice.setErrors({ isMinMaxInValid: false });
@@ -331,7 +338,7 @@ export class CataloguesList implements OnInit {
           this.Userservice.getCatalogueItems().then(res => {
             if (res) {
               this.catalogueList = res.data;
-              // console.log(this.catalogueList);
+              this.catalogueListTemp = this.catalogueList;
             }
           });
         }
@@ -344,7 +351,7 @@ export class CataloguesList implements OnInit {
           this.Userservice.getCatalogueItems().then(res => {
             if (res) {
               this.catalogueList = res.data;
-              // console.log(this.catalogueList);
+              this.catalogueListTemp = this.catalogueList;
             }
           });
         }
@@ -432,10 +439,39 @@ export class CataloguesList implements OnInit {
   }
 
 
+  filters() {
+    const d = this._dialog.open(CatalogueFiltersComponent, {
+      data: {},
+      disableClose: true,
+      panelClass: 'catalogue-filters-popup'
+    });
+  }
 
   addWareHouseAddressBtnClicked() {
     this._router.navigate([`/user/profile/address/warehouse/add`]);
   }
 
+  goToAddSku(){
+    this._router.navigate([`/catalogue/add-sku`]);
+  }
+
+  applySearchFilter(filterValue: string) {
+
+    if (filterValue.trim) {
+
+      filterValue = filterValue.toLowerCase();
+
+      this.catalogueList = this.catalogueListTemp.filter(item => {
+
+        return item.skuName.toLowerCase().indexOf(filterValue) != -1;
+
+      });
+
+
+    } else {
+      this.catalogueList = this.catalogueList;
+    }
+
+  }
 
 }

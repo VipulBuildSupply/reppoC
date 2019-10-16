@@ -9,18 +9,19 @@ import { NgModel } from '@angular/forms';
 })
 export class AddSkuComponent implements OnInit {
   categoryOne: any;
-  categoryTwo : any;
-  brand : any;
-  searchResults : any;
-  idOfCatOne : number ;
-  brandIdTemp : number;
-  idOfCatTwo : number;
+  categoryTwo: any;
+  searchKeyTypes: any;
+  brand: any;
+  searchResults: any;
+  idOfCatOne: number;
+  brandIdTemp: number;
+  idOfCatTwo: number;
   categoryId: number[] = [];
-  brandId : number[] = [];
-  SearchResultsIds : number[] = [];
+  brandId: number[] = [];
+  SearchResultsIds: number[] = [];
   ischecked: boolean;
   selectedBrands: any[];
- 
+
   constructor(
     private _router: Router,
     private Userservice: UserService
@@ -29,6 +30,7 @@ export class AddSkuComponent implements OnInit {
   ngOnInit() {
     this.ischecked = false;
     this.categoryId = [];
+    this.searchKeyTypes = "";
     this.getCategory1();
   }
 
@@ -38,13 +40,13 @@ export class AddSkuComponent implements OnInit {
       return objOne.id === objTwo.id;
     }
   }
-  
+
   selectAll(checkAll, select: NgModel, values) {
     //this.toCheck = !this.toCheck;
-    if(checkAll){
-      select.update.emit(values); 
+    if (checkAll) {
+      select.update.emit(values);
     }
-    else{
+    else {
       select.update.emit([]);
     }
   }
@@ -67,7 +69,7 @@ export class AddSkuComponent implements OnInit {
     });
   }
 
-  changeCategory(event){
+  changeCategory(event) {
     const Category = event.value;
     this.categoryTwo = "";
     this.idOfCatOne = Category.id;
@@ -75,20 +77,20 @@ export class AddSkuComponent implements OnInit {
     this.brand = null;
     this.brandId = [];
     this.brandIdTemp = null;
-    if(Category.categoryList.length > 0){
+    if (Category.categoryList.length > 0) {
       this.categoryTwo = Category.categoryList;
     }
 
   }
 
-  getIdOfCatTwo(event){
+  getIdOfCatTwo(event) {
     this.idOfCatTwo = event.value;
     this.brandId = [];
     this.brandIdTemp = null;
     this.categoryId = [];
     this.selectedBrands = [];
     this.brand = null;
-     if(this.idOfCatTwo){
+    if (this.idOfCatTwo) {
       this.categoryId.push(this.idOfCatTwo);
       this.Userservice.getBrand(this.idOfCatTwo).then(res => {
         if (res) {
@@ -96,7 +98,7 @@ export class AddSkuComponent implements OnInit {
         }
       });
     }
-    else{
+    else {
       this.categoryId.push(this.idOfCatOne);
       this.Userservice.getBrand(this.idOfCatOne).then(res => {
         if (res) {
@@ -107,19 +109,19 @@ export class AddSkuComponent implements OnInit {
     }
 
   }
-  getBrandOnSelect(event){
-    if(event.value){
+  getBrandOnSelect(event) {
+    if (event.value) {
       this.brandIdTemp = event.value;
-    //  this.brandId.push( this.brandIdTemp);
-    console.log(this.brandIdTemp);
+      //  this.brandId.push( this.brandIdTemp);
+      console.log(this.brandIdTemp);
     }
-   this.searchSku();
+    this.searchSku();
   }
 
-  searchSku(){
+  searchSku() {
     const data = {
       "brandIdList": this.brandIdTemp,
-      "categoryIdList":  this.categoryId
+      "categoryIdList": this.categoryId
     }
 
     this.Userservice.getSearchResults(data).then(res => {
@@ -129,29 +131,51 @@ export class AddSkuComponent implements OnInit {
     });
   }
 
-  searchResultCheckBox(event,id){
-   // console.log(event);
-    if(event.target.checked){
+  searchResultCheckBox(event, id) {
+    // console.log(event);
+    if (event.target.checked) {
       this.SearchResultsIds.push(id);
-    }else{
-      if(this.SearchResultsIds.includes(id)){
-        for( var i = 0; i < this.SearchResultsIds.length; i++){ 
-          if ( this.SearchResultsIds[i] === id) {
-            this.SearchResultsIds.splice(i, 1); 
+    } else {
+      if (this.SearchResultsIds.includes(id)) {
+        for (var i = 0; i < this.SearchResultsIds.length; i++) {
+          if (this.SearchResultsIds[i] === id) {
+            this.SearchResultsIds.splice(i, 1);
           }
-       }
+        }
       }
     }
-    if(this.SearchResultsIds.length > 0){
+    if (this.SearchResultsIds.length > 0) {
       this.ischecked = true;
     }
-    else{
+    else {
       this.ischecked = false;
     }
 
     console.log(this.SearchResultsIds);
   }
-  
+
+  searchInAddSku(filterValue: string) {
+    if (filterValue.trim) {
+      this.searchKeyTypes = filterValue.toLowerCase();
+    }
+  }
+
+  searchAddSkuBtn() {
+    const obj = {
+      "text": this.searchKeyTypes
+    };
+    this.Userservice.getSkuListFromSearch(obj).then(res => {
+      if (res) {
+        this.searchResults = res;
+
+        this.searchKeyTypes = "";
+      }
+    });;
+
+    this.searchKeyTypes = "";
+  }
+
+
 }
 
 

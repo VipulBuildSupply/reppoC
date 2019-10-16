@@ -1,0 +1,82 @@
+.catalogue-filters-popup {
+    max-width: 100vw !important;
+    top: 0px;
+    position: absolute !important;
+    width: 100%;
+    .mat-dialog-container{
+        border-radius: 0px;
+    }
+    .modal-content{
+        border: none;
+    }
+    .modal-header{
+        border-bottom: none;
+        padding-bottom: 0px;
+        &__inner{
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            .modal-title{
+                color: #000;
+                font-size: 20px;
+                font-weight: 700;
+                margin: 15px 0 20px;
+                width: 50%;
+                float: left;
+            }
+        }
+    }
+
+    .filter-box {
+        max-width: 256px;
+        width: 100%;  
+        .mat-form-field-appearance-legacy .mat-form-field-label{
+            top: 6px;
+        }    
+        ul{
+            padding: 0;
+            list-style: none;
+        }  
+        .accordion{
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 15px 0px 0px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .search-filters{
+            margin-top: 10px;
+        }
+    }
+}
+
+.output-box .selected-option {
+    position: inherit;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.panel p {
+    color: rgba(0, 0, 0, 0.95);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 5px 0 10px;
+}
+
+.material-types{
+    .mat-checkbox-layout{
+        display: flex;
+    }
+    .mat-checkbox-inner-container{
+        order: 1;
+        width: 24px;
+        height: 17px;
+    }
+    .mat-checkbox-background, .mat-checkbox-frame{
+        border-radius: 0px;
+    }
+    .mat-checkbox-checkmark{
+        top: -4px;
+    }
+}
