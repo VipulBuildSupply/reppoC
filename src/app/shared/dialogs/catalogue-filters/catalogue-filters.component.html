@@ -1,0 +1,68 @@
+<mat-dialog-content>
+    <div class="modal-content">
+        <div class="container">
+
+            <div class="modal-header">
+                <div class="modal-header__inner">
+                    <h5 class="modal-title">All Filters</h5>
+                    <div class="save-orange m-0">
+                        <button type="submit" class="btn orangeBttn">apply</button>
+                    </div>
+                </div>
+                <button type="button" class="close" (click)="closeDialog()">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="output-box">
+                            <div class="selected-option">Sand <span class="cross-option"><img src="assets/img/Cancel.svg"></span>
+                            </div>
+                            <div class="selected-option">Electric Wires <span class="cross-option"><img
+                                        src="assets/img/Cancel.svg"></span></div>
+                            <div class="selected-option">Civil &amp; Structure <span class="cross-option"><img
+                                        src="assets/img/Cancel.svg"></span> </div>
+                            <div class="selected-option">Interior Fitout <span class="cross-option"><img
+                                        src="assets/img/Cancel.svg"></span> </div>
+                            <div class="selected-option">Infrastructure <span class="cross-option"><img
+                                        src="assets/img/Cancel.svg"></span> </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="filter-box">
+                            <ul>
+                                <li class="accordion">Material Type</li>
+
+                                <mat-form-field class="search-filters">
+                                    <input matInput placeholder="Search">
+                                    <span matPrefix><mat-icon>search</mat-icon></span>
+                                </mat-form-field>
+
+                                <div class="panel">
+                                    <p><mat-checkbox class="material-types">Steel</mat-checkbox></p>
+                                </div>
+                                
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="col-md-7">
+                        <div class="filter-box">
+                            <ul>
+                                <li class="accordion">tags</li>
+                                <div class="panel">
+                                    <p><mat-checkbox class="material-types">Price not Available</mat-checkbox></p>
+        
+                                    <p><mat-checkbox class="material-types">Out of stock</mat-checkbox></p>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
