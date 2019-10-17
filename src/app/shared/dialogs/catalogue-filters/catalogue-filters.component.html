@@ -34,17 +34,18 @@
                     <div class="col-md-5">
                         <div class="filter-box">
                             <ul>
-                                <li class="accordion">Material Type</li>
-
+                                <li class="accordion mb-0">Material Type</li>
                                 <mat-form-field class="search-filters">
-                                    <input matInput placeholder="Search">
+                                    <input matInput placeholder="Search" (input)="searchFilter($event.target.value)">
                                     <span matPrefix><mat-icon>search</mat-icon></span>
                                 </mat-form-field>
 
                                 <div class="panel">
-                                    <p><mat-checkbox class="material-types">Steel</mat-checkbox></p>
+                                    <p *ngFor="let filters of filtersList">
+                                        <mat-checkbox class="material-types" 
+                                            (change)="filteredProductsLists($event, filters.id)">{{filters.categoryName}}</mat-checkbox>
+                                    </p>
                                 </div>
-                                
                             </ul>
                         </div>
                     </div>

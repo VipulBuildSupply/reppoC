@@ -30,9 +30,9 @@
     .filter-box {
         max-width: 256px;
         width: 100%;  
-        .mat-form-field-appearance-legacy .mat-form-field-label{
-            top: 6px;
-        }    
+        // .mat-form-field-appearance-legacy .mat-form-field-label{
+        //     top: 6px;
+        // }    
         ul{
             padding: 0;
             list-style: none;
@@ -45,8 +45,12 @@
             text-transform: uppercase;
             margin-bottom: 12px;
         }
-        .search-filters{
-            margin-top: 10px;
+        .search-filters input{
+            opacity: 1;
+            position: relative;
+            height: auto;
+            width: auto;
+            line-height: 24px;
         }
     }
 }

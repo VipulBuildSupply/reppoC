@@ -1,16 +1,17 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
+import { Subscription } from 'rxjs';
+import { CategoryService } from 'src/app/shared/services/category.service';
 
 
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
 }
-
 
 @Component({
   selector: 'app-catalogues-list',
@@ -34,20 +35,19 @@ export class CataloguesList implements OnInit {
   errorMax: boolean;
   pricingForms: FormGroup[] = [];
   pricingFormsIndividual: FormGroup[][] = [];
-
-
   editPricingAllForms: FormGroup[] = [];
   sendPricingToAllArray: any[] = [];
   sendPricingToAllArrayEdit: any[] = [];
   sendPricingToIndividualArrayAdd: any[] = [];
-
   warehouseData: Warehouse[] = [];
+  subscriptions: Subscription[] = [];
 
   constructor(private Userservice: UserService, 
               private _formBuilder: FormBuilder, 
               private _router: Router,
               private _dialog: MatDialog,
-              private ref: ChangeDetectorRef) { }
+              private ref: ChangeDetectorRef,
+              private _categoryService: CategoryService) { }
 
   ngOnInit() {
     this.errorMin = false;
@@ -59,7 +59,17 @@ export class CataloguesList implements OnInit {
     this.addAnotherRangeCount.push('1');
     this.getCatalogueItems();
     this.addAnotherRange();
+    this.startSubscriptions();
+  }
 
+  startSubscriptions(){
+    this.subscriptions.push(
+        this._categoryService.updateSkusList$.subscribe(data => {
+            if(data){                
+              this.catalogueList = data;
+            }
+        })
+    )
   }
 
   getCatalogueItems() {
@@ -460,22 +470,13 @@ export class CataloguesList implements OnInit {
   }
 
   applySearchFilter(filterValue: string) {
-
     if (filterValue.trim) {
-
       filterValue = filterValue.toLowerCase();
-
       this.catalogueList = this.catalogueListTemp.filter(item => {
-
         return item.skuName.toLowerCase().indexOf(filterValue) != -1;
-
       });
-
-
     } else {
       this.catalogueList = this.catalogueList;
     }
-
   }
-
 }
