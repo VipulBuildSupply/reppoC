@@ -40,6 +40,7 @@ export class CataloguesList implements OnInit {
   sendPricingToIndividualArrayAdd: any[] = [];
   warehouseData: Warehouse[] = [];
   editMinMaxIsFalse: boolean;
+  minMaxValidValue: boolean;
 
   constructor(private Userservice: UserService, private _formBuilder: FormBuilder, private _router: Router, private ref: ChangeDetectorRef, private _dialog: MatDialog) { }
 
@@ -47,6 +48,7 @@ export class CataloguesList implements OnInit {
     this.errorMin = false;
     this.isEditBtnClicked = false;
     this.errorMax = false;
+    this.minMaxValidValue = false;
     this.addPriceForRemainingIndividualQuantity = false;
     this.addPriceToAllWareHouseCheckBox = false;
     this.addPriceForRemainingQuantity = false;
@@ -112,6 +114,7 @@ export class CataloguesList implements OnInit {
     this.editMinMaxIsFalse = false;
     this.isEditBtnClicked = false;
     this.errorMax = false;
+    this.minMaxValidValue = false;
     this.editMinMaxIsFalse = false;
     this.addPriceForRemainingIndividualQuantity = false;
     this.addPriceToAllWareHouseCheckBox = false;
@@ -361,19 +364,29 @@ export class CataloguesList implements OnInit {
       if (currentFormIndex > 0) {
         if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
           this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors({ isMinMaxInValid: false });
+          this.editMinMaxIsFalse = true;
         }
         else {
+          this.editMinMaxIsFalse = false;
           this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
         }
       }
 
       else if (currentFormIndex == 0) {
         if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+          this.editMinMaxIsFalse = true;
           this.pricingForms[currentFormIndex].controls.maxPrice.setErrors({ isMinMaxInValid: false });
         }
         else {
+          this.editMinMaxIsFalse = false;
           this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
         }
+      }
+
+      if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value > this.editPricingAllForms[currentFormIndex].controls.maxPrice.value) {
+        this.minMaxValidValue = true;
+      } else {
+        this.minMaxValidValue = false;
       }
 
 
@@ -387,9 +400,11 @@ export class CataloguesList implements OnInit {
       if (currentFormIndex > 0) {
         if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value < this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.value) {
           //   this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
+          this.editMinMaxIsFalse = true;
           this.editPricingAllForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
         }
         else {
+          this.editMinMaxIsFalse = false;
           this.editPricingAllForms[currentFormIndex - 1].controls.check.setErrors(null);
         }
       }
@@ -397,11 +412,19 @@ export class CataloguesList implements OnInit {
       else if (currentFormIndex == 0) {
         if (this.editPricingAllForms[currentFormIndex].controls.maxPrice.value > this.editPricingAllForms[currentFormIndex + 1].controls.minPrice.value) {
           //   this.editPricingAllForms[currentFormIndex].controls.maxPrice.setErrors(null);
+          this.editMinMaxIsFalse = true;
           this.editPricingAllForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
         }
         else {
+          this.editMinMaxIsFalse = false;
           this.editPricingAllForms[currentFormIndex].controls.check.setErrors(null);
         }
+      }
+
+      if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value > this.editPricingAllForms[currentFormIndex].controls.maxPrice.value) {
+        this.minMaxValidValue = true;
+      } else {
+        this.minMaxValidValue = false;
       }
     }
   }

@@ -389,8 +389,12 @@
                                     mentioned location.</p>
 
                                 <div class="save-orange">
-                                    <button type="submit" (click)="addPricingAllWarehouseAddress()"
-                                        class="btn orangeBttn m-md-0">Add Pricing</button>
+
+                                    <button type="submit"
+                                        *ngIf="isEditBtnClicked && uniqueCatalogueData.catalogueItem.samePriceAllWarehouse"
+                                        (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
+                                        [disabled]="editMinMaxIsFalse || minMaxValidValue">Add
+                                        Pricing</button>
                                 </div>
 
                             </div>
@@ -545,7 +549,9 @@
 
                             <div class="save-orange">
                                 <button type="submit" (click)="addPricingIndividualWarehouseAddress()"
-                                    class="btn orangeBttn m-md-0">Add Pricing</button>
+                                    class="btn orangeBttn m-md-0"
+                                    [disabled]="editMinMaxIsFalse || (pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)) || (pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid))">Add
+                                    Pricing</button>
                             </div>
 
                         </div>
