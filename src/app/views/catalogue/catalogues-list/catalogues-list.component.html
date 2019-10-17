@@ -113,7 +113,8 @@
                                                                     class="quantity-mat-form inputFieldOfPrice">
                                                                     <input matInput (input)="compareMinMax(i)"
                                                                         type="number" class="form-control"
-                                                                        formControlName="minPrice" placeholder="min">
+                                                                        formControlName="minPrice" placeholder="min"
+                                                                        required>
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid)">
                                                                         Invalid</mat-error>
@@ -166,8 +167,9 @@
                                                 <div class="form-group lableup mb-0 mt-4">
                                                     <mat-form-field class="quantity-mat-form">
                                                         <input matInput type="number" id="mobile"
-                                                            formControlName="price" placeholder="Price Per Bag (₹)"
-                                                            class="form-control inputLableUp">
+                                                            (input)="checkPrice(i)" formControlName="price"
+                                                            placeholder="Price Per Bag (₹)"
+                                                            class="form-control inputLableUp" required>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -236,7 +238,8 @@
                                                                     class="quantity-mat-form inputFieldOfPrice">
                                                                     <input matInput (input)="compareMinMaxEdit(i)"
                                                                         type="number" class="form-control"
-                                                                        formControlName="minPrice" placeholder="min">
+                                                                        formControlName="minPrice" placeholder="min"
+                                                                        required>
                                                                     <mat-error
                                                                         *ngIf="editPricingAllForm.controls.minPrice.errors && (!editPricingAllForm.controls.minPrice.errors.isMinMaxInValid)">
                                                                         Invalid</mat-error>
@@ -296,8 +299,9 @@
                                                 <div class="form-group lableup mb-0 mt-4">
                                                     <mat-form-field class="quantity-mat-form">
                                                         <input matInput type="number" id="mobile"
-                                                            formControlName="price" placeholder="Price Per Bag (₹)"
-                                                            class="form-control inputLableUp">
+                                                            (input)="checkPriceEdit(i)" formControlName="price"
+                                                            placeholder="Price Per Bag (₹)"
+                                                            class="form-control inputLableUp" required>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -390,10 +394,9 @@
 
                                 <div class="save-orange">
 
-                                    <button type="submit"
-                                        *ngIf="isEditBtnClicked && uniqueCatalogueData.catalogueItem.samePriceAllWarehouse"
-                                        (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                        [disabled]="editMinMaxIsFalse || minMaxValidValue">Add
+                                    <button type="submit" (click)="addPricingAllWarehouseAddress()"
+                                        class="btn orangeBttn m-md-0"
+                                        [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Add
                                         Pricing</button>
                                 </div>
 
@@ -439,8 +442,8 @@
                                                                         <input matInput
                                                                             (input)="compareMinMaxIndvidual(i,indx)"
                                                                             type="number" class="form-control"
-                                                                            formControlName="minPrice"
-                                                                            placeholder="min">
+                                                                            formControlName="minPrice" placeholder="min"
+                                                                            required>
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid)">
                                                                             Invalid</mat-error>
@@ -472,9 +475,8 @@
                                                                         Max-Min Invalid</mat-error>
 
                                                                     <mat-form-field
-                                                                        *ngIf="(i === warehouse.pricingForms.length-1)"
-                                                                        class="quantity-mat-form inputFieldOfPrice"
-                                                                        [hidden]="addPriceForRemainingIndividualQuantity">
+                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber != indx))"
+                                                                        class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput
                                                                             (input)="compareMinMaxIndvidual(i,indx)"
                                                                             type="number" class="form-control"
@@ -486,11 +488,11 @@
                                                                             Invalid</mat-error>
                                                                     </mat-form-field>
                                                                     <mat-form-field
-                                                                        *ngIf="(i===warehouse.pricingForms.length-1)"
-                                                                        class="quantity-mat-form inputFieldOfPrice"
-                                                                        [hidden]="!addPriceForRemainingIndividualQuantity">
+                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber == indx))"
+                                                                        class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput class="form-control" value="∞"
                                                                             placeholder="max" disabled>
+
                                                                     </mat-form-field>
 
                                                                 </div>
@@ -505,8 +507,9 @@
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
+                                                                (input)="checkPriceIndvidual(i,indx)"
                                                                 formControlName="price" placeholder="Price Per Bag (₹)"
-                                                                class="form-control inputLableUp">
+                                                                class="form-control inputLableUp" required>
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -550,7 +553,7 @@
                             <div class="save-orange">
                                 <button type="submit" (click)="addPricingIndividualWarehouseAddress()"
                                     class="btn orangeBttn m-md-0"
-                                    [disabled]="editMinMaxIsFalse || (pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)) || (pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid))">Add
+                                    [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Add
                                     Pricing</button>
                             </div>
 
