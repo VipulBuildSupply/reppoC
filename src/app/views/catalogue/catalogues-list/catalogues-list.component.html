@@ -116,7 +116,7 @@
                                                                         formControlName="minPrice" placeholder="min">
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid)">
-                                                                        Min is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.minPrice.errors && pricingForm.controls.minPrice.hasError('required')">
                                                                         Min is Required</mat-error>
@@ -132,7 +132,7 @@
 
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                        Max is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                 </mat-form-field>
 
                                                                 <mat-form-field *ngIf="i == pricingForms.length-1"
@@ -144,7 +144,7 @@
 
                                                                     <mat-error
                                                                         *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                        Max is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                 </mat-form-field>
 
                                                                 <mat-form-field *ngIf="i == pricingForms.length-1"
@@ -239,7 +239,7 @@
                                                                         formControlName="minPrice" placeholder="min">
                                                                     <mat-error
                                                                         *ngIf="editPricingAllForm.controls.minPrice.errors && (!editPricingAllForm.controls.minPrice.errors.isMinMaxInValid)">
-                                                                        Min is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                     <mat-error
                                                                         *ngIf="editPricingAllForm.controls.minPrice.errors && editPricingAllForm.controls.minPrice.hasError('required')">
                                                                         Min is Required</mat-error>
@@ -254,7 +254,7 @@
 
                                                                     <mat-error
                                                                         *ngIf="editPricingAllForm.controls.maxPrice.errors && (!editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                        Max is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                 </mat-form-field>
 
                                                                 <input matInput class="form-control"
@@ -262,7 +262,7 @@
 
                                                                 <mat-error style="font-size: 12px"
                                                                     *ngIf="editPricingAllForm.controls.check.errors && (!editPricingAllForm.controls.check.errors.isMinMaxInValid)">
-                                                                    Max-Min is invalid</mat-error>
+                                                                    Max-Min Invalid</mat-error>
 
                                                                 <mat-form-field
                                                                     *ngIf="i == editPricingAllForms.length-1"
@@ -274,7 +274,7 @@
 
                                                                     <mat-error
                                                                         *ngIf="editPricingAllForm.controls.maxPrice.errors && (!editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                        Max is invalid</mat-error>
+                                                                        Invalid</mat-error>
                                                                 </mat-form-field>
 
                                                                 <mat-form-field
@@ -443,7 +443,7 @@
                                                                             placeholder="min">
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.minPrice.errors && (!pricingForm.controls.minPrice.errors.isMinMaxInValid)">
-                                                                            Min is invalid</mat-error>
+                                                                            Invalid</mat-error>
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.minPrice.errors && pricingForm.controls.minPrice.hasError('required')">
                                                                             Min is Required</mat-error>
@@ -460,7 +460,7 @@
                                                                             placeholder="max">
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                            Max is invalid</mat-error>
+                                                                            Invalid</mat-error>
                                                                     </mat-form-field>
 
                                                                     <input matInput class="form-control"
@@ -469,7 +469,7 @@
 
                                                                     <mat-error style="font-size: 12px"
                                                                         *ngIf="pricingForm.controls.check.errors && (!pricingForm.controls.check.errors.isMinMaxInValid)">
-                                                                        Max-Min is invalid</mat-error>
+                                                                        Max-Min Invalid</mat-error>
 
                                                                     <mat-form-field
                                                                         *ngIf="(i === warehouse.pricingForms.length-1)"
@@ -483,7 +483,7 @@
 
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                            Max is invalid</mat-error>
+                                                                            Invalid</mat-error>
                                                                     </mat-form-field>
                                                                     <mat-form-field
                                                                         *ngIf="(i===warehouse.pricingForms.length-1)"
