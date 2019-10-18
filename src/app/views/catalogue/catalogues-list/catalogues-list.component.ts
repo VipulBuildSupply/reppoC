@@ -457,7 +457,8 @@ export class CataloguesList implements OnInit {
     const d = this._dialog.open(CatalogueFiltersComponent, {
       data: {},
       disableClose: true,
-      panelClass: 'catalogue-filters-popup'
+      panelClass: 'catalogue-filters-popup',
+      height: '90vh'
     });
   }
 

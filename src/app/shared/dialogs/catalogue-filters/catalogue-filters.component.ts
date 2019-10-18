@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSelectionList } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '../../services/notification-service';
@@ -20,7 +20,9 @@ export class CatalogueFiltersComponent implements OnInit {
   filteredLists: any = {
     "categoryIdList": []
   };
-  skusList: any;
+  categoryNames: any = [];
+  @ViewChild('filtersElm', { static: false }) filtersElm: MatSelectionList;
+  catIds: any;
 
   constructor(private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CatalogueFiltersComponent>,
@@ -56,28 +58,49 @@ export class CatalogueFiltersComponent implements OnInit {
    */
 
   searchFilter(event: string) {
-    /*if (event) {
+    if (event) {
       this.filtersList = this.allFilterList;
       this.filtersList = this.filtersList.filter(item => {
-        return item.toLowerCase().indexOf(event.toLowerCase()) != -1;
+        return item.categoryName.toLowerCase().indexOf(event.toLowerCase()) != -1;
       });
     } else {
       this.filtersList = this.allFilterList;
-    }*/
+    }
   }
 
   /**
    * @description function will call when specific category filters selected
    */
-
-  filteredProductsLists(option, id) {    
-    if (option.checked === true) {
-        this.filteredLists.categoryIdList.push(id);
-    }else {
-        const index = this.filteredLists.categoryIdList.findIndex(item => item.value == id)
-        this.filteredLists.categoryIdList.splice(index, 1);
+  filteredProductsLists(selectedOption) {
+    if (selectedOption.selected) {
+      this.filteredLists.categoryIdList.push(selectedOption.value.id);
+      this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
+    } else {
+      const index = this.filteredLists.categoryIdList.findIndex(item => item.value == selectedOption.value.id)
+      this.filteredLists.categoryIdList.splice(index, 1);
+      
+      const index1 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
+      this.categoryNames.splice(index1, 1);
     }
-    this.displayUpdatedProducts(this.filteredLists);
+  }
+
+  /**
+   * function will execute when click on apply button
+   */
+  applyFilters(chooseFilters) {
+    this.displayUpdatedProducts(chooseFilters);
+    this.closeDialog();
+  }
+
+  /**
+   * @description function to remove specific filters from selecetd filters list
+   */
+  cancelFilters(option) {
+    this.filtersElm.options.find(op => op.value.id == option.id).selected = false;
+    this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
+
+    const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
+    this.filteredLists.categoryIdList.splice(index, 1);
   }
 
   /**
@@ -86,7 +109,7 @@ export class CatalogueFiltersComponent implements OnInit {
   displayUpdatedProducts(filterObj) {
     return this._categoryService.getFilteredSkus(filterObj).then((res: any) => {
       this._categoryService.updateSkusList$.next(res.data);
-      return this.skusList;
+      return res.data;
     });
   }
 }

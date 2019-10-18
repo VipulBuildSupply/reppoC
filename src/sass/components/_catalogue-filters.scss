@@ -3,8 +3,18 @@
     top: 0px;
     position: absolute !important;
     width: 100%;
+    .mat-dialog-content,
+    .modal-content,
+    .modal-body{
+        height: 100%;
+    }
+    .mat-dialog-content{
+        max-height: 100%;
+    }
     .mat-dialog-container{
         border-radius: 0px;
+        padding: 0px;
+        overflow-x: hidden;
     }
     .modal-content{
         border: none;
@@ -16,6 +26,7 @@
             display: flex;
             width: 100%;
             justify-content: space-between;
+            align-items: center;;
             .modal-title{
                 color: #000;
                 font-size: 20px;
@@ -25,17 +36,24 @@
                 float: left;
             }
         }
+        .close span{
+            position: absolute;
+            top: 0px;
+            right: -100px;
+            z-index: 999;
+            font-size: 50px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.8);
+        }
     }
 
     .filter-box {
-        max-width: 256px;
-        width: 100%;  
-        // .mat-form-field-appearance-legacy .mat-form-field-label{
-        //     top: 6px;
-        // }    
+        max-width: 100%;
+        width: 100%;
         ul{
             padding: 0;
             list-style: none;
+            margin-bottom: 0px;;
         }  
         .accordion{
             color: #000;
@@ -51,6 +69,44 @@
             height: auto;
             width: auto;
             line-height: 24px;
+        }
+        .panel{
+            .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+                line-height: 32px;
+                font-size: 14px;
+                height: auto;
+                font-weight: 400;
+                color: rgba(0,0,0,0.95);
+            }
+
+            .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse{
+                padding: 0;
+            }
+
+            .mat-list-option:focus,
+            .mat-list-option:hover{
+                background: transparent;
+            }
+
+            .mat-ripple{
+                display: none;
+            }
+
+            .mat-pseudo-checkbox {
+                width: 36px;
+                height: 18px;
+                border: 1px solid #efefef;
+                border-radius: 0px;
+                background-color: #efefef;
+                &:after {
+                    top: 4px;
+                    left: 12px;
+                }
+            }
+            .mat-pseudo-checkbox.mat-pseudo-checkbox-checked{
+                background-color: #03B10F;
+                color: #fff;
+            }
         }
     }
 }
