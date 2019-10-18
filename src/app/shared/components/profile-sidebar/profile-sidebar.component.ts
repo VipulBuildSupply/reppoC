@@ -35,7 +35,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
      * @description get the updated user info
      */
     this.userInfoUpdated = this.userService.userUpdated$.subscribe(user => {
-        this.user = this.userService.user;    
+        this.user = this.userService.user; 
     })
 
 
