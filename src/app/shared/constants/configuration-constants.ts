@@ -60,5 +60,7 @@ export const API = {
     BUSINESS_DETAILS: 'account/api/seller/profile',
     DELETE_ADDRESS_PROOF: (addressId) => `account/api/address/${addressId}/addressProof`,
     IS_BUYER_USER: 'account/api/user/profile/add/SELLER',
-    SEARCH_SKU_TEXT : 'product/api/sku/search/list'
+    SEARCH_SKU_TEXT : 'product/api/sku/search/list',
+    GET_CATALOGUE_FILTERS: 'product/api/catalogue/filter',
+    GET_FILTERED_SKUS: 'product/api/catalogue/search/list'
 }

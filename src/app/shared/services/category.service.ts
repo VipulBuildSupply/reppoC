@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { API } from '../constants';
+import { Subject } from 'rxjs';
 
 @Injectable()
 
@@ -8,6 +9,7 @@ export class CategoryService {
 
     getCatList: any;
     getCatIds: any[] = [];
+    updateSkusList$ = new Subject<any>();
 
     constructor(
         private dataService: DataService
@@ -54,5 +56,14 @@ export class CategoryService {
     removeCategories() {
         localStorage.removeItem('SelectedCategories');
     }
+
+    getCatalogueFilters(){
+        return this.dataService.getRequest(API.GET_CATALOGUE_FILTERS).then(res => {
+            return res;
+        });
+    }
     
+    getFilteredSkus(data){
+        return this.dataService.sendPostRequest(API.GET_FILTERED_SKUS, data).then(res => res);
+    }
 }
