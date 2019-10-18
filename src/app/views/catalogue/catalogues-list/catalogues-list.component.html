@@ -170,6 +170,9 @@
                                                             (input)="checkPrice(i)" formControlName="price"
                                                             placeholder="Price Per Bag (₹)"
                                                             class="form-control inputLableUp" required>
+                                                        <mat-error
+                                                            *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
+                                                            Price is Required</mat-error>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -286,6 +289,7 @@
                                                                     [hidden]="!addPriceForRemainingQuantity">
                                                                     <input matInput class="form-control"
                                                                         placeholder="max" value="∞" disabled>
+
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -302,6 +306,9 @@
                                                             (input)="checkPriceEdit(i)" formControlName="price"
                                                             placeholder="Price Per Bag (₹)"
                                                             class="form-control inputLableUp" required>
+                                                        <mat-error
+                                                            *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
+                                                            Price is Required</mat-error>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -475,7 +482,7 @@
                                                                         Max-Min Invalid</mat-error>
 
                                                                     <mat-form-field
-                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber != indx))"
+                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber[indx] != indx))"
                                                                         class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput
                                                                             (input)="compareMinMaxIndvidual(i,indx)"
@@ -483,15 +490,25 @@
                                                                             formControlName="maxPrice"
                                                                             placeholder="max">
 
+                                                                        {{addPriceForRemainingIndividualQuantityNumber[indx]}}<br>
+                                                                        {{indx}} ena <br>
+                                                                        {{addPriceForRemainingIndividualQuantityNumber[indx] != indx}}
+                                                                        {{addPriceForRemainingIndividualQuantity[indx]}}
+
                                                                         <mat-error
                                                                             *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
                                                                             Invalid</mat-error>
                                                                     </mat-form-field>
                                                                     <mat-form-field
-                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber == indx))"
+                                                                        *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber[indx] == indx) && (addPriceForRemainingIndividualQuantity[indx]) )"
                                                                         class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput class="form-control" value="∞"
                                                                             placeholder="max" disabled>
+
+                                                                        {{addPriceForRemainingIndividualQuantityNumber[indx]}}<br>
+                                                                        {{indx}} dis <br>
+                                                                        {{addPriceForRemainingIndividualQuantityNumber[indx] == indx}}
+                                                                        {{addPriceForRemainingIndividualQuantity[indx]}}
 
                                                                     </mat-form-field>
 
@@ -510,6 +527,9 @@
                                                                 (input)="checkPriceIndvidual(i,indx)"
                                                                 formControlName="price" placeholder="Price Per Bag (₹)"
                                                                 class="form-control inputLableUp" required>
+                                                            <mat-error
+                                                                *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
+                                                                Price is Required</mat-error>
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -533,7 +553,7 @@
                                         <div class="col-md-6">
                                             <div>
                                                 <a href="javascript:void(0)"
-                                                    (click)="addAnotherRangeIndividual(warehouse.pricingForms)"
+                                                    (click)="addAnotherRangeIndividual(warehouse.pricingForms,indx)"
                                                     class="edit mt-lg-3">+
                                                     ADD ANOTHER RANGE</a>
                                             </div>
@@ -553,7 +573,7 @@
                             <div class="save-orange">
                                 <button type="submit" (click)="addPricingIndividualWarehouseAddress()"
                                     class="btn orangeBttn m-md-0"
-                                    [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Add
+                                    [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Add
                                     Pricing</button>
                             </div>
 
