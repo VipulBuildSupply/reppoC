@@ -44,6 +44,7 @@ export class CataloguesList implements OnInit {
   addPriceForRemainingIndividualQuantityNumber: any[] = [];
   checkPriceValidate: boolean;
   AllIndividualForms: boolean;
+  stockstatus: boolean;
 
   constructor(private Userservice: UserService, private _formBuilder: FormBuilder, private _router: Router, private ref: ChangeDetectorRef, private _dialog: MatDialog) { }
 
@@ -152,6 +153,13 @@ export class CataloguesList implements OnInit {
             this.editPricingForms(i);
             this.isEditBtnClicked = true;
           }
+        }
+
+        if (this.uniqueCatalogueData.catalogueItem.stockStatus == 'N') {
+          this.stockstatus = false;
+        }
+        else if (this.uniqueCatalogueData.catalogueItem.stockStatus == 'Y') {
+          this.stockstatus = true;
         }
       }
     });
@@ -692,8 +700,9 @@ export class CataloguesList implements OnInit {
 
   toggleStock(event) {
     if (event.target.checked) {
-      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.Cm.id, 'Y').then(res => {
+      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.catalogueItem.id, 'Y').then(res => {
         if (res) {
+          this.stockstatus = true;
           this.stockResponse = res.data;
           this.Userservice.getCatalogueItems().then(res => {
             if (res) {
@@ -705,8 +714,9 @@ export class CataloguesList implements OnInit {
       });
     }
     else {
-      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.Cm.id, 'N').then(res => {
+      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.catalogueItem.id, 'N').then(res => {
         if (res) {
+          this.stockstatus = false;
           this.stockResponse = res.data;
           this.Userservice.getCatalogueItems().then(res => {
             if (res) {
