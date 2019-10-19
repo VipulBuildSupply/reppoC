@@ -43,6 +43,7 @@ export class CataloguesList implements OnInit {
   subscriptions: Subscription[] = [];
   editMinMaxIsFalse: boolean;
   minMaxValidValue: boolean;
+  selectedFilters: any;
 
   constructor(private Userservice: UserService, 
               private _formBuilder: FormBuilder, 
@@ -255,11 +256,11 @@ export class CataloguesList implements OnInit {
 
   isEditBtnClickedFunc() {
     this.isEditBtnClicked = true;
-    console.log(this.isEditBtnClicked);
+    // console.log(this.isEditBtnClicked);
     for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
       this.editPricingForms(i);
     }
-    console.log(this.editPricingAllForms);
+    // console.log(this.editPricingAllForms);
   }
 
   isEditBtnNotClickedFunc() {
@@ -297,7 +298,7 @@ export class CataloguesList implements OnInit {
         }
         this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.disable();
         this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.setValue("");
-        console.log(this.editPricingAllForms);
+        // console.log(this.editPricingAllForms);
       }
 
       if (this.pricingForms.length > 0) {
@@ -306,7 +307,7 @@ export class CataloguesList implements OnInit {
         }
         this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.disable();
         this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.setValue("");
-        console.log(this.pricingForms);
+        // console.log(this.pricingForms);
       }
     }
     else {
@@ -335,14 +336,14 @@ export class CataloguesList implements OnInit {
       }
       // this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.disable();
       this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.setValue("");
-      console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
+      // console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     } else {
       this.addPriceForRemainingIndividualQuantity = false;
       this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.setValue("");
       for (let i = 0; i < priceforms.length; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-      console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
+      // console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     }
   }
 
@@ -481,8 +482,8 @@ export class CataloguesList implements OnInit {
     for (let i = 0; i < this.warehouseData.length; i++) {
       for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
         if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
-          console.log(this.warehouseData[i].pricingForms[j].controls.minPrice.value);
-          console.log(this.warehouseData[i].address.addressId);
+          // console.log(this.warehouseData[i].pricingForms[j].controls.minPrice.value);
+          // console.log(this.warehouseData[i].address.addressId);
           const object = {
             "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
@@ -517,7 +518,7 @@ export class CataloguesList implements OnInit {
         this.sendPricingToAllArrayEdit.push(object);
       }
 
-      console.log(this.sendPricingToAllArrayEdit);
+      // console.log(this.sendPricingToAllArrayEdit);
 
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit);
     }
@@ -537,7 +538,7 @@ export class CataloguesList implements OnInit {
         this.sendPricingToAllArray.push(object);
       }
 
-      console.log(this.sendPricingToAllArray);
+      // console.log(this.sendPricingToAllArray);
 
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray);
     }
@@ -556,11 +557,20 @@ export class CataloguesList implements OnInit {
 
   filters() {
     const d = this._dialog.open(CatalogueFiltersComponent, {
-      data: {},
+      data: { selectedFiltersData: this.selectedFilters },
       disableClose: true,
       panelClass: 'catalogue-filters-popup',
       height: '90vh'
     });
+    d.afterClosed().toPromise().then((data: any) => {
+      if (data) { 
+        this.getAllSelectedFilters(data);
+      }
+    });
+  }
+
+  getAllSelectedFilters(filters){
+    this.selectedFilters = filters;
   }
 
   addWareHouseAddressBtnClicked() {

@@ -40,7 +40,7 @@
                                 <div class="panel">
                                     <mat-selection-list #filtersElm class="pt-0"
                                         (selectionChange)="filteredProductsLists($event.option)">
-                                        <mat-list-option [value]="filters" *ngFor="let filters of filtersList">
+                                        <mat-list-option [value]="filters" [selected]="isSelected(filters.id)" *ngFor="let filters of filtersList">
                                             {{filters.categoryName}}
                                         </mat-list-option>
                                     </mat-selection-list>
