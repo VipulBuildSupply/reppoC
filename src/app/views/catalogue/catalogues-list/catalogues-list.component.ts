@@ -538,6 +538,17 @@ export class CataloguesList implements OnInit {
         this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
         this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
       }
+      else if (this.warehouseData[Index].pricingForms[currentFormIndex + 1]) {
+        if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value > this.warehouseData[Index].pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+          this.editMinMaxIsFalse = true;
+          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+        }
+        else {
+          this.editMinMaxIsFalse = false;
+          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors(null);
+        }
+      }
+
       else {
         this.editMinMaxIsFalse = false;
         this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
@@ -610,6 +621,16 @@ export class CataloguesList implements OnInit {
           this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors({ isMinMaxInValid: false });
           this.editMinMaxIsFalse = true;
         }
+        else if (this.pricingForms[currentFormIndex + 1]) {
+          if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+            this.pricingForms[currentFormIndex].controls.maxPrice.setErrors({ isMinMaxInValid: false });
+            this.editMinMaxIsFalse = true;
+          }
+          else {
+            this.editMinMaxIsFalse = false;
+            this.pricingForms[currentFormIndex].controls.check.setErrors(null);
+          }
+        }
         else {
           this.editMinMaxIsFalse = false;
           this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
@@ -658,6 +679,16 @@ export class CataloguesList implements OnInit {
           //   this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
           this.editMinMaxIsFalse = true;
           this.editPricingAllForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
+        }
+        else if (this.editPricingAllForms[currentFormIndex + 1]) {
+          if (this.editPricingAllForms[currentFormIndex].controls.maxPrice.value > this.editPricingAllForms[currentFormIndex + 1].controls.minPrice.value) {
+            this.editMinMaxIsFalse = true;
+            this.editPricingAllForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+          }
+          else {
+            this.editMinMaxIsFalse = false;
+            this.editPricingAllForms[currentFormIndex].controls.check.setErrors(null);
+          }
         }
         else {
           this.editMinMaxIsFalse = false;
