@@ -84,7 +84,7 @@ export class CataloguesList implements OnInit {
 
   getCatalogueItems() {
     this.Userservice.getCatalogueItems().then(res => {
-      if (res) {
+      if (res.data.length > 0) {
         this.catalogueList = res.data;
         this.catalogueListTemp = this.catalogueList;
       }
@@ -164,14 +164,17 @@ export class CataloguesList implements OnInit {
         if (this.uniqueCatalogueData.catalogueItem.samePriceAllWarehouse) {
           this.addPriceToAllWareHouseCheckBox = true;
         }
-        if (this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length > 0) {
-          this.editPricingAllForms = [];
-          this.isEditBtnClicked = true;
-          for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
-            this.editPricingForms(i);
+        if (this.uniqueCatalogueData.warehouseList.length > 0) {
+          if (this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length > 0) {
+            this.editPricingAllForms = [];
             this.isEditBtnClicked = true;
+            for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
+              this.editPricingForms(i);
+              this.isEditBtnClicked = true;
+            }
           }
         }
+
 
         if (this.uniqueCatalogueData.catalogueItem.stockStatus == 'N') {
           this.stockstatus = false;
@@ -636,13 +639,14 @@ export class CataloguesList implements OnInit {
 
       if (currentFormIndex > 0) {
         if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
-          this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors({ isMinMaxInValid: false });
+          //   this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
           this.editMinMaxIsFalse = true;
+          this.pricingForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
         }
         else if (this.pricingForms[currentFormIndex + 1]) {
           if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
-            this.pricingForms[currentFormIndex].controls.maxPrice.setErrors({ isMinMaxInValid: false });
             this.editMinMaxIsFalse = true;
+            this.pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
           }
           else {
             this.editMinMaxIsFalse = false;
@@ -651,20 +655,20 @@ export class CataloguesList implements OnInit {
         }
         else {
           this.editMinMaxIsFalse = false;
-          this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
+          this.pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
         }
       }
 
       else if (currentFormIndex == 0) {
-
         if (this.pricingForms[currentFormIndex + 1]) {
           if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+            //   this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
             this.editMinMaxIsFalse = true;
-            this.pricingForms[currentFormIndex].controls.maxPrice.setErrors({ isMinMaxInValid: false });
+            this.pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
           }
           else {
             this.editMinMaxIsFalse = false;
-            this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
+            this.pricingForms[currentFormIndex].controls.check.setErrors(null);
           }
         }
       }
@@ -675,7 +679,6 @@ export class CataloguesList implements OnInit {
         this.minMaxValidValue = false;
       }
 
-
       if (this.pricingForms[currentFormIndex].controls.minPrice.value == null) {
         this.minMaxValidValue = true;
       }
@@ -683,9 +686,7 @@ export class CataloguesList implements OnInit {
         this.minMaxValidValue = true;
       }
 
-
       this.checkPrice(currentFormIndex);
-
     }
   }
 
