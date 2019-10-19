@@ -85,11 +85,11 @@ export class CatalogueFiltersComponent implements OnInit {
    */
   filteredProductsLists(selectedOption) {
     if (selectedOption.selected) {
-      this.filteredLists.categoryIdList.push(selectedOption.value.id);
+      // this.filteredLists.categoryIdList.push(selectedOption.value.id);
       this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
     } else {
-      const index = this.filteredLists.categoryIdList.findIndex(item => item.value == selectedOption.value.id)
-      this.filteredLists.categoryIdList.splice(index, 1);
+      // const index = this.filteredLists.categoryIdList.findIndex(item => item.value == selectedOption.value.id)
+      // this.filteredLists.categoryIdList.splice(index, 1);
 
       const index1 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
       this.categoryNames.splice(index1, 1);
@@ -112,8 +112,8 @@ export class CatalogueFiltersComponent implements OnInit {
     this.filtersElm.options.find(op => op.value.id == option.id).selected = false;
     this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
 
-    const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
-    this.filteredLists.categoryIdList.splice(index, 1);
+    // const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
+    // this.filteredLists.categoryIdList.splice(index, 1);
   }
 
   /**
