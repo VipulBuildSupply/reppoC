@@ -20,7 +20,7 @@
 
     <div class="form-group flag-box inputbox mb-2">
         <!-- <input type="text" id="mobile" class="form-control" value="***********"> -->
-        <input type="password" class="form-control" name="password" formControlName="password" placeholder="Enter Your Password" required>
+        <input type="password" class="form-control" name="password" (ngModelChange)="checkPasswords(signupForm)" formControlName="password" placeholder="Enter Your Password" required>
         <label class="form-control-placeholder" for="buisness">Password</label>
     </div>
     <div

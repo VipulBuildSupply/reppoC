@@ -69,7 +69,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
   startSubscriptions(){
       this.subscriptions.push(
           this.userService.enableProfile$.subscribe(value => {
-              if(value){
+              if(value){                
                 this.profileVerfyStatus = value;
               }
           }),

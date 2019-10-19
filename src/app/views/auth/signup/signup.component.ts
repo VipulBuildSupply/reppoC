@@ -31,6 +31,9 @@ export class SignupComponent implements OnInit {
 
         this.mobileNumber = this.signinService.userPhone;
 
+        
+        
+
         if(this.mobileNumber == undefined){
             this._router.navigate(['/auth/enter-mobile']);
         }1
@@ -46,7 +49,7 @@ export class SignupComponent implements OnInit {
             }],
             confirmPassword: [this.confirmPassword, {
                 validators: [
-                    Validators.required
+                    Validators.required,
                 ]
             }],
 
