@@ -43,14 +43,26 @@ export class CatalogueFiltersComponent implements OnInit {
     this._categoryService.getCatalogueFilters().then(res => {
       this.filtersList = res.data.map(filter => filter);
       this.allFilterList = this.filtersList;
+
+      if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
+        this.categoryNames = this.filtersList.filter(item => this.data.selectedFiltersData.indexOf(item.id) != -1);
+      }
     });
+  }
+
+  isSelected(id): boolean {
+    if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
+      return this.data.selectedFiltersData.some(selectedFilterId => selectedFilterId == id);
+    } else {
+      return false
+    }
   }
 
   /**
    * @description function to close popup window
    */
-  closeDialog(): void {
-    this.dialogRef.close(null);
+  closeDialog(selected): void {
+    this.dialogRef.close(selected);
   }
 
   /**
@@ -73,12 +85,12 @@ export class CatalogueFiltersComponent implements OnInit {
    */
   filteredProductsLists(selectedOption) {
     if (selectedOption.selected) {
-      this.filteredLists.categoryIdList.push(selectedOption.value.id);
+      // this.filteredLists.categoryIdList.push(selectedOption.value.id);
       this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
     } else {
-      const index = this.filteredLists.categoryIdList.findIndex(item => item.value == selectedOption.value.id)
-      this.filteredLists.categoryIdList.splice(index, 1);
-      
+      // const index = this.filteredLists.categoryIdList.findIndex(item => item.value == selectedOption.value.id)
+      // this.filteredLists.categoryIdList.splice(index, 1);
+
       const index1 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
       this.categoryNames.splice(index1, 1);
     }
@@ -87,9 +99,10 @@ export class CatalogueFiltersComponent implements OnInit {
   /**
    * function will execute when click on apply button
    */
-  applyFilters(chooseFilters) {
-    this.displayUpdatedProducts(chooseFilters);
-    this.closeDialog();
+  applyFilters() {
+    const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
+    this.displayUpdatedProducts(selected);
+    this.closeDialog(selected);
   }
 
   /**
@@ -99,15 +112,18 @@ export class CatalogueFiltersComponent implements OnInit {
     this.filtersElm.options.find(op => op.value.id == option.id).selected = false;
     this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
 
-    const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
-    this.filteredLists.categoryIdList.splice(index, 1);
+    // const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
+    // this.filteredLists.categoryIdList.splice(index, 1);
   }
 
   /**
    * @description function to get the skus list based on selected category filters
    */
   displayUpdatedProducts(filterObj) {
-    return this._categoryService.getFilteredSkus(filterObj).then((res: any) => {
+    const data = {
+      "categoryIdList": filterObj
+    };
+    return this._categoryService.getFilteredSkus(data).then((res: any) => {
       this._categoryService.updateSkusList$.next(res.data);
       return res.data;
     });
