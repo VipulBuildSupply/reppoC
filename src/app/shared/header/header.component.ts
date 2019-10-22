@@ -18,8 +18,8 @@ export class HeaderComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService,
-              private signinService: SigninSignupService,
-              private router: Router) { }
+    private signinService: SigninSignupService,
+    private router: Router) { }
 
   // Sub Menu Functionality
   // profileType() {
@@ -31,8 +31,8 @@ export class HeaderComponent implements OnInit {
    */
 
   getProfileDropdown() {
-    
-    this.profileDropdown = [ 
+
+    this.profileDropdown = [
       { name: 'Profile', link: '/user/profile/personal' },
       // { name: 'My Orders', link: '' },
       // { name: 'My RFQ', link: '' },
@@ -53,19 +53,19 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
     this.startSubscriptions();
-    
+
     if (this.signinService.isLoggedIn) {
-        this.user = this.userService.user;        
+      this.user = this.userService.user;
     }
     this.getProfileDropdown();
   }
 
   startSubscriptions() {
     this.subscriptions.push(
-        //? this subscription is used to check is any data update in user Object
-        this.userService.userUpdated$.subscribe(usrData => {
-            this.user = usrData;          
-        })
+      //? this subscription is used to check is any data update in user Object
+      this.userService.userUpdated$.subscribe(usrData => {
+        this.user = usrData;
+      })
     );
   }
 
