@@ -35,7 +35,7 @@ import { BusinessDetailsResolver } from './business-details/resolver/business-de
     AddressProfileComponent,
     AddBankDetailsComponent,
     AddAddressComponent,
-    MultiSelectChipComponent
+    MultiSelectChipComponent,
   ],
   imports: [
     CommonModule,

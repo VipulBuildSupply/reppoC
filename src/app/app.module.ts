@@ -24,6 +24,7 @@ import { HttpInterceptorProviders } from './shared/http-interceptors/http-interc
 import { CategoryService } from './shared/services/category.service';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
+import { ProfileVerificationComponent } from './views/profile-verification/profile-verification.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CatalogueGuardService } from './shared/guards/catalogue.guard';
     NotFoundComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
+    ProfileVerificationComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,7 @@ import { CatalogueGuardService } from './shared/guards/catalogue.guard';
     HttpInterceptorProviders,
     CategoryService,
     AuthGuardService,
-    CatalogueGuardService
+    CatalogueGuardService,
   ],
   bootstrap: [AppComponent]
 })

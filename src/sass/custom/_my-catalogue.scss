@@ -519,9 +519,9 @@
     color: #00A6B2;
 }
 
-.addsku{
+.addsku, .profile-verification{
     border: none;
-
+    overflow-x: hidden;
     &__heading{
         font-size: 18px;
         font-weight: 600;
@@ -550,4 +550,17 @@
         font-weight: 700;
     }
 
+}
+
+.profile-verification{
+    &__description{
+        width: 29%;
+    }
+    &--btn{
+        width: 20%;
+    }
+    img{
+        width: 280px;
+        margin: 20px auto;
+    }
 }
