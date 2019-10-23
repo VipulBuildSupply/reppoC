@@ -37,7 +37,7 @@
             
         </div>
     </div>
-    <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
+    <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == true; else pendingBox">
         <div class="requestbox" *ngIf="profileVerfyStatus">
             <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
             <div class="request-bttn">

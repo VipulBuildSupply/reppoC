@@ -22,15 +22,6 @@
     padding: 148px 0;
 }
 
-.addsku p {
-    font-size: $font-size-14;
-    opacity: 0.5;
-    font-weight: $font-weight-600;
-    color: $text-color-black;
-    padding-top: 20px;
-    margin-bottom: 0;
-}
-
 .add-sku-link {
     padding: 35px 0 0 0;
 }
@@ -526,4 +517,37 @@
 .commom-drop li .active {
     font-weight: $font-weight-600;
     color: #00A6B2;
+}
+
+.addsku{
+    border: none;
+
+    &__heading{
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 0px;
+    }
+
+
+    &__description{
+        color: #000;
+        font-weight: 400;
+        padding-top: 10px;
+        width: 35%;
+        margin: auto;
+        font-size: 15px;
+        line-height: 26px;
+    }
+
+    &--btn {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 45px;
+        height: 47px;
+        border-radius: 50px;
+        width: 30%;
+        font-weight: 700;
+    }
+
 }
