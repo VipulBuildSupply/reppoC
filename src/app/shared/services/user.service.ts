@@ -291,5 +291,8 @@ export class UserService {
     sendSkuToEmail(data) {
         return this.dataService.sendPostRequest(API.SEND_TO_EMAIL, data).then(res => res);
     }
+    updateFileBulkCat(data) {
+        return this.dataService.sendPostRequest(API.FILE_BULK_CATALOGUE, data).then(res => res.data)
+    }
 
 }

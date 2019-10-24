@@ -10,6 +10,7 @@ import { NotificationService } from '../../services/notification-service';
   templateUrl: './send-sku-email.component.html'
 })
 export class SendSkuEmailComponent implements OnInit {
+    s
 
   profileVerifyForm: FormGroup;
   email: any;

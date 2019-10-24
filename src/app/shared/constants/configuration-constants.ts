@@ -63,6 +63,7 @@ export const API = {
     SEARCH_SKU_TEXT: 'product/api/sku/search/list',
     GET_CATALOGUE_FILTERS: 'product/api/catalogue/filter',
     GET_FILTERED_SKUS: 'product/api/catalogue/search/list',
-    SEND_TO_EMAIL: 'product/api/catalogue/price/excel/mail'
+    SEND_TO_EMAIL: 'product/api/catalogue/price/excel/mail',
+    FILE_BULK_CATALOGUE: 'product/api/catalogue/price/excel/upload'
 
 }

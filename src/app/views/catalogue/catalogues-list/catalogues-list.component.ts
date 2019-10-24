@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
-
+import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 
 interface Warehouse {
   address: any;
@@ -898,4 +898,14 @@ export class CataloguesList implements OnInit {
     console.log(data);
     this.Userservice.sendSkuToEmail(data).then(res => res);
   }
+
+  openDialog(): void {
+    const dialogRef = this._dialog.open(SendBulkCatalogueEmailComponent, {
+      width: '720px',
+      data: { category: 0 }
+    });
+
+  }
+
+
 }
