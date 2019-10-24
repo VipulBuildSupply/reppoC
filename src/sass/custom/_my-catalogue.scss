@@ -73,7 +73,7 @@
     font-size: $font-size-12;
 }
 
-.addToCatBtn{
+.addToCatBtn {
     border-radius: 25px;
     border: 0px;
     padding: 5px 20px;
@@ -81,15 +81,28 @@
     background: #f47721;
     color: white;
 }
-.addToCatBtnDisable{
+
+.addToEmailBtn {
+    border: 2px solid #f47721;
+    color: #f47721;
+    background: white;
+    text-transform: uppercase !important;
+    padding: 8px 20px !important;
+    &:hover{
+        border-color: #fa8534;
+    }
+}
+
+.addToCatBtnDisable {
     border-radius: 25px;
     border: 0px;
-    padding: 5px 20px;
-    font-size: 15px;
+    padding: 11px 20px;
+    font-size: 11px;
     background: #f47721;
     color: white;
     cursor: not-allowed;
-    opacity : 0.7;
+    opacity: 0.7;
+    line-height: 16px;
 }
 
 .sku-categeory .input-group-text {
@@ -156,11 +169,14 @@
 }
 .matFormFieldMultiSelect{
     width : 100%;
+}
+.matFormFieldMultiSelect {
+    // width: 240px;
     margin-top: -21px;
-    
+
 }
 
-.matFormFieldMultiSelect.mat-form-field-appearance-legacy .mat-form-field-underline{
+.matFormFieldMultiSelect.mat-form-field-appearance-legacy .mat-form-field-underline {
     display: none;
 }
 
@@ -173,22 +189,19 @@
     height: 53px;
     padding-left: 18px;
     margin-bottom: 10px;
-
-
-    // label {
-    //     font-size: $font-size-16;
-    //     font-weight: $font-weight-600;
-
-    //     // &:before {
-    //     //     content: '';
-    //     //     border: 1px solid #C4C4C4;
-    //     //     background: rgba(196, 196, 196, 0.2);
-    //     //     padding: 0 9px;
-    //     // }
-    // }
-
-
 }
+
+.select-item-box-upper {
+    width: $width-100;
+    //  border: $border;
+    //border-radius: $border-radius-4;
+    background: $bg-color-white;
+    line-height: 53px;
+    height: 53px;
+    padding-left: 18px;
+    margin-bottom: 10px;
+}
+
 
 .container {
     display: block;
@@ -201,55 +214,57 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .container input {
+}
+
+/* Hide the browser's default checkbox */
+.container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+}
+
+/* Create a custom checkbox */
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 25px;
     width: 25px;
 
-    margin-top:15px;
+    margin-top: 15px;
     background-color: #eee;
-  }
-  .checkCataloguePage{
-      margin-top: 0px;
-  }
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
+}
+
+.checkCataloguePage {
+    margin-top: 0px;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input~.checkmark {
     background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked~.checkmark {
     background-color: green;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .container input:checked ~ .checkmark:after {
+}
+
+/* Show the checkmark when checked */
+.container input:checked~.checkmark:after {
     display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .container .checkmark:after {
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
     left: 9px;
     top: 5px;
     width: 5px;
@@ -259,7 +274,13 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
+
+.selectAll {
+    margin: 0%;
+}
+
+
 
 .select-box-left {
     width: $width-100;
@@ -298,8 +319,8 @@
 
 }
 
-.inputFieldOfPrice{
-    width : 50%;
+.inputFieldOfPrice {
+    width: 50%;
 
     .mat-form-field-flex {
         display: inline-flex;
@@ -308,6 +329,7 @@
         width: 265px;
     }
 }
+
 .leads-srch {
     display: flex;
     position: relative;
@@ -326,9 +348,10 @@
     margin-right: 5px;
 }
 
-.form-control.catalogue-list-input-disabled:disabled{
+.form-control.catalogue-list-input-disabled:disabled {
     background: #ffffff;
 }
+
 .leads-srch a .filter-no {
     position: absolute;
     top: 18px;
@@ -581,3 +604,6 @@
     }
 }
 
+.buttons-group-align{
+    display: flex;
+}

@@ -3,6 +3,7 @@ import { SelectAddressComponent } from './select-address/select-address-componen
 import { AddAddressDialogComponent } from './add-address/address.dialog';
 import { SwitchUserProfileComponent } from './switch-user-profile/switch-user-profile.component';
 import { CatalogueFiltersComponent } from './catalogue-filters/catalogue-filters.component';
+import { SendSkuEmailComponent } from './send-sku-email/send-sku-email.component';
 // import {PromoContentDialogComponent} from './promo-content-dialog/promo-content-dialog.component';
 
 export const SharedDialogs = [
@@ -11,5 +12,6 @@ export const SharedDialogs = [
     SelectAddressComponent,
     AddAddressDialogComponent,
     SwitchUserProfileComponent,
-    CatalogueFiltersComponent
+    CatalogueFiltersComponent,
+    SendSkuEmailComponent
 ];
