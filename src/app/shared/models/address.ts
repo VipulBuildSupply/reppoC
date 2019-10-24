@@ -5,7 +5,7 @@ export class Address {
     addressId?: 0;
     addressLine1: string;
     addressLine2: string;
-    deliveryRange? : string;
+    deliveryRange?: string;
     addressProofFile?: string;
     city: City;
     defaultAddress?: boolean;
@@ -16,7 +16,7 @@ export class Address {
     pincode: string;
     state: State;
     userType?: string;
-    companyId?:any;
+    companyId?: any;
     users?: AddressUser[];
     addressProof?: string;
     cityId?: number;
@@ -35,7 +35,7 @@ export class Address {
         userType = 'SELLER',
         addressProofFile = '',
         addressId = null
-    }){
+    }) {
         this.addressCategory = addressCategory;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -55,7 +55,7 @@ export class City {
     id: number;
     name: string;
 
-    constructor({id = null, name = ''}){
+    constructor({ id = null, name = '' }) {
         this.id = id;
         this.name = name;
     }
@@ -71,9 +71,9 @@ export class State {
     id: 0;
     name: string;
 
-    constructor({cities = [], id = null, name = ''}){
+    constructor({ cities = [], id = null, name = '' }) {
         this.cities = cities.map(city => new City(city)),
-        this.id = id;
+            this.id = id;
         this.name = name;
     }
 }
@@ -93,25 +93,27 @@ export class AddressUser {
 }
 
 export class SelectedAddress {
-    billing:Address;
-    warehouse:Address;
+    billing: Address;
+    warehouse: Address;
 }
 
+export class AddBulkFile {
+    file?: any;
+}
 
-
-export class BankDetails{
-    id ?: number;
-    accountHolderName ?: string;
-    bank ?: BankName;
-    bankName ?: string;
-    accountNumber ?: string;
-    ifscCode ?: string;
-    cancelledChequePhotoImage ?: any;
+export class BankDetails {
+    id?: number;
+    accountHolderName?: string;
+    bank?: BankName;
+    bankName?: string;
+    accountNumber?: string;
+    ifscCode?: string;
+    cancelledChequePhotoImage?: any;
     userDomain: string;
-    companyId?:any;
+    companyId?: any;
 }
 
-export class BusinessDetails{
+export class BusinessDetails {
     address?: Address;
     companyName?: string;
     gstin: string;
@@ -132,7 +134,7 @@ export class BusinessDetails{
         panPhoto = '',
         catagoryIds,
         addressProof = ''
-    }){
+    }) {
         this.address = new Address(address || {});
         this.sellerBusinessType = sellerBusinessType || {};
         this.minAnnualTurnover = minAnnualTurnover || {};
@@ -150,7 +152,7 @@ export class AnnualTurnover {
     displayName?: string;
 }
 
-export class BusinessType{
+export class BusinessType {
     code?: string;
     displayName?: string;
 }
