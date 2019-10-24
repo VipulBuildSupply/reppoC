@@ -110,7 +110,7 @@
     font-weight: $font-weight-600;
     height: 39px;
     border: $border;
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0;
     -webkit-appearance: $none;
     appearance: $none;
     -moz-appearance: $none;
@@ -155,7 +155,7 @@
     padding-top: 17px;
 }
 .matFormFieldMultiSelect{
-    width : 240px;
+    width : 100%;
     margin-top: -21px;
     
 }
@@ -550,6 +550,26 @@
         font-weight: 700;
     }
 
+    img{
+        width: 280px;
+        margin: 20px auto;
+    }
+
+    &__brand{
+        .input-group{
+            flex-wrap: unset;
+        }
+
+        .custom-select{
+            width: 237px;
+            max-width: 237px;
+        }
+
+        .mat-select-value{
+            width: 91.6%;
+        }
+    }
+
 }
 
 .profile-verification{
@@ -559,8 +579,5 @@
     &--btn{
         width: 20%;
     }
-    img{
-        width: 280px;
-        margin: 20px auto;
-    }
 }
+
