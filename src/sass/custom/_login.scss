@@ -6,7 +6,7 @@
 .logo-login {
     position: absolute;
     left: 35px;
-    top: 35px;
+    top: 10px;
 }
 .logo-login img {
     max-width: 263px;
@@ -15,12 +15,14 @@
     width: 100%;
 }
 .loginbg img {
-    width: 100%;
+    width: auto;
     height: 100%;
-    object-fit: cover;
 }
 .loginbg {
     height: 100vh;
+    background-color: #fafafa;
+    border-right: 1px solid #e1e1e1;
+    padding-left: 80px;
 }
 .loginfield {
     @include loginfield();
