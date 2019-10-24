@@ -17,7 +17,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
   percentage: any;
   subscriptions: Subscription[] = [];
   profileVerfyStatus: boolean;
-  // existPercentage: any;
+  existPercentage: any;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -74,9 +74,9 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
               }
           }),
 
-          /*this.userService.updatePercentage$.subscribe(value => {
-            this.existPercentage = value;
-          })*/
+          this.userService.updatePercentage$.subscribe(value => {
+            this.percentage = value;
+          })
       )
   }
   /**

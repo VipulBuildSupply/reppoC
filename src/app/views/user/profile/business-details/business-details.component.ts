@@ -375,6 +375,7 @@ export class BusinessDetailsComponent implements OnInit {
     submitBusinessAddress(data){
         this._userService.updateBusinessDetails(data).then(res => {
             if (res.status == 1001) {
+                this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
                 this.goToBusinessDetailsPage();
             }
         });

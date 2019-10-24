@@ -116,17 +116,11 @@ export class AddBankDetailsComponent implements OnInit {
 
            
             const data = Object.assign(this.bankDetailsForm.value, defaults);
-            // console.log(data);
-            // console.log(this.bankDetails.userDomain);
-
+ 
             if (this.isEdit) {
 
                 this._userService.editBankDetails(this.bankDetails.id, data).then(res => {
                     if (res.success) {
-                        // this.getUpdatedProfilePer();
-                        // this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
-                        
-                        //this._router.navigate([ `/user/address/${this.bankDetails.addressCategory.toLowerCase()}` ])
                         this.goToBankDetailsPage();
                         
                     }
@@ -135,8 +129,7 @@ export class AddBankDetailsComponent implements OnInit {
             } else {
                 this._userService.addBankDetails(data).then(res => {
                     if (res.success) {
-                        // this.getUpdatedProfilePer();
-                        //this._router.navigate([ `/user/address/${this.bankDetails.addressCategory.toLowerCase()}` ])
+                        this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
                         this.goToBankDetailsPage();
                     }
                 });
