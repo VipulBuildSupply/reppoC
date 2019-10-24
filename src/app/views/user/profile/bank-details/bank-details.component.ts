@@ -22,6 +22,13 @@ export class BankDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedProfile = this.userService.selectedProfile;
+
+        this.userService.getUserData().then(res => {
+            if(res.sellerPersonalProfile.hideRequestVerification == false){
+                this.userService.enableProfile$.next(true);
+            }
+        });
+        
         this.startSubscriptions();
     }
 

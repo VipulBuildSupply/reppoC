@@ -77,7 +77,6 @@ export class BusinessDetailsComponent implements OnInit {
             this._userService.enableProfile$.next(true);
         }
 
-
         this._userService.getUserData().then(res => {
             this.userVerified = res.sellerPersonalProfile.verifyStatus;
         });
