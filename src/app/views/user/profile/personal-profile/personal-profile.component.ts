@@ -33,7 +33,13 @@ export class PersonalProfileComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.setCatalogueCategories();        
+        this.setCatalogueCategories();
+
+        this.userService.getUserData().then(res => {
+            if(res.sellerPersonalProfile.hideRequestVerification == false){
+                this.userService.enableProfile$.next(true);
+            }
+        });
 
         if (this.router.url != '/user/profile/personal/edit') {
             this.userService.isEdit = false;

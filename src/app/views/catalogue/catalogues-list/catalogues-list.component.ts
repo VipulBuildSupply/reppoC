@@ -911,8 +911,8 @@ export class CataloguesList implements OnInit {
 
   openDialog(): void {
     const dialogRef = this._dialog.open(SendBulkCatalogueEmailComponent, {
-      width: '720px',
-      data: { category: 0 }
+      data: { category: 0 },
+      panelClass: 'sku-email-popup'
     });
 
   }

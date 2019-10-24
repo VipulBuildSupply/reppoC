@@ -593,6 +593,11 @@
         }
     }
 
+    .pdf{
+        width: 80%;
+        margin: auto;
+    }
+
 }
 
 .profile-verification{
@@ -642,6 +647,10 @@
     }
 
     .modal-body{
+        .width120{
+            width: 120px !important;
+        }
+
         &__image{
             img{
                 width: 280px;
@@ -657,6 +666,24 @@
                     margin-bottom: 10px;
                 }
             }
+        }
+
+        &__heading{
+            font-size: 15px;
+            width: 80%;
+            margin: auto;
+            line-height: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        p{
+            font-size: 14px;
+            width: 80%;
+            margin: auto;
+            line-height: 22px;
+            padding-top: 20px;
+            padding-bottom: 30px;
         }
 
         &--btn{

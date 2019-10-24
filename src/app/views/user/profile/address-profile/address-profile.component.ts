@@ -23,10 +23,14 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.selectedProfile = this.userService.selectedProfile;
+
+        this.userService.getUserData().then(res => {
+            if(res.sellerPersonalProfile.hideRequestVerification == false){
+                this.userService.enableProfile$.next(true);
+            }
+        });
         //console.log(this.selectedProfile);
         this.startSubscriptions();
-
-
     }
 
     startSubscriptions() {

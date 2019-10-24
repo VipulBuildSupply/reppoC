@@ -36,7 +36,34 @@
             
         </div>
     </div>
-    <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false; else pendingBox">
+
+    <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == false && user.sellerPersonalProfile.verifyStatusCode == 'seller.sts.verify.unverify'">
+        <div class="requestbox" *ngIf="profileVerfyStatus">
+            <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
+            <div class="request-bttn">
+                <a (click)="requestToJoin()" class="orangeBttn">Request</a>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="user.sellerPersonalProfile.verifyStatusCode == 'seller.sts.verify.request'">
+        <div class="requestbox pro-verified">
+            <div class="title">
+                <img src="assets/img/pending.png">Your profile verification is pending by BuildSupply
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template *ngIf="user.sellerPersonalProfile.verifyStatusCode == 'seller.sts.verified'">
+        <div class="requestbox pro-verified">
+            <div class="title">
+                <img src="assets/img/green-check.png"> Your profile is verified by BuildSupply
+            </div>
+        </div>
+    </ng-template>
+
+    
+    <!-- <ng-container *ngIf="user.sellerPersonalProfile.hideRequestVerification == true; else pendingBox">
         <div class="requestbox" *ngIf="profileVerfyStatus">
             <div class="title">request-profile-verfication by<span>BuildSupply</span></div>
             <div class="request-bttn">
@@ -57,7 +84,7 @@
                 <div class="title"><img src="assets/img/green-check.png"> Your profile is verified by BuildSupply</div>
             </ng-template>
         </div>
-    </ng-template>
+    </ng-template> -->
     
     <div class="sidebar-menu">
         <ul>
