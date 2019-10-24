@@ -31,8 +31,6 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
         });
         //console.log(this.selectedProfile);
         this.startSubscriptions();
-
-
     }
 
     startSubscriptions() {

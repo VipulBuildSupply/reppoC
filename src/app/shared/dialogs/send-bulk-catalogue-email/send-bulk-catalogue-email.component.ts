@@ -72,4 +72,9 @@ export class SendBulkCatalogueEmailComponent implements OnInit {
     }
 
   }
+
+  closeDialog(): void {
+    this.dialogRef.close(false);
+  }
+
 }
