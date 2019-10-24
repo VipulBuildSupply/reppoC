@@ -5,24 +5,25 @@
                     <div class="catalogue-panel">
                         <div class="tile-heading flex-sb-m">
                             <h4>Add SKU</h4>
-                            <div class="request-bttn">
-                                <button class="addToEmailBtn" (click)="openDialog()">Get Search Result on
-                                    Email</button>
+                            <div class="buttons-group-align">
+                                <div class="request-bttn mr-3">
+                                    <button class="btn orangeBttn brdbttn addToEmailBtn" (click)="openDialog()"><i class="fa fa-envelope"></i> Get Search Result on Email</button>
+                                </div>
+                                <div class="request-bttn" *ngIf="ischecked">
+                                    <button class="btn orangeBttn addToCatBtn" (click)="CatalogueList()">Add to My Catalogue</button>
+                                </div>
+                                <div class="request-bttn" *ngIf="!ischecked">
+                                    <button class="btn orangeBttn addToCatBtnDisable" disabled>Add to My
+                                        Catalogue</button>
+                                </div>
                             </div>
-                            <div class="request-bttn" *ngIf="ischecked">
-                                <button class="addToCatBtn" (click)="CatalogueList()">Add to My Catalogue</button>
-                            </div>
-                            <div class="request-bttn" *ngIf="!ischecked">
-                                <button class="addToCatBtnDisable" disabled>Add to My
-                                    Catalogue</button>
-                            </div>
-
                         </div>
 
                         <div class="addsku">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="sku-categeory">
+
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="Category-1">Category 1</label>
@@ -39,6 +40,7 @@
                                                 </mat-option>
                                             </mat-select>
                                         </div>
+
                                         <div class="input-group" *ngIf="categoryTwo">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="Category-1">Category 2</label>
@@ -51,18 +53,8 @@
                                                 </mat-option>
                                             </mat-select>
                                         </div>
-                                        <!-- <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" for="Category-1">Category 3</label>
-                                            </div>
-                                            <select class="custom-select" id="Category-1">
-                                                <option selected>Select Category 1</option>
-                                                <option value="1">Select Category 2</option>
-                                                <option value="2">Select Category 3</option>
-                                                <option value="3">Select Category 4</option>
-                                            </select>
-                                        </div> -->
-                                        <div class="input-group">
+                                        
+                                        <div class="input-group addsku__brand">
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="Category-1">Brand</label>
                                             </div>
@@ -87,6 +79,7 @@
                                                 </mat-form-field>
                                             </mat-list-item>
                                         </div>
+
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Search</span>
@@ -98,12 +91,6 @@
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </span>
-                                            <!-- <input type="text" class="form-control" placeholder="Search this blog">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-secondary" type="button">
-                                                <i class="fa fa-search"></i>
-                                                </button>
-                                            </div> -->
 
                                         </div>
                                     </div>

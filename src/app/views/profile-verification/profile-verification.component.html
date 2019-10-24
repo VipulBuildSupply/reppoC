@@ -1,0 +1,44 @@
+<div class="profile-verification text-center pt-5" *ngIf="isPending">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-verification__img">
+                <img src="assets/img/Profile-Under-Verification.png" alt="" class="img-fluid">
+            </div>
+            <h3 class="profile-verification__heading">Profile Under Verification!</h3>
+            <p class="profile-verification__description">Your profile is under verification. Our team will soon reach out to you as a next step. Meanwhile, please update your catalogue to ensure faster verification.</p>
+            <div class="mt-3 pb-5">
+                <a class="btn orangeBttn profile-verification--btn" href="javascript:void(0)">Update Catalogue</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-verification text-center pt-5" *ngIf="isUnverified">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-verification__img">
+                <img src="assets/img/Update-Profile.png" alt="" class="img-fluid">
+            </div>
+            <h3 class="profile-verification__heading">Update Profile!</h3>
+            <p class="profile-verification__description">Please update your profile.<br/> You will start receivng lead and order from BuildSupply as soon as your profile is verified.</p>
+            <div class="mt-3 pb-5">
+                <a class="btn orangeBttn profile-verification--btn" href="javascript:void(0)" [routerLink]="'/user/profile/personal'">Update profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-verification text-center pt-5" *ngIf="isVerified">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-verification__img">
+                <img src="assets/img/Leads-Coming-Soon.png" alt="" class="img-fluid">
+            </div>
+            <h3 class="profile-verification__heading">Leads Coming Soon!</h3>
+            <p class="profile-verification__description">Our team is working on the RFQ requirements best suited for your business. You will be notified as soon as RFQ relevant to your profile is available.</p>
+            <div class="mt-3 pb-5">
+                <a class="btn orangeBttn profile-verification--btn" href="javascript:void(0)" [routerLink]="'/user/profile/personal'">Go to profile</a>
+            </div>
+        </div>
+    </div>
+</div>

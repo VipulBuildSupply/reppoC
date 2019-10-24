@@ -9,6 +9,7 @@ import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
+import { ProfileVerificationComponent } from './views/profile-verification/profile-verification.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,19 @@ export const routes: Routes = [
   },
 
   {
+    path: '',
+    component: DefaultLayoutComponent,
+    canActivate: [CatalogueGuardService, AuthGuardService],
+    children: [
+      {
+        path: 'profile-verification',
+        component: ProfileVerificationComponent,
+        data: { title: 'Profile Verification' }
+      }
+    ]
+  },
+
+  {
     path: '', 
     component: AuthLayoutComponent,
     //canActivate: [CatalogueGuardService],
@@ -88,8 +102,6 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     canActivate: [AuthGuardService, CatalogueGuardService],
-    // component: ProductsComponent,
-    //resolve: { products: ListResolver },
     children: [
       {
         path: 'catalogue',
@@ -98,6 +110,7 @@ export const routes: Routes = [
       }
     ]
   },
+
   {
     path: '404',
     component: NotFoundComponent

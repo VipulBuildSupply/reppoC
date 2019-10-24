@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldRegExConst } from '../../constants';
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '../../services/notification-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'profile-verify',
@@ -18,7 +19,8 @@ export class ProfileVerifyComponent implements OnInit {
       public dialogRef: MatDialogRef<ProfileVerifyComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any,
       private userService: UserService,
-      private notify: NotificationService) { }
+      private notify: NotificationService,
+      private _router: Router) { }
 
     ngOnInit(){
 
@@ -55,6 +57,7 @@ export class ProfileVerifyComponent implements OnInit {
               this.notify.snack('A verification mail sent to your registered Email ID!');
               this.closeDialog();
               this.userService.setUser(res.data);
+              this._router.navigate(['profile-verification']);
           });
       }
     }

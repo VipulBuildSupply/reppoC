@@ -22,15 +22,6 @@
     padding: 148px 0;
 }
 
-.addsku p {
-    font-size: $font-size-14;
-    opacity: 0.5;
-    font-weight: $font-weight-600;
-    color: $text-color-black;
-    padding-top: 20px;
-    margin-bottom: 0;
-}
-
 .add-sku-link {
     padding: 35px 0 0 0;
 }
@@ -92,23 +83,26 @@
 }
 
 .addToEmailBtn {
-    border-radius: 25px;
     border: 2px solid #f47721;
-    padding: 2px 20px;
-    font-size: 15px;
     color: #f47721;
     background: white;
+    text-transform: uppercase !important;
+    padding: 8px 20px !important;
+    &:hover{
+        border-color: #fa8534;
+    }
 }
 
 .addToCatBtnDisable {
     border-radius: 25px;
     border: 0px;
-    padding: 5px 20px;
-    font-size: 15px;
+    padding: 11px 20px;
+    font-size: 11px;
     background: #f47721;
     color: white;
     cursor: not-allowed;
     opacity: 0.7;
+    line-height: 16px;
 }
 
 .sku-categeory .input-group-text {
@@ -129,7 +123,7 @@
     font-weight: $font-weight-600;
     height: 39px;
     border: $border;
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0;
     -webkit-appearance: $none;
     appearance: $none;
     -moz-appearance: $none;
@@ -173,9 +167,11 @@
 .sku-categeory {
     padding-top: 17px;
 }
-
+.matFormFieldMultiSelect{
+    width : 100%;
+}
 .matFormFieldMultiSelect {
-    width: 240px;
+    // width: 240px;
     margin-top: -21px;
 
 }
@@ -544,4 +540,138 @@
 .commom-drop li .active {
     font-weight: $font-weight-600;
     color: #00A6B2;
+}
+
+.addsku, .profile-verification{
+    border: none;
+    overflow-x: hidden;
+    &__heading{
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 0px;
+    }
+
+
+    &__description{
+        color: #000;
+        font-weight: 400;
+        padding-top: 10px;
+        width: 35%;
+        margin: auto;
+        font-size: 15px;
+        line-height: 26px;
+    }
+
+    &--btn {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 45px;
+        height: 47px;
+        border-radius: 50px;
+        width: 30%;
+        font-weight: 700;
+    }
+
+    img{
+        width: 280px;
+        margin: 20px auto;
+    }
+
+    &__brand{
+        .input-group{
+            flex-wrap: unset;
+        }
+
+        .custom-select{
+            width: 237px;
+            max-width: 237px;
+        }
+
+        .mat-select-value{
+            width: 91.6%;
+        }
+    }
+
+}
+
+.profile-verification{
+    &__description{
+        width: 29%;
+    }
+    &--btn{
+        width: 20%;
+    }
+}
+
+.buttons-group-align{
+    display: flex;
+}
+
+.sku-email-popup{
+    .mat-dialog-container{
+        padding: 0 24px;
+        width: 425px;
+        height: 60vh;
+        overflow: hidden;
+        .mat-dialog-content{
+            padding: 0 0 30px 0;
+            // max-height: 100vh;
+            .modal-content{
+                border-radius: 0px;
+                border: none;
+                .modal-header {
+                    background-color: #F0F0F0;
+                    border-radius: 0;
+                    padding: 16px 20px;
+                    border-bottom: none;
+                    .modal-title {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #000;
+                    }
+                    .close {
+                        font-size: 2.0rem;
+                        font-weight: 600;
+                        line-height: 25px;
+                        color: #afafaf;
+                    }
+                }
+            }
+        }
+    }
+
+    .modal-body{
+        &__image{
+            img{
+                width: 280px;
+            }
+        }
+
+        &__description{
+            ol, ul{
+                padding-left: 20px;
+                padding-right: 10px;
+                li {
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        &--btn{
+            width: 80%;
+            height: 45px;
+            font-size: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin: 30px auto 10px;
+            display: block;
+        }
+
+        &--width150{
+            width: 150px !important;
+        }
+    }
+    
 }

@@ -9,13 +9,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddSkuComponent } from './add-sku/add-sku.component';
 import { CataloguesList } from './catalogues-list/catalogues-list.component';
 
-
-
 @NgModule({
   declarations: [
     AddCatalogueComponent,
     AddSkuComponent,
-    CataloguesList
+    CataloguesList,
   ],
   imports: [
     CommonModule,

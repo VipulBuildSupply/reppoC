@@ -80,7 +80,7 @@ export const ProfileRoutes: Routes = [
                 component: ResetPasswordComponent,
                 resolve:{resetPass:ResetPasswordResolver},
                 data: { title: "Reset Password" }
-            }
+            },
         ]
     }
 ];

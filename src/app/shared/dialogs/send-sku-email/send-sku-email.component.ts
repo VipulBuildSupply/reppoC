@@ -25,8 +25,8 @@ export class SendSkuEmailComponent implements OnInit {
   }
 
   addSkuOnEmail() {
-    console.log(this.data.category);
-    console.log(this.data.brands);
+    // console.log(this.data.category);
+    // console.log(this.data.brands);
 
 
     let catID;
@@ -38,7 +38,7 @@ export class SendSkuEmailComponent implements OnInit {
       catID = this.data.category;
     }
 
-    console.log(this.data.brands);
+    // console.log(this.data.brands);
     if (this.data.brands == undefined) {
       const data = {
         "addSku": true,
@@ -46,7 +46,7 @@ export class SendSkuEmailComponent implements OnInit {
         "categoryId": catID
       }
 
-      console.log(data);
+      // console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success) {
           this.success = true;
@@ -59,7 +59,7 @@ export class SendSkuEmailComponent implements OnInit {
         "brandIds": this.data.brands,
         "categoryId": catID
       }
-      console.log(data);
+      // console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success) {
           this.success = true;
@@ -67,6 +67,10 @@ export class SendSkuEmailComponent implements OnInit {
       });
     }
 
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close(false);
   }
 
 }

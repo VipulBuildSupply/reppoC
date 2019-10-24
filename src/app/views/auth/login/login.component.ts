@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-profile/switch-user-profile.component';
 import { MatDialog } from '@angular/material';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
         private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _categoryService: CategoryService,
+        private _userService: UserService,
         private _dialog: MatDialog) { 
     }
 
@@ -72,7 +73,13 @@ export class LoginComponent implements OnInit {
                 if(res.data.loggedInUserType == 'BUYER'){
                     this.switchUserProfile(res.data);
                 }else{
-                    this._router.navigate(['/user/profile/personal']);
+                    this._userService.getUserData().then(res => {
+                        if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
+                            this._router.navigate(['profile-verification']);
+                        }else{
+                            this._router.navigate(['/user/profile/personal']);
+                        }
+                    });
                 }
             }, err => {
                 this.errorMsg = err.message;
