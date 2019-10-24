@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
 import { NgModel } from '@angular/forms';
+import { SendSkuEmailComponent } from 'src/app/shared/dialogs/send-sku-email/send-sku-email.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-add-sku',
@@ -21,16 +23,18 @@ export class AddSkuComponent implements OnInit {
   SearchResultsIds: number[] = [];
   ischecked: boolean;
   selectedBrands: any[];
-
+  selectAllBox: boolean;
   constructor(
     private _router: Router,
-    private Userservice: UserService
+    private Userservice: UserService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.ischecked = false;
     this.categoryId = [];
     this.searchKeyTypes = "";
+    this.selectAllBox = false;
     this.getCategory1();
   }
 
@@ -72,22 +76,46 @@ export class AddSkuComponent implements OnInit {
   changeCategory(event) {
     const Category = event.value;
     this.categoryTwo = "";
+    this.selectAllBox = false;
     this.idOfCatOne = Category.id;
     this.idOfCatTwo = null;
     this.brand = null;
     this.brandId = [];
+    this.selectedBrands = [];
+    this.categoryId = [];
+    this.SearchResultsIds = [];
     this.brandIdTemp = null;
     if (Category.categoryList.length > 0) {
       this.categoryTwo = Category.categoryList;
     }
+    this.categoryId.push(this.idOfCatOne);
+
+    const data = {
+      "brandIdList": [],
+      "categoryIdList": [this.idOfCatOne]
+    }
+    this.Userservice.getBrand(this.idOfCatOne).then(res => {
+      if (res) {
+        this.brand = res;
+
+      }
+    });
+
+    this.Userservice.getSearchResults(data).then(res => {
+      if (res) {
+        this.searchResults = res;
+      }
+    });
 
   }
 
   getIdOfCatTwo(event) {
     this.idOfCatTwo = event.value;
+    this.selectAllBox = false;
     this.brandId = [];
     this.brandIdTemp = null;
     this.categoryId = [];
+    this.SearchResultsIds = [];
     this.selectedBrands = [];
     this.brand = null;
     if (this.idOfCatTwo) {
@@ -103,17 +131,18 @@ export class AddSkuComponent implements OnInit {
       this.Userservice.getBrand(this.idOfCatOne).then(res => {
         if (res) {
           this.brand = res;
-
         }
       });
     }
-
+    this.searchSku();
   }
   getBrandOnSelect(event) {
+    this.selectAllBox = false;
+    this.SearchResultsIds = [];
+
     if (event.value) {
       this.brandIdTemp = event.value;
-      //  this.brandId.push( this.brandIdTemp);
-      console.log(this.brandIdTemp);
+      //    console.log(this.brandIdTemp);
     }
     this.searchSku();
   }
@@ -129,6 +158,40 @@ export class AddSkuComponent implements OnInit {
         this.searchResults = res;
       }
     });
+  }
+
+
+  selectAllCheckbox(event, items) {
+    if (event.target.checked) {
+      this.selectAllBox = true;
+      for (let i = 0; i < items.length; i++) {
+        this.SearchResultsIds.push(items[i].id);
+      }
+
+    }
+    else {
+      this.selectAllBox = false;
+      this.SearchResultsIds = [];
+    }
+
+    if (this.SearchResultsIds.length > 0) {
+      this.ischecked = true;
+    }
+    else {
+      this.ischecked = false;
+    }
+  }
+
+  selectAllCheckboxRemove(event) {
+    if (!event.target.checked) {
+      this.ischecked = false;
+      this.selectAllBox = false;
+      this.SearchResultsIds = [];
+    }
+    else {
+      this.selectAllBox = false;
+      this.SearchResultsIds = [];
+    }
   }
 
   searchResultCheckBox(event, id) {
@@ -150,7 +213,6 @@ export class AddSkuComponent implements OnInit {
     else {
       this.ischecked = false;
     }
-
     console.log(this.SearchResultsIds);
   }
 
@@ -174,6 +236,16 @@ export class AddSkuComponent implements OnInit {
 
     this.searchKeyTypes = "";
   }
+
+
+  openDialog(): void {
+    const dialogRef = this._dialog.open(SendSkuEmailComponent, {
+      width: '720px',
+      data: { category: this.categoryId[0], brands: this.brandIdTemp }
+    });
+
+  }
+
 
 
 }

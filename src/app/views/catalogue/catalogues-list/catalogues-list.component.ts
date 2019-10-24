@@ -825,6 +825,7 @@ export class CataloguesList implements OnInit {
       console.log(this.sendPricingToAllArrayEdit);
 
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit);
+      this.getCatalogueItems();
     }
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
       this.sendPricingToAllArray = [];
@@ -845,6 +846,7 @@ export class CataloguesList implements OnInit {
       console.log(this.sendPricingToAllArray);
 
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray);
+      this.getCatalogueItems();
     }
 
   }
@@ -885,5 +887,15 @@ export class CataloguesList implements OnInit {
     } else {
       this.catalogueList = this.catalogueList;
     }
+  }
+
+  SendAllCatalogueListToMail() {
+    const data = {
+      "addSku": false,
+      "brandIds": [],
+      "categoryId": 0
+    }
+    console.log(data);
+    this.Userservice.sendSkuToEmail(data).then(res => res);
   }
 }
