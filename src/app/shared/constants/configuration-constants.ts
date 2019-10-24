@@ -7,50 +7,50 @@ export const ConfigurationConstants = {
     ITEM_ADDED_NOTIFICATION_TIMEOUT: 1000,
     HEADER_SKIP_LOADER: 'Skip-Loader',
     HEADER_CACHE_REQUEST: 'Cache-Request',
-    REQUEST_CACHE_AGE: 15 * 60 * 1000,  
-    USER_TYPE:"SELLER"         // in milli seconds
+    REQUEST_CACHE_AGE: 15 * 60 * 1000,
+    USER_TYPE: "SELLER"         // in milli seconds
 };
- 
+
 export const cartSteps = [
-    {name:"My Cart", link:'/ecommerce/cart', isActive:false},
-    {name:"Review Order", link:'/ecommerce/review-order', isEnabled:false},
-    {name:"Approval", link:'/ecommerce/approval', isEnabled:false},
-    {name:"Payment", link:'/ecommerce/payment', isEnabled:false}
+    { name: "My Cart", link: '/ecommerce/cart', isActive: false },
+    { name: "Review Order", link: '/ecommerce/review-order', isEnabled: false },
+    { name: "Approval", link: '/ecommerce/approval', isEnabled: false },
+    { name: "Payment", link: '/ecommerce/payment', isEnabled: false }
 ]
 
 export const API = {
 
-    PROFILE:'account/api/user/whoami',
-    PROFILE_UPDATE:'account/api/profile/personal',
-    PROFILE_IMAGE:'account/api/profile/image',
-    ADDRESS:'account/api/address',
-    BANK_DETAILS:'account/api/bank/account',
-    DELETE_BANK_DETAILS :(bankAccountId) => `account/api/bank/account/${bankAccountId}`,
-    STATE:'account/api/permitted/address/states',
-    BANK_DETAILS_GET : 'account/api/bank/account/user',
-    CITY:(stateId) => `account/api/permitted/address/states/${stateId}/cities`,
+    PROFILE: 'account/api/user/whoami',
+    PROFILE_UPDATE: 'account/api/profile/personal',
+    PROFILE_IMAGE: 'account/api/profile/image',
+    ADDRESS: 'account/api/address',
+    BANK_DETAILS: 'account/api/bank/account',
+    DELETE_BANK_DETAILS: (bankAccountId) => `account/api/bank/account/${bankAccountId}`,
+    STATE: 'account/api/permitted/address/states',
+    BANK_DETAILS_GET: 'account/api/bank/account/user',
+    CITY: (stateId) => `account/api/permitted/address/states/${stateId}/cities`,
     CREATE_OTP: 'account/api/auth/otp/create?phone=',
     IS_PHONE_EXIST: 'account/api/auth/checkPhoneAvailable',
     VERIFY_OTP: 'account/api/auth/otp/verify',
-    DELETE_CANCELLED_CHEQUE : bankAccountId => `account/api/bank/account/${bankAccountId}/cheque`,
+    DELETE_CANCELLED_CHEQUE: bankAccountId => `account/api/bank/account/${bankAccountId}/cheque`,
     SIGNUP: 'account/api/auth/signup',
     SIGNIN: 'account/api/auth/signin',
     RESET_PASSWORD: 'account/api/auth/resetPassword',
     REFRESH_USER_TOKEN: 'account/api/user/token/refresh?companyId=',
     EDIT_ADDRESS: addressId => `account/api/address/${addressId}`,
-    EDIT_BANK_DETAILS : bankId => `account/api/bank/account/${bankId}`,
-    PINCODE : (pincode) => `product/api/system/location/pincode/${pincode}/obj`,
+    EDIT_BANK_DETAILS: bankId => `account/api/bank/account/${bankId}`,
+    PINCODE: (pincode) => `product/api/system/location/pincode/${pincode}/obj`,
     GET_CATEOGORIES: 'product/api/category/subcategory/varient/list',
     GET_CATALOGUE_CATEGORIES: 'product/api/catalogue/categories',
-    GET_CATEGORY_ONE:`product/api/category/subcategory/varient/list`,
+    GET_CATEGORY_ONE: `product/api/category/subcategory/varient/list`,
     GET_BRAND: categoryId => `product/api/brand/category/${categoryId}/list`,
-    SEARCH_SKU : `product/api/sku/search/list`,
-    ADD_CATALOGUE : `product/api/catalogueitem/add`,
-    GET_CATALOGUE_LIST : `product/api/catalogue/list`,
-    GET_UNIQUE_CATALOGUE : catalogueItemId => `product/api/catalogueitem/${catalogueItemId}/obj`,
-    TOGGLE_STOCK_STATUS : (catalogueId,status) => `product/api/catalogueitem/${catalogueId}/stockstatus/${status}/submit`,
-    PRICING_FOR_ALL_WAREHOUSE : `product/api/catalogueitem/warehouse/price/submit`,
-    GET_BANK_NAME : `account/api/bank/account/name`,
+    SEARCH_SKU: `product/api/sku/search/list`,
+    ADD_CATALOGUE: `product/api/catalogueitem/add`,
+    GET_CATALOGUE_LIST: `product/api/catalogue/list`,
+    GET_UNIQUE_CATALOGUE: catalogueItemId => `product/api/catalogueitem/${catalogueItemId}/obj`,
+    TOGGLE_STOCK_STATUS: (catalogueId, status) => `product/api/catalogueitem/${catalogueId}/stockstatus/${status}/submit`,
+    PRICING_FOR_ALL_WAREHOUSE: `product/api/catalogueitem/warehouse/price/submit`,
+    GET_BANK_NAME: `account/api/bank/account/name`,
     //USER PROFILE API's
     GET_PERCENTAGE: 'account/api/seller/profile/percentage',
     PROFILE_VERIFY: (email) => `account/api/seller/profile/verify?verifiyEmail=${email}`,
@@ -60,7 +60,9 @@ export const API = {
     BUSINESS_DETAILS: 'account/api/seller/profile',
     DELETE_ADDRESS_PROOF: (addressId) => `account/api/address/${addressId}/addressProof`,
     IS_BUYER_USER: 'account/api/user/profile/add/SELLER',
-    SEARCH_SKU_TEXT : 'product/api/sku/search/list',
+    SEARCH_SKU_TEXT: 'product/api/sku/search/list',
     GET_CATALOGUE_FILTERS: 'product/api/catalogue/filter',
-    GET_FILTERED_SKUS: 'product/api/catalogue/search/list'
+    GET_FILTERED_SKUS: 'product/api/catalogue/search/list',
+    SEND_TO_EMAIL: 'product/api/catalogue/price/excel/mail'
+
 }

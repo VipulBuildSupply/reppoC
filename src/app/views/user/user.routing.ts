@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+
 export const UserRoutes: Routes = [
   {
     path: '',
@@ -7,7 +8,7 @@ export const UserRoutes: Routes = [
         path: '',
         loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
         data: { title: 'Profile' }
-      }
+      },
     ]
-  }, 
+  },
 ];

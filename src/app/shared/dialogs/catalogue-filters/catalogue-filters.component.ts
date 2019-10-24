@@ -61,7 +61,7 @@ export class CatalogueFiltersComponent implements OnInit {
   /**
    * @description function to close popup window
    */
-  closeDialog(selected): void {
+  closeDialog(selected?): void {
     this.dialogRef.close(selected);
   }
 

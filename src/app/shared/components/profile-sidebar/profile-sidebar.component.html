@@ -1,7 +1,7 @@
 <div class="sidebar-left">
     <div class="whiteboxbrd">
         <div class="user-photo">
-            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/photo.jpg'" class="img-fulid user_photo" 
+            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'" class="img-fulid user_photo" 
             (error)="getUserAPI()" alt="">
         </div>
         <div class="profile-intro">
@@ -23,7 +23,6 @@
                             aria-valuemax="100" 
                             [ngStyle]="{'width': percentage + '%'}">
                             <span class="progress-per green">{{ percentage }}%</span>
-                            <!-- <span class="progress-per green" *ngIf="existPercentage">{{ existPercentage }}%</span> -->
                         </div>
                     </div>
                 </div>

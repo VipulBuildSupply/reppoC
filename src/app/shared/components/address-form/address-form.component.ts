@@ -286,12 +286,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                     delete data.deliveryRange;
                 }
 
-
-
                 if (this.isEdit) {
-
                     this.submitEditAddr(data);
-
                 } else {
                     this.submitAddAddress(data);
                 }
@@ -313,12 +309,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 //this._router.navigate([ `/user/address/${this.addrs.addressCategory.toLowerCase()}` ])
 
                 if (data.addressCategory == "PROJECT_ADDRESS") {
-
                     const newData = Object.assign({}, this.addrs, data, { addressId: res.id })
                     this.submitForm.emit(newData);
                 } else {
+                    this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
                     this.goToAddressPage();
-
                 }
             }
         });

@@ -16,9 +16,9 @@ export class UserService {
     editAddress$ = new Subject<Address>();
     editBankDetails$ = new Subject<BankDetails>();
     addressToEdit: Address;
-    bankDetailsToEdit : BankDetails;
+    bankDetailsToEdit: BankDetails;
     isEdit: boolean;
-    addressProofAdd : any = "";
+    addressProofAdd: any = "";
     onProfileSwitch$ = new Subject();
     updatePercentage$ = new Subject();
     private _user: UserModel;
@@ -39,7 +39,7 @@ export class UserService {
         /**
          * @description Setup User
          */
-        if(user) {
+        if (user) {
             localStorage.setItem('user', JSON.stringify(user));
         }
         this.userUpdated$.next(user);
@@ -63,28 +63,28 @@ export class UserService {
             }*/
         })
     }
-   
+
     get selectedProfile(): SellerPersonalProfile {
         return this.user.sellerPersonalProfile;
     }
-    deleteCancelledChequeAPI(bankAccountId){
+    deleteCancelledChequeAPI(bankAccountId) {
         return this.dataService.sendDeleteRequest(API.DELETE_CANCELLED_CHEQUE(bankAccountId), {}).then(res => res);
     }
 
     getAddress(addressType) {
         return this.dataService.getRequest(`${API.ADDRESS}/${addressType}`).then(res => res);
     }
-    getBankDetails(){
+    getBankDetails() {
         return this.dataService.getRequest(`${API.BANK_DETAILS_GET}`).then(res => res);
     }
     deleteAddress(addressId: number) {
         return this.dataService.sendDeleteRequest(`${API.ADDRESS}/${addressId}`, {}).then(res => res);
     }
-    
-    deleteBankDetails(bankId : number){
-     //   console.log(`${API.DELETE_BANK_DETAILS}/${bankId}`);
+
+    deleteBankDetails(bankId: number) {
+        //   console.log(`${API.DELETE_BANK_DETAILS}/${bankId}`);
         return this.dataService.sendDeleteRequest(API.DELETE_BANK_DETAILS(bankId), {}).then(res => res);
-        
+
     }
 
     getStates() {
@@ -97,10 +97,10 @@ export class UserService {
     addAddress(data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
-            if(data[key]){
-                fData.append(key, data[ key ]);
+            if (data[key]) {
+                fData.append(key, data[key]);
             }
-            
+
         });
         // const headers = 'Content-Type, multipart/form-data';
 
@@ -112,10 +112,10 @@ export class UserService {
     addBankDetails(data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
-            if(data[key]){
-                fData.append(key, data[ key ]);
+            if (data[key]) {
+                fData.append(key, data[key]);
             }
-            
+
         });
         // const headers = 'Content-Type, multipart/form-data';
 
@@ -125,7 +125,7 @@ export class UserService {
 
     }
 
-    getPincode(pincode){
+    getPincode(pincode) {
         return this.dataService.getRequest(API.PINCODE(pincode)).then(res => res)
     }
 
@@ -148,107 +148,107 @@ export class UserService {
         return this.dataService.sendPutRequest(API.PROFILE_VERIFY(email), data).then((res: any) => res);
     };
 
-    editAddress(addressId,data){
+    editAddress(addressId, data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
-            if(key != "addressProof"){
-                fData.append(key, data[ key ]);
+            if (key != "addressProof") {
+                fData.append(key, data[key]);
             }
         });
 
         return this.dataService.sendPutRequest(API.EDIT_ADDRESS(addressId), fData).then(res => {
-          return res.data; 
+            return res.data;
         });
-      }
+    }
 
-      editBankDetails(bankId , data){
+    editBankDetails(bankId, data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
-            if(key == "cancelledChequePhotoImage"){
-                if(data[key].name){
-                    fData.append(key, data[ key ]);
-                } 
+            if (key == "cancelledChequePhotoImage") {
+                if (data[key].name) {
+                    fData.append(key, data[key]);
+                }
             }
-            else{
-                fData.append(key, data[ key ]);
+            else {
+                fData.append(key, data[key]);
             }
         });
         return this.dataService.sendPostRequest(API.EDIT_BANK_DETAILS(bankId), fData).then(res => {
-          return res.data; 
+            return res.data;
         });
-      }
+    }
 
-    emailVerify(data){
+    emailVerify(data) {
         return this.dataService.sendPostRequest(API.EMAIL_VERIFY, data).then((res: any) => res);
     }
 
-    annualTurnovers(){
+    annualTurnovers() {
         return this.dataService.getRequest(API.ANNUAL_TURNOVERS).then(res => res.data);
     }
 
-    businessType(){
+    businessType() {
         return this.dataService.getRequest(API.BUSINESS_TYPES).then(res => res.data);
     }
 
-    getCategory(){
+    getCategory() {
         return this.dataService.getRequest(API.GET_CATEGORY_ONE).then(res => res.data);
     }
-    getBrand(categoryId){
+    getBrand(categoryId) {
         return this.dataService.getRequest(API.GET_BRAND(categoryId)).then(res => res.data);
     }
-    getSearchResults(data){
+    getSearchResults(data) {
         // const fData = new FormData();
         // Object.keys(data).map(key => {
         //     if(data[key]){
         //         fData.append(key, data[ key ]);
         //     }
-            
+
         // });
 
         return this.dataService.sendPostRequest(API.SEARCH_SKU, data).then((res: any) => res);
     }
-    addCatalogueItems(data){
+    addCatalogueItems(data) {
         return this.dataService.sendPutRequest(API.ADD_CATALOGUE, data).then((res: any) => res);
     }
-    getCatalogueItems(){
+    getCatalogueItems() {
         return this.dataService.getRequest(API.GET_CATALOGUE_LIST).then((res: any) => res);
     }
-    getUniqueCatalogueItem(catalogueItemId){
+    getUniqueCatalogueItem(catalogueItemId) {
         return this.dataService.getRequest(API.GET_UNIQUE_CATALOGUE(catalogueItemId)).then((res: any) => res);
     }
-    toggleStockStatus(catalogueId, status){
-        return this.dataService.sendPutRequest(API.TOGGLE_STOCK_STATUS(catalogueId,status),null).then((res: any) => res);
+    toggleStockStatus(catalogueId, status) {
+        return this.dataService.sendPutRequest(API.TOGGLE_STOCK_STATUS(catalogueId, status), null).then((res: any) => res);
     }
 
-    sendPricingToAllWarehouse(arrayData){
-        return this.dataService.sendPutRequest(API.PRICING_FOR_ALL_WAREHOUSE,arrayData).then((res: any) => res);
+    sendPricingToAllWarehouse(arrayData) {
+        return this.dataService.sendPutRequest(API.PRICING_FOR_ALL_WAREHOUSE, arrayData).then((res: any) => res);
     }
 
-    getBankName(){
+    getBankName() {
         return this.dataService.getRequest(API.GET_BANK_NAME).then((res: any) => res);
     }
 
 
-    updateBusinessDetails(data){
+    updateBusinessDetails(data) {
         const fData = new FormData();
         Object.keys(data).map(key => {
 
             //if(edit == true){
-                if(key == 'address'){
-                    data = data.address;
-                    Object.keys(data).map(key => {
-                        if(data[key]){
-                            fData.append('address.'.concat(key), data[ key ]);
-                        }
-                    })
-                }else if(key == "panPhoto"){
-                    if(data[key].name){
-                        fData.append(key, data[ key ]);
+            if (key == 'address') {
+                data = data.address;
+                Object.keys(data).map(key => {
+                    if (data[key]) {
+                        fData.append('address.'.concat(key), data[key]);
                     }
-                }else{
-                    fData.append(key, data[ key ]);
+                })
+            } else if (key == "panPhoto") {
+                if (data[key].name) {
+                    fData.append(key, data[key]);
                 }
-            
+            } else {
+                fData.append(key, data[key]);
+            }
+
             /*}else{
                 if(key == 'address'){
                     data = data.address;
@@ -262,31 +262,34 @@ export class UserService {
                 }else{
                     fData.append(key, data[ key ]);
                 }
-            } */           
+            } */
         });
 
         return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => res);
     }
 
-    getBusinessDetails(){
+    getBusinessDetails() {
         return this.dataService.getRequest(API.BUSINESS_DETAILS).then(res => {
-            
+
             return res.data;
         });
     }
 
-    deleteAddressProof(addressId: number){
+    deleteAddressProof(addressId: number) {
         return this.dataService.sendDeleteRequest(API.DELETE_ADDRESS_PROOF(addressId), {}).then(res => res);
     }
 
-    isBuyer(data){
+    isBuyer(data) {
         return this.dataService.sendPostRequest(API.IS_BUYER_USER, data).then(res => {
             return this.token.saveAccessToken(res.data.jwtToken);
         });
     }
 
-    getSkuListFromSearch(text){
-        return this.dataService.sendPostRequest(API.SEARCH_SKU_TEXT, text).then(res => res );
+    getSkuListFromSearch(text) {
+        return this.dataService.sendPostRequest(API.SEARCH_SKU_TEXT, text).then(res => res);
+    }
+    sendSkuToEmail(data) {
+        return this.dataService.sendPostRequest(API.SEND_TO_EMAIL, data).then(res => res);
     }
 
 }
