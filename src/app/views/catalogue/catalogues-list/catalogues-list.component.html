@@ -5,7 +5,8 @@
                 <div class="catalogue-panel">
                     <div class="tile-heading flex-sb-m">
 
-                        <h4>My Catalogue <span class="items">10 Items</span></h4>
+                        <h4>My Catalogue <span class="items" *ngIf="catalogueList">{{catalogueList.length}}
+                                Items</span></h4>
 
                         <div class="leads-srch">
 
@@ -26,7 +27,7 @@
                                     <mat-icon>email</mat-icon>
                                     <span>Get Cataolgue on Email</span>
                                 </button>
-                                <button mat-menu-item>
+                                <button mat-menu-item (click)="openDialog()">
                                     <mat-icon>file_upload</mat-icon>
                                     <span>Bulk Catalogue File</span>
                                 </button>
