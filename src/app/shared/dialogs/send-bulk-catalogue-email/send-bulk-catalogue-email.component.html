@@ -1,7 +1,7 @@
 <!-- <mat-dialog-content> -->
 
 
-  <!-- <div class="form-group lableup form-control" *ngIf="fileName == null">
+<!-- <div class="form-group lableup form-control" *ngIf="fileName == null">
     <div class="browser-method">
       <img src="assets/img/upload.png" class="download-img" alt="">
       <label class="myLabel">
@@ -15,14 +15,14 @@
   </div> -->
 
 
-  <!-- <div class="pdf mb-4 mt-0" *ngIf="fileName">
+<!-- <div class="pdf mb-4 mt-0" *ngIf="fileName">
     <a href="javascript:void(0)" (click)='closeFileDiv($event)'>Remove</a>
     <span>{{ fileName }}</span>
   </div>
   <br>
   <button *ngIf="fileName" class="addToEmailBtn" (click)="UploadFile()">Upload File</button> -->
 
-  <!-- <br>
+<!-- <br>
   <div *ngIf="success"> Success ! </div>
 </mat-dialog-content> -->
 
@@ -33,65 +33,65 @@
   <div class="modal-content">
     <ng-container *ngIf="!success; else successEmail">
       <div class="modal-header">
-          <h5 class="modal-title">Bulk Catalogue Update</h5>
-          <button type="button" class="close" (click)="closeDialog()">
-            <span>&times;</span>
-          </button>
+        <h5 class="modal-title">Bulk Catalogue Update</h5>
+        <button type="button" class="close" (click)="closeDialog()">
+          <span>&times;</span>
+        </button>
       </div>
-    
+
       <div class="modal-body">
 
-          <h4 class="modal-body__heading">Please upload your catalogue file with the updated pricing information.</h4>
+        <h4 class="modal-body__heading">Please upload your catalogue file with the updated pricing information.</h4>
 
-          <div class="modal-body__image text-center">
-              <img src="assets/img/Bulk-Catalogue-Upate.png" alt="" class="img-flud width120">
+        <div class="modal-body__image text-center">
+          <img src="assets/img/Bulk-Catalogue-Upate.png" alt="" class="img-flud width120">
+        </div>
+
+        <div class="modal-body__description mt-4" *ngIf="fileName == null">
+          <div class="form-group lableup form-control border-none">
+            <div class="browser-method text-center">
+              <img src="assets/img/upload.png" class="download-img" alt="">
+              <label class="myLabel">
+                <input type="file" name="file" #file accept=".xlsx, .xls, .csv" (change)="onFileSelected($event)"
+                  style="display: none;" required="" class="inputLableUp">
+                <span>Choose File</span>
+              </label>
+
+            </div>
           </div>
+        </div>
 
-          <div class="modal-body__description mt-4" *ngIf="fileName == null">
-              <div class="form-group lableup form-control border-none">
-                  <div class="browser-method text-center">
-                    <img src="assets/img/upload.png" class="download-img" alt="">
-                    <label class="myLabel">
-                      <input type="file" name="file" #file
-                        accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
-                        (change)="onFileSelected($event)" style="display: none;" required="" class="inputLableUp">
-                      <span>Choose File</span>
-                    </label>
-                    <a href="#" *ngIf="!fileName"> <img src="assets/img/svg-img/ic_information.svg" alt=""></a>
-                  </div>
-                </div>
+        <div class="modal-body__description mt-4" *ngIf="fileName">
+          <div class="pdf mb-4 mt-0">
+            <a href="javascript:void(0)" (click)='closeFileDiv($event)'>Remove</a>
+            <span>{{ fileName }}</span>
           </div>
+          <button *ngIf="fileName" class="btn orangeBttn modal-body--btn" (click)="UploadFile()">Upload File</button>
+        </div>
 
-          <div class="modal-body__description mt-4" *ngIf="fileName">
-              <div class="pdf mb-4 mt-0">
-                  <a href="javascript:void(0)" (click)='closeFileDiv($event)'>Remove</a>
-                  <span>{{ fileName }}</span>
-              </div>
-              <button *ngIf="fileName" class="btn orangeBttn modal-body--btn" (click)="UploadFile()">Upload File</button>
-          </div>
+        <p><strong>Note:</strong> Please make sure that you upload the same file that you received on email from
+          BuildSupply. Only then will your changes be reflected in your catalogue.</p>
 
-          <p><strong>Note:</strong> Please make sure that you upload the same file that you received on email from BuildSupply. Only then will your changes be reflected in your catalogue.</p>
-  
       </div>
     </ng-container>
 
     <ng-template #successEmail>
-        <div class="modal-header">
-            <h5 class="modal-title">File Uploaded Successfully</h5>
-            <button type="button" class="close" (click)="closeDialog()">
-              <span>&times;</span>
-            </button>
+      <div class="modal-header">
+        <h5 class="modal-title">File Uploaded Successfully</h5>
+        <button type="button" class="close" (click)="closeDialog()">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-body__image text-center">
+          <img src="assets/img/file-uploaded.png" alt="" class="img-flud modal-body--width150">
         </div>
-      
-        <div class="modal-body">
-            <div class="modal-body__image text-center">
-                <img src="assets/img/file-uploaded.png" alt="" class="img-flud modal-body--width150">
-            </div>
-            <div class="modal-body__description mt-4">
-                <p>Your catalogue information will be updated shortly.</p>
-            </div>
+        <div class="modal-body__description mt-4">
+          <p>Your catalogue information will be updated shortly.</p>
         </div>
+      </div>
     </ng-template>
-    
+
   </div>
 </mat-dialog-content>
