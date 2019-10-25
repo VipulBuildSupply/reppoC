@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
@@ -53,6 +53,7 @@ export class CataloguesList implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _dialog: MatDialog,
+    private snack: MatSnackBar,
     private ref: ChangeDetectorRef,
     private _categoryService: CategoryService) { }
 
@@ -911,7 +912,13 @@ export class CataloguesList implements OnInit {
       "categoryId": 0
     }
     console.log(data);
-    this.Userservice.sendSkuToEmail(data).then(res => res);
+    this.Userservice.sendSkuToEmail(data).then(res => {
+      if (res.data.success == true) {
+        this.snack.open(res.data.message, 'OK', { duration: 3000 })
+      }
+    }
+
+    );
   }
 
   openDialog(): void {
