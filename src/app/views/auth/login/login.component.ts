@@ -109,7 +109,7 @@ export class LoginComponent implements OnInit {
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },
             disableClose: true,
-            panelClass: 'profile-verification-popup'
+            panelClass: 'switch-profile-popup'
         });
     }
 }

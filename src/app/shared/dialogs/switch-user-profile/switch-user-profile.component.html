@@ -6,11 +6,13 @@
           <span>&times;</span>
         </button>
     </div>
-    <div class="modal-body">
-      <p>You want to continue as a Seller?</p>
+    <div class="modal-body text-center">
+      <img src="assets/img/Continue-with-same-account.png" alt="">
+      <h6>Continue With Same Account?</h6>
+      <p>You already have an account as a buyer with BuildSupply using this number. Do you want to use the same account to register as a seller as well with BuildSupply?</p>
 
-      <button (click)="closeDialog()" class="btn orangeBttn brdbttn mr-2">Cancel</button>
-      <button (click)="confirmAction()" class="btn orangeBttn brdbttn">OK</button>
+      <button (click)="closeDialog()" class="btn orangeBttn brdbttn mr-2 modal-body--border-btn">No, create a new account</button>
+      <button (click)="confirmAction()" class="btn orangeBttn modal-body--fill-btn">Continue with the same account</button>
     </div>
     
   </div>

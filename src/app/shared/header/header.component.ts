@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     ]
 
     this.headerNavBar = [
-      // { name: 'Leads', link: '/user/profile/personal', imgUrl: 'assets/img/leads.png' },
+      { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
       // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
       { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
       // { name: 'PO', link: '', imgUrl: 'assets/img/po.png' }
