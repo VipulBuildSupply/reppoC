@@ -36,7 +36,7 @@ import { ProfileVerificationComponent } from './views/profile-verification/profi
     NotFoundComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
-    ProfileVerificationComponent
+    // ProfileVerificationComponent
   ],
   imports: [
     BrowserModule,

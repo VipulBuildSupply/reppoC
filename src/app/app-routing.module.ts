@@ -63,15 +63,34 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
-    canActivate: [CatalogueGuardService, AuthGuardService],
+    canActivate: [AuthGuardService, CatalogueGuardService],
     children: [
       {
-        path: 'profile-verification',
-        component: ProfileVerificationComponent,
-        data: { title: 'Profile Verification' }
+        path: '',
+        children: [
+          {
+            path: 'profile-verification',
+            loadChildren: () => import('./views/profile-verification/profile-verification.module').then(m => m.ProfileVerificationModule),
+            data: { title: 'Profile Verification' }
+          }
+
+        ]
       }
     ]
   },
+
+  // {
+  //   path: '',
+  //   component: DefaultLayoutComponent,
+  //   canActivate: [CatalogueGuardService, AuthGuardService],
+  //   children: [
+  //     {
+  //       path: 'profile-verification',
+  //       component: ProfileVerificationComponent,
+  //       data: { title: 'Profile Verification' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '', 
