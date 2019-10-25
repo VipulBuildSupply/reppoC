@@ -57,7 +57,7 @@ export class ProfileVerifyComponent implements OnInit {
               this.notify.snack('A verification mail sent to your registered Email ID!');
               this.closeDialog();
               this.userService.setUser(res.data);
-              this._router.navigate(['profile-verification']);
+              this._router.navigate(['profile-verification/status']);
           });
       }
     }

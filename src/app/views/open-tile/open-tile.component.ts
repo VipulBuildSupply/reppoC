@@ -60,6 +60,6 @@ export class OpenTileComponent implements OnInit {
      * @description to add selected categories in api and localstorage
      */
     this._categoryService.setCatalogueCategories(cats).then(res => res);
-    this._router.navigate(['profile-verification']);
+    this._router.navigate(['profile-verification/status']);
   }
 }
