@@ -60,8 +60,11 @@ export class AddSkuComponent implements OnInit {
     const data = {
       "itemList": this.SearchResultsIds
     }
-    this.Userservice.addCatalogueItems(data);
-    this._router.navigate(['catalogue/catalogue-list']);
+    this.Userservice.addCatalogueItems(data).then(res => {
+      if (res.data.success == true) {
+        this._router.navigate(['catalogue/catalogue-list']);
+      }
+    });
   }
 
   getCategory1() {
