@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
                 }else{
                     this._userService.getUserData().then(res => {
                         if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
-                            this._router.navigate(['profile-verification']);
+                            this._router.navigate(['profile-verification/status']);
                         }else{
                             this._router.navigate(['/user/profile/personal']);
                         }
