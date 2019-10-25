@@ -334,10 +334,15 @@ export class CataloguesList implements OnInit {
       if (this.addPriceForRemainingIndividualQuantity) {
         for (let i = 0; i < form.length - 1; i++) {
           form[i].controls.maxPrice.enable();
-          form[i].controls.maxPrice.setValue(null);
-          if (form[i].controls.maxPrice.value == null) {
-            this.minMaxValidValue = true;
+          console.log(form[i].controls.maxPrice.value);
+
+          if ((form[i].controls.maxPrice.value) === 2147483647) {
+            form[i].controls.maxPrice.setValue(null);
+            if (form[i].controls.maxPrice.value == null) {
+              this.minMaxValidValue = true;
+            }
           }
+
         }
         if ((this.addPriceForRemainingIndividualQuantityNumber[index] == index) && (this.addPriceForRemainingIndividualQuantity[index])) {
           form[form.length - 1].controls.maxPrice.disable();
@@ -870,13 +875,13 @@ export class CataloguesList implements OnInit {
       height: '90vh'
     });
     d.afterClosed().toPromise().then((data: any) => {
-      if (data) { 
+      if (data) {
         this.getAllSelectedFilters(data);
       }
     });
   }
 
-  getAllSelectedFilters(filters){
+  getAllSelectedFilters(filters) {
     this.selectedFilters = filters;
   }
 
