@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldRegExConst } from '../../constants';
 import { UserService } from '../../services/user.service';
@@ -10,7 +10,6 @@ import { NotificationService } from '../../services/notification-service';
   templateUrl: './send-sku-email.component.html'
 })
 export class SendSkuEmailComponent implements OnInit {
-    s
 
   profileVerifyForm: FormGroup;
   email: any;
@@ -25,8 +24,8 @@ export class SendSkuEmailComponent implements OnInit {
   }
 
   addSkuOnEmail() {
-    // console.log(this.data.category);
-    // console.log(this.data.brands);
+    console.log(this.data.category);
+    console.log(this.data.brands);
 
 
     let catID;
@@ -38,7 +37,7 @@ export class SendSkuEmailComponent implements OnInit {
       catID = this.data.category;
     }
 
-    // console.log(this.data.brands);
+    console.log(this.data.brands);
     if (this.data.brands == undefined) {
       const data = {
         "addSku": true,
@@ -46,9 +45,9 @@ export class SendSkuEmailComponent implements OnInit {
         "categoryId": catID
       }
 
-      // console.log(data);
+      console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
-        if (res.data.success) {
+        if (res.data.success == true) {
           this.success = true;
         }
       });
@@ -59,9 +58,9 @@ export class SendSkuEmailComponent implements OnInit {
         "brandIds": this.data.brands,
         "categoryId": catID
       }
-      // console.log(data);
+      console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
-        if (res.data.success) {
+        if (res.data.success == true) {
           this.success = true;
         }
       });

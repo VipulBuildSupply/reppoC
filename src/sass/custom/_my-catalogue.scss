@@ -88,7 +88,8 @@
     background: white;
     text-transform: uppercase !important;
     padding: 8px 20px !important;
-    &:hover{
+
+    &:hover {
         border-color: #fa8534;
     }
 }
@@ -167,9 +168,11 @@
 .sku-categeory {
     padding-top: 17px;
 }
-.matFormFieldMultiSelect{
-    width : 100%;
+
+.matFormFieldMultiSelect {
+    width: 100%;
 }
+
 .matFormFieldMultiSelect {
     // width: 240px;
     margin-top: -21px;
@@ -542,10 +545,16 @@
     color: #00A6B2;
 }
 
-.addsku, .profile-verification{
+.addsku.overflowClass {
+    overflow-x: unset;
+}
+
+.addsku,
+.profile-verification {
     border: none;
     overflow-x: hidden;
-    &__heading{
+
+    &__heading {
         font-size: 18px;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -553,7 +562,7 @@
     }
 
 
-    &__description{
+    &__description {
         color: #000;
         font-weight: 400;
         padding-top: 10px;
@@ -573,68 +582,74 @@
         font-weight: 700;
     }
 
-    img{
+    img {
         width: 280px;
         margin: 20px auto;
     }
 
-    &__brand{
-        .input-group{
+    &__brand {
+        .input-group {
             flex-wrap: unset;
         }
 
-        .custom-select{
+        .custom-select {
             width: 237px;
             max-width: 237px;
         }
 
-        .mat-select-value{
+        .mat-select-value {
             width: 91.6%;
         }
     }
 
-    .pdf{
+    .pdf {
         width: 80%;
         margin: auto;
     }
 
 }
 
-.profile-verification{
-    &__description{
+.profile-verification {
+    &__description {
         width: 29%;
     }
-    &--btn{
+
+    &--btn {
         width: 20%;
     }
 }
 
-.buttons-group-align{
+.buttons-group-align {
     display: flex;
 }
 
-.sku-email-popup{
-    .mat-dialog-container{
+.sku-email-popup {
+    .mat-dialog-container {
         padding: 0 24px;
         width: 425px;
         height: 60vh;
         overflow: hidden;
-        .mat-dialog-content{
+
+        .mat-dialog-content {
             padding: 0 0 30px 0;
+
             // max-height: 100vh;
-            .modal-content{
+            .modal-content {
                 border-radius: 0px;
                 border: none;
+
                 .modal-header {
                     background-color: #F0F0F0;
                     border-radius: 0;
                     padding: 16px 20px;
                     border-bottom: none;
+
                     .modal-title {
                         font-size: 16px;
                         font-weight: 600;
                         color: #000;
                     }
+
                     .close {
                         font-size: 2.0rem;
                         font-weight: 600;
@@ -646,21 +661,24 @@
         }
     }
 
-    .modal-body{
-        .width120{
+    .modal-body {
+        .width120 {
             width: 120px !important;
         }
 
-        &__image{
-            img{
+        &__image {
+            img {
                 width: 280px;
             }
         }
 
-        &__description{
-            ol, ul{
+        &__description {
+
+            ol,
+            ul {
                 padding-left: 20px;
                 padding-right: 10px;
+
                 li {
                     font-size: 14px;
                     margin-bottom: 10px;
@@ -668,7 +686,7 @@
             }
         }
 
-        &__heading{
+        &__heading {
             font-size: 15px;
             width: 80%;
             margin: auto;
@@ -677,7 +695,7 @@
             font-weight: 600;
         }
 
-        p{
+        p {
             font-size: 14px;
             width: 80%;
             margin: auto;
@@ -686,7 +704,7 @@
             padding-bottom: 30px;
         }
 
-        &--btn{
+        &--btn {
             width: 80%;
             height: 45px;
             font-size: 14px;
@@ -696,9 +714,9 @@
             display: block;
         }
 
-        &--width150{
+        &--width150 {
             width: 150px !important;
         }
     }
-    
+
 }

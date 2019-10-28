@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-                        <div class="addsku">
+                        <div class="addsku overflowClass">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="sku-categeory">
@@ -30,11 +30,6 @@
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="Category-1">Category 1</label>
                                             </div>
-                                            <!-- <select class="custom-select" *ngFor="let cat-1 of categoryOne" id="Category-1">
-                    
-                                                <option [value]="cat-1.id">{{ cat-1.name }}</option>
-                                            </select> -->
-
                                             <mat-select class="custom-select" (selectionChange)="changeCategory($event)"
                                                 id="Category-1">
                                                 <mat-option *ngFor="let category of categoryOne" [value]="category">
