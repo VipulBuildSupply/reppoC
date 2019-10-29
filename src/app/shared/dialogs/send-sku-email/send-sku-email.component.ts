@@ -16,6 +16,7 @@ export class SendSkuEmailComponent implements OnInit {
   success: any;
   constructor(public dialogRef: MatDialogRef<SendSkuEmailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private snack: MatSnackBar,
     private Userservice: UserService,
     private notify: NotificationService) { }
 
@@ -50,6 +51,9 @@ export class SendSkuEmailComponent implements OnInit {
         if (res.data.success == true) {
           this.success = true;
         }
+        else {
+          this.snack.open(res.data.message, 'OK', { duration: 3000 })
+        }
       });
 
     } else {
@@ -62,6 +66,9 @@ export class SendSkuEmailComponent implements OnInit {
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success == true) {
           this.success = true;
+        }
+        else {
+          this.snack.open(res.data.message, 'OK', { duration: 3000 })
         }
       });
     }
