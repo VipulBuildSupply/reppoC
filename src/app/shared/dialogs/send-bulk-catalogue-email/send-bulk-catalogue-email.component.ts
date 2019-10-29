@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FieldRegExConst } from '../../constants';
 import { UserService } from '../../services/user.service';
@@ -22,6 +22,7 @@ export class SendBulkCatalogueEmailComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<SendBulkCatalogueEmailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
+    private snack: MatSnackBar,
     private Userservice: UserService,
     private notify: NotificationService) { }
 
@@ -61,9 +62,13 @@ export class SendBulkCatalogueEmailComponent implements OnInit {
 
       this.Userservice.updateFileBulkCat(formData).then(res => {
 
-        if (res.success) {
+        if (res.success == true) {
           this.success = true;
-
+          this.snack.open(res.message, 'OK', { duration: 3000 });
+        }
+        else {
+          this.success = false;
+          this.snack.open(res.message, 'OK', { duration: 3000 })
         }
       }, err => { });
     }

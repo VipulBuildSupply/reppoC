@@ -52,6 +52,7 @@ export class SendSkuEmailComponent implements OnInit {
           this.success = true;
         }
         else {
+          this.success = false;
           this.snack.open(res.data.message, 'OK', { duration: 3000 })
         }
       });
@@ -68,6 +69,7 @@ export class SendSkuEmailComponent implements OnInit {
           this.success = true;
         }
         else {
+          this.success = false;
           this.snack.open(res.data.message, 'OK', { duration: 3000 })
         }
       });
