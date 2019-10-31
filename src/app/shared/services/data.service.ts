@@ -40,7 +40,6 @@ export class DataService {
 
         const requestUrl = (reqOptions && reqOptions.requestURL) ? reqOptions.requestURL : this.baseUrl;
         const options = { params, headers };
-
         return this.http.get(requestUrl + url, options).toPromise().then(res => res, err => this.handleError(err, ((reqOptions) && (reqOptions.skipLoader === true))))
 
     }
@@ -114,6 +113,11 @@ export class DataService {
             this.notifier.clearAllNotifications();
             this.notifier.notify("INTERNET CONNECTION ISSUE");
             throw undefined;
+        }
+
+        if (err.error.error === "Unauthorized" && err.error.httpStatusCode === 401) {
+            localStorage.clear();
+            window.location.reload();
         }
 
         this.notifier.notify(err.error.message);

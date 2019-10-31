@@ -47,12 +47,7 @@ export class SwitchUserProfileComponent implements OnInit {
 
     isSignedIn(){
         this.closeDialog();
-        this._router.navigate(['/user/profile/personal']);
+        this._router.navigate(['/profile-verification/status']);
     }
-    /*signedIn(){
-      this.userService.getUserData();
-      this._dataService.sendPostRequest(API.SIGNIN, data).then(res => {
-          this._router.navigate(['/user/profile/personal']);
-      }
-    }*/
+
 }

@@ -1,11 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SigninSignupService } from 'src/app/shared/services/signin-signup.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonService } from 'src/app/shared/services/common.service';
-import { FieldRegExConst } from 'src/app/shared/constants';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-change-password',
