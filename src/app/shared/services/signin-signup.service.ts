@@ -56,9 +56,12 @@ export class SigninSignupService {
         const headers = 'Content-Type, application/x-www-form-urlencoded';
         return this.dataService.sendPostRequest(`${API.VERIFY_OTP}`,
             Utils.JSON_to_URLEncoded(obj, null, null), { headers }).then(res => {
-
                 if (res.data.jwtToken) {
-                   return this._localLogin(res.data.jwtToken).then(_ => {
+                    return this._localLogin(res.data.jwtToken).then(userDetails => {
+                        if(userDetails.userType === "BUYER"){
+                            res.data.userType = "BUYER";
+                            return res.data;
+                        }
                         return res.data
                     });
                 }
@@ -102,7 +105,12 @@ export class SigninSignupService {
         data.userType = ConfigurationConstants.USER_TYPE;
         return this.dataService.sendPostRequest(API.RESET_PASSWORD, data).then(res => {
             if (res.data.jwtToken) {
-                return this._localLogin(res.data.jwtToken).then(_ => {
+                return this._localLogin(res.data.jwtToken).then(userDetails => {
+                    if(userDetails.userType === "BUYER"){
+                        res.data.userType = "BUYER";
+                        // this.notify.snack('Reset Password Successfully');
+                        return res.data;
+                    }
                     this.notify.snack('Reset Password Successfully');
                     return res
                 });

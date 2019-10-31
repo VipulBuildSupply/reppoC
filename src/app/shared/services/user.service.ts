@@ -55,7 +55,13 @@ export class UserService {
 
     getUserData() {
         return this.dataService.getRequest(API.PROFILE).then(res => {
-            return this.setUser(res.data);
+
+            if(res.data.userType === "BUYER"){
+                return res.data;
+            }else{
+                return this.setUser(res.data);
+            }
+
             /*if(res.data.seller){
                 return this.setUser(res.data);
             }else{

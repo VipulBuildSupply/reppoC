@@ -24,7 +24,7 @@ export class OpenTileComponent implements OnInit {
      */
     this._categoryService.getCatalogueCategories().then(res => {      
       if(res.data.length){        
-          this._router.navigate(['/user/profile/personal']);
+          this._router.navigate(['/profile-verification/status']);
       }
     });
 

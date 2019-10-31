@@ -22,7 +22,7 @@ export class EnterMobileComponent implements OnInit {
   ngOnInit(): void {
 
         if(this.signinService.isLoggedIn){
-            this._router.navigate(['/user/profile/personal']);
+            this._router.navigate(['/profile-verification/status']);
         }
 
         this.mobileVerifyForm = this._formBuilder.group({
@@ -50,7 +50,7 @@ export class EnterMobileComponent implements OnInit {
          * @description: THis function is used to check if phone number exist
          */
         this.signinService.isPhoneExist(phone).then(res => {
-            
+
             if (!res.alreadyRegistered) {
                 this.signinService.createOTP(phone).then(res => {
                    // this.signinService.userPhone = phone;

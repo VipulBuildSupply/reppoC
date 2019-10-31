@@ -5,6 +5,8 @@ import { SigninSignupService } from 'src/app/shared/services/signin-signup.servi
 import { ConfigurationConstants } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-profile/switch-user-profile.component';
 
 @Component({
     selector: 'otp-verify',
@@ -33,7 +35,8 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
     constructor(private commonService: CommonService,
         private _formBuilder: FormBuilder,
         private signinService: SigninSignupService,
-        private _router: Router) { }
+        private _router: Router,
+        private _dialog: MatDialog) { }
 
 
     ngOnInit(): void {
@@ -53,7 +56,7 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
                 throw res;
             }
         });*/
-    
+
         this.startTimer();
 
         this.otpVerifyForm = this._formBuilder.group({
@@ -153,6 +156,7 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
             }
 
             this.signinService.verifyOTP(data).then(res => {
+
                 if (res.success) {
                     if (this.signinService.isForgot) {
 
@@ -161,9 +165,13 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
 
                     }else if(this.signinService.isLoginWithOtp){
 
-                        this.signinService.isLoginWithOtp = false;
-                        this._router.navigate(['/']);
-                        
+                        if(res.userType && res.userType == "BUYER"){
+                            this.switchUserProfile(res);
+                        }else{
+                            this.signinService.isLoginWithOtp = false;
+                            this._router.navigate(['/open-tile/list']);
+                        }
+
                     } else {
                         this._router.navigate(['auth/signup'])
                     }
@@ -187,6 +195,14 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
         //Called once, before the instance is destroyed.
         //Add 'implements OnDestroy' to the class.
         this.stopTimer();
+    }
+
+    switchUserProfile(userProfileData){
+        const d = this._dialog.open(SwitchUserProfileComponent, {
+            data: { userData: userProfileData },
+            disableClose: true,
+            panelClass: 'switch-profile-popup'
+        });
     }
 
 }

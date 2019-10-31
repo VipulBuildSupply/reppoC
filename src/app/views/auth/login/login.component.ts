@@ -74,11 +74,11 @@ export class LoginComponent implements OnInit {
                     this.switchUserProfile(res.data);
                 } else {
                     this._userService.getUserData().then(res => {
-                        if (res.sellerPersonalProfile.verifyStatus == "Unverified") {
+                        // if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
                             this._router.navigate(['profile-verification/status']);
-                        } else {
-                            this._router.navigate(['/user/profile/personal']);
-                        }
+                        // }else{
+                            // this._router.navigate(['/user/profile/personal']);
+                        // }
                     });
                 }
             }, err => {

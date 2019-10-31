@@ -3,6 +3,8 @@ import { SigninSignupService } from 'src/app/shared/services/signin-signup.servi
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
+import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-profile/switch-user-profile.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-forgot-password',
@@ -23,7 +25,8 @@ export class ForgotPasswordComponent implements OnInit {
     constructor(private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private userService: UserService
+        private userService: UserService,
+        private _dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -71,12 +74,25 @@ export class ForgotPasswordComponent implements OnInit {
             data.phone = this.signinService.userPhone;
 
             this.signinService.resetPassword(data).then(res => {
-                this.userService.getUserData();
-                this._router.navigate(['/user/profile/personal']);
+                
+                if(res.userType && res.userType == "BUYER"){
+                    this.switchUserProfile(res);
+                }else{
+                    this.userService.getUserData();
+                    this._router.navigate(['/profile-verification/status']);
+                }
             }, err => {
                 this.passwordError = err.message;
             });
         }
+    }
+
+    switchUserProfile(userProfileData){
+        const d = this._dialog.open(SwitchUserProfileComponent, {
+            data: { userData: userProfileData },
+            disableClose: true,
+            panelClass: 'switch-profile-popup'
+        });
     }
 
 }
