@@ -166,6 +166,7 @@ export class AddSkuComponent implements OnInit {
 
   selectAllCheckbox(event, items) {
     if (event.target.checked) {
+      this.SearchResultsIds = [];
       this.selectAllBox = true;
       for (let i = 0; i < items.length; i++) {
         this.SearchResultsIds.push(items[i].id);
