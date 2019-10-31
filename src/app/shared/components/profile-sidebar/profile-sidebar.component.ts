@@ -10,7 +10,7 @@ import { ProfileVerifyComponent } from '../../dialogs/profile-verify/profile-ver
   templateUrl: './profile-sidebar.component.html'
 })
 export class ProfileSidebarComponent implements OnInit, OnDestroy {
-  
+
   profileSideBarDropDown;
   private userInfoUpdated: Subscription;
   user: UserModel;
@@ -28,14 +28,14 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
      * @description get the user info
      */
     this.user = this.userService.user;
-    
+
     // this.getProfilePercentage();
 
     /**
      * @description get the updated user info
      */
     this.userInfoUpdated = this.userService.userUpdated$.subscribe(user => {
-        this.user = this.userService.user; 
+      this.user = this.userService.user;
     })
 
 
@@ -46,54 +46,54 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
     /**
      * @description display profile sidebar menus on profile page
      */
-    this.profileSideBarDropDown = [ 
-      { name: 'Personal-Details', link: `/user/profile/personal` },
-      { name: 'Business-Details', link: '/user/profile/business-details' },
-      { name: 'Bank-Details', link: '/user/profile/bank-details' },
-      { name: 'Billing-Addresses', link: '/user/profile/address/billing' },
-      { name: 'Warehouse-Addresses', link: '/user/profile/address/warehouse' },
-      { name: 'Change-Password', link: '/user/profile/reset-password' }
+    this.profileSideBarDropDown = [
+      { name: 'Personal Details', link: `/user/profile/personal` },
+      { name: 'Business Details', link: '/user/profile/business-details' },
+      { name: 'Bank Details', link: '/user/profile/bank-details' },
+      { name: 'Billing Addresses', link: '/user/profile/address/billing' },
+      { name: 'Warehouse Addresses', link: '/user/profile/address/warehouse' },
+      { name: 'Change Password', link: '/user/profile/reset-password' }
     ];
 
     /**
      * @description api to get profile percentage value
      */
     this.userService.getUserPercentage().then(res => {
-        this.percentage = res;
+      this.percentage = res;
     });
 
     this.startSubscriptions();
   }
 
 
-  startSubscriptions(){
-      this.subscriptions.push(
-          this.userService.enableProfile$.subscribe(value => {
-              if(value){                
-                this.profileVerfyStatus = value;
-              }
-          }),
+  startSubscriptions() {
+    this.subscriptions.push(
+      this.userService.enableProfile$.subscribe(value => {
+        if (value) {
+          this.profileVerfyStatus = value;
+        }
+      }),
 
-          this.userService.updatePercentage$.subscribe(value => {
-            this.percentage = value;
-          })
-      )
+      this.userService.updatePercentage$.subscribe(value => {
+        this.percentage = value;
+      })
+    )
   }
   /**
    * function to display popup after click on "Request" button in profile sidebar
    */
-  requestToJoin(){
-    if(this.user.sellerPersonalProfile.emailVerified != true){
-        const d = this.dialog.open(ProfileVerifyComponent, {
-            data: { userinfo:  this.user.sellerPersonalProfile },
-            disableClose: true,
-            panelClass: 'profile-verification-popup'
-        });
-    }else{
-      this.userService.profileVerify(this.user.sellerPersonalProfile, this.user.sellerPersonalProfile.email).then(res => {
-          this.userService.setUser(res.data);
+  requestToJoin() {
+    if (this.user.sellerPersonalProfile.emailVerified != true) {
+      const d = this.dialog.open(ProfileVerifyComponent, {
+        data: { userinfo: this.user.sellerPersonalProfile },
+        disableClose: true,
+        panelClass: 'profile-verification-popup'
       });
-    }    
+    } else {
+      this.userService.profileVerify(this.user.sellerPersonalProfile, this.user.sellerPersonalProfile.email).then(res => {
+        this.userService.setUser(res.data);
+      });
+    }
   }
 
   /**
@@ -103,9 +103,9 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
     this.userService.getUserData();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscriptions.forEach(subscription => {
-        subscription.unsubscribe();
+      subscription.unsubscribe();
     });
   }
 }

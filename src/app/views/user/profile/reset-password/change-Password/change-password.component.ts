@@ -32,26 +32,26 @@ export class ChangePasswordComponent implements OnInit {
     ngOnInit(): void {
         this.phoneNumber = this.signinService.userPhone;
         this.forgotForm = this._formBuilder.group({
-            password: [ this.password, {
-                validators: [ 
+            password: [this.password, {
+                validators: [
                     Validators.required,
-                    Validators.minLength(5),
+                    Validators.minLength(6),
                 ]
             }],
-            confirmPassword: [ this.confirmPassword, {
-                validators: [ 
+            confirmPassword: [this.confirmPassword, {
+                validators: [
                     Validators.required
                 ]
-            } ]
+            }]
         })
     }
 
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        if(group){
+        if (group) {
             let pass = group.controls.password.value;
-            let confirmPass = group.controls.confirmPassword.value;            
-            this.isPasswordMatch =  (pass === confirmPass) ? true : false;
+            let confirmPass = group.controls.confirmPassword.value;
+            this.isPasswordMatch = (pass === confirmPass) ? true : false;
         }
     }
 
@@ -59,15 +59,15 @@ export class ChangePasswordComponent implements OnInit {
     submit() {
 
         if (this.forgotForm.valid) {
-            
-            if(this.pass != this.confirmPass){
+
+            if (this.pass != this.confirmPass) {
                 return;
             }
 
             const data: any = {};
             Object.keys(this.forgotForm.value).forEach((field) => {
-                if ((this.forgotForm.value[ field ] !== null) && (this.forgotForm.value[ field ] !== '')) {
-                    data[ field ] = this.forgotForm.value[ field ];
+                if ((this.forgotForm.value[field] !== null) && (this.forgotForm.value[field] !== '')) {
+                    data[field] = this.forgotForm.value[field];
                 }
             });
 
