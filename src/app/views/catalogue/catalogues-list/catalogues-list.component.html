@@ -181,7 +181,7 @@
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
                                                                 (input)="checkPrice(i)" formControlName="price"
-                                                                placeholder="Price Per Bag (₹)"
+                                                                placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error
                                                                 *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
@@ -279,7 +279,7 @@
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
                                                                 (input)="checkPriceEdit(i)" formControlName="price"
-                                                                placeholder="Price Per Bag (₹)"
+                                                                placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error
                                                                 *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
@@ -467,7 +467,7 @@
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
                                                                 (input)="checkPriceIndvidual(i,indx)"
-                                                                formControlName="price" placeholder="Price Per Bag (₹)"
+                                                                formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error
                                                                 *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">

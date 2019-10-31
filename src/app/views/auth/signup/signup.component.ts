@@ -31,20 +31,20 @@ export class SignupComponent implements OnInit {
 
         this.mobileNumber = this.signinService.userPhone;
 
-        
-        
 
-        if(this.mobileNumber == undefined){
+
+
+        if (this.mobileNumber == undefined) {
             this._router.navigate(['/auth/enter-mobile']);
-        }1
+        } 1
 
         this.signupForm = this._formBuilder.group({
 
             password: [this.password, {
                 validators: [
                     Validators.required,
-                    Validators.minLength(10),
-                    Validators.pattern(FieldRegExConst.PASSWORD)
+                    Validators.minLength(6)
+                    // Validators.pattern(FieldRegExConst.PASSWORD)
                 ]
             }],
             confirmPassword: [this.confirmPassword, {

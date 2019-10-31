@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html'
+    selector: 'app-login',
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
 
@@ -20,59 +20,59 @@ export class LoginComponent implements OnInit {
     phoneNumber;
     signinForm: FormGroup;
     password: string;
-    isForgot:boolean;
+    isForgot: boolean;
     errorMsg: any;
     constructor(private commonService: CommonService,
         private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _userService: UserService,
-        private _dialog: MatDialog) { 
+        private _dialog: MatDialog) {
     }
 
     ngOnInit(): void {
         this.phoneNumber = this.signinService.userPhone;
 
-        if(this.phoneNumber == undefined){
+        if (this.phoneNumber == undefined) {
             this._router.navigate(['/auth/enter-mobile']);
         }
 
         this.signinForm = this._formBuilder.group({
-            emailOrPhone: [ this.phoneNumber, {
-                validators: [ 
-                    Validators.required, 
-                    Validators.pattern(FieldRegExConst.PHONE) 
+            emailOrPhone: [this.phoneNumber, {
+                validators: [
+                    Validators.required,
+                    Validators.pattern(FieldRegExConst.PHONE)
                 ]
-            } ],
-            password: [ this.password, {
-                validators: [ 
+            }],
+            password: [this.password, {
+                validators: [
                     Validators.required,
                 ]
-            } ]
+            }]
         });
     }
 
-    resetError(){
+    resetError() {
         this.errorMsg = '';
     }
 
     submit(): void {
-        
-        this.errorMsg='';
+
+        this.errorMsg = '';
 
         if (this.signinForm.valid) {
 
             const data = {};
             Object.keys(this.signinForm.value).forEach((field) => {
-                if ((this.signinForm.value[ field ] !== null) && (this.signinForm.value[ field ] !== '')) {
-                    data[ field ] = this.signinForm.value[ field ];
+                if ((this.signinForm.value[field] !== null) && (this.signinForm.value[field] !== '')) {
+                    data[field] = this.signinForm.value[field];
                 }
             });
 
             this.signinService.signin(data).then(res => {
-                if(res.data.loggedInUserType == 'BUYER'){
+                if (res.data.loggedInUserType == 'BUYER') {
                     this.switchUserProfile(res.data);
-                }else{
+                } else {
                     this._userService.getUserData().then(res => {
                         // if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
                             this._router.navigate(['profile-verification/status']);
@@ -84,13 +84,13 @@ export class LoginComponent implements OnInit {
             }, err => {
                 this.errorMsg = err.message;
             });
-            
+
         } else {
             FormHelper.validateAllFormFields(this.signinForm);
         }
     }
 
-    forgot(){
+    forgot() {
         this.signinService.isForgot = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
             this._router.navigate(['auth/otp-verify'])
@@ -98,14 +98,14 @@ export class LoginComponent implements OnInit {
     }
 
 
-    loginOtp(){
+    loginOtp() {
         this.signinService.isLoginWithOtp = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
             this._router.navigate(['auth/otp-verify'])
         });
     }
 
-    switchUserProfile(userProfileData){
+    switchUserProfile(userProfileData) {
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },
             disableClose: true,
