@@ -807,9 +807,13 @@ export class CataloguesList implements OnInit {
 
       }
     }
-    this.Userservice.sendPricingToAllWarehouse(this.sendPricingToIndividualArrayAdd);
-    this.getCatalogueItems();
-    // this.selectUniqueCatalogue(this.uniqueCatalogueData.catalogueItem.id);
+    this.Userservice.sendPricingToAllWarehouse(this.sendPricingToIndividualArrayAdd).then(res => {
+      if (res) {
+        this.getCatalogueItems();
+      }
+    });
+
+
   }
 
   addPricingAllWarehouseAddress() {
@@ -831,8 +835,13 @@ export class CataloguesList implements OnInit {
 
       // console.log(this.sendPricingToAllArrayEdit);
 
-      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit);
-      this.getCatalogueItems();
+      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit).then(res => {
+        if (res) {
+          this.getCatalogueItems();
+        }
+      });
+
+
     }
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
       this.sendPricingToAllArray = [];
@@ -852,8 +861,13 @@ export class CataloguesList implements OnInit {
 
       // console.log(this.sendPricingToAllArray);
 
-      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray);
-      this.getCatalogueItems();
+      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray).then(res => {
+        if (res) {
+          this.getCatalogueItems();
+        }
+      });
+
+
     }
 
   }
