@@ -20,11 +20,12 @@ import { SnotifyService, ToastDefaults } from 'ng-snotify';
 import { HttpClientModule } from '@angular/common/http';
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy-policy.component';
-import { HttpInterceptorProviders } from './shared/http-interceptors/http-interceptor-providers';import { OpenTileModule } from './views/open-tile/open-tile.module';
+import { HttpInterceptorProviders } from './shared/http-interceptors/http-interceptor-providers'; import { OpenTileModule } from './views/open-tile/open-tile.module';
 import { CategoryService } from './shared/services/category.service';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 import { ProfileVerificationComponent } from './views/profile-verification/profile-verification.component';
+import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 
 @NgModule({
   declarations: [
@@ -36,11 +37,12 @@ import { ProfileVerificationComponent } from './views/profile-verification/profi
     NotFoundComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
+    LeadLayoutComponent
     // ProfileVerificationComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, 
+    AppRoutingModule,
     HeaderSharedModule,
     FooterSharedModule,
     AppSharedModule,
@@ -55,9 +57,9 @@ import { ProfileVerificationComponent } from './views/profile-verification/profi
     UserService,
     NotificationService,
     SnotifyService,
-    { 
-      provide: 'SnotifyToastConfig', 
-      useValue: ToastDefaults 
+    {
+      provide: 'SnotifyToastConfig',
+      useValue: ToastDefaults
     },
     HttpInterceptorProviders,
     CategoryService,

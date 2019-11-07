@@ -9,7 +9,7 @@ import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
-import { ProfileVerificationComponent } from './views/profile-verification/profile-verification.component';
+import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 
 export const routes: Routes = [
   {
@@ -23,17 +23,17 @@ export const routes: Routes = [
     component: DefaultLayoutComponent,
     canActivate: [CatalogueGuardService],
     children: [
-      { 
-        path: 'home', 
+      {
+        path: 'home',
         component: HomeComponent,
         pathMatch: 'full'
       },
-      
+
       {
         path: 'privacy-policy',
         component: PrivacyPolicyComponent
       },
-    
+
       {
         path: 'terms-and-conditions',
         component: TermsAndConditionsComponent
@@ -93,27 +93,39 @@ export const routes: Routes = [
   // },
 
   {
-    path: '', 
+    path: '',
     component: AuthLayoutComponent,
     //canActivate: [CatalogueGuardService],
     children: [
-      { 
-        path: 'auth', 
+      {
+        path: 'auth',
         loadChildren: () => import('./views/auth/auth.module').then(m => m.AuthModule),
-        data: { title: 'Auth'} 
+        data: { title: 'Auth' }
       }
     ]
   },
 
   {
-    path: '', 
+    path: '',
+    component: LeadLayoutComponent,
+    canActivate: [AuthGuardService, CatalogueGuardService],
+    children: [
+      {
+        path: 'lead',
+        loadChildren: () => import('./views/leads/lead.module').then(m => m.LeadModule),
+        data: { title: 'Lead' }
+      }
+    ]
+  },
+  {
+    path: '',
     component: ProfileLayoutComponent,
     canActivate: [AuthGuardService, CatalogueGuardService],
     children: [
-      { 
-        path: 'user', 
+      {
+        path: 'user',
         loadChildren: () => import('./views/user/user.module').then(m => m.UserModule),
-        data: { title: 'User'} 
+        data: { title: 'User' }
       }
     ]
   },
@@ -125,7 +137,7 @@ export const routes: Routes = [
       {
         path: 'catalogue',
         loadChildren: () => import('./views/catalogue/catalogue.module').then(m => m.CatalogueModule),
-        data: { title: 'Catalogue', breadcrumb: 'Catalogue'}
+        data: { title: 'Catalogue', breadcrumb: 'Catalogue' }
       }
     ]
   },
@@ -134,7 +146,7 @@ export const routes: Routes = [
     path: '404',
     component: NotFoundComponent
   },
-  
+
   {
     path: '**',
     redirectTo: '404'

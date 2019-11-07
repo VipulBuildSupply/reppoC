@@ -336,6 +336,21 @@
 .leads-srch {
     display: flex;
     position: relative;
+    padding-bottom: 15px;
+}
+
+.leads-tap a {
+    color: #95989A;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-bottom: 3px;
+    margin-right: 15px;
+}
+
+.leads-tap .active-tab {
+    color: #1896BA;
+    border-bottom: 3px solid;
 }
 
 .leads-srch a {

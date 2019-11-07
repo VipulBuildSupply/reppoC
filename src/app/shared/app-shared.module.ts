@@ -5,15 +5,18 @@ import { SharedMaterialModule } from './shared-material.module';
 import { SnackComponent } from './components/snack/snack.component';
 import { OtpDirective } from './directive/otp.directive';
 import { SharedDialogs } from './dialogs/shared-dialogs';
+import { CustomDatePipe } from './directive/custom-date.pipe';
+import { SharedDirectivesModule } from './directive/shared-directives.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedComponentsModule,
-    SharedMaterialModule
+    SharedMaterialModule,
+    SharedDirectivesModule
   ],
   providers: [],
-  declarations:[
+  declarations: [
     ...SharedDialogs,
     OtpDirective
   ],
@@ -21,9 +24,10 @@ import { SharedDialogs } from './dialogs/shared-dialogs';
     ...SharedDialogs,
     SharedComponentsModule,
     SharedMaterialModule,
-    OtpDirective
+    OtpDirective,
+    SharedDirectivesModule
   ],
-  entryComponents:[
+  entryComponents: [
     ...SharedDialogs,
     SnackComponent
   ]

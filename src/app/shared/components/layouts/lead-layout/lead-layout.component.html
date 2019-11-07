@@ -1,0 +1,46 @@
+<app-header></app-header>
+<section class="midpanel">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="leads-top-section">
+          <h4>Leads</h4>
+
+          <div class="leads-srch-box  flex-sb-m">
+            <div class="leads-tap">
+              <a href="javascript:void(0)" [class]="new_tab" (click)="toggleleadsnew()">New Leads</a>
+              <a href="javascript:void(0)" [class]="acted_tab" (click)="toggleleadsacted()">Acted Leads</a>
+            </div>
+            <div class=" leads-srch">
+              <div class="form-group has-search mb-0">
+                <span class="form-control-feedback"><img src="assets/img/search-icon.png" alt=""></span>
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+
+              <a href="#myModal" role="button" data-toggle="modal" style="color:rgba(125,125,125,0.95);"> <img
+                  src="assets/img/svg-img/ic_filter.svg" alt="">
+                Filters
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-5" *ngIf="new_tab == 'active-tab'">
+        <app-lead-sidebar></app-lead-sidebar>
+      </div>
+      <div class="col-lg-5" *ngIf="new_tab != 'active-tab'">
+        <app-lead-sidebar></app-lead-sidebar>
+      </div>
+      <div class="col-lg-7">
+        <div class="rightbar-panel">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>
