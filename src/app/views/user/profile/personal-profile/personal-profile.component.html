@@ -6,7 +6,7 @@
 
     <h4>Personal Details</h4>
 
-    <div class="phot-title">profile-photo</div>
+    <div class="phot-title"></div>
     <div class="user-photo">
         <img [ngClass]="(user.sellerPersonalProfile.profileImageUrl || localImg) ? 'user-img' : 'user-icon'"
             [src]="user.sellerPersonalProfile.profileImageUrl || localImg || 'assets/img/edit-icon.png'"
@@ -48,16 +48,16 @@
             <div class="save-orange">
                 <button type="submit" class="btn orangeBttn">Save</button>
             </div>
-            
+
         </ng-container>
-        
+
         <ng-container>
             <div class="text-right" *ngIf="user.sellerPersonalProfile.emailVerified == false">
                 <a href="javascript:void(0)" class="verify-email" (click)="verifyEmail()">Verify-email</a>
             </div>
         </ng-container>
-        
 
-    </div>   
-    
+
+    </div>
+
 </form>

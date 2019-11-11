@@ -14,7 +14,7 @@ import { SigninStepper } from '../models/signin-stepper';
 @Injectable()
 export class CommonService {
 
-  
+
 
     /* subscribe to langChanged observable to get event whenever language changed */
     private langChangedEv = new Subject<boolean>();
@@ -25,14 +25,14 @@ export class CommonService {
     otmTimer = new Subject<boolean>();
 
     constructor(private dataService: DataService, private token: TokenService) {
-       
+
     }
 
     // static closeMenu() {
     //     HamburgerMenuService.hideMenu();
     // }
 
-   
+
 
     static addBodyOverFlow() {
         $('body').removeClass('overflowHidden');
@@ -67,12 +67,12 @@ export class CommonService {
     //     });
     // }
 
-         
+
     static closeMiniBag() {
         $('.minibag__wrapper').addClass('hide');
     }
 
-    
+
     static addScrollFixPopup(){
         $('.cdk-overlay-container').addClass('popupScrollFix');
     }
@@ -80,7 +80,7 @@ export class CommonService {
     static removeScrollFixPopup(){
         $('.cdk-overlay-container').removeClass('popupScrollFix');
     }
-    
+
 
     // it is publishing this value to all the subscribers that have already subscribed to this message
     isHeaderFooterVisible(value: boolean) {
@@ -101,12 +101,12 @@ export class CommonService {
     //         });
     // }
 
-     
+
 
     parseInt(value): number {
         return parseInt(value, 10);
     }
 
-  
+
 
 }

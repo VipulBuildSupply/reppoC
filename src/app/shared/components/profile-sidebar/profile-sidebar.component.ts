@@ -40,7 +40,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
 
 
     // this.onUpdatePercentage = this.userService.updatePercentage$.subscribe(data => {
-    //     this.getProfilePercentage();    
+    //     this.getProfilePercentage();
     // });
 
     /**
@@ -83,7 +83,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
    * function to display popup after click on "Request" button in profile sidebar
    */
   requestToJoin() {
-    if (this.user.sellerPersonalProfile.emailVerified != true) {
+    if (this.user.sellerPersonalProfile.emailVerified !== true) {
       const d = this.dialog.open(ProfileVerifyComponent, {
         data: { userinfo: this.user.sellerPersonalProfile },
         disableClose: true,

@@ -7,6 +7,7 @@ import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filt
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 interface Warehouse {
   address: any;
@@ -48,6 +49,7 @@ export class CataloguesList implements OnInit {
   AllIndividualForms: boolean;
   stockstatus: boolean;
   selectedFilters: any;
+  count: number;
 
   constructor(private Userservice: UserService,
     private _formBuilder: FormBuilder,
@@ -80,6 +82,10 @@ export class CataloguesList implements OnInit {
         if (data) {
           this.catalogueList = data;
         }
+      }),
+
+      this._categoryService.selectedFiltersCount$.subscribe(value => {
+        this.count = value;
       })
     )
   }
@@ -136,6 +142,7 @@ export class CataloguesList implements OnInit {
   }
 
   selectUniqueCatalogue(id) {
+    CommonService.smoothScrollToTop();
     this.errorMin = false;
     this.editMinMaxIsFalse = false;
     this.AllIndividualForms = false;
