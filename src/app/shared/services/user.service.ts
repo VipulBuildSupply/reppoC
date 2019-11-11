@@ -56,9 +56,9 @@ export class UserService {
     getUserData() {
         return this.dataService.getRequest(API.PROFILE).then(res => {
 
-            if(res.data.userType === "BUYER"){
+            if (res.data.userType === "BUYER") {
                 return res.data;
-            }else{
+            } else {
                 return this.setUser(res.data);
             }
 
@@ -300,5 +300,30 @@ export class UserService {
     updateFileBulkCat(data) {
         return this.dataService.sendPostRequest(API.FILE_BULK_CATALOGUE, data).then(res => res.data)
     }
+
+    getNewLeads() {
+        return this.dataService.getRequest(API.GET_NEW_LEADS).then((res: any) => res);
+    }
+    getActedLeads() {
+        return this.dataService.getRequest(API.GET_ACTED_LEADS).then((res: any) => res);
+    }
+    saveLeadAsBookmark(skuId, Status) {
+        return this.dataService.sendPutRequest(API.ADD_BOOKMARK_SAVE_LEADS(skuId, Status), null).then(res => res);
+    }
+
+    DismissLead(skuId, Status) {
+        return this.dataService.sendPutRequest(API.ADD_BOOKMARK_SAVE_LEADS(skuId, Status), null).then(res => res);
+    }
+
+    getLeadObj(leadId) {
+        return this.dataService.getRequest(API.GET_LEAD_OBJ(leadId)).then((res: any) => res);
+    }
+
+    sendQuoteToAllWarehouse(data, leadID) {
+
+        return this.dataService.sendPostRequest(API.QUOTE_SUBMIT_ALL_WAREHOUSE(leadID), data).then(res => res);
+
+    }
+
 
 }

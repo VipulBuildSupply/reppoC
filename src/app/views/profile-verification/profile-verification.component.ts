@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-profile-verification',
@@ -12,19 +13,29 @@ export class ProfileVerificationComponent implements OnInit {
     isUnverified: boolean;
     isPending: boolean;
     isVerified: boolean;
+    new_leads: any;
+    showleads: boolean;
 
-    constructor(private _userService: UserService) { }
+    constructor(private _userService: UserService, private _router: Router) { }
 
     ngOnInit(): void {
+        this.showleads = false;
         this._userService.getUserData().then(res => {
-            if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
+            if (res.sellerPersonalProfile.verifyStatus == "Unverified") {
                 this.isUnverified = true;
-            }else if(res.sellerPersonalProfile.verifyStatus == "Verification In Progress"){
+            } else if (res.sellerPersonalProfile.verifyStatus == "Verification In Progress") {
                 this.isPending = true;
-            }else{
+            } else {
                 this.isVerified = true;
             }
         });
-        
+
+        this._userService.getNewLeads().then(res => {
+            this.new_leads = res;
+            this._router.navigate([`/lead`]);
+        });
+
     }
+
+
 }

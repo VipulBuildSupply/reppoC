@@ -1,71 +1,73 @@
-.required-box{
+.required-box {
     @include border-radius(4px);
     @include bg-color(#fff);
-    box-shadow: 1px 3px 4px 0 rgba(151,151,151,0.5);
+    box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     display: inline-block;
-    width:100%;
+    width: 100%;
     padding: 15px 25px;
     margin: 0px 0 10px;
     position: relative;
     transition: all .5s ease-in-out;
 
-    &:hover{
-        background-color: #E0F8FF;	
+    &:hover {
+        background-color: #E0F8FF;
     }
-    &.active{
-        background-color: #E0F8FF;	
+
+    &.active {
+        background-color: #E0F8FF;
     }
 }
-.cement-title{
-    color: rgba(0,0,0,0.9);	
-    font-size: 16px;	
+
+.cement-title {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 13px;
 
-    .change-address{
+    .change-address {
         float: right;
         color: #1896BA;
-        font-size: 12px;	
+        font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
     }
 }
 
-.required-box-2{
+.required-box-2 {
     // border: 1px solid #ECECEC;	
     background-color: #FFFFFF;
 }
 
-.wishlist-icon{
+.wishlist-icon {
     position: absolute;
     top: 15px;
     right: 50px;
     border-radius: 3px 3px 0 0;
 }
 
-.required-info-box{
+.required-info-box {
     width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     padding-bottom: 5px;
     margin-bottom: 5px;
 
-.required-info{
-    width: 50%;
+    .required-info {
+        width: 50%;
 
-    p{
-        color: rgba(0,0,0,0.9);		
-        font-size: 14px;	
-        font-weight: 600;
-        margin-bottom: 0;
-    }
+        p {
+            color: rgba(0, 0, 0, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
 
-    span{
-        opacity: 0.6;
-        color: rgba(0,0,0,0.9);	
-        font-size: 12px;
-        vertical-align: super;
+        span {
+            opacity: 0.6;
+            color: rgba(0, 0, 0, 0.9);
+            font-size: 12px;
+            vertical-align: super;
+        }
     }
-  }
 }
 
 
@@ -73,7 +75,7 @@
     float: right;
     cursor: pointer;
 
-    .nav-dot{
+    .nav-dot {
         height: 4px;
         width: 4px;
         opacity: 0.3;
@@ -84,44 +86,51 @@
     }
 }
 
-.lead-details-box{
-    width:100%;
-    border-radius: 4px;	
-    background-color: #FFFFFF;	
-    padding: 15px 25px 26px;
-    box-shadow: 1px 3px 4px 0 rgba(151,151,151,0.5);
+.bookmark {
+    position: relative;
+    margin-top: -6px;
 }
-.top-tital{
-    opacity: 0.4;	
-    color: #000000;		
-    font-size: 12px;	
+
+.lead-details-box {
+    width: 100%;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 15px 25px 26px;
+    box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
+}
+
+.top-tital {
+    opacity: 0.4;
+    color: #000000;
+    font-size: 12px;
     font-weight: $font-weight-600;
 }
 
-.Quantity-Range{
+.Quantity-Range {
     width: 100%;
 
-    label{
+    label {
         display: block;
-        color: rgba(0,0,0,0.6);	
+        color: rgba(0, 0, 0, 0.6);
         font-size: 12px;
-     }
-   
+    }
 
-    .form-control{
+
+    .form-control {
         width: 20%;
         float: left;
         margin-right: 20px;
-        opacity: 0.8;	
-        color: #000000;		
-        font-size: 16px;	
+        opacity: 0.8;
+        color: #000000;
+        font-size: 16px;
         font-weight: 600;
 
-      
+
 
     }
 }
-.house-address{
+
+.house-address {
     width: 100%;
     display: inline-block;
 
@@ -132,11 +141,12 @@
         line-height: 49px;
     }
 }
-.addres-details{
-    border: 1px solid rgba(#979797,0.5);
-    padding: 10px;	
 
-    p{
+.addres-details {
+    border: 1px solid rgba(#979797, 0.5);
+    padding: 10px;
+
+    p {
         opacity: 0.6;
         color: #000000;
         font-size: 14px;
@@ -144,25 +154,26 @@
         line-height: 24px;
     }
 
-    .ads-t{
-	font-weight: 600;
+    .ads-t {
+        font-weight: 600;
     }
 }
 
-.payment-terms{
+.payment-terms {
     margin: 25px 0px 40px;
-    p{
-        color: #000000;		
-        font-size: 16px;	
+
+    p {
+        color: #000000;
+        font-size: 16px;
         font-weight: 600;
         margin-bottom: 5px;
     }
 
-    ul{
+    ul {
         padding-left: 20px;
 
-        li{
-            color: rgba(0,0,0,0.6);		
+        li {
+            color: rgba(0, 0, 0, 0.6);
             font-size: 15px;
             line-height: 33px;
         }

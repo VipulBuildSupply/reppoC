@@ -1,226 +1,272 @@
-@media (max-width:1200px){
+@media (max-width:1200px) {
     .container-fluid {
         padding: 0 55px;
     }
-    .request-bttn{
+
+    .request-bttn {
         float: inherit;
         margin-top: 15px;
     }
-    
+
 }
 
-@media (max-width:992px){    
-    .request-bttn{
+@media (max-width:992px) {
+    .request-bttn {
         float: right;
         margin-top: 0;
     }
+
     .loginfield {
         padding-left: 30px;
         padding-right: 30px;
     }
+
     .Pricing-Information .edit {
         padding-top: 15px;
     }
+
     .sku-categeory .input-group {
-        margin:0px 0 17px;
+        margin: 0px 0 17px;
     }
+
     .requested-delivery-info {
         width: 45%;
         margin-right: 30px;
     }
+
     .addres-details {
         margin-bottom: 10px;
     }
+
     .output-box .selected-option {
         margin-bottom: 10px;
     }
+
     .lead-details-box .form-control {
         margin-bottom: 15px;
     }
-   
-   
 
-    
-   
+
+
+
+
 }
 
-@media (max-width:767px){
+@media (max-width:767px) {
     .admin-box {
         position: absolute;
         top: 20px;
         right: 93px;
     }
+
     .header-main .navbar {
         padding: 14px 15px;
     }
+
     .container-fluid {
         padding: 0 15px;
     }
+
     .loginbg {
         height: auto;
     }
+
     .loginfield-detail {
         padding-top: 30px;
         padding-bottom: 60px;
     }
+
     .loginfield h2 {
         padding-bottom: 30px;
     }
+
     .tile-heading {
         display: inherit;
     }
+
     .has-search {
         width: 80%;
     }
+
     .leads-srch .add-new {
         font-size: 14px;
         width: 16%;
     }
+
     .leads-srch a {
         display: flex;
         justify-content: flex-end;
         align-items: center;
     }
+
     .dropdown-link1 {
         width: 20%;
     }
+
     .leads-srch {
         margin-top: 20px;
+        padding-bottom: 15px;
     }
+
     .tile-heading .request-bttn {
         display: flex;
         float: none;
         justify-content: flex-end;
         margin: 0;
     }
-  
+
     .select-item-box label {
         font-size: 13px;
     }
+
     .catalogue-panel .tile-heading h4 {
         font-size: 18px;
         display: contents;
     }
+
     .cement-title {
         font-size: 14px;
     }
+
     .commom-drop li a {
         font-size: 12px;
         line-height: 30px
     }
-    .commom-drop{
+
+    .commom-drop {
         padding: 10px 0;
     }
+
     .requested-delivery-info {
-        width:100%;
+        width: 100%;
         margin-bottom: 10px;
     }
 
     .modal-title {
         margin: 0 0 20px;
     }
+
     .leads-srch-box {
         display: inherit;
     }
+
     .house-address .payment-terms {
         margin-bottom: 0;
     }
+
     .house-address .save-orange {
         margin-top: 0;
     }
-    .full-screen-modal .flex-sb-m
-    .save-orange .orangeBttn {
+
+    .full-screen-modal .flex-sb-m .save-orange .orangeBttn {
         margin: 0px 30px 10px 0px;
     }
+
     .filter-box {
         max-width: 100%;
     }
+
     .view-less-btn {
         margin-left: 20px;
     }
+
     .order-footer.flex-sb-m {
         display: inherit;
     }
+
     .trame-and-conditions P {
         font-size: 12px;
     }
+
     .notifications-box {
         width: 100%;
         left: 0;
         top: 50px;
         padding: 10px 0;
     }
+
     .notifications-box::after {
         left: 22px;
     }
 }
 
 
-@media (max-width:580px){
+@media (max-width:580px) {
     .admin-box:hover .drop-edit {
         position: inherit;
         left: 0;
         width: 100%;
         top: 46px;
     }
+
     .admin-box.loginMob {
         position: fixed;
         top: 6px;
         right: 15px;
     }
+
     .header-main .navbar {
         padding: 5px 15px;
     }
+
     .admin-box {
         position: absolute;
         top: 6px;
         right: 93px;
     }
+
     .leads-srch .add-new {
         width: 25%;
     }
+
     .select-box-left p {
         font-size: 12px;
     }
+
     .order-status-right-box .orangeBttn {
         font-size: 12px;
         padding: 0 8px;
         height: 44px;
     }
+
     .order-footer .edit {
         font-size: 12px;
     }
+
     .bank-title span {
         font-size: 12px;
     }
+
     .payment-terms ul li {
         font-size: 12px;
         line-height: 34px;
     }
-    .full-screen-modal .flex-sb-m
-        .save-orange .orangeBttn {
-            min-width: auto;
-            height: auto;
-            margin-right: 21px;
-            margin-top: -12px;
-            margin: 0px 30px 10px 0px;
-        }
 
-        .required-info-box .required-info {
-            width: 100%;
-        }
-    
-    
+    .full-screen-modal .flex-sb-m .save-orange .orangeBttn {
+        min-width: auto;
+        height: auto;
+        margin-right: 21px;
+        margin-top: -12px;
+        margin: 0px 30px 10px 0px;
+    }
+
+    .required-info-box .required-info {
+        width: 100%;
+    }
+
+
 }
 
-@media (max-width:470px){
-    .request-bttn{
+@media (max-width:470px) {
+    .request-bttn {
         float: inherit;
         margin-top: 15px;
     }
+
     .logo-main img {
         width: 175px;
     }
+
     .leads-srch .add-new {
         width: 45%;
     }
@@ -228,28 +274,36 @@
     .sucessfull {
         left: 15%;
     }
+
     .select-item-box {
         padding: 0 10px;
     }
+
     .select-item-box label {
         font-size: 12px;
     }
+
     .main-order-status-box {
-        display: inherit!important;
+        display: inherit !important;
     }
+
     .order-status-left-box {
         width: 100%;
     }
+
     .order-status-right-box .save-orange {
         position: relative;
     }
+
     .order-status-right-box {
         width: 100%;
         justify-content: flex-end;
     }
+
     .wishlist-icon {
         right: 39px;
     }
+
     .request-bttn .orangeBttn {
         width: 115px;
         text-align: center;
@@ -258,21 +312,26 @@
     .right-bar-body .request-bttn .orangeBttn {
         padding: 0;
     }
+
     .save-orange .brdbttn {
         margin-right: 10px;
     }
+
     .save-orange .orangeBttn {
         min-width: 117px;
         font-size: 12px;
         height: 35px;
         line-height: 25px;
     }
+
     .order-footer .edit {
-        margin: 0px 5px 10px!important;
+        margin: 0px 5px 10px !important;
     }
+
     .order-footer p {
         font-size: 14px;
     }
+
     .dropdown-link1 {
         width: 50%;
     }

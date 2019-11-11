@@ -7,6 +7,7 @@ import { DataServiceOptions } from '../models/data-service-options';
 import { ConfigurationConstants } from '../constants';
 import { ResolveData } from '@angular/router';
 import { NotificationService } from './notification-service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,15 @@ export class DataService {
     ) {
         this.baseUrl = environment.apiURL + '/';
     }
+    private messageSource = new BehaviorSubject("NewLeads");
+    currentMessage = this.messageSource.asObservable();
+
+
+
+    changeMessage(message: string) {
+        this.messageSource.next(message)
+    }
+
 
     getRequest(url: string, params: HttpParams = new HttpParams(), reqOptions: DataServiceOptions = null): ResolveData {
 
@@ -60,7 +70,7 @@ export class DataService {
             if (reqOptions.headers) {
                 const hdrs = reqOptions.headers.split(',');
 
-                headers = headers.append(hdrs[ 0 ], hdrs[ 1 ]);
+                headers = headers.append(hdrs[0], hdrs[1]);
             }
         }
 
@@ -121,7 +131,7 @@ export class DataService {
         }
 
         this.notifier.notify(err.error.message);
-         throw err.error;
+        throw err.error;
     }
 
 

@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
-import { UserService } from 'src/app/shared/services/user.service';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/shared/services/user.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
+import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 
 interface Warehouse {
   address: any;
@@ -14,11 +14,13 @@ interface Warehouse {
 }
 
 @Component({
-  selector: 'app-catalogues-list',
-  templateUrl: './catalogues-list.component.html'
+  selector: 'app-new-leads',
+  templateUrl: './new-leads.component.html'
 })
-export class CataloguesList implements OnInit {
 
+
+export class NewLeadComponent implements OnInit {
+  datePickerValue: any;
   isEditBtnClicked: boolean;
   catalogueList: any;
   catalogueListTemp: any;
@@ -49,39 +51,116 @@ export class CataloguesList implements OnInit {
   stockstatus: boolean;
   selectedFilters: any;
 
-  constructor(private Userservice: UserService,
-    private _formBuilder: FormBuilder,
-    private _router: Router,
+
+
+
+
+  private routeSub: Subscription;
+  leadId: number;
+  wareHouseAdd: any;
+  showLeadObjDetails: any;
+  checkQuoteWarehouse: boolean;
+  addPriceToAllWareHouseCheckBoxCheck: boolean;
+  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
     private ref: ChangeDetectorRef,
-    private _categoryService: CategoryService) { }
+    private _categoryService: CategoryService, private Userservice: UserService) { }
 
   ngOnInit() {
+    this.routeSub = this.route.params.subscribe(params => {
+      this.leadId = params['id'];
+
+      this.addPriceToAllWareHouseCheckBoxCheck = true;
+      this.pricingForms = [];
+      this.editPricingAllForms = [];
+      this.getLeadObj(this.leadId);
+
+    });
+
+  }
+
+  getLeadObj(leadId) {
     this.errorMin = false;
+    this.editMinMaxIsFalse = false;
+    this.AllIndividualForms = false;
     this.isEditBtnClicked = false;
     this.errorMax = false;
-    this.AllIndividualForms = false;
     this.checkPriceValidate = false;
     this.minMaxValidValue = true;
-    this.addPriceForRemainingIndividualQuantityNumber = [];
+    this.editMinMaxIsFalse = false;
     this.addPriceForRemainingIndividualQuantity = [];
     this.addPriceToAllWareHouseCheckBox = false;
     this.addPriceForRemainingQuantity = false;
+    this.addPriceForRemainingIndividualQuantityNumber = [];
+    this.sendPricingToIndividualArrayAdd = [];
+    this.pricingForms = [];
+    this.pricingFormsIndividual = [];
+    this.editPricingAllForms = [];
+    this.sendPricingToAllArray = [];
+    this.sendPricingToAllArrayEdit = [];
+    this.sendPricingToIndividualArrayAdd = [];
     this.addAnotherRangeCount.push('1');
-    this.getCatalogueItems();
     this.addAnotherRange();
-    this.startSubscriptions();
+
+    this.Userservice.getLeadObj(leadId).then(res => {
+      this.showLeadObjDetails = res;
+      this.getWarehouseAddress();
+
+      if (this.showLeadObjDetails.data.warehouseList.length > 0) {
+        if (this.showLeadObjDetails.data.warehouseList[0].warehousePriceList) {
+          var minimumQty = this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[0].minQty;
+          var maximumQty = this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[0].maxQty;
+        }
+      }
+
+      for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
+        if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
+          for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
+            if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != minimumQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != maximumQty)) {
+              this.addPriceToAllWareHouseCheckBoxCheck = false;
+            }
+          }
+        }
+      }
+
+      if (!this.addPriceToAllWareHouseCheckBoxCheck) {
+        this.addPriceToAllWareHouseCheckBox = false;
+      } else {
+        this.addPriceToAllWareHouseCheckBox = true;
+      }
+
+      if (this.showLeadObjDetails.data.warehouseList.length > 0) {
+        if (this.showLeadObjDetails.data.warehouseList[0].warehousePriceList.length > 0) {
+          this.editPricingAllForms = [];
+          this.isEditBtnClicked = true;
+          for (let i = 0; i < this.showLeadObjDetails.data.warehouseList[0].warehousePriceList.length; i++) {
+            this.editPricingForms(i);
+            this.isEditBtnClicked = true;
+          }
+        }
+      }
+
+
+
+
+
+    });
+
+    // this.addAnotherRange();
+
+
   }
 
-  startSubscriptions() {
-    this.subscriptions.push(
-      this._categoryService.updateSkusList$.subscribe(data => {
-        if (data) {
-          this.catalogueList = data;
-        }
-      })
-    )
+  getWarehouseAddress() {
+    this.Userservice.getAddress("WAREHOUSE").then(res => {
+      this.wareHouseAdd = res;
+
+      this.createWarehouseData(this.wareHouseAdd.data);
+
+
+    });
+
   }
 
   getCatalogueItems() {
@@ -98,26 +177,52 @@ export class CataloguesList implements OnInit {
 
   createWarehouseData(warehouselist) {
 
+
     warehouselist.forEach(warehouse => {
 
       const forms = [];
 
-      if (warehouse.warehousePriceList.length) {
+      if (warehouse) {
 
-        warehouse.warehousePriceList.forEach(pricesItem => {
+        if (this.showLeadObjDetails) {
+          if (this.showLeadObjDetails.data.warehouseList) {
+            this.checkQuoteWarehouse = false;
+            for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
+              if (this.showLeadObjDetails.data.warehouseList[i].warehouseAddress.addressId == warehouse.addressId) {
+                if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
+                  for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
+                    this.checkQuoteWarehouse = true;
+                    forms.push(
 
-          forms.push(
+                      this._formBuilder.group({
+                        minPrice: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty, Validators.required],
+                        maxPrice: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty],
+                        price: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].price, Validators.required],
+                        check: ['']
+                      }, { validators: this.isMinMaxInValid })
+                    );
+                  }
 
-            this._formBuilder.group({
-              minPrice: [pricesItem.minQty, Validators.required],
-              maxPrice: [pricesItem.maxQty],
-              price: [pricesItem.price, Validators.required],
-              check: ['']
-            }, { validators: this.isMinMaxInValid })
-          );
-        });
+                  if (!this.checkQuoteWarehouse) {
+                    forms.push(
+                      this._formBuilder.group({
+                        minPrice: ['', Validators.required],
+                        maxPrice: [''],
+                        price: ['', Validators.required],
+                        check: ['']
+                      }, { validators: this.isMinMaxInValid })
+                    );
+                    this.checkQuoteWarehouse = false;
+                  }
+                }
+              }
 
-      } else {
+            }
+          }
+        }
+
+      }
+      if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
         // if no data in price List set on default price form
         forms.push(
           this._formBuilder.group({
@@ -129,7 +234,7 @@ export class CataloguesList implements OnInit {
         );
       }
       this.warehouseData.push({
-        address: warehouse.warehouseAddress,
+        address: warehouse,
         pricingForms: forms
       });
     });
@@ -367,9 +472,9 @@ export class CataloguesList implements OnInit {
   editPricingForms(i: any) {
     this.editPricingAllForms.push(
       this._formBuilder.group({
-        minPrice: [this.uniqueCatalogueData.warehouseList[0].warehousePriceList[i].minQty, Validators.required],
-        maxPrice: [this.uniqueCatalogueData.warehouseList[0].warehousePriceList[i].maxQty],
-        price: [this.uniqueCatalogueData.warehouseList[0].warehousePriceList[i].price, Validators.required],
+        minPrice: [this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[i].minQty, Validators.required],
+        maxPrice: [this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[i].maxQty],
+        price: [this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[i].price, Validators.required],
         check: ['']
       }, { validators: this.isMinMaxInValid })
     );
@@ -378,7 +483,7 @@ export class CataloguesList implements OnInit {
   isEditBtnClickedFunc() {
     this.isEditBtnClicked = true;
     // console.log(this.isEditBtnClicked);
-    for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
+    for (let i = 0; i < this.showLeadObjDetails.data.warehouseList[0].warehousePriceList.length; i++) {
       this.editPricingForms(i);
     }
     // console.log(this.editPricingAllForms);
@@ -414,7 +519,6 @@ export class CataloguesList implements OnInit {
     if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex].controls.maxPrice.value) {
       this.minMaxValidValue = false;
     }
-
     if (this.pricingForms[currentFormIndex].controls.price.value == null) {
       this.checkPriceValidate = true;
     }
@@ -428,6 +532,7 @@ export class CataloguesList implements OnInit {
   }
 
   checkPriceEdit(currentFormIndex) {
+
     if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value < this.editPricingAllForms[currentFormIndex].controls.maxPrice.value) {
       this.minMaxValidValue = false;
     }
@@ -449,6 +554,7 @@ export class CataloguesList implements OnInit {
       this.minMaxValidValue = false;
     }
 
+
     if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value == null) {
 
       this.checkPriceValidate = true;
@@ -462,6 +568,10 @@ export class CataloguesList implements OnInit {
     }
   }
 
+  datePicker(value) {
+    this.datePickerValue = value.replace('/', '-');
+    this.datePickerValue = this.datePickerValue.replace('/', '-');
+  }
 
   addPriceForRemainingQty(event) {
     if (event.target.checked) {
@@ -765,36 +875,6 @@ export class CataloguesList implements OnInit {
     }
   }
 
-  toggleStock(event) {
-    if (event.target.checked) {
-      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.catalogueItem.id, 'Y').then(res => {
-        if (res) {
-          this.stockstatus = true;
-          this.stockResponse = res.data;
-          this.Userservice.getCatalogueItems().then(res => {
-            if (res) {
-              this.catalogueList = res.data;
-              this.catalogueListTemp = this.catalogueList;
-            }
-          });
-        }
-      });
-    }
-    else {
-      this.Userservice.toggleStockStatus(this.uniqueCatalogueData.catalogueItem.id, 'N').then(res => {
-        if (res) {
-          this.stockstatus = false;
-          this.stockResponse = res.data;
-          this.Userservice.getCatalogueItems().then(res => {
-            if (res) {
-              this.catalogueList = res.data;
-              this.catalogueListTemp = this.catalogueList;
-            }
-          });
-        }
-      });
-    }
-  }
 
   addPricingIndividualWarehouseAddress() {
     this.sendPricingToIndividualArrayAdd = [];
@@ -805,11 +885,11 @@ export class CataloguesList implements OnInit {
           // console.log(this.warehouseData[i].pricingForms[j].controls.minPrice.value);
           // console.log(this.warehouseData[i].address.addressId);
           const object = {
-            "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
+            "id": this.leadId,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
             "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
-            "samePriceAllWarehouse": false,
+            "validEndDt": this.datePickerValue,
             "warehouseId": this.warehouseData[i].address.addressId
           }
           this.sendPricingToIndividualArrayAdd.push(object);
@@ -817,11 +897,13 @@ export class CataloguesList implements OnInit {
 
       }
     }
-    this.Userservice.sendPricingToAllWarehouse(this.sendPricingToIndividualArrayAdd).then(res => {
+    this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
-        this.getCatalogueItems();
+        this.getLeadObj(this.leadId);
       }
     });
+    //   console.log(this.sendPricingToIndividualArrayAdd);
+
 
 
   }
@@ -832,22 +914,24 @@ export class CataloguesList implements OnInit {
       this.sendPricingToAllArrayEdit = [];
 
       for (var i = 0; i < this.editPricingAllForms.length; i++) {
-
-        const object = {
-          "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
-          "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
-          "minQty": this.editPricingAllForms[i].controls.minPrice.value,
-          "price": this.editPricingAllForms[i].controls.price.value,
-          "samePriceAllWarehouse": true
+        for (var j = 0; j < this.wareHouseAdd.data.length; j++) {
+          const object = {
+            "id": this.leadId,
+            "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
+            "minQty": this.editPricingAllForms[i].controls.minPrice.value,
+            "price": this.editPricingAllForms[i].controls.price.value,
+            "validEndDt": this.datePickerValue,
+            "warehouseId": this.wareHouseAdd.data[j].addressId
+          }
+          this.sendPricingToAllArrayEdit.push(object);
         }
-        this.sendPricingToAllArrayEdit.push(object);
       }
 
-      // console.log(this.sendPricingToAllArrayEdit);
+      //console.log(this.sendPricingToAllArrayEdit);
 
-      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit).then(res => {
+      this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
         if (res) {
-          this.getCatalogueItems();
+          this.getLeadObj(this.leadId);
         }
       });
 
@@ -857,23 +941,26 @@ export class CataloguesList implements OnInit {
       this.sendPricingToAllArray = [];
 
       for (var i = 0; i < this.pricingForms.length; i++) {
-        const object = {
-          "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
-          "maxQty": this.pricingForms[i].controls.maxPrice.value,
-          "minQty": this.pricingForms[i].controls.minPrice.value,
-          "price": this.pricingForms[i].controls.price.value,
-          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox
+        for (var j = 0; j < this.wareHouseAdd.data.length; j++) {
+
+          const object = {
+            "id": this.leadId,
+            "maxQty": this.pricingForms[i].controls.maxPrice.value,
+            "minQty": this.pricingForms[i].controls.minPrice.value,
+            "price": this.pricingForms[i].controls.price.value,
+            "validEndDt": this.datePickerValue,
+            "warehouseId": this.wareHouseAdd.data[j].addressId
+          }
+
+          this.sendPricingToAllArray.push(object);
         }
-
-
-        this.sendPricingToAllArray.push(object);
       }
 
-      // console.log(this.sendPricingToAllArray);
+      //console.log(this.sendPricingToAllArray);
 
-      this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray).then(res => {
+      this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
         if (res) {
-          this.getCatalogueItems();
+          this.getLeadObj(this.leadId);
         }
       });
 
@@ -912,45 +999,6 @@ export class CataloguesList implements OnInit {
 
   addWareHouseAddressBtnClicked() {
     this._router.navigate([`/user/profile/address/warehouse/add`]);
-  }
-
-  goToAddSku() {
-    this._router.navigate([`/catalogue/add-sku`]);
-  }
-
-  applySearchFilter(filterValue: string) {
-    if (filterValue.trim) {
-      filterValue = filterValue.toLowerCase();
-      this.catalogueList = this.catalogueListTemp.filter(item => {
-        return item.skuName.toLowerCase().indexOf(filterValue) != -1;
-      });
-    } else {
-      this.catalogueList = this.catalogueList;
-    }
-  }
-
-  SendAllCatalogueListToMail() {
-    const data = {
-      "addSku": false,
-      "brandIds": [],
-      "categoryId": 0
-    }
-    console.log(data);
-    this.Userservice.sendSkuToEmail(data).then(res => {
-      if (res.data.success == true) {
-        this.snack.open(res.data.message, 'OK', { duration: 3000 })
-      }
-    }
-
-    );
-  }
-
-  openDialog(): void {
-    const dialogRef = this._dialog.open(SendBulkCatalogueEmailComponent, {
-      data: { category: 0 },
-      panelClass: 'sku-email-popup'
-    });
-
   }
 
 

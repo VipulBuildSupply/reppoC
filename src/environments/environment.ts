@@ -4,10 +4,11 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-ga: "",
-production: false,
-debug_mode: true,
-apiURL:'https://api.yeho.ga'
+    ga: "",
+    production: false,
+    debug_mode: true,
+    apiURL: 'https://api.yeho.ga'
+    //apiURL: 'http://192.168.1.111'
 };
 
 /*
