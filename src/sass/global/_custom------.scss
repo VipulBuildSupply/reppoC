@@ -952,7 +952,9 @@ select {
 	float: right;
 	cursor: pointer;
 	position: relative;
-	margin-top: -6px;
+    margin-top: -6px;
+    
+
 	span {
 		display: block;
 		line-height: 7px;
@@ -969,7 +971,10 @@ select {
 			transform: translateY(0%);
 			transition-delay: 0s, 0s, 0.3s;
 		}
-	}
+    }
+    
+    
+    
 }
 .address-box {
 	padding: 15px 10px;

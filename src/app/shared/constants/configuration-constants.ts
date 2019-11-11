@@ -64,6 +64,11 @@ export const API = {
     GET_CATALOGUE_FILTERS: 'product/api/catalogue/filter',
     GET_FILTERED_SKUS: 'product/api/catalogue/search/list',
     SEND_TO_EMAIL: 'product/api/catalogue/price/excel/mail',
-    FILE_BULK_CATALOGUE: 'product/api/catalogue/price/excel/upload'
+    FILE_BULK_CATALOGUE: 'product/api/catalogue/price/excel/upload',
+    GET_NEW_LEADS: 'product/api/quoterequest/list',
+    GET_ACTED_LEADS: 'product/api/quoterequest/list?statusList=ADD&statusList=SUBMIT',
+    ADD_BOOKMARK_SAVE_LEADS: (skuId, status) => `product/api/quoterequest/${skuId}/update/${status}`,
+    GET_LEAD_OBJ: (leadId) => `product/api/quoterequest/${leadId}/obj`,
+    QUOTE_SUBMIT_ALL_WAREHOUSE: (leadid) => `product/api/quoterequest/${leadid}/price`
 
 }
