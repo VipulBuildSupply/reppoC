@@ -4,11 +4,9 @@ import { RouterModule } from '@angular/router';
 import { LeadDetailsRoutes } from './lead-details.routing';
 import { AppSharedModule } from 'src/app/shared/app-shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ActedLeadComponent } from './acted-leads/acted-leads.component';
 import { NewLeadComponent } from './new-leads/new-leads.component';
 @NgModule({
   declarations: [
-    ActedLeadComponent,
     NewLeadComponent
   ],
   imports: [

@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material';
 import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lead-sidebar',
@@ -20,6 +21,7 @@ export class LeadSidebarComponent implements OnInit {
   constructor(private userService: UserService,
     private customdate: CustomDatePipe,
     private data: DataService,
+    private _router: Router,
     private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -37,6 +39,7 @@ export class LeadSidebarComponent implements OnInit {
           this.new_leads = res;
 
           this.bookmarkClicked = [];
+          this._router.navigate([`/lead`]);
         });
       } else if (this.message === "ActedLeads") {
         this.userService.getActedLeads().then(res => {
@@ -47,6 +50,8 @@ export class LeadSidebarComponent implements OnInit {
               this.bookmarkClicked[i] = true;
             }
           }
+
+          this._router.navigate([`/lead`]);
         });
       }
     }

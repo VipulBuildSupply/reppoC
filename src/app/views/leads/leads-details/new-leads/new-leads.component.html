@@ -1,6 +1,6 @@
  <ng-container *ngIf="showLeadObjDetails">
      <p class="top-tital">Lead Details</p>
-     <a href="#" class="edit"><img src="assets/img/edit-icon.png" alt="">Edit</a>
+     <!-- <a href="#" class="edit"><img src="assets/img/edit-icon.png" alt="">Edit</a> -->
      <h4 class="cement-title">{{showLeadObjDetails.data.request.skuName}}</h4>
      <div class="required-info-box flex-sb-m">
          <div class="required-info">
@@ -21,7 +21,8 @@
          <p class="top-tital mt-2">Quote Details (excluding GST)</p>
          <div class="form-check pl-0 mt-3">
              <label class="container addRemainingPriceCheckBox">Add Quote to all Warehouses
-                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)">
+                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
+                     [checked]="addPriceToAllWareHouseCheckBoxCheck">
                  <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
              </label>
          </div>
@@ -30,7 +31,6 @@
 
      <div *ngIf="addPriceToAllWareHouseCheckBox">
          <div class="Pricing-Information  border-b">
-
              <ng-container>
                  <div *ngIf="!isEditBtnClicked">
                      <div *ngFor="let pricingForm of pricingForms; let i=index">
@@ -267,8 +267,7 @@
                      <div class="save-orange">
 
                          <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
-                             [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Add
-                             Pricing</button>
+                             [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Submit</button>
                      </div>
 
                  </div>
@@ -434,8 +433,7 @@
 
              <div class="save-orange">
                  <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
-                     [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Add
-                     Pricing</button>
+                     [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Submit</button>
              </div>
 
          </div>

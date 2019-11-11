@@ -1,5 +1,4 @@
 import { Routes } from "@angular/router";
-import { ActedLeadComponent } from './acted-leads/acted-leads.component';
 import { NewLeadComponent } from './new-leads/new-leads.component';
 
 export const LeadDetailsRoutes: Routes = [
@@ -12,8 +11,8 @@ export const LeadDetailsRoutes: Routes = [
                 data: { title: "New Leads" }
             },
             {
-                path: "acted-lead/:id',",
-                component: ActedLeadComponent,
+                path: "acted-lead/:id",
+                component: NewLeadComponent,
                 data: { title: "Acted Leads" }
             }
         ]

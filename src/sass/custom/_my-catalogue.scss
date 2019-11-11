@@ -319,6 +319,11 @@
         color: $error;
     }
 
+    .quote-smt-price {
+        float: $right;
+        border-color: $error;
+        color: $error;
+    }
 
 }
 
@@ -452,6 +457,19 @@
         font-size: $font-size-12;
     }
 
+    .quote-smt-price {
+        border: 1.1px solid #03B10F;
+        border-radius: 4.4px;
+        background-color: #fff;
+        color: #03B10F;
+        font-size: 10px;
+        font-weight: 600;
+        height: 24.2px;
+        text-align: center;
+        padding: 0 3px;
+        line-height: 22.2px;
+        text-transform: uppercase;
+    }
 }
 
 .switch {

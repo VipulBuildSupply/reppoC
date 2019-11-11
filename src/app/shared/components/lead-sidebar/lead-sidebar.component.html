@@ -1,6 +1,6 @@
 <ng-container *ngIf="new_leads">
     <div *ngFor="let newlead of new_leads.data;let i = index" class="required-box">
-        <div class="bot-box">
+        <div class="bot-box" *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
             <div *ngIf="!bookmarkClicked[i]" class="quote-smt">
                 <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""
                     (click)="bookmarkToggle(i,newlead.id)">
@@ -34,6 +34,12 @@
 
 
         </div>
+        <div class="bot-box" *ngIf="newlead.status == 'Submit'">
+            <div class="quote-smt-price">
+                Quote Submitted
+                <img src="assets/img/green-check.png" alt="">
+            </div>
+        </div>
         <h4 class="cement-title">{{newlead.skuName}}</h4>
         <div class="required-info-box flex-sb-m">
             <div class="required-info">
@@ -59,8 +65,12 @@
         </div>
         <div class="flex-sb-m">
             <div class="title mt-2 ">Required by {{newlead.expireDt | gmtToLocal }}</div>
-            <div class="request-bttn"><a href="javascript:void(0)" class="orangeBttn brdbttn mr-0"
-                    [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View
+            <div class="request-bttn" *ngIf="message === 'NewLeads'"><a href="javascript:void(0)"
+                    class="orangeBttn brdbttn mr-0" [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View
+                    Quote</a></div>
+
+            <div class="request-bttn" *ngIf="message === 'ActedLeads'"><a href="javascript:void(0)"
+                    class="orangeBttn brdbttn mr-0" [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View
                     Quote</a></div>
         </div>
     </div>

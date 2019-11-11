@@ -411,6 +411,9 @@ export class CataloguesList implements OnInit {
   }
 
   checkPrice(currentFormIndex) {
+    if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex].controls.maxPrice.value) {
+      this.minMaxValidValue = false;
+    }
 
     if (this.pricingForms[currentFormIndex].controls.price.value == null) {
       this.checkPriceValidate = true;
@@ -425,6 +428,9 @@ export class CataloguesList implements OnInit {
   }
 
   checkPriceEdit(currentFormIndex) {
+    if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value < this.editPricingAllForms[currentFormIndex].controls.maxPrice.value) {
+      this.minMaxValidValue = false;
+    }
 
     if (this.editPricingAllForms[currentFormIndex].controls.price.value == null) {
       this.checkPriceValidate = true;
@@ -439,6 +445,10 @@ export class CataloguesList implements OnInit {
   }
 
   checkPriceIndvidual(currentFormIndex, Index) {
+    if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value < this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value) {
+      this.minMaxValidValue = false;
+    }
+
     if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value == null) {
 
       this.checkPriceValidate = true;
