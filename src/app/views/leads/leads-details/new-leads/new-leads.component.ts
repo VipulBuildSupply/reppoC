@@ -141,10 +141,6 @@ export class NewLeadComponent implements OnInit {
         }
       }
 
-
-
-
-
     });
 
     // this.addAnotherRange();
@@ -155,7 +151,7 @@ export class NewLeadComponent implements OnInit {
   getWarehouseAddress() {
     this.Userservice.getAddress("WAREHOUSE").then(res => {
       this.wareHouseAdd = res;
-
+      this.warehouseData = [];
       this.createWarehouseData(this.wareHouseAdd.data);
 
 
@@ -900,6 +896,7 @@ export class NewLeadComponent implements OnInit {
     this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
+        this._router.navigate([`/lead`]);
       }
     });
     //   console.log(this.sendPricingToIndividualArrayAdd);
@@ -932,6 +929,7 @@ export class NewLeadComponent implements OnInit {
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
+          this._router.navigate([`/lead`]);
         }
       });
 
@@ -961,6 +959,7 @@ export class NewLeadComponent implements OnInit {
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
+          this._router.navigate([`/lead`]);
         }
       });
 
