@@ -293,7 +293,7 @@
     padding: 15px;
     margin-bottom: 15px;
     transition: $transition;
-
+    cursor: pointer;
 
 
     &:hover {
@@ -301,7 +301,7 @@
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }
 
-    &.active {
+    &.active, &:active, &:focus {
         background-color: #E0F8FF;
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }

@@ -10,6 +10,7 @@ export class CategoryService {
     getCatList: any;
     getCatIds: any[] = [];
     updateSkusList$ = new Subject<any>();
+    selectedFiltersCount$ = new Subject<number>();
 
     constructor(
         private dataService: DataService
@@ -62,7 +63,7 @@ export class CategoryService {
             return res;
         });
     }
-    
+
     getFilteredSkus(data){
         return this.dataService.sendPostRequest(API.GET_FILTERED_SKUS, data).then(res => res);
     }
