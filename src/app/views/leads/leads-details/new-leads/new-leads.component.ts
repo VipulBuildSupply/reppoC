@@ -61,6 +61,7 @@ export class NewLeadComponent implements OnInit {
   showLeadObjDetails: any;
   checkQuoteWarehouse: boolean;
   addPriceToAllWareHouseCheckBoxCheck: boolean;
+  warehouseHasPricing: boolean;
   constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
@@ -179,13 +180,14 @@ export class NewLeadComponent implements OnInit {
       const forms = [];
 
       if (warehouse) {
-
+        this.warehouseHasPricing = false;
         if (this.showLeadObjDetails) {
           if (this.showLeadObjDetails.data.warehouseList) {
             this.checkQuoteWarehouse = false;
             for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
               if (this.showLeadObjDetails.data.warehouseList[i].warehouseAddress.addressId == warehouse.addressId) {
                 if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
+                  this.warehouseHasPricing = true;
                   for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
                     this.checkQuoteWarehouse = true;
                     forms.push(
@@ -211,24 +213,36 @@ export class NewLeadComponent implements OnInit {
                     this.checkQuoteWarehouse = false;
                   }
                 }
+
               }
 
+            }
+            if (!this.warehouseHasPricing) {
+              forms.push(
+                this._formBuilder.group({
+                  minPrice: ['', Validators.required],
+                  maxPrice: [''],
+                  price: ['', Validators.required],
+                  check: ['']
+                }, { validators: this.isMinMaxInValid })
+              );
             }
           }
         }
 
       }
-      if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
-        // if no data in price List set on default price form
-        forms.push(
-          this._formBuilder.group({
-            minPrice: ['', Validators.required],
-            maxPrice: [''],
-            price: ['', Validators.required],
-            check: ['']
-          }, { validators: this.isMinMaxInValid })
-        );
-      }
+
+      // if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
+      //   // if no data in price List set on default price form
+      //   forms.push(
+      //     this._formBuilder.group({
+      //       minPrice: ['', Validators.required],
+      //       maxPrice: [''],
+      //       price: ['', Validators.required],
+      //       check: ['']
+      //     }, { validators: this.isMinMaxInValid })
+      //   );
+      // }
       this.warehouseData.push({
         address: warehouse,
         pricingForms: forms
