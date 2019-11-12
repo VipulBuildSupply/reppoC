@@ -7,6 +7,7 @@ import { CategoryService } from 'src/app/shared/services/category.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
+import { DataService } from 'src/app/shared/services/data.service';
 
 interface Warehouse {
   address: any;
@@ -51,7 +52,7 @@ export class NewLeadComponent implements OnInit {
   stockstatus: boolean;
   selectedFilters: any;
 
-
+  submitQuoteMsg: string;
 
 
 
@@ -61,15 +62,18 @@ export class NewLeadComponent implements OnInit {
   showLeadObjDetails: any;
   checkQuoteWarehouse: boolean;
   addPriceToAllWareHouseCheckBoxCheck: boolean;
+  warehouseHasPricing: boolean;
   constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
+    private data: DataService,
     private ref: ChangeDetectorRef,
     private _categoryService: CategoryService, private Userservice: UserService) { }
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       this.leadId = params['id'];
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
       this.addPriceToAllWareHouseCheckBoxCheck = true;
       this.pricingForms = [];
@@ -179,13 +183,14 @@ export class NewLeadComponent implements OnInit {
       const forms = [];
 
       if (warehouse) {
-
+        this.warehouseHasPricing = false;
         if (this.showLeadObjDetails) {
           if (this.showLeadObjDetails.data.warehouseList) {
             this.checkQuoteWarehouse = false;
             for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
               if (this.showLeadObjDetails.data.warehouseList[i].warehouseAddress.addressId == warehouse.addressId) {
                 if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
+                  this.warehouseHasPricing = true;
                   for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
                     this.checkQuoteWarehouse = true;
                     forms.push(
@@ -211,24 +216,36 @@ export class NewLeadComponent implements OnInit {
                     this.checkQuoteWarehouse = false;
                   }
                 }
+
               }
 
+            }
+            if (!this.warehouseHasPricing) {
+              forms.push(
+                this._formBuilder.group({
+                  minPrice: ['', Validators.required],
+                  maxPrice: [''],
+                  price: ['', Validators.required],
+                  check: ['']
+                }, { validators: this.isMinMaxInValid })
+              );
             }
           }
         }
 
       }
-      if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
-        // if no data in price List set on default price form
-        forms.push(
-          this._formBuilder.group({
-            minPrice: ['', Validators.required],
-            maxPrice: [''],
-            price: ['', Validators.required],
-            check: ['']
-          }, { validators: this.isMinMaxInValid })
-        );
-      }
+
+      // if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
+      //   // if no data in price List set on default price form
+      //   forms.push(
+      //     this._formBuilder.group({
+      //       minPrice: ['', Validators.required],
+      //       maxPrice: [''],
+      //       price: ['', Validators.required],
+      //       check: ['']
+      //     }, { validators: this.isMinMaxInValid })
+      //   );
+      // }
       this.warehouseData.push({
         address: warehouse,
         pricingForms: forms
@@ -896,13 +913,11 @@ export class NewLeadComponent implements OnInit {
     this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
+        this.data.changeSubmitQuoteMessage("SUBMIT");
         this._router.navigate([`/lead`]);
       }
     });
     //   console.log(this.sendPricingToIndividualArrayAdd);
-
-
-
   }
 
   addPricingAllWarehouseAddress() {
@@ -929,11 +944,10 @@ export class NewLeadComponent implements OnInit {
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
+          this.data.changeSubmitQuoteMessage("SUBMIT");
           this._router.navigate([`/lead`]);
         }
       });
-
-
     }
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
       this.sendPricingToAllArray = [];
@@ -949,21 +963,18 @@ export class NewLeadComponent implements OnInit {
             "validEndDt": this.datePickerValue,
             "warehouseId": this.wareHouseAdd.data[j].addressId
           }
-
           this.sendPricingToAllArray.push(object);
         }
       }
 
       //console.log(this.sendPricingToAllArray);
-
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
+          this.data.changeSubmitQuoteMessage("SUBMIT");
           this._router.navigate([`/lead`]);
         }
       });
-
-
     }
 
   }
