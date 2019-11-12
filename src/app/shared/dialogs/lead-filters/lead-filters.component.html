@@ -18,11 +18,20 @@
                 <div class="row">
 
                     <div class="col-md-12">
-                        <div *ngIf="filtersElm" class="output-box">
-                            <div  class="selected-option" *ngFor="let item of categoryNames">
-                                {{item.name}} 
+                        <div *ngIf="filtersCatElm" class="output-box">
+                            <div  class="selected-option" *ngFor="let cat of categoryNames">
+                                {{cat.name}} 
                                 <span class="cross-option">
-                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(item)">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(cat)">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="filtersLocElm" class="output-box">
+                            <div  class="selected-option" *ngFor="let loc of locNames">
+                                {{loc.name}} 
+                                <span class="cross-option">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(loc)">
                                 </span>
                             </div>
                         </div>
@@ -38,7 +47,7 @@
                                 </mat-form-field>
 
                                 <div class="panel">
-                                    <mat-selection-list #filtersElm class="pt-0"
+                                    <mat-selection-list #filtersLocElm class="pt-0"
                                         (selectionChange)="filteredProductsLists($event.option)">
                                         <mat-list-option [value]="location" [selected]="isSelected(location.id)"
                                             *ngFor="let location of filtersList.locations">
@@ -60,7 +69,7 @@
                                 </mat-form-field>
 
                                 <div class="panel">
-                                    <mat-selection-list #filtersElm class="pt-0"
+                                    <mat-selection-list #filtersCatElm class="pt-0"
                                         (selectionChange)="filteredProductsLists($event.option)">
                                         <mat-list-option [value]="categories" [selected]="isSelected(categories.id)"
                                             *ngFor="let categories of filtersList.categories">

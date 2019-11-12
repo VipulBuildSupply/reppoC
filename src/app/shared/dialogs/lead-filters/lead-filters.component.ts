@@ -20,8 +20,10 @@ export class LeadFiltersComponent implements OnInit {
     "categoryIdList": []
   };
   categoryNames: any = [];
-  @ViewChild('filtersElm', { static: false }) filtersElm: MatSelectionList;
+  @ViewChild('filtersLocElm', { static: false }) filtersLocElm: MatSelectionList;
+  @ViewChild('filtersCatElm', { static: false }) filtersCatElm: MatSelectionList;
   catIds: any;
+  locNames: any[];
 
   constructor(public dialogRef: MatDialogRef<LeadFiltersComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -84,32 +86,39 @@ export class LeadFiltersComponent implements OnInit {
      */
     filteredProductsLists(selectedOption) {
       
-      console.log(this.filtersElm);
+      // console.log(this.filtersLocElm);
       
       if (selectedOption.selected) {
-        this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
+        this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
+        this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
       } else {
-        const index1 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
-        this.categoryNames.splice(index1, 1);
+        const index1 = this.locNames.findIndex(opt => opt.id == selectedOption.value.id);
+        this.locNames.splice(index1, 1);
+
+        const index2 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
+        this.categoryNames.splice(index2, 1);
       }
     }
 
     /**
      * function will execute when click on apply button
      */
-    applyFilters() {
-      const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
-      this._categoryService.selectedFiltersCount$.next(selected.length);
-      this.displayUpdatedProducts(selected);
-      this.closeDialog(selected);
-    }
+    // applyFilters() {
+    //   const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
+    //   this._categoryService.selectedFiltersCount$.next(selected.length);
+    //   this.displayUpdatedProducts(selected);
+    //   this.closeDialog(selected);
+    // }
 
     /**
      * @description function to remove specific filters from selecetd filters list
      */
     cancelFilters(option) {
-      this.filtersElm.options.find(op => op.value.id === option.id).selected = false;
-      this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
+      this.filtersLocElm.options.find(op => op.value.id === option.id).selected = false;
+      this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
+
+      this.filtersCatElm.options.find(op => op.value.id === option.id).selected = false;
+      this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
     }
 
     /**
