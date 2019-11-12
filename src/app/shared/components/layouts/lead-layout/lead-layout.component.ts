@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+
+import { OnInit, Component } from '@angular/core';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { DataService } from 'src/app/shared/services/data.service';
-import { MatDialog } from '@angular/material';
 import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-lead-layout',
@@ -24,7 +25,7 @@ export class LeadLayoutComponent implements OnInit {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
     this.data.currentMessage.subscribe(message => this.message = message);
-    this.toggleleadsacted();
+    this.toggleleadsnew();
   }
   toggleleadsnew() {
     this.acted_tab = "inactive-tab";
