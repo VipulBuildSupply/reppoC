@@ -67,4 +67,14 @@ export class CategoryService {
     getFilteredSkus(data){
         return this.dataService.sendPostRequest(API.GET_FILTERED_SKUS, data).then(res => res);
     }
+
+    /**
+     * @description Get all filters of leads
+     */
+
+    getLeadsFilters(){
+        return this.dataService.getRequest(API.GET_LEADS_FILTERS).then(res => {
+            return res;
+        });
+    }
 }

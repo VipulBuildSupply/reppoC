@@ -26,6 +26,7 @@ import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 import { ProfileVerificationComponent } from './views/profile-verification/profile-verification.component';
 import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
+import { LeadsService } from './shared/services/leads.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lea
     CategoryService,
     AuthGuardService,
     CatalogueGuardService,
+    LeadsService
   ],
   bootstrap: [AppComponent]
 })
