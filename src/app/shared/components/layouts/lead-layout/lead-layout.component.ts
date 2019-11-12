@@ -19,8 +19,8 @@ export class LeadLayoutComponent implements OnInit {
   ngOnInit() {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
-
     this.data.currentMessage.subscribe(message => this.message = message);
+    this.toggleleadsacted();
   }
   toggleleadsnew() {
     this.acted_tab = "inactive-tab";
