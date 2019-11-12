@@ -261,8 +261,12 @@
                          </div>
                      </ng-container>
 
-                     <p class="note-par"> <span>Note:</span> The above prices are exluding GST and
-                         shipping charges.</p>
+                     <div class="payment-terms">
+                         <p>Payment Terms </p>
+                         <ul [innerHTML]="showLeadObjDetails.data.request.paymentTerm">
+                         </ul>
+                     </div>
+
 
                      <div class="save-orange">
 
@@ -428,8 +432,11 @@
                  <hr *ngIf="indx<(warehouseData.length-1)">
              </ng-container>
 
-             <p class="note-par"> <span>Note:</span> The above prices are exluding GST and shipping
-                 charges.</p>
+             <div class="payment-terms">
+                 <p>Payment Terms </p>
+                 <ul [innerHTML]="showLeadObjDetails.data.request.paymentTerm">
+                 </ul>
+             </div>
 
              <div class="save-orange">
                  <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
