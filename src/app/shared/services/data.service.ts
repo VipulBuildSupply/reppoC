@@ -25,11 +25,17 @@ export class DataService {
     private messageSource = new BehaviorSubject("NewLeads");
     currentMessage = this.messageSource.asObservable();
 
-
-
     changeMessage(message: string) {
         this.messageSource.next(message)
     }
+
+    private submitQouteMessage = new BehaviorSubject("NOTSUBMITTED");
+    submitQuoteMsg = this.submitQouteMessage.asObservable();
+
+    changeSubmitQuoteMessage(message: string) {
+        this.submitQouteMessage.next(message)
+    }
+
 
 
     getRequest(url: string, params: HttpParams = new HttpParams(), reqOptions: DataServiceOptions = null): ResolveData {

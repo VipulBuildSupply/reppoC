@@ -30,11 +30,7 @@ export class LeadLayoutComponent implements OnInit {
   toggleleadsacted() {
     this.acted_tab = "active-tab";
     this.new_tab = "inactive-tab";
-
-
     this.data.changeMessage("ActedLeads");
-
-
   }
 
 
