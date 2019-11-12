@@ -301,7 +301,9 @@
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }
 
-    &.active, &:active, &:focus {
+    &.active,
+    &:active,
+    &:focus {
         background-color: #E0F8FF;
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }
@@ -314,6 +316,7 @@
     }
 
     .quote-smt {
+        // font-size: 10px;
         float: $right;
         border-color: $error;
         color: $error;
@@ -325,6 +328,28 @@
         color: $error;
     }
 
+}
+
+.listOfCatalogues {
+    .allCatalogueImg {
+        width: 15%;
+        height: 50px;
+        float: left;
+
+        img {
+            width: 40px;
+            height: 35px;
+        }
+    }
+}
+
+.image-unique-catalogue {
+    text-align: center;
+    display: block;
+
+    img {
+        width: 40%;
+    }
 }
 
 .inputFieldOfPrice {

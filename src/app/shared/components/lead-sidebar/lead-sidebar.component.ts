@@ -25,6 +25,18 @@ export class LeadSidebarComponent implements OnInit {
     private _router: Router,
     private dialog: MatDialog) { }
 
+  ngDoCheck() {
+    this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
+
+    if (this.submitQuoteMsg === "SUBMIT") {
+      console.log("hehehhe");
+      this.userService.getNewLeads().then(res => {
+        this.new_leads = res;
+        console.log(this.new_leads);
+        this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+      });
+    }
+  }
   ngOnInit() {
     this.bookmarkClicked = [];
 
@@ -32,6 +44,7 @@ export class LeadSidebarComponent implements OnInit {
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
     if (this.submitQuoteMsg === "SUBMIT") {
+      console.log("hehehhe");
       this.userService.getNewLeads().then(res => {
         this.new_leads = res;
         console.log(this.new_leads);
@@ -40,7 +53,6 @@ export class LeadSidebarComponent implements OnInit {
 
     this.getNewLeads();
   }
-
 
   getNewLeads() {
     if (this.submitQuoteMsg === "SUBMIT") {
