@@ -103,12 +103,12 @@ export class LeadFiltersComponent implements OnInit {
     /**
      * function will execute when click on apply button
      */
-    // applyFilters() {
+    applyFilters() {
     //   const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
     //   this._categoryService.selectedFiltersCount$.next(selected.length);
     //   this.displayUpdatedProducts(selected);
     //   this.closeDialog(selected);
-    // }
+    }
 
     /**
      * @description function to remove specific filters from selecetd filters list
