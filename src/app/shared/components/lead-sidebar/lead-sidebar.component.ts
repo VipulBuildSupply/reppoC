@@ -16,6 +16,7 @@ export class LeadSidebarComponent implements OnInit {
   new_leads: any;
   bookmarkClicked: boolean[] = [];
   message: string;
+  submitQuoteMsg: string;
   @Input() childMessage: string;
 
   constructor(private userService: UserService,
@@ -28,11 +29,26 @@ export class LeadSidebarComponent implements OnInit {
     this.bookmarkClicked = [];
 
     this.data.currentMessage.subscribe(message => this.message = message);
+    this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
+
+    if (this.submitQuoteMsg === "SUBMIT") {
+      this.userService.getNewLeads().then(res => {
+        this.new_leads = res;
+        console.log(this.new_leads);
+      });
+    }
+
     this.getNewLeads();
   }
 
 
   getNewLeads() {
+    if (this.submitQuoteMsg === "SUBMIT") {
+      this.userService.getNewLeads().then(res => {
+        this.new_leads = res;
+        console.log(this.new_leads);
+      });
+    }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
         this.userService.getNewLeads().then(res => {
