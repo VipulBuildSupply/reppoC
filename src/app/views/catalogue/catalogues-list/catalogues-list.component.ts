@@ -142,7 +142,7 @@ export class CataloguesList implements OnInit {
   }
 
   selectUniqueCatalogue(id) {
-    CommonService.smoothScrollToTop();
+    // CommonService.smoothScrollToTop();
     this.errorMin = false;
     this.editMinMaxIsFalse = false;
     this.AllIndividualForms = false;
