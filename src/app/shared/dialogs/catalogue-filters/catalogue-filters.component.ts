@@ -52,9 +52,9 @@ export class CatalogueFiltersComponent implements OnInit {
 
   isSelected(id): boolean {
     if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
-      return this.data.selectedFiltersData.some(selectedFilterId => selectedFilterId == id);
+      return this.data.selectedFiltersData.some(selectedFilterId => selectedFilterId === id);
     } else {
-      return false
+      return false;
     }
   }
 
@@ -101,6 +101,7 @@ export class CatalogueFiltersComponent implements OnInit {
    */
   applyFilters() {
     const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
+    this._categoryService.selectedFiltersCount$.next(selected.length);
     this.displayUpdatedProducts(selected);
     this.closeDialog(selected);
   }
@@ -109,7 +110,7 @@ export class CatalogueFiltersComponent implements OnInit {
    * @description function to remove specific filters from selecetd filters list
    */
   cancelFilters(option) {
-    this.filtersElm.options.find(op => op.value.id == option.id).selected = false;
+    this.filtersElm.options.find(op => op.value.id === option.id).selected = false;
     this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
 
     // const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
