@@ -918,6 +918,7 @@ export class NewLeadComponent implements OnInit {
       }
     });
     //   console.log(this.sendPricingToIndividualArrayAdd);
+
   }
 
   addPricingAllWarehouseAddress() {
