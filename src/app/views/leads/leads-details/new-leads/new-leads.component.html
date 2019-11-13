@@ -243,7 +243,7 @@
                          </div>
                      </div>
                      <div class="col-md-6">
-                         <div>
+                         <div *ngIf="!addPriceForRemainingQuantity">
                              <a href="javascript:void(0)" (click)="addAnotherRange()" class="edit mt-lg-3">+
                                  ADD ANOTHER RANGE</a>
                          </div>
@@ -441,7 +441,7 @@
                              </div>
                          </div>
                          <div class="col-md-6">
-                             <div>
+                             <div *ngIf="!addPriceForRemainingIndividualQuantity[indx]">
                                  <a href="javascript:void(0)"
                                      (click)="addAnotherRangeIndividual(warehouse.pricingForms,indx)"
                                      class="edit mt-lg-3">+
