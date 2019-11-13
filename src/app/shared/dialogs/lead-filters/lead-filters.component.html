@@ -22,7 +22,7 @@
                             <div  class="selected-option" *ngFor="let cat of categoryNames">
                                 {{cat.name}} 
                                 <span class="cross-option">
-                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(cat)">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelCatFilters(cat)">
                                 </span>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                             <div  class="selected-option" *ngFor="let loc of locNames">
                                 {{loc.name}} 
                                 <span class="cross-option">
-                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(loc)">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelLocFilters(loc)">
                                 </span>
                             </div>
                         </div>
