@@ -224,9 +224,19 @@
                  <div class="row">
                      <div class="col-md-6">
                          <div class="form-check pl-0 mt-3">
-                             <label class="container addRemainingPriceCheckBox">Add price for the
-                                 remaining
-                                 quantity
+                             <label class="container addRemainingPriceCheckBox">
+                                 <ng-container *ngIf="isEditBtnClicked">
+                                     For qty more than or
+                                     equal to
+                                     {{editPricingAllForms[(editPricingAllForms.length)-1].controls.minPrice.value}}
+                                     use the above pricing
+                                 </ng-container>
+                                 <ng-container *ngIf="!isEditBtnClicked">
+                                     For qty more than or
+                                     equal to
+                                     {{pricingForms[(pricingForms.length)-1].controls.minPrice.value}}
+                                     use the above pricing
+                                 </ng-container>
                                  <input type="checkbox" id="check1" (change)="addPriceForRemainingQty($event)">
                                  <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                              </label>
@@ -420,9 +430,10 @@
                      <div class="row">
                          <div class="col-md-6">
                              <div class="form-check pl-0 mt-3">
-                                 <label class="container addRemainingPriceCheckBox">Add price for the
-                                     remaining
-                                     quantity
+                                 <label class="container addRemainingPriceCheckBox">For qty more than or
+                                     equal to
+                                     {{warehouse.pricingForms[(warehouse.pricingForms.length)-1].controls.minPrice.value}}
+                                     use the above pricing
                                      <input type="checkbox" id="check1"
                                          (change)="addPriceForRemainingQtyIndividualWarehouse($event,warehouse.pricingForms,indx)">
                                      <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>

@@ -718,6 +718,7 @@ export class CataloguesList implements OnInit {
             this.editMinMaxIsFalse = false;
             this.pricingForms[currentFormIndex].controls.check.setErrors(null);
           }
+
         }
       }
 
