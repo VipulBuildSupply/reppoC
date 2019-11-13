@@ -112,6 +112,12 @@
                                                  Price is Required</mat-error>
                                          </mat-form-field>
                                      </div>
+                                     <div *ngIf="i > 0">
+                                         <button (click)="deletePicingAllWarehouse(i)" mat-menu-item>
+                                             <mat-icon>close</mat-icon>
+
+                                         </button>
+                                     </div>
                                  </div>
                              </div>
                          </form>
@@ -200,6 +206,12 @@
                                                  Price is Required</mat-error>
                                          </mat-form-field>
                                      </div>
+                                     <div *ngIf="i > 0">
+                                         <button (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
+                                             <mat-icon>close</mat-icon>
+
+                                         </button>
+                                     </div>
                                  </div>
                              </div>
                          </form>
@@ -285,8 +297,6 @@
                  </a>
              </ng-container>
          </div>
-
-
      </div>
 
 
@@ -302,7 +312,6 @@
                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                          <mat-datepicker #picker></mat-datepicker>
                      </mat-form-field>
-
                  </div>
              </div>
              <br>
@@ -376,13 +385,9 @@
                                                          class="quantity-mat-form inputFieldOfPrice">
                                                          <input matInput class="form-control" value="∞"
                                                              placeholder="end" disabled>
-
                                                      </mat-form-field>
-
                                                  </div>
                                              </div>
-
-
                                          </div>
                                      </div>
 
@@ -398,6 +403,13 @@
                                                  *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
                                                  Price is Required</mat-error>
                                          </mat-form-field>
+                                     </div>
+                                     <div *ngIf="i > 0">
+                                         <button (click)="deletePicingIndividualWarehouse(warehouse.pricingForms,i)"
+                                             mat-menu-item>
+                                             <mat-icon>close</mat-icon>
+
+                                         </button>
                                      </div>
                                  </div>
                              </div>
@@ -424,9 +436,7 @@
                                      ADD ANOTHER RANGE</a>
                              </div>
                          </div>
-
                      </div>
-
                  </div>
                  <br>
                  <hr *ngIf="indx<(warehouseData.length-1)">
@@ -442,9 +452,7 @@
                  <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
                      [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Submit</button>
              </div>
-
          </div>
-
          <ng-template #showIndividualAdd>
              <div class="house-address p-3">
                  <h4 class="cement-title">Warehouse Address</h4>
@@ -456,38 +464,4 @@
              </div>
          </ng-template>
      </div>
-
-
  </ng-container>
-
-
- <!--
-    addressCategory: "WAREHOUSE"
-addressId: 320
-addressLine1: "as"
-addressLine2: "sad"
-addressProofFile: ""
-city: {id: 163, name: "Gurugram", code: "HR.GM.122001", stateCode: "HR", stateId: 9}
-defaultAddress: true
-deliveryRange: 120
-name: "Assandh"
-phoneNo: "8987897898"
-pincode: "122002"
-state: {id: 9, name: "Haryana", code: "HR", countryId: 1}
-
-
-
-         <div class="col-md-6">
-             <div class="form-group lableup mt-md-4">
-                 <mat-form-field>
-                     <input matInput class="form-control inputLableUp" [matDatepicker]="picker"
-                         placeholder="Quote Valid Till" (focus)="picker.open()">
-                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                     <mat-datepicker #picker></mat-datepicker>
-                 </mat-form-field>
-
-             </div>
-         </div>
-
-
--->

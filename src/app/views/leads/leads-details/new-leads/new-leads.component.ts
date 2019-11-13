@@ -217,6 +217,7 @@ export class NewLeadComponent implements OnInit {
                   }
                 }
 
+
               }
 
             }
@@ -306,6 +307,15 @@ export class NewLeadComponent implements OnInit {
     });
 
   }
+
+  deletePicingAllWarehouse(index) {
+    this.pricingForms.splice(index, 1);
+  }
+
+  deletePicingAllWarehouseEdit(index) {
+    this.editPricingAllForms.splice(index, 1);
+  }
+
 
   addAnotherRange() {
     if (this.isEditBtnClicked) {
@@ -400,6 +410,9 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
+  deletePicingIndividualWarehouse(form, index) {
+    form.splice(index, 1);
+  }
   addAnotherRangeIndividual(form, index) {
     if (this.isEditBtnClicked) {
       form.push(
