@@ -86,8 +86,6 @@ export class LeadFiltersComponent implements OnInit {
      */
     filteredProductsLists(selectedOption) {
       
-      // console.log(this.filtersLocElm);
-      
       if (selectedOption.selected) {
         this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
         this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
@@ -113,12 +111,15 @@ export class LeadFiltersComponent implements OnInit {
     /**
      * @description function to remove specific filters from selecetd filters list
      */
-    cancelFilters(option) {
-      this.filtersLocElm.options.find(op => op.value.id === option.id).selected = false;
-      this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
+    cancelLocFilters(option) {
+        this.filtersLocElm.options.find(op => op.value.id === option.id).selected = false;
+        this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
+    }
 
-      this.filtersCatElm.options.find(op => op.value.id === option.id).selected = false;
-      this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
+
+    cancelCatFilters(option) {
+        this.filtersCatElm.options.find(op => op.value.id === option.id).selected = false;
+        this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
     }
 
     /**

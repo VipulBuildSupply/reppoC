@@ -778,3 +778,23 @@
     }
 
 }
+
+.close-btn.mat-menu-item{
+    background-color: transparent !important;
+    width: auto !important;
+    position: absolute;
+    right: -10px;
+    top: 42px;
+    .mat-icon{
+        margin-left: -11px;
+        margin-top: -16px;
+        font-size: 20px;
+    }
+
+    .mat-menu-ripple{
+        width: 30px;
+        height: 30px;
+        border: 1px solid #e1e1e1;
+        border-radius: 50%;
+    }
+}
