@@ -34,7 +34,7 @@ export class AddressComponent implements OnInit {
 
     delete(id:number):void{
         this.deleteAddress.emit(id);
-        this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
+        // this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
     }
 
     downloadAddressProof(signedUrl){

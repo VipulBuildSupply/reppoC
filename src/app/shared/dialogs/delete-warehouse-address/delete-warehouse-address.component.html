@@ -1,0 +1,20 @@
+<mat-dialog-content>
+    <div class="modal-content delete-bank-details">
+      <div class="modal-header">
+          <h5 class="modal-title">Delete Warehouse Address</h5>
+          <button type="button" class="close" (click)="closeDialog()">
+            <span>&times;</span>
+          </button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="delete-bank-details__para">Please note that deleting a warehouse address will also delete all the pricing information corresponding to that warehouse. Are you sure you want to delete this warehouse?</p>
+  
+        <p class="text-right mb-0">
+          <button (click)="closeDialog()" class="btn mr-1">Cancel</button>
+          |
+          <button (click)="delete()" class="btn">Delete</button>
+        </p>
+      </div>
+      
+    </div>
+  </mat-dialog-content>
