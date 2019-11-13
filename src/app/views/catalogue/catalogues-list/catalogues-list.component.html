@@ -200,6 +200,12 @@
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button (click)="deletePicingAllWarehouse(i)" mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -297,6 +303,12 @@
                                                                 *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -485,6 +497,14 @@
                                                                 *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button
+                                                            (click)="deletePicingIndividualWarehouse(warehouse.pricingForms,i)"
+                                                            mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
