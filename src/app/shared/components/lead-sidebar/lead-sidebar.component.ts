@@ -27,14 +27,25 @@ export class LeadSidebarComponent implements OnInit {
 
   ngDoCheck() {
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
+    this.data.currentMessage.subscribe(message => this.message = message);
 
     if (this.submitQuoteMsg === "SUBMIT") {
-      console.log("hehehhe");
-      this.userService.getNewLeads().then(res => {
-        this.new_leads = res;
-        console.log(this.new_leads);
-        this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-      });
+
+      if (this.message === "NewLeads") {
+        this.userService.getNewLeads().then(res => {
+          this.new_leads = res;
+          console.log(this.new_leads);
+          this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+        });
+      }
+      else if (this.message === "ActedLeads") {
+        this.userService.getActedLeads().then(res => {
+          this.new_leads = res;
+          console.log(this.new_leads);
+          this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+        });
+      }
+
     }
   }
   ngOnInit() {
@@ -44,7 +55,6 @@ export class LeadSidebarComponent implements OnInit {
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
     if (this.submitQuoteMsg === "SUBMIT") {
-      console.log("hehehhe");
       this.userService.getNewLeads().then(res => {
         this.new_leads = res;
         console.log(this.new_leads);
