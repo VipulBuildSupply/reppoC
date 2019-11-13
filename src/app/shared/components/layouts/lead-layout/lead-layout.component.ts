@@ -21,6 +21,15 @@ export class LeadLayoutComponent implements OnInit {
   constructor(private data: DataService,
     private _dialog: MatDialog) { }
 
+  ngDoCheck() {
+    this.data.currentMessage.subscribe(message => this.message = message);
+    if (this.message == "ActedLeads") {
+      this.toggleleadsacted();
+    }
+    else if (this.message == "NewLeads") {
+      this.toggleleadsnew();
+    }
+  }
   ngOnInit() {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";

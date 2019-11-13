@@ -51,7 +51,7 @@ export class NewLeadComponent implements OnInit {
   AllIndividualForms: boolean;
   stockstatus: boolean;
   selectedFilters: any;
-
+  message: string;
   submitQuoteMsg: string;
 
 
@@ -60,6 +60,7 @@ export class NewLeadComponent implements OnInit {
   leadId: number;
   wareHouseAdd: any;
   showLeadObjDetails: any;
+  showLeadObjDetailsTemp: any;
   checkQuoteWarehouse: boolean;
   addPriceToAllWareHouseCheckBoxCheck: boolean;
   warehouseHasPricing: boolean;
@@ -73,6 +74,7 @@ export class NewLeadComponent implements OnInit {
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       this.leadId = params['id'];
+      this.data.currentMessage.subscribe(message => this.message = message);
       this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
       this.addPriceToAllWareHouseCheckBoxCheck = true;
@@ -109,6 +111,7 @@ export class NewLeadComponent implements OnInit {
 
     this.Userservice.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
+      this.showLeadObjDetailsTemp = res;
       this.getWarehouseAddress();
 
       if (this.showLeadObjDetails.data.warehouseList.length > 0) {
@@ -121,18 +124,13 @@ export class NewLeadComponent implements OnInit {
       for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
         if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
           for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
-            if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != minimumQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != maximumQty)) {
+            if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].minQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].maxQty)) {
               this.addPriceToAllWareHouseCheckBoxCheck = false;
             }
           }
         }
       }
 
-      if (!this.addPriceToAllWareHouseCheckBoxCheck) {
-        this.addPriceToAllWareHouseCheckBox = false;
-      } else {
-        this.addPriceToAllWareHouseCheckBox = true;
-      }
 
       if (this.showLeadObjDetails.data.warehouseList.length > 0) {
         if (this.showLeadObjDetails.data.warehouseList[0].warehousePriceList.length > 0) {
@@ -155,10 +153,31 @@ export class NewLeadComponent implements OnInit {
   getWarehouseAddress() {
     this.Userservice.getAddress("WAREHOUSE").then(res => {
       this.wareHouseAdd = res;
+      console.log(this.wareHouseAdd.data.length);
       this.warehouseData = [];
+
       this.createWarehouseData(this.wareHouseAdd.data);
 
+      if (this.showLeadObjDetails.data.warehouseList.length == this.wareHouseAdd.data.length) {
+        for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
+          if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
+            for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
+              if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].minQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].maxQty)) {
+                this.addPriceToAllWareHouseCheckBoxCheck = false;
+              }
+            }
+          }
+        }
+      }
+      else {
+        this.addPriceToAllWareHouseCheckBoxCheck = false;
+      }
 
+      if (!this.addPriceToAllWareHouseCheckBoxCheck) {
+        this.addPriceToAllWareHouseCheckBox = false;
+      } else {
+        this.addPriceToAllWareHouseCheckBox = true;
+      }
     });
 
   }
@@ -321,7 +340,7 @@ export class NewLeadComponent implements OnInit {
     if (this.isEditBtnClicked) {
       this.editPricingAllForms.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.value != "") ? this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -364,14 +383,25 @@ export class NewLeadComponent implements OnInit {
       this.addPriceForRemainingIndividualQuantity = [];
     }
     else if (!this.isEditBtnClicked) {
-      this.pricingForms.push(
-        this._formBuilder.group({
-          minPrice: ['', Validators.required],
-          maxPrice: [''],
-          price: ['', Validators.required],
-          check: ['']
-        }, { validators: this.isMinMaxInValid })
-      );
+      if (this.pricingForms.length >= 1) {
+        this.pricingForms.push(
+          this._formBuilder.group({
+            minPrice: [((this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.value != "") ? this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
+            maxPrice: [''],
+            price: ['', Validators.required],
+            check: ['']
+          }, { validators: this.isMinMaxInValid })
+        );
+      } else if (this.pricingForms.length == 0) {
+        this.pricingForms.push(
+          this._formBuilder.group({
+            minPrice: ['', Validators.required],
+            maxPrice: [''],
+            price: ['', Validators.required],
+            check: ['']
+          }, { validators: this.isMinMaxInValid })
+        );
+      }
       if (this.addPriceForRemainingQuantity) {
         for (let i = 0; i < this.pricingForms.length - 1; i++) {
           this.pricingForms[i].controls.maxPrice.enable();
@@ -417,7 +447,7 @@ export class NewLeadComponent implements OnInit {
     if (this.isEditBtnClicked) {
       form.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((form[form.length - 1].controls.maxPrice.value != "") ? form[form.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -456,7 +486,7 @@ export class NewLeadComponent implements OnInit {
     else if (!this.isEditBtnClicked) {
       form.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((form[form.length - 1].controls.maxPrice.value != "") ? form[form.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -927,6 +957,12 @@ export class NewLeadComponent implements OnInit {
       if (res) {
         this.getLeadObj(this.leadId);
         this.data.changeSubmitQuoteMessage("SUBMIT");
+        if (this.message == "ActedLeads") {
+          this.data.changeMessage("ActedLeads");
+        }
+        else if (this.message == "NewLeads") {
+          this.data.changeMessage("NewLeads");
+        }
         this._router.navigate([`/lead`]);
       }
     });
@@ -959,6 +995,12 @@ export class NewLeadComponent implements OnInit {
         if (res) {
           this.getLeadObj(this.leadId);
           this.data.changeSubmitQuoteMessage("SUBMIT");
+          if (this.message == "ActedLeads") {
+            this.data.changeMessage("ActedLeads");
+          }
+          else if (this.message == "NewLeads") {
+            this.data.changeMessage("NewLeads");
+          }
           this._router.navigate([`/lead`]);
         }
       });
@@ -986,6 +1028,12 @@ export class NewLeadComponent implements OnInit {
         if (res) {
           this.getLeadObj(this.leadId);
           this.data.changeSubmitQuoteMessage("SUBMIT");
+          if (this.message == "ActedLeads") {
+            this.data.changeMessage("ActedLeads");
+          }
+          else if (this.message == "NewLeads") {
+            this.data.changeMessage("NewLeads");
+          }
           this._router.navigate([`/lead`]);
         }
       });

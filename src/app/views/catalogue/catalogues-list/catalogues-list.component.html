@@ -100,7 +100,7 @@
                         <!-- <div *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList "
                             class="form-check pl-0 mt-3"> -->
                         <div *ngIf="uniqueCatalogueData" class="form-check pl-0 mt-3">
-                            <label class="container addRemainingPriceCheckBox">Add price to all Warehouses
+                            <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
                                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
                                     [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse">
                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
@@ -201,7 +201,8 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div *ngIf="i > 0">
-                                                        <button class="close-btn" (click)="deletePicingAllWarehouse(i)" mat-menu-item>
+                                                        <button class="close-btn" (click)="deletePicingAllWarehouse(i)"
+                                                            mat-menu-item>
                                                             <mat-icon>close</mat-icon>
 
                                                         </button>
@@ -305,7 +306,8 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div *ngIf="i > 0">
-                                                        <button class="close-btn" (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
+                                                        <button class="close-btn"
+                                                            (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
                                                             <mat-icon>close</mat-icon>
 
                                                         </button>
@@ -321,9 +323,22 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-check pl-0 mt-3">
-                                            <label class="container addRemainingPriceCheckBox">Add price for the
-                                                remaining
-                                                quantity
+                                            <label class="container addRemainingPriceCheckBox">
+                                                <ng-container
+                                                    *ngIf="isEditBtnClicked && uniqueCatalogueData.catalogueItem.samePriceAllWarehouse">
+                                                    For qty more than or
+                                                    equal to
+                                                    {{editPricingAllForms[(editPricingAllForms.length)-1].controls.minPrice.value}}
+                                                    use the above pricing
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList && uniqueCatalogueData.warehouseList[0].warehousePriceList.length == 0 && !isEditBtnClicked">
+                                                    For qty more than or
+                                                    equal to
+                                                    {{pricingForms[(pricingForms.length)-1].controls.minPrice.value}}
+                                                    use the above pricing
+                                                </ng-container>
+
                                                 <input type="checkbox" id="check1"
                                                     (change)="addPriceForRemainingQty($event)">
                                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
@@ -331,7 +346,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div>
+                                        <div *ngIf="!addPriceForRemainingQuantity">
                                             <a href="javascript:void(0)" (click)="addAnotherRange()"
                                                 class="edit mt-lg-3">+
                                                 ADD ANOTHER RANGE</a>
@@ -514,9 +529,10 @@
                                         class="row">
                                         <div class="col-md-6">
                                             <div class="form-check pl-0 mt-3">
-                                                <label class="container addRemainingPriceCheckBox">Add price for the
-                                                    remaining
-                                                    quantity
+                                                <label class="container addRemainingPriceCheckBox">For qty more than or
+                                                    equal to
+                                                    {{warehouse.pricingForms[(warehouse.pricingForms.length)-1].controls.minPrice.value}}
+                                                    use the above pricing
                                                     <input type="checkbox" id="check1"
                                                         (change)="addPriceForRemainingQtyIndividualWarehouse($event,warehouse.pricingForms,indx)">
                                                     <span
@@ -525,15 +541,13 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div>
+                                            <div *ngIf="!addPriceForRemainingIndividualQuantity[indx]">
                                                 <a href="javascript:void(0)"
                                                     (click)="addAnotherRangeIndividual(warehouse.pricingForms,indx)"
                                                     class="edit mt-lg-3">+
                                                     ADD ANOTHER RANGE</a>
                                             </div>
                                         </div>
-
-
                                     </div>
 
                                 </div>

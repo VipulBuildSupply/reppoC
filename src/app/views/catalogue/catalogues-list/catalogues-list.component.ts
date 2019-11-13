@@ -200,7 +200,7 @@ export class CataloguesList implements OnInit {
     if (this.isEditBtnClicked) {
       this.editPricingAllForms.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.value != "") ? this.editPricingAllForms[this.editPricingAllForms.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -243,14 +243,26 @@ export class CataloguesList implements OnInit {
       this.addPriceForRemainingIndividualQuantity = [];
     }
     else if (!this.isEditBtnClicked) {
-      this.pricingForms.push(
-        this._formBuilder.group({
-          minPrice: ['', Validators.required],
-          maxPrice: [''],
-          price: ['', Validators.required],
-          check: ['']
-        }, { validators: this.isMinMaxInValid })
-      );
+      if (this.pricingForms.length >= 1) {
+        this.pricingForms.push(
+          this._formBuilder.group({
+            minPrice: [((this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.value != "") ? this.pricingForms[this.pricingForms.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
+            maxPrice: [''],
+            price: ['', Validators.required],
+            check: ['']
+          }, { validators: this.isMinMaxInValid })
+        );
+      } else if (this.pricingForms.length == 0) {
+        this.pricingForms.push(
+          this._formBuilder.group({
+            minPrice: ['', Validators.required],
+            maxPrice: [''],
+            price: ['', Validators.required],
+            check: ['']
+          }, { validators: this.isMinMaxInValid })
+        );
+      }
+
       if (this.addPriceForRemainingQuantity) {
         for (let i = 0; i < this.pricingForms.length - 1; i++) {
           this.pricingForms[i].controls.maxPrice.enable();
@@ -293,7 +305,7 @@ export class CataloguesList implements OnInit {
     if (this.isEditBtnClicked) {
       form.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((form[form.length - 1].controls.maxPrice.value != "") ? form[form.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -330,9 +342,10 @@ export class CataloguesList implements OnInit {
       }
     }
     else if (!this.isEditBtnClicked) {
+
       form.push(
         this._formBuilder.group({
-          minPrice: ['', Validators.required],
+          minPrice: [((form[form.length - 1].controls.maxPrice.value != "") ? form[form.length - 1].controls.maxPrice.value + 1 : ""), Validators.required],
           maxPrice: [''],
           price: ['', Validators.required],
           check: ['']
@@ -705,6 +718,7 @@ export class CataloguesList implements OnInit {
             this.editMinMaxIsFalse = false;
             this.pricingForms[currentFormIndex].controls.check.setErrors(null);
           }
+
         }
       }
 
@@ -838,6 +852,7 @@ export class CataloguesList implements OnInit {
     this.Userservice.sendPricingToAllWarehouse(this.sendPricingToIndividualArrayAdd).then(res => {
       if (res) {
         this.getCatalogueItems();
+        this.snack.open("Price is Updated.", 'OK', { duration: 3000 });
       }
     });
 
@@ -866,6 +881,7 @@ export class CataloguesList implements OnInit {
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit).then(res => {
         if (res) {
           this.getCatalogueItems();
+          this.snack.open("Price is Updated.", 'OK', { duration: 3000 });
         }
       });
 
@@ -892,6 +908,7 @@ export class CataloguesList implements OnInit {
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray).then(res => {
         if (res) {
           this.getCatalogueItems();
+          this.snack.open("Price is Updated.", 'OK', { duration: 3000 });
         }
       });
 
