@@ -100,7 +100,7 @@
                         <!-- <div *ngIf="uniqueCatalogueData.warehouseList[0].warehousePriceList "
                             class="form-check pl-0 mt-3"> -->
                         <div *ngIf="uniqueCatalogueData" class="form-check pl-0 mt-3">
-                            <label class="container addRemainingPriceCheckBox">Add price to all Warehouses
+                            <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
                                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
                                     [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse">
                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
@@ -201,7 +201,8 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div *ngIf="i > 0">
-                                                        <button class="close-btn" (click)="deletePicingAllWarehouse(i)" mat-menu-item>
+                                                        <button class="close-btn" (click)="deletePicingAllWarehouse(i)"
+                                                            mat-menu-item>
                                                             <mat-icon>close</mat-icon>
 
                                                         </button>
@@ -305,7 +306,8 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div *ngIf="i > 0">
-                                                        <button class="close-btn" (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
+                                                        <button class="close-btn"
+                                                            (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
                                                             <mat-icon>close</mat-icon>
 
                                                         </button>
