@@ -69,6 +69,7 @@ export const API = {
     GET_ACTED_LEADS: 'product/api/quoterequest/list?statusList=ADD&statusList=SUBMIT',
     ADD_BOOKMARK_SAVE_LEADS: (skuId, status) => `product/api/quoterequest/${skuId}/update/${status}`,
     GET_LEAD_OBJ: (leadId) => `product/api/quoterequest/${leadId}/obj`,
-    QUOTE_SUBMIT_ALL_WAREHOUSE: (leadid) => `product/api/quoterequest/${leadid}/price`
-
+    QUOTE_SUBMIT_ALL_WAREHOUSE: (leadid) => `product/api/quoterequest/${leadid}/price`,
+    GET_LEADS_FILTERS: 'product/api/quoterequest/filters',
+    GET_LEADS_DATA: 'product/api/quoterequest/list'
 }

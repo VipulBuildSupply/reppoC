@@ -36,7 +36,8 @@
 
                             <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"
                                 (click)="filters()">
-                                <img [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'" alt="">
+                                <img [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'"
+                                    alt="">
                                 <span class="filter-no" *ngIf="count">{{count}}</span>
                                 Filters
                             </a>
@@ -54,13 +55,23 @@
                         <div class="quote-smt" *ngIf="!catalogue.priceAdded">
                             Pricing Unavailable
                         </div>
-                        <p> {{catalogue.skuName}} </p>
+                        <div class="listOfCatalogues">
+                            <div class="allCatalogueImg">
+                                <img [src]="catalogue.imageUrl">
+                            </div>
+                            <div>
+                                <span> {{catalogue.skuName}} </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-7">
                 <div class="lead-details-box px-0" *ngIf="uniqueCatalogueData">
+                    <div class="image-unique-catalogue">
+                        <img [src]="uniqueCatalogueData.catalogueItem.imageUrl">
+                    </div>
                     <h4 class="cement-title px-4 border-b">{{uniqueCatalogueData.catalogueItem.skuName}} </h4>
                     <div class="switch-box border-b">
 
@@ -189,6 +200,12 @@
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
                                                     </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button class="close-btn" (click)="deletePicingAllWarehouse(i)" mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -286,6 +303,12 @@
                                                                 *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button class="close-btn" (click)="deletePicingAllWarehouseEdit(i)" mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -474,6 +497,14 @@
                                                                 *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
                                                                 Price is Required</mat-error>
                                                         </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="i > 0">
+                                                        <button class="close-btn"
+                                                            (click)="deletePicingIndividualWarehouse(warehouse.pricingForms,i)"
+                                                            mat-menu-item>
+                                                            <mat-icon>close</mat-icon>
+
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

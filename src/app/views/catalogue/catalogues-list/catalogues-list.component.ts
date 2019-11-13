@@ -142,7 +142,7 @@ export class CataloguesList implements OnInit {
   }
 
   selectUniqueCatalogue(id) {
-    CommonService.smoothScrollToTop();
+    // CommonService.smoothScrollToTop();
     this.errorMin = false;
     this.editMinMaxIsFalse = false;
     this.AllIndividualForms = false;
@@ -469,6 +469,13 @@ export class CataloguesList implements OnInit {
     }
   }
 
+  deletePicingAllWarehouse(index) {
+    this.pricingForms.splice(index, 1);
+  }
+
+  deletePicingAllWarehouseEdit(index) {
+    this.editPricingAllForms.splice(index, 1);
+  }
 
   addPriceForRemainingQty(event) {
     if (event.target.checked) {
@@ -536,6 +543,10 @@ export class CataloguesList implements OnInit {
         }
       }
     }
+  }
+
+  deletePicingIndividualWarehouse(form, index) {
+    form.splice(index, 1);
   }
 
   addPriceForRemainingQtyIndividualWarehouse(event, priceforms, index) {

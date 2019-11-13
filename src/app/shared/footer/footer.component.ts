@@ -17,7 +17,7 @@ export class FooterComponent implements OnInit {
           return;
       }
       // window.scrollTo(0, 0);
-      CommonService.smoothScrollToTop();
+      // CommonService.smoothScrollToTop();
     });
   }
 
