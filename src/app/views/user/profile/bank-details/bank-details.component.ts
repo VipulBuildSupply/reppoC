@@ -3,6 +3,8 @@ import { Address, BankDetails } from 'src/app/shared/models/address';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
+import { MatDialog } from '@angular/material';
+import { DeleteBankDetailsComponent } from 'src/app/shared/dialogs/delete-bank-details/delete-bank-details.component';
 
 @Component({
     selector: 'app-bank-details',
@@ -13,7 +15,8 @@ export class BankDetailsComponent implements OnInit {
     selectedProfile: any;
     constructor(private activatedRoute: ActivatedRoute,
         private userService: UserService,
-        private router: Router) { }
+        private router: Router,
+        private _dialog: MatDialog) { }
 
     bankdetails: BankDetails[];
     // onDelete:EventEmitter<string> = new EventEmitter();
@@ -60,9 +63,21 @@ export class BankDetailsComponent implements OnInit {
     }
 
     deleteBankDetails(id: number): void {
-        this.userService.deleteBankDetails(id).then(res => {
-            this.bankdetails = this.bankdetails.filter(bankdetails => bankdetails.id !== id);
-            this.userService.getUserPercentage().then(res => this.userService.updatePercentage$.next(res));
+        const d = this._dialog.open(DeleteBankDetailsComponent, {
+            data: { deleteId: id, bankDetails: this.bankdetails },
+            disableClose: true,
+            panelClass: 'profile-verification-popup',
+            width: '25%'
         });
+        d.afterClosed().toPromise().then((data: any) => {
+            if (data) {
+              this.bankdetails = data;
+              this.userService.getUserPercentage().then(res => this.userService.updatePercentage$.next(res));
+            }
+        });
+        // this.userService.deleteBankDetails(id).then(res => {
+        //     this.bankdetails = this.bankdetails.filter(bankdetails => bankdetails.id !== id);
+        //     this.userService.getUserPercentage().then(res => this.userService.updatePercentage$.next(res));
+        // });
     }
 }

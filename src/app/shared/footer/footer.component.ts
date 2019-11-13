@@ -11,14 +11,17 @@ export class FooterComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-
-    this.router.events.subscribe((evt) => {
+    /* this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
           return;
       }
-      // window.scrollTo(0, 0);
-      // CommonService.smoothScrollToTop();
-    });
+      window.scrollTo(0, 0);
+     });*/
+  }
+
+
+  footer_links(){
+    CommonService.smoothScrollToTop();
   }
 
 }

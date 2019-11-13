@@ -1,0 +1,20 @@
+<mat-dialog-content>
+    <div class="modal-content delete-bank-details">
+      <div class="modal-header">
+          <h5 class="modal-title">Delete Bank Account</h5>
+          <button type="button" class="close" (click)="closeDialog()">
+            <span>&times;</span>
+          </button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="delete-bank-details__para">Would you like to delete the bank account with AC no. {{bankAcc[0].accountNumber}}?</p>
+  
+        <p class="text-right mb-0">
+          <button (click)="closeDialog()" class="btn mr-1">Cancel</button>
+          |
+          <button (click)="delete()" class="btn">Delete</button>
+        </p>
+      </div>
+      
+    </div>
+  </mat-dialog-content>
