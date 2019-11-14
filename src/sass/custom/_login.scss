@@ -1,7 +1,20 @@
 .login_panel {
     position: $position-relative;
-    overflow: hidden;
+    // overflow: hidden;
     background: $bg-color-white;
+    &--btn{
+        height: 54px;
+        border-radius: 26px;
+        background-color: #F47721;
+        color: #fff;
+        font-weight: 700;
+        width: 36%;
+        line-height: 52px;
+        font-size: 22px;
+        &:hover{
+            color: #fff;
+        }
+    }
 }
 .logo-login {
     position: absolute;
@@ -15,20 +28,35 @@
     width: 100%;
 }
 .loginbg img {
-    width: auto;
-    height: 100%;
+    width: 100%;
+    height: auto;
 }
 .loginbg {
-    height: 100vh;
+    height: 100%;
     background-color: #fafafa;
     border-right: 1px solid #e1e1e1;
-    padding-left: 80px;
+    // padding-left: 80px;
 }
 .loginfield {
     @include loginfield();
     padding-left: 60px;
     padding-right: 60px;
     width: $width-100;
+    position: relative;
+    &__app {
+        position: absolute;
+        bottom: 0;
+        img{
+            border-radius: 8px;
+        }
+
+        p{
+            font-size: 15px;
+            color: #7b7b7b;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+    }
 }
 .loginfield h2{
     padding-bottom: 45px;	
@@ -248,4 +276,153 @@
 }
 .tile-name {
     @include tile-name();	
+}
+
+.login-title{
+    font-size: 30px;
+    width: 75%;
+    margin: auto;
+    font-weight: 700;
+    margin-bottom: 40px;
+    line-height: 40px;
+}
+
+.grow-business {
+    background-color: #F3FAFF;
+    padding: 40px 140px;
+
+    &__image img {
+        width: 70px;
+        margin-right: 25px;
+    }
+
+    &__number{
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        span{
+            font-size: 24px;
+        }
+    }
+
+    &__subtitle {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+}
+
+.sell-on{
+    padding: 40px 140px;
+    &__image{
+        width: 90%;
+    }
+    &__points li {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+}
+
+.e-procurement{
+    background-color: #F3FAFF;
+    padding: 40px 140px;
+}
+
+.w-60{
+    width: 60%;
+}
+
+.slick-slider {  
+    width: 90%;  
+    margin: auto;  
+}
+
+.steps{
+    &__title {
+        text-transform: uppercase;
+        width: 75%;
+        font-size: 1.35rem;
+        font-weight: 700;
+    }
+    &__border{
+        border-bottom: 2px solid #1896BA;
+        width: 4rem;
+        font-size: 1.35rem;
+    }
+    &__description{
+        width: 75%;
+        font-size: 1.10rem;
+        line-height: 28px;
+        font-weight: 500;
+    }
+}
+
+.step-wizard{
+    display: block;
+    width: 75%;
+    position: relative;
+    margin: auto;
+    &__progressbar, .progressbar{
+        position: absolute;
+        top: 8px;
+        -webkit-transition: width 0.6s ease;
+        -o-transition: width 0.6s ease;
+        transition: width 0.6s ease;
+    }
+    .progressbar.empty{
+        opacity: 1;
+        width: 100%;
+        border-top: 1px dashed #979797;
+    }
+}
+
+.steps-dots{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &__number{
+        font-size: 0.75rem;
+    }
+
+    &__title{
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    li{
+        width: 25%;
+        cursor: pointer;
+        p{
+            color: #000;
+        }
+        &:last-child{
+            background-color: #F3FAFF;
+        }
+    }
+    &--circle{
+        border: 1px dashed #979797;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .banner-bg {
+        background-color: #F3FAFF;
+    }
+
+    .rounded-full {
+        border-radius: 9999px;
+    }
+
+    .active .rounded-full {
+        border: 1px solid #F47721;
+    }
+
+    .active .active-text {
+        color: #F47721;
+        font-weight: 600;
+    }
 }

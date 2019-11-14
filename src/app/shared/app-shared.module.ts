@@ -7,13 +7,15 @@ import { OtpDirective } from './directive/otp.directive';
 import { SharedDialogs } from './dialogs/shared-dialogs';
 import { CustomDatePipe } from './directive/custom-date.pipe';
 import { SharedDirectivesModule } from './directive/shared-directives.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedComponentsModule,
     SharedMaterialModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SlickCarouselModule
   ],
   providers: [],
   declarations: [
@@ -25,7 +27,8 @@ import { SharedDirectivesModule } from './directive/shared-directives.module';
     SharedComponentsModule,
     SharedMaterialModule,
     OtpDirective,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SlickCarouselModule
   ],
   entryComponents: [
     ...SharedDialogs,
