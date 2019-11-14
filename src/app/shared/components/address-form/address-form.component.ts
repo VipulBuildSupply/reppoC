@@ -19,6 +19,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     @Output('onCancel') onCancel = new EventEmitter();
 
     subscriptions: Subscription[] = [];
+    addressProofAlreadyPresent: boolean;
 
     constructor(private _formBuilder: FormBuilder,
         private _activatedRout: ActivatedRoute,
@@ -35,6 +36,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     submitBtn = false;
     isEdit: boolean;
     fileName: any;
+    warehouseAdd: any;
 
 
     ngOnInit(): void {
@@ -77,6 +79,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.formInit();
         this.checkGstin();
 
+        this.checkAddressProof();
     }
 
     startSubscriptions() {
@@ -187,6 +190,22 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    checkAddressProof() {
+        if (this.addrs.addressCategory == 'WAREHOUSE') {
+            this._userService.getAddress('WAREHOUSE').then(res => {
+                this.warehouseAdd = res.data;
+                this.addressProofAlreadyPresent = false;
+                for (let i = 0; i < this.warehouseAdd.length; i++) {
+                    if ((this.warehouseAdd[i].addressProofFile != "")) {
+                        this.addressProofAlreadyPresent = true;
+
+                        console.log("chita :: " + this.addressProofAlreadyPresent);
+                    }
+                }
+            });
+            console.log("Outside : " + this.addressProofAlreadyPresent);
+        }
+    }
 
     getCities(stateId) {
         this._userService.getCities(stateId).then(res => {
@@ -195,18 +214,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     isAdditionalAddressClicked(e) {
-        if (this.addrs.addressCategory === 'Warehouse') {
-            if (e.target.checked) {
-                this.addressForm.get('deliveryRange').setValidators([Validators.required]);
+        if (this.addrs.addressCategory === 'WAREHOUSE') {
 
-            } else {
-                // this.addressForm.get('deliveryRange').setValue("");
-                this.addressForm.get('deliveryRange').clearValidators();
-                this.addressForm.get('deliveryRange').updateValueAndValidity();
-
-            }
-        }
-        else if (this.addrs.addressCategory === 'billing') {
             if (e.target.checked) {
                 this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
 
@@ -214,6 +223,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 // this.addressForm.get('gstin').setValue("");
                 this.addressForm.get('gstin').clearValidators();
                 this.addressForm.get('gstin').updateValueAndValidity();
+
+            }
+        }
+        else if (this.addrs.addressCategory === 'BILLING') {
+            if (e.target.checked) {
+                this.addressForm.get('deliveryRange').setValidators([Validators.required]);
+
+            } else {
+                // this.addressForm.get('deliveryRange').setValue("");
+                this.addressForm.get('deliveryRange').clearValidators();
+                this.addressForm.get('deliveryRange').updateValueAndValidity();
 
             }
         }
