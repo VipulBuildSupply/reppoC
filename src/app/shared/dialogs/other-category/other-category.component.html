@@ -1,0 +1,22 @@
+<mat-dialog-content>
+    <div class="modal-content delete-bank-details">
+        <div class="modal-header">
+            <h5 class="modal-title">Create New Category</h5>
+            <button type="button" class="close" (click)="closeDialog()">
+            <span>&times;</span>
+            </button>
+        </div>
+        <div class="modal-body text-center">
+            <form class="other-category" [formGroup]="otherCategoryForm">
+                <mat-form-field class="other-category__input w-100">
+                    <input matInput placeholder="Category Name" formControlName="otherCategoryName" required>
+                </mat-form-field>
+            </form>
+        
+            <p class="text-right mb-0">
+                <button (click)="create()" class="btn mr-1" [disabled]="!otherCategoryForm.valid">Create</button>
+            </p>
+        </div>
+        
+    </div>
+</mat-dialog-content>

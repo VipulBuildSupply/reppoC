@@ -8,6 +8,7 @@ import { SendBulkCatalogueEmailComponent } from './send-bulk-catalogue-email/sen
 import { LeadFiltersComponent } from './lead-filters/lead-filters.component';
 import { DeleteBankDetailsComponent } from './delete-bank-details/delete-bank-details.component';
 import { DeleteWarehouseAddressComponent } from './delete-warehouse-address/delete-warehouse-address.component';
+import { OtherCategoryComponent } from './other-category/other-category.component';
 // import {PromoContentDialogComponent} from './promo-content-dialog/promo-content-dialog.component';
 
 export const SharedDialogs = [
@@ -21,5 +22,6 @@ export const SharedDialogs = [
     SendBulkCatalogueEmailComponent,
     LeadFiltersComponent,
     DeleteBankDetailsComponent,
-    DeleteWarehouseAddressComponent
+    DeleteWarehouseAddressComponent,
+    OtherCategoryComponent
 ];

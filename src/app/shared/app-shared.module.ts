@@ -5,9 +5,9 @@ import { SharedMaterialModule } from './shared-material.module';
 import { SnackComponent } from './components/snack/snack.component';
 import { OtpDirective } from './directive/otp.directive';
 import { SharedDialogs } from './dialogs/shared-dialogs';
-import { CustomDatePipe } from './directive/custom-date.pipe';
 import { SharedDirectivesModule } from './directive/shared-directives.module';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -15,7 +15,9 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     SharedComponentsModule,
     SharedMaterialModule,
     SharedDirectivesModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   declarations: [

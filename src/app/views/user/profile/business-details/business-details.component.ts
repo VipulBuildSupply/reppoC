@@ -33,8 +33,11 @@ export class BusinessDetailsComponent implements OnInit {
     _isEdit: boolean = false;
     userVerified: any;
     updatedCategories: any = {
-        "itemList": []
+        "itemList": [],
+        "customCategories": []
     }
+    selectedName: any[] = [];
+    // selectValue: string;
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -216,7 +219,15 @@ export class BusinessDetailsComponent implements OnInit {
     getCategoriesList(selectedCatList) {
         this._categoryService.getCategories().then((res: any) => {
             this.categoriesList = res.data;
-            selectedCatList.map(selectId => this.selectedIds.push(selectId.categoryId));
+            selectedCatList.map(selectValue => {
+                if(selectValue.categoryId != null){
+                    this.selectedIds.push(selectValue.categoryId);
+                }else{
+                    // this.selectedName.push(selectValue.categoryName);
+                    this.updatedCategories.customCategories.push(selectValue.categoryName);
+                }
+            });      
+            
             if (selectedCatList) {
                 this.categoriesList.map(allCatIds => {
                     if (this.selectedIds.indexOf(allCatIds.id) !== -1) {
@@ -225,8 +236,14 @@ export class BusinessDetailsComponent implements OnInit {
                     }
                 });
             }
+
             this.businessDetailsForm.get('categoryIds').setValue(this.selectedIds);            
             localStorage.setItem('SelectedCategories', JSON.stringify(this.updatedCategories));
+            if(this.updatedCategories.customCategories){
+                for(let i=0; i<this.updatedCategories.customCategories.length; i++){
+                    this.categoriesList.push({id: null, name: this.updatedCategories.customCategories[i], isSelected: true});
+                }
+            }
             return this.categoriesList;
         });
     }
