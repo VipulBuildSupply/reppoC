@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { OtherCategoryComponent } from 'src/app/shared/dialogs/other-category/other-category.component';
 
 @Component({
   selector: 'open-tile',
@@ -12,11 +14,14 @@ export class OpenTileComponent implements OnInit {
   categories: any[] = [];
   items: any;
   categoryIds: any = {
-    "itemList": []
+    "itemList": [],
+    "customCategories": []
   }
+  otherCategoryValue: string;
 
   constructor(private _categoryService: CategoryService,
-    private _router: Router) { }
+    private _router: Router,
+    private _dialog: MatDialog) { }
 
   ngOnInit() {
     /**
@@ -50,16 +55,36 @@ export class OpenTileComponent implements OnInit {
    */
   continue() {
     const cats = this.categories.reduce((allCats, item) => {
-      if (item.isSelected) {
-        allCats.itemList.push(item.id);
+      if (item.isSelected){
+        if(item.id != null) {
+          allCats.itemList.push(item.id);
+        }else{
+          allCats.customCategories.push(item.name);
+        }
       }
       return allCats;
-    }, { itemList: [] });
+    }, { itemList: [], customCategories: [] });
 
     /**
      * @description to add selected categories in api and localstorage
      */
     this._categoryService.setCatalogueCategories(cats).then(res => res);
     this._router.navigate(['profile-verification/status']);
+  }
+
+  otherCategory(){
+    const d = this._dialog.open(OtherCategoryComponent, {
+        data: { },
+        disableClose: true,
+        panelClass: 'profile-verification-popup',
+        width: '25%'
+    });
+    d.afterClosed().toPromise().then((data: any) => {
+      if (data) {
+          this.otherCategoryValue = data;
+          this.categories.push({id: null, name: this.otherCategoryValue, isSelected: true});
+          console.log(this.categories);
+      }
+    });
   }
 }
