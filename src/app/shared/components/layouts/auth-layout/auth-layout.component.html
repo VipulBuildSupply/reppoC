@@ -30,14 +30,14 @@
                 <img src="assets/img/Seller-landing-page-image.jpg">
             </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-4 col-sm-12">
             <div class="loginfield">
                 <div class="loginfield-detail">
                     <router-outlet></router-outlet>
-                    <div class="loginfield__app">
-                        <img src="assets/img/aap-img.png" alt="">
-                        <p>Download BuildSupply Seller App</p>
-                    </div>
+                </div>
+                <div class="loginfield__app">
+                    <img src="assets/img/aap-img.png" alt="">
+                    <p>Download BuildSupply Seller App</p>
                 </div>
             </div>
         </div>
@@ -50,33 +50,39 @@
             <h2 class="text-center login-title">Grow your business with India's leading construction procurement platform</h2>
         </div>
 
-        <div class="col-md-4 d-flex">
-            <div class="grow-business__image">
-                <img src="assets/img/idea.png" alt="" class="img-fluid">
-            </div>
-            <div class="grow-business__estimation">
-                <h1 class="grow-business__number">121</h1>
-                <p class="grow-business__subtitle">Project Managed</p>
-            </div>
-        </div>
-
-        <div class="col-md-4 d-flex">
-            <div class="grow-business__image">
-                <img src="assets/img/built.png" alt="" class="img-fluid">
-            </div>
-            <div class="grow-business__estimation">
-                <h1 class="grow-business__number">70 <span>million sq ft</span></h1>
-                <p class="grow-business__subtitle">Builtup Area Managed</p>
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/idea.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">121</h1>
+                    <p class="grow-business__subtitle">Project Managed</p>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-4 d-flex">
-            <div class="grow-business__image">
-                <img src="assets/img/men.png" alt="" class="img-fluid">
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/built.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">70 <span>million sq ft</span></h1>
+                    <p class="grow-business__subtitle">Builtup Area Managed</p>
+                </div>
             </div>
-            <div class="grow-business__estimation">
-                <h1 class="grow-business__number">3400 <span>Cr</span></h1>
-                <p class="grow-business__subtitle">BOQs Generated</p>
+        </div>
+
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/men.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">3400 <span>Cr</span></h1>
+                    <p class="grow-business__subtitle">BOQs Generated</p>
+                </div>
             </div>
         </div>
     </div>
@@ -91,7 +97,8 @@
 
         <div class="col-md-6">
             <div class="sell-on__image">
-                <img src="assets/img/mac.png" alt="" class="img-fluid">
+                <img src="assets/img/mac.png" alt="" class="img-fluid d-none d-md-block">
+                <img src="assets/img/mobile-banner.png" alt="" class="img-fluid d-md-none d-lg-none">
             </div>
         </div>
 
@@ -118,83 +125,6 @@
         <div class="col-md-12">
             <h2 class="text-center login-title w-60">Smart & Easy procurement through BuildSupply Commerce</h2>
         </div>
-
-        <!-- <div class="col-md-12">
-            <div class="owl-carousel owlExample">
-                <div class="item" id="bookmark1">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="owl-carousel__image">
-                                <img class="img-fluid" src="assets/img/step-1.jpg">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="owl-carousel__content">
-                                <div class="owl-carousel__step-number">Step 1</div>
-                                <h1 class="owl-carousel__step-title">Register yourself</h1>
-                                <p class="owl-carousel__step-des">Doing business on BuildSupply Commerce is very easy.
-                                    Become a verified seller & Start getting
-                                    RFQs.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item" id="bookmark2">
-                    <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-
-                        <div class="col-md-6">
-                            <div class="owl-carousel__image">
-                                <img class="w-full z-50" src="assets/img/step-2.jpg">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="owl-carousel__content">
-                                <div class="owl-carousel__step-number">Step 2</div>
-                                <h1 class="owl-carousel__step-title">Update Catalogue</h1>
-                                <p class="owl-carousel__step-des">Inbuilt catalogue of 50,000+ materials - Select the
-                                    brands you supply with a single click and have your catalogue ready.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item" id="bookmark3">
-                    <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
- 
-                        <div class="col-md-6">
-                            <div class="owl-carousel__image">
-                                <img class="w-full z-50" src="assets/img/step-3.jpg">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="owl-carousel__content">
-                                <div class="owl-carousel__step-number">Step 3</div>
-                                <h1 class="owl-carousel__step-title">Respond to RFQs</h1>
-                                <p class="owl-carousel__step-des">Start getting quotes from the largest developers in
-                                    India.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item" id="bookmark4">
-                    <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-
-                        <div class="w-full md:w-1/2 py-6 flex justify-end items-end">
-                            <div class="md:w-3/4 w-full">
-                                <img class="w-full z-50" src="assets/img/step-4.jpg">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="owl-carousel__content">
-                                <div class="owl-carousel__step-number">Step 4</div>
-                                <h1 class="owl-carousel__step-title">Get Orders</h1>
-                                <p class="owl-carousel__step-des">Attract buyers; Maximise your online sales and Increase
-                                    your business by 10x.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     
         <div *ngIf="isSlick" class="col-md-12">
             <ngx-slick-carousel class="carousel" 
@@ -248,6 +178,14 @@
                     </li> -->
                 </ul>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer-copyright">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <p class="text-center">SellersCommerce B2B & B2C Platform</p>
         </div>
     </div>
 </section>
