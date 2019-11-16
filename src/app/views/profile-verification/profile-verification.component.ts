@@ -32,7 +32,12 @@ export class ProfileVerificationComponent implements OnInit {
 
         this._userService.getNewLeads().then(res => {
             this.new_leads = res;
-            this._router.navigate([`/lead`]);
+            if(this.new_leads.data.length > 0){
+                this._router.navigate([`/lead`]);
+            }else{
+                this._router.navigate([`/profile-verification/status`]);
+            }
+           
         });
 
     }

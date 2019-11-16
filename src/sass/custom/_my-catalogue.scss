@@ -798,3 +798,33 @@
         border-radius: 50%;
     }
 }
+
+.catalogue-box-area{
+    &__other{
+        border: 1px solid #e1e1e1;
+        &:after{
+            display: none;
+        }
+
+        h5 {
+            text-shadow: none;
+            color: #000;
+            font-size: 15px;
+            padding: 0 8px;
+            line-height: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        h6 {
+            text-shadow: none;
+            font-weight: 600;
+            .btn{
+                font-size: 16px;
+                letter-spacing: 0.5px;
+                height: 42px;
+                border-radius: 9999px;
+            }
+        }
+    }
+}

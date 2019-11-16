@@ -9,8 +9,6 @@ import { UserService } from '../../services/user.service';
 })
 export class DeleteWarehouseAddressComponent implements OnInit {
 
-    profileVerifyForm: FormGroup;
-    email: any;
     addresses: any;
     addressId: any;
     bankAcc: any;

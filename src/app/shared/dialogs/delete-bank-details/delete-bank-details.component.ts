@@ -9,8 +9,6 @@ import { UserService } from '../../services/user.service';
 })
 export class DeleteBankDetailsComponent implements OnInit {
 
-    profileVerifyForm: FormGroup;
-    email: any;
     bankdetails: any;
     deleteId: any;
     bankAcc: any;
@@ -37,7 +35,6 @@ export class DeleteBankDetailsComponent implements OnInit {
       this._userService.deleteBankDetails(this.deleteId).then(res => {
           this.bankdetails = this.bankdetails.filter(bankdetails => bankdetails.id !== this.deleteId);
           this.dialogRef.close(this.bankdetails);
-          // this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
       });
     }
 }

@@ -1,4 +1,4 @@
-<section class="login_panel">
+<!-- <section class="login_panel">
     <div class="row no-gutters">
         <div class="col-md-7 col-lg-8">
             <div class="logo-login">
@@ -12,9 +12,180 @@
             <div class="loginfield">
                 <div class="loginfield-detail">
                     <router-outlet></router-outlet>
-                    <!-- <div class="copyright">Copyright © 2016 BuildSupply.com</div> -->
+                    <div class="copyright">Copyright © 2016 BuildSupply.com</div>
                 </div>
             </div>
+        </div>
+    </div>
+</section> -->
+
+
+<section class="login_panel">
+    <div class="row no-gutters">
+        <div class="col-md-6 col-lg-8">
+            <div class="logo-login">
+                <a [routerLink]="['/auth/enter-mobile']"><img src="assets/img/logo.svg"></a>
+            </div>
+            <div class="loginbg">
+                <img src="assets/img/Seller-landing-page-image.jpg">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4 col-sm-12">
+            <div class="loginfield">
+                <div class="loginfield-detail">
+                    <router-outlet></router-outlet>
+                </div>
+                <div class="loginfield__app">
+                    <img src="assets/img/aap-img.png" alt="">
+                    <p>Download BuildSupply Seller App</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="grow-business">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <h2 class="text-center login-title">Grow your business with India's leading construction procurement platform</h2>
+        </div>
+
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/idea.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">121</h1>
+                    <p class="grow-business__subtitle">Project Managed</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/built.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">70 <span>million sq ft</span></h1>
+                    <p class="grow-business__subtitle">Builtup Area Managed</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="grow-business__inner d-flex">
+                <div class="grow-business__image">
+                    <img src="assets/img/men.png" alt="" class="img-fluid">
+                </div>
+                <div class="grow-business__estimation">
+                    <h1 class="grow-business__number">3400 <span>Cr</span></h1>
+                    <p class="grow-business__subtitle">BOQs Generated</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="sell-on">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <h2 class="text-center login-title">Why sell on BuildSupply?</h2>
+        </div>
+
+        <div class="col-md-6">
+            <div class="sell-on__image">
+                <img src="assets/img/mac.png" alt="" class="img-fluid d-none d-md-block">
+                <img src="assets/img/mobile-banner.png" alt="" class="img-fluid d-md-none d-lg-none">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <ul class="sell-on__points">
+                <li>Increased market penetration</li>
+                <li>Higher brand visibility</li>
+                <li>On the go mobile app</li>
+                <li>Better payment terms</li>
+                <li>Quick order closure</li>
+                <li>Improved record keeping and reconciliation</li>
+                <li>Best in class customer support</li>
+            </ul>
+        </div>
+
+        <p class="text-center w-100 mt-4">
+            <a href="" class="login_panel--btn d-block mx-auto text-uppercase">Start Selling</a>
+        </p>
+    </div>
+</section>
+
+<section class="e-procurement">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <h2 class="text-center login-title w-60">Smart & Easy procurement through BuildSupply Commerce</h2>
+        </div>
+    
+        <div *ngIf="isSlick" class="col-md-12">
+            <ngx-slick-carousel class="carousel" 
+                #slickModal="slick-carousel" 
+                [config]="slideConfig" 
+                (init)="slickInit($event)"
+                (breakpoint)="breakpoint($event)"
+                (afterChange)="afterChange($event)"
+                (beforeChange)="beforeChange($event)">
+                
+                <div ngxSlickItem *ngFor="let slide of slides" class="slide">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="{{ slide.img }}" alt="" width="100%">
+                        </div>
+                        <div class="col-md-6 steps">
+                            <div class="steps__border">Step {{ slide.step.number }}</div>
+                            <h1 class="my-4 steps__title">{{ slide.step.title }}</h1>
+                            <p class="steps__description">{{ slide.step.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </ngx-slick-carousel>
+
+            <div class="step-wizard">
+                <div class="step-wizard__progress">
+                    <div class="progressbar empty"></div>
+                    <div id="prog" class="step-wizard__progressbar" style="width: 0%;"></div>
+                </div>
+                <ul class="steps-dots" >
+                    <!--  -->
+                    <li *ngFor="let slide of slides ; let i = index" [class.active]="activeIndex === i" (click)="gotoSlide(slickModal, i)" data="0">
+                        <div class="rounded-full steps-dots--circle banner-bg"></div>
+                        <p class="mb-0 steps-dots__number">Step {{slide.step.number}}</p>
+                        <p class="active-text steps-dots__title">{{slide.step.title}}</p>
+                    </li>
+                    <!-- <li [class.active]="activeIndex === 1" (click)="gotoSlide(slickModal, 1)" data="1">
+                        <div class="rounded-full steps-dots--circle banner-bg"></div>
+                        <p class="mb-0 steps-dots__number">Step 2</p>
+                        <p class="active-text steps-dots__title">Update Catalogue</p>
+                    </li>
+                    <li class="" data="2">
+                        <div class="rounded-full steps-dots--circle banner-bg"></div>
+                        <p class="mb-0 steps-dots__number">Step 3</p>
+                        <p class="active-text steps-dots__title">Respond to RFQs</p>
+                    </li>
+                    <li class="banner-bg" data="3">
+                        <div class="rounded-full steps-dots--circle banner-bg"></div>
+                        <p class="mb-0 steps-dots__number">Step 4</p>
+                        <p class="active-text steps-dots__title">Get Orders</p>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer-copyright">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <p class="text-center">SellersCommerce B2B & B2C Platform</p>
         </div>
     </div>
 </section>
