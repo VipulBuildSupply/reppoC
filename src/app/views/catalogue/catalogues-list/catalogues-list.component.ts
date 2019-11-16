@@ -975,6 +975,9 @@ export class CataloguesList implements OnInit {
       if (res.data.success == true) {
         this.snack.open(res.data.message, 'OK', { duration: 3000 })
       }
+      else {
+        this.snack.open(res.data.message, 'OK', { duration: 3000 })
+      }
     }
 
     );

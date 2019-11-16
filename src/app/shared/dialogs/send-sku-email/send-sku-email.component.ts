@@ -44,7 +44,7 @@ export class SendSkuEmailComponent implements OnInit {
         "addSku": true,
         "brandIds": [],
         "categoryId": catID
-      }
+      };
 
       console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
@@ -53,7 +53,7 @@ export class SendSkuEmailComponent implements OnInit {
         }
         else {
           this.success = false;
-          this.snack.open(res.data.message, 'OK', { duration: 3000 })
+          this.snack.open(res.data.message, 'OK', { duration: 3000 });
         }
       });
 
@@ -62,7 +62,7 @@ export class SendSkuEmailComponent implements OnInit {
         "addSku": true,
         "brandIds": this.data.brands,
         "categoryId": catID
-      }
+      };
       console.log(data);
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success == true) {
