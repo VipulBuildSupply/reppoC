@@ -27,12 +27,19 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <!-- <mat-label>Deals In</mat-label> -->
-                <app-multi-select *ngIf="categoriesList && categoriesList.length" [class.err]="categoryErr" [isErr]="categoryErr"
-                    placeholder="Deals In" [listData]="categoriesList" class="bs-multiselect" [checkDisabled]="!_isEdit"
-                    (onDataChange)="updateCategory($event)">
+                <app-multi-select *ngIf="allCategoriesList && allCategoriesList.length" [class.err]="categoryErr" [isErr]="categoryErr"
+                    placeholder="Deals In" [listData]="allCategoriesList" class="bs-multiselect" [checkDisabled]="!_isEdit"
+                    (onDataChange)="updateCategory($event)" [othersInput]="othersInput">
                 </app-multi-select>
+            </div>
+
+            <div class="col-md-12" *ngIf="othersInput">
+                <mat-form-field class="business-name">
+                    <input matInput placeholder="Enter Name" type="text" class="businessInput"
+                    formControlName="othersCategoryName">
+                </mat-form-field>
             </div>
 
             <div class="col-md-6">
