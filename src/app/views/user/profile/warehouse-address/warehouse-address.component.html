@@ -3,7 +3,7 @@
     <h4>Warehouse Address</h4>
     <div class="business-field-area">
         <div class="row">
-            
+
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="text" id="mobile" class="form-control inputLableUp" value="">
@@ -61,7 +61,7 @@
                     <span class="labrlkm">KM</span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="!addressProofAlreadyPresent">
                 <div class="form-group lableup form-control">
                     <div class="browser-method">
                         <img src="assets/img/upload.png" class="download-img" alt="">
@@ -84,9 +84,9 @@
                 <!-- <button type="submit" class="btn orangeBttn brdbttn">Cancle</button> -->
                 <button type="submit" class="btn orangeBttn">Save</button>
             </div>
-             
+
 
         </div>
     </div>
-  
+
 </form>

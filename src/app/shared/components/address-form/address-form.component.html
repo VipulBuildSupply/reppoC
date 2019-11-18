@@ -117,8 +117,9 @@
                 </div>
             </ng-container>
 
+            <!-- 
             <div class="col-md-6" *ngIf="!isEdit">
-                <div class="form-group lableup form-control">
+                <div class="form-group lableup form-control" *ngIf=" !addressProofAlreadyPresent">
                     <div class="browser-method">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel">
@@ -126,10 +127,6 @@
                                 accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
                                 (change)="onFileSelected($event)" style="display: none;" required=""
                                 class="inputLableUp">
-<!-- 
-                            <input type="file" name="file" #file accept=" application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-                                text/plain, application/pdf, image/*" (change)="onFileSelected($event)"
-                                style="display: none;" required="" class="inputLableUp"> -->
                             <span>UPLOAD ADDRESS PROOF</span>
                         </label>
                         <a href="#" *ngIf="!fileName"> <img src="assets/img/svg-img/ic_information.svg" alt=""></a>
@@ -137,12 +134,10 @@
                     </div>
                     <label class="form-control-placeholder" for="buisness">Address Proof</label>
                 </div>
-
-
-            </div>
+            </div> -->
 
             <ng-container *ngIf="!isNonProfile">
-                <div *ngIf="!isEdit" class="col-md-6">
+                <div *ngIf="!isEdit" class="col-md-12">
                     <div class="form-check pl-0 mt-4 isCheckboxClass">
                         <input type="checkbox" class="checkbox-style" formControlName="isAdditionalAddress"
                             (change)="isAdditionalAddressClicked($event)" id="check2">
@@ -151,7 +146,6 @@
                         </label>
                     </div>
                 </div>
-
             </ng-container>
 
             <div class="col-md-12 save-orange">
