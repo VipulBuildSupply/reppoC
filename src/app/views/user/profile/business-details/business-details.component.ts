@@ -211,14 +211,7 @@ export class BusinessDetailsComponent implements OnInit {
 
             categoryIds: [this.businessDetails.categoryIds],
 
-            customCategories: [this.businessDetails.customCategories],
-
-            othersCategoryName:  [{
-                value: this.businessDetails.othersCategoryName,
-                disabled: !(this._isEdit)
-            }, {
-                validators: [ Validators.required ]
-            }],
+            customCategories: [this.businessDetails.customCategories]
         });        
     }
 
@@ -398,8 +391,11 @@ export class BusinessDetailsComponent implements OnInit {
             delete data.userType;
             delete address.city;
             delete address.state;
-            data.customCategories.push(data.othersCategoryName);
-            delete data.othersCategoryName;
+            if(data.othersCategoryName){
+                data.customCategories.push(data.othersCategoryName);
+                delete data.othersCategoryName;
+            }
+            
             data.address = address;
             this.submitBusinessAddress(data);
         }
