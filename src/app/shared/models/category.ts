@@ -6,6 +6,8 @@ export class Category {
     name?: string;
     categoryIdList?: SubCategories[];
     isSelected?: boolean;
+    categoryId?: number;
+    categoryName?: string;
 
     /*constructor({
         code = '',
