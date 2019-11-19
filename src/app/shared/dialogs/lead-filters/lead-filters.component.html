@@ -22,7 +22,8 @@
                             <div  class="selected-option" *ngFor="let filter of filterNames">
                                 {{filter.name}} 
                                 <span class="cross-option">
-                                    <img src="assets/img/Cancel.svg" (click)="cancelCatFilters(cat)">
+                                    <!-- <img src="assets/img/Cancel.svg" (click)="cancelCatFilters(cat)"> -->
+                                    <img src="assets/img/Cancel.svg">
                                 </span>
                             </div>
                         </div>
@@ -38,8 +39,8 @@
                     </div>
                     
                     <div class="col-md-4">
-                        <sub-filter *ngIf="filtersList" [filtersList]="filtersList" [title]="City">
-                            
+                        <sub-filter *ngIf="filtersList" [filtersList]="filtersList">
+                            <!-- [title]="City" -->
                         </sub-filter>
                     </div>
                     

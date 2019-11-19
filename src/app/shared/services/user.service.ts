@@ -325,5 +325,9 @@ export class UserService {
 
     }
 
+    getLeadsAll(){
+        return this.dataService.getRequest(API.GET_ALL_LEADS).then((res: any) => res);
+    }
+
 
 }
