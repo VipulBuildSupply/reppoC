@@ -19,9 +19,7 @@ export class AddressComponent implements OnInit {
     ngOnInit(): void {
         this.selectedProfile = this.userService.selectedProfile;
         this.isOptions = this.isOptions == false ? false : true;
-        this.addressType = this._router.url.split('/user/profile/address/')[1];
-     //   console.log(this.addressType);
-               
+        this.addressType = this._router.url.split('/user/profile/address/')[1];              
     }
 
     edit(){
