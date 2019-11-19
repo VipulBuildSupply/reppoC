@@ -300,6 +300,9 @@ export class UserService {
     updateFileBulkCat(data) {
         return this.dataService.sendPostRequest(API.FILE_BULK_CATALOGUE, data).then(res => res.data)
     }
+    getLeadsAll(){
+        return this.dataService.getRequest(API.GET_ALL_LEADS).then((res: any) => res);
+    }
 
     getNewLeads() {
         return this.dataService.getRequest(API.GET_NEW_LEADS).then((res: any) => res);

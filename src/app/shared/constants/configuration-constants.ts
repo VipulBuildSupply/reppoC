@@ -71,5 +71,6 @@ export const API = {
     GET_LEAD_OBJ: (leadId) => `product/api/quoterequest/${leadId}/obj`,
     QUOTE_SUBMIT_ALL_WAREHOUSE: (leadid) => `product/api/quoterequest/${leadid}/price`,
     GET_LEADS_FILTERS: 'product/api/quoterequest/filters',
-    GET_LEADS_DATA: 'product/api/quoterequest/list'
+    GET_LEADS_DATA: 'product/api/quoterequest/list',
+    GET_ALL_LEADS: `product/api/quoterequest/list/all`
 }

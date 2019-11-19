@@ -36,6 +36,12 @@ export class DataService {
         this.submitQouteMessage.next(message)
     }
 
+    private seachLeads = new BehaviorSubject('');
+    searchLeads = this.seachLeads.asObservable();
+
+    searchAllLeads(message: any) {
+        this.seachLeads.next(message)
+    }
 
 
     getRequest(url: string, params: HttpParams = new HttpParams(), reqOptions: DataServiceOptions = null): ResolveData {

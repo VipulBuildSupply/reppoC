@@ -15,11 +15,15 @@ export class LeadLayoutComponent implements OnInit {
   acted_tab = "inactive";
 
   message: string;
+  search: String;
+
   selectedFilters: any;
 
 
   constructor(private data: DataService,
-    private _dialog: MatDialog) { }
+    private _dialog: MatDialog,
+    private _userService: UserService
+  ) { }
 
   ngDoCheck() {
     this.data.currentMessage.subscribe(message => this.message = message);
@@ -34,7 +38,25 @@ export class LeadLayoutComponent implements OnInit {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
     this.data.currentMessage.subscribe(message => this.message = message);
-    this.toggleleadsnew();
+    this.data.searchLeads.subscribe(search => this.search = search);
+
+    this._userService.getNewLeads().then(res => {
+      if (res) {
+        if (res.data.length > 0) {
+          this.toggleleadsnew();
+        }
+        else {
+          this.toggleleadsacted();
+        }
+
+      }
+      else {
+        this.toggleleadsacted();
+      }
+
+    });
+
+
   }
   toggleleadsnew() {
     this.acted_tab = "inactive-tab";
@@ -65,5 +87,14 @@ export class LeadLayoutComponent implements OnInit {
     this.selectedFilters = filters;
   }
 
+  applySearchFilter(filterValue: String) {
+    if (filterValue.trim) {
+      filterValue = filterValue.toLowerCase();
 
+      this.search = filterValue;
+      this.data.searchAllLeads(this.search);
+
+    }
+
+  }
 }
