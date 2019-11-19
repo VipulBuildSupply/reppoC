@@ -12,8 +12,8 @@ import { AddressComponent } from './address/address.component';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { BankDetailsShowComponent } from './bank-details-show/bank-details-show.component';
 import { LeadSidebarComponent } from './lead-sidebar/lead-sidebar.component';
-import { CustomDatePipe } from '../directive/custom-date.pipe';
 import { SharedDirectivesModule } from '../directive/shared-directives.module';
+// import { SubFilterComponent } from './sub-filter/sub-filter.component';
 
 
 const components = [
@@ -25,7 +25,8 @@ const components = [
   ProfileSidebarComponent,
   SnackComponent,
   ProfileVerifyComponent,
-  LeadSidebarComponent
+  LeadSidebarComponent,
+  // SubFilterComponent
 ]
 
 @NgModule({
