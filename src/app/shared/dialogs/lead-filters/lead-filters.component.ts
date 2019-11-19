@@ -9,132 +9,14 @@ import { Filters, LocationsLists } from '../../models/leads';
   templateUrl: './lead-filters.component.html'
 })
 export class LeadFiltersComponent implements OnInit {
+  constructor() {
 
-  filtersList: Filters;
-  @Output('filterNames') filterNames = new EventEmitter<LocationsLists>();
+  }
 
-  allFilterList: any;
-  categoryId: any;
-  filteredLists: any = {
-    "categoryIdList": []
-  };
-  categoryNames: any = [];
-  
-  // @ViewChild('filtersCatElm', { static: false }) filtersCatElm: MatSelectionList;
-  @ViewChildren('filtersElm') filtersElm: QueryList<MatSelectionList>;
-  catIds: number[];
-  // locNames: any[];
+  ngOnInit() {
 
-  constructor(public dialogRef: MatDialogRef<LeadFiltersComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private _leadsService: LeadsService,
-    private _categoryService: CategoryService) { }
-
-    ngOnInit() {
-      this.getAllFilters();
-      debugger
-      console.log(this.filterNames.emit());
-    }
-  
-    /**
-     * @description Get all filters list
-     */
-    getAllFilters() {
-      this._categoryService.getLeadsFilters().then(res => {
-        this.filtersList = res.data;
-        // this.allFilterList = this.filtersList;
-  
-        // if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
-        //   this.categoryNames = this.filtersList.filter(item => this.data.selectedFiltersData.indexOf(item.id) != -1);
-        // }
-      });
-    }
-
-
-    // isSelected(id): boolean {
-    //   if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
-    //     return this.data.selectedFiltersData.some(selectedFilterId => selectedFilterId === id);
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    /**
-     * @description function to close popup window
-     */
-    closeDialog(selected?): void {
-      this.dialogRef.close(selected);
-    }
-
-    /**
-     * @description function to display the search results based on entered text
-     */
-
-    // searchFilter(event: string) {
-    //   if (event) {
-    //     this.filtersList = this.allFilterList;
-    //     this.filtersList = this.filtersList.filter(item => {
-    //       return item.categoryName.toLowerCase().indexOf(event.toLowerCase()) != -1;
-    //     });
-    //   } else {
-    //     this.filtersList = this.allFilterList;
-    //   }
-    // }
-
-    /**
-     * @description function will call when specific category filters selected
-     */
-    // filteredProductsLists(selectedOption) {
-      
-    //   if (selectedOption.selected) {
-    //     console.log(this.filtersElm);
-        
-    //     this.filterNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
-    //     // this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
-      // } else {
-        // const index1 = this.locNames.findIndex(opt => opt.id == selectedOption.value.id);
-        // this.locNames.splice(index1, 1);
-
-        // const index2 = this.categoryNames.findIndex(opt => opt.id == selectedOption.value.id);
-        // this.categoryNames.splice(index2, 1);
-    //   }
-    // }
-
-
-    /**
-     * function will execute when click on apply button
-     */
-    applyFilters() {
-    //   const selected = this.filtersElm.selectedOptions.selected.map(filter => filter.value.id);
-    //   this._categoryService.selectedFiltersCount$.next(selected.length);
-    //   this.displayUpdatedProducts(selected);
-    //   this.closeDialog(selected);
-    }
-
-    /**
-     * @description function to remove specific filters from selecetd filters list
-     */
-    // cancelLocFilters(option) {
-    //     this.filtersLocElm.options.find(op => op.value.id === option.id).selected = false;
-    //     this.locNames = this.filtersLocElm.selectedOptions.selected.map(filter => filter.value);
-    // }
-
-
-    // cancelCatFilters(option) {
-    //     this.filtersCatElm.options.find(op => op.value.id === option.id).selected = false;
-    //     this.categoryNames = this.filtersCatElm.selectedOptions.selected.map(filter => filter.value);
-    // }
-
-    /**
-     * @description function to get the skus list based on selected category filters
-     */
-    // displayUpdatedProducts(filterObj) {
-    //   const data = {
-    //     "categoryIdList": filterObj
-    //   };
-    //   return this._categoryService.getFilteredSkus(data).then((res: any) => {
-    //     this._categoryService.updateSkusList$.next(res.data);
-    //     return res.data;
-    //   });
-    // }
+  }
 }
+
+
+

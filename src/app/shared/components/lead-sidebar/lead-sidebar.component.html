@@ -1,5 +1,5 @@
 <ng-container *ngIf="new_leads">
-    <div *ngFor="let newlead of new_leads.data;let i = index" class="required-box">
+    <div *ngFor="let newlead of new_leads;let i = index" class="required-box">
         <div class="bot-box" *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
             <div *ngIf="!bookmarkClicked[i]" class="quote-smt">
                 <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""

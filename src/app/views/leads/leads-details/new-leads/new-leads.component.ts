@@ -21,6 +21,10 @@ interface Warehouse {
 
 
 export class NewLeadComponent implements OnInit {
+  minDate = new Date();
+
+  maxDate = new Date(2020, 0, 1);
+
   datePickerValue: any;
   isEditBtnClicked: boolean;
   catalogueList: any;
@@ -55,7 +59,6 @@ export class NewLeadComponent implements OnInit {
   submitQuoteMsg: string;
 
 
-
   private routeSub: Subscription;
   leadId: number;
   wareHouseAdd: any;
@@ -69,7 +72,9 @@ export class NewLeadComponent implements OnInit {
     private snack: MatSnackBar,
     private data: DataService,
     private ref: ChangeDetectorRef,
-    private _categoryService: CategoryService, private Userservice: UserService) { }
+    private _categoryService: CategoryService, private Userservice: UserService) {
+
+  }
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
@@ -81,7 +86,6 @@ export class NewLeadComponent implements OnInit {
       this.pricingForms = [];
       this.editPricingAllForms = [];
       this.getLeadObj(this.leadId);
-
     });
 
   }
@@ -112,23 +116,13 @@ export class NewLeadComponent implements OnInit {
     this.Userservice.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
-      this.getWarehouseAddress();
 
-      if (this.showLeadObjDetails.data.warehouseList.length > 0) {
-        if (this.showLeadObjDetails.data.warehouseList[0].warehousePriceList) {
-          var minimumQty = this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[0].minQty;
-          var maximumQty = this.showLeadObjDetails.data.warehouseList[0].warehousePriceList[0].maxQty;
-        }
-      }
+      this.warehouseData = [];
 
-      for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
-        if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
-          for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
-            if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].minQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].maxQty)) {
-              this.addPriceToAllWareHouseCheckBoxCheck = false;
-            }
-          }
-        }
+      this.createWarehouseData(this.showLeadObjDetails.data.warehouseList);
+
+      if (this.showLeadObjDetails.data.request.samePriceAllWarehouse) {
+        this.addPriceToAllWareHouseCheckBox = true;
       }
 
 
@@ -150,38 +144,6 @@ export class NewLeadComponent implements OnInit {
 
   }
 
-  getWarehouseAddress() {
-    this.Userservice.getAddress("WAREHOUSE").then(res => {
-      this.wareHouseAdd = res;
-      console.log(this.wareHouseAdd.data.length);
-      this.warehouseData = [];
-
-      this.createWarehouseData(this.wareHouseAdd.data);
-
-      if (this.showLeadObjDetails.data.warehouseList.length == this.wareHouseAdd.data.length) {
-        for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
-          if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
-            for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
-              if ((this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].minQty) || (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty != this.showLeadObjDetailsTemp.data.warehouseList[0].warehousePriceList[j].maxQty)) {
-                this.addPriceToAllWareHouseCheckBoxCheck = false;
-              }
-            }
-          }
-        }
-      }
-      else {
-        this.addPriceToAllWareHouseCheckBoxCheck = false;
-      }
-
-      if (!this.addPriceToAllWareHouseCheckBoxCheck) {
-        this.addPriceToAllWareHouseCheckBox = false;
-      } else {
-        this.addPriceToAllWareHouseCheckBox = true;
-      }
-    });
-
-  }
-
   getCatalogueItems() {
     this.Userservice.getCatalogueItems().then(res => {
       if (res.data.length > 0) {
@@ -196,78 +158,38 @@ export class NewLeadComponent implements OnInit {
 
   createWarehouseData(warehouselist) {
 
-
     warehouselist.forEach(warehouse => {
 
       const forms = [];
 
-      if (warehouse) {
-        this.warehouseHasPricing = false;
-        if (this.showLeadObjDetails) {
-          if (this.showLeadObjDetails.data.warehouseList) {
-            this.checkQuoteWarehouse = false;
-            for (let i = 0; i < this.showLeadObjDetails.data.warehouseList.length; i++) {
-              if (this.showLeadObjDetails.data.warehouseList[i].warehouseAddress.addressId == warehouse.addressId) {
-                if (this.showLeadObjDetails.data.warehouseList[i].warehousePriceList) {
-                  this.warehouseHasPricing = true;
-                  for (let j = 0; j < this.showLeadObjDetails.data.warehouseList[i].warehousePriceList.length; j++) {
-                    this.checkQuoteWarehouse = true;
-                    forms.push(
+      if (warehouse.warehousePriceList.length) {
 
-                      this._formBuilder.group({
-                        minPrice: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].minQty, Validators.required],
-                        maxPrice: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].maxQty],
-                        price: [this.showLeadObjDetails.data.warehouseList[i].warehousePriceList[j].price, Validators.required],
-                        check: ['']
-                      }, { validators: this.isMinMaxInValid })
-                    );
-                  }
+        warehouse.warehousePriceList.forEach(pricesItem => {
 
-                  if (!this.checkQuoteWarehouse) {
-                    forms.push(
-                      this._formBuilder.group({
-                        minPrice: ['', Validators.required],
-                        maxPrice: [''],
-                        price: ['', Validators.required],
-                        check: ['']
-                      }, { validators: this.isMinMaxInValid })
-                    );
-                    this.checkQuoteWarehouse = false;
-                  }
-                }
+          forms.push(
 
+            this._formBuilder.group({
+              minPrice: [pricesItem.minQty, Validators.required],
+              maxPrice: [pricesItem.maxQty],
+              price: [pricesItem.price, Validators.required],
+              check: ['']
+            }, { validators: this.isMinMaxInValid })
+          );
+        });
 
-              }
-
-            }
-            if (!this.warehouseHasPricing) {
-              forms.push(
-                this._formBuilder.group({
-                  minPrice: ['', Validators.required],
-                  maxPrice: [''],
-                  price: ['', Validators.required],
-                  check: ['']
-                }, { validators: this.isMinMaxInValid })
-              );
-            }
-          }
-        }
-
+      } else {
+        // if no data in price List set on default price form
+        forms.push(
+          this._formBuilder.group({
+            minPrice: ['', Validators.required],
+            maxPrice: [''],
+            price: ['', Validators.required],
+            check: ['']
+          }, { validators: this.isMinMaxInValid })
+        );
       }
-
-      // if ((!warehouse.warehousePriceList) && (this.showLeadObjDetails.data.warehouseList.length == 0)) {
-      //   // if no data in price List set on default price form
-      //   forms.push(
-      //     this._formBuilder.group({
-      //       minPrice: ['', Validators.required],
-      //       maxPrice: [''],
-      //       price: ['', Validators.required],
-      //       check: ['']
-      //     }, { validators: this.isMinMaxInValid })
-      //   );
-      // }
       this.warehouseData.push({
-        address: warehouse,
+        address: warehouse.warehouseAddress,
         pricingForms: forms
       });
     });
@@ -942,10 +864,12 @@ export class NewLeadComponent implements OnInit {
           // console.log(this.warehouseData[i].address.addressId);
           const object = {
             "id": this.leadId,
+
+            "validEndDt": this.datePickerValue,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
             "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
-            "validEndDt": this.datePickerValue,
+            "samePriceAllWarehouse": false,
             "warehouseId": this.warehouseData[i].address.addressId
           }
           this.sendPricingToIndividualArrayAdd.push(object);
@@ -953,6 +877,7 @@ export class NewLeadComponent implements OnInit {
 
       }
     }
+    console.log(this.sendPricingToIndividualArrayAdd);
     this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
@@ -976,18 +901,17 @@ export class NewLeadComponent implements OnInit {
       this.sendPricingToAllArrayEdit = [];
 
       for (var i = 0; i < this.editPricingAllForms.length; i++) {
-        for (var j = 0; j < this.wareHouseAdd.data.length; j++) {
-          const object = {
-            "id": this.leadId,
-            "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
-            "minQty": this.editPricingAllForms[i].controls.minPrice.value,
-            "price": this.editPricingAllForms[i].controls.price.value,
-            "validEndDt": this.datePickerValue,
-            "warehouseId": this.wareHouseAdd.data[j].addressId
-          }
-          this.sendPricingToAllArrayEdit.push(object);
+        const object = {
+          "id": this.leadId,
+          "validEndDt": this.datePickerValue,
+          "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
+          "minQty": this.editPricingAllForms[i].controls.minPrice.value,
+          "price": this.editPricingAllForms[i].controls.price.value,
+          "samePriceAllWarehouse": true
         }
+        this.sendPricingToAllArrayEdit.push(object);
       }
+
 
       //console.log(this.sendPricingToAllArrayEdit);
 
@@ -1009,18 +933,15 @@ export class NewLeadComponent implements OnInit {
       this.sendPricingToAllArray = [];
 
       for (var i = 0; i < this.pricingForms.length; i++) {
-        for (var j = 0; j < this.wareHouseAdd.data.length; j++) {
-
-          const object = {
-            "id": this.leadId,
-            "maxQty": this.pricingForms[i].controls.maxPrice.value,
-            "minQty": this.pricingForms[i].controls.minPrice.value,
-            "price": this.pricingForms[i].controls.price.value,
-            "validEndDt": this.datePickerValue,
-            "warehouseId": this.wareHouseAdd.data[j].addressId
-          }
-          this.sendPricingToAllArray.push(object);
+        const object = {
+          "id": this.leadId,
+          "maxQty": this.pricingForms[i].controls.maxPrice.value,
+          "minQty": this.pricingForms[i].controls.minPrice.value,
+          "price": this.pricingForms[i].controls.price.value,
+          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox
         }
+        this.sendPricingToAllArray.push(object);
+
       }
 
       //console.log(this.sendPricingToAllArray);
