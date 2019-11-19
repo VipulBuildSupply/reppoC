@@ -3,7 +3,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { Category } from 'src/app/shared/models/category';
 import { BusinessDetails, State, City, Address } from 'src/app/shared/models/address';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, ControlContainer } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FieldRegExConst, ConfigurationConstants } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
@@ -19,8 +19,8 @@ export class BusinessDetailsComponent implements OnInit {
     user: UserModel;
     turnovers: any;
     businessType: any;
-    categoryNames: any;
-    categoriesList: Category[];
+    selectedCategoryList: any;
+    allCategoriesList: Category[];
     selectedIds: any[] = [];
     categoryErr: boolean = false;
     businessDetailsForm: FormGroup;
@@ -37,6 +37,7 @@ export class BusinessDetailsComponent implements OnInit {
         "customCategories": []
     }
     selectedName: any[] = [];
+    othersInput: any;
     // selectValue: string;
 
     constructor(private _userService: UserService,
@@ -55,8 +56,15 @@ export class BusinessDetailsComponent implements OnInit {
          * @description get selected category lists
          */
         this._categoryService.getCatalogueCategories().then(res => {
-            this.categoryNames = res.data;
-            this.getCategoriesList(this.categoryNames);
+            
+            this.selectedCategoryList = res.data;
+            this.selectedCategoryList.forEach(cat => {
+                cat.categoryId = cat.categoryId ? cat.categoryId : cat.id;
+                cat.name = cat.name ? cat.name : cat.categoryName;
+                cat.isSelected = true;
+            });
+
+            this.getAllCategoriesList(this.selectedCategoryList);
         });
         
         if (this._router.url != '/user/profile/business-details/edit') {
@@ -201,7 +209,9 @@ export class BusinessDetailsComponent implements OnInit {
                 ]
             }],
 
-            categoryIds: [this.businessDetails.categoryIds]
+            categoryIds: [this.businessDetails.categoryIds],
+
+            customCategories: [this.businessDetails.customCategories]
         });        
     }
 
@@ -216,35 +226,29 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function to return all categories list and also selected categories list
      */
-    getCategoriesList(selectedCatList) {
+    getAllCategoriesList(selectedCatList) {
         this._categoryService.getCategories().then((res: any) => {
-            this.categoriesList = res.data;
-            selectedCatList.map(selectValue => {
-                if(selectValue.categoryId != null){
-                    this.selectedIds.push(selectValue.categoryId);
-                }else{
-                    // this.selectedName.push(selectValue.categoryName);
-                    this.updatedCategories.customCategories.push(selectValue.categoryName);
-                }
-            });      
-            
-            if (selectedCatList) {
-                this.categoriesList.map(allCatIds => {
-                    if (this.selectedIds.indexOf(allCatIds.id) !== -1) {
-                        allCatIds.isSelected = true;
-                        this.updatedCategories.itemList.push(allCatIds.id);
-                    }
-                });
-            }
+            const list = res.data;
 
-            this.businessDetailsForm.get('categoryIds').setValue(this.selectedIds);            
-            localStorage.setItem('SelectedCategories', JSON.stringify(this.updatedCategories));
-            if(this.updatedCategories.customCategories){
-                for(let i=0; i<this.updatedCategories.customCategories.length; i++){
-                    this.categoriesList.push({id: null, name: this.updatedCategories.customCategories[i], isSelected: true});
-                }
-            }
-            return this.categoriesList;
+            selectedCatList.forEach(selectedCat => {
+                    // this.selectedIds.push(selectedCat.categoryId);
+
+                   const existingCatIndex =  list.findIndex(cat => cat.id == selectedCat.categoryId);
+
+                    if(existingCatIndex >= 0){
+                        list[existingCatIndex].isSelected = true;
+                    }
+                    if(selectedCat.id == selectedCat.categoryId){
+                         // only custom category
+                         list.push(selectedCat);
+                    }
+
+            });   
+
+            this.allCategoriesList = list;
+            this.allCategoriesList.push({id: 0, name: 'Others', categoryId: 0, categoryName: 'Others'});
+            this.updateCatIds(this.allCategoriesList.filter(cat => cat.isSelected));
+            return this.allCategoriesList;
         });
     }
 
@@ -252,16 +256,27 @@ export class BusinessDetailsComponent implements OnInit {
      * @description function to update multiple categories and set these id's
      */
 
-    updateMuliselect(name, items) {
-        const categoryIds = items.map(cat => cat.id);
-        this.businessDetailsForm.get('categoryIds').setValue(categoryIds);
+    updateCatIds(items){
+        const selectedIds = items.filter(selectedCat => selectedCat.id != selectedCat.categoryId && selectedCat.id != 0).map(cat => cat.id);
+        const selectedCustomCat = items.filter(selectedCat => selectedCat.id == selectedCat.categoryId && selectedCat.id != 0).map(cat => cat.categoryName);
+
+        this.othersInput = items.some(otherCat => otherCat.id == 0);
+
+        if(this.othersInput){
+            this.businessDetailsForm.addControl('othersCategoryName', new FormControl('', Validators.required));
+        }else{
+            this.businessDetailsForm.removeControl('othersCategoryName');
+        }
+
+        this.businessDetailsForm.get('categoryIds').setValue(selectedIds); 
+        this.businessDetailsForm.get('customCategories').setValue(selectedCustomCat);
     }
 
     /**
      * @description function will call when new catalogue category selected
      */
     updateCategory(selectedCategory) {
-        this.updateMuliselect('categoryList', selectedCategory);
+        this.updateCatIds(selectedCategory);
     }
 
     /**
@@ -376,6 +391,11 @@ export class BusinessDetailsComponent implements OnInit {
             delete data.userType;
             delete address.city;
             delete address.state;
+            if(data.othersCategoryName){
+                data.customCategories.push(data.othersCategoryName);
+                delete data.othersCategoryName;
+            }
+            
             data.address = address;
             this.submitBusinessAddress(data);
         }

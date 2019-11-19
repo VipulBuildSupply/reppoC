@@ -123,6 +123,8 @@ export class BusinessDetails {
     sellerBusinessType?: BusinessType;
     categoryIds: catalogueCategories;
     addressProof: string;
+    customCategories: string[];
+    // othersCategoryName?: string;
 
     constructor({
         address,
@@ -133,7 +135,9 @@ export class BusinessDetails {
         panNo = '',
         panPhoto = '',
         catagoryIds,
-        addressProof = ''
+        addressProof = '',
+        customCategories,
+        // othersCategoryName
     }) {
         this.address = new Address(address || {});
         this.sellerBusinessType = sellerBusinessType || {};
@@ -144,6 +148,8 @@ export class BusinessDetails {
         this.panPhoto = panPhoto;
         this.categoryIds = new catalogueCategories;
         this.addressProof = addressProof;
+        this.customCategories = this.customCategories;
+        // this.othersCategoryName = othersCategoryName;
     }
 }
 

@@ -828,3 +828,15 @@
         }
     }
 }
+
+.mat-chip.mat-standard-chip {
+    background-color: #fff;
+    color: rgba(138, 138, 138, 0.87);
+    border: 1px solid #bfbfbf;
+    border-radius: 5px;
+    letter-spacing: 0.5px;
+}
+
+.mat-chip.mat-standard-chip::after {
+    background: #c3c3c3;
+}

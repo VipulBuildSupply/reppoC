@@ -36,14 +36,21 @@ export class MultiSelectChipComponent implements OnInit {
     @Input('isErr') isErr: boolean;
     @Output('onDataChange') onDataChange = new EventEmitter<item[]>();
     @Input('checkDisabled') isDisable: boolean;
+    @Input('othersInput') othersInput: boolean;
 
     constructor() {}
 
     ngOnInit(): void {
         //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
         //Add 'implements OnInit' to the class.
+        console.log(this.list);
+        
         this.allItems = this.list.map(item => {
-            return { id: item.id, name: item.name, isSelected: item.isSelected ? true : false }
+            if(!item.categoryId && item.id != 0){
+                return { id: item.id, name: item.name, isSelected: item.isSelected ? true : false }
+            }else if(item.id == 0 || item.categoryId){
+                return { id: item.id, name: item.name, categoryId: item.categoryId, categoryName: item.categoryName, isSelected: item.isSelected ? true : false }
+            }
         });
 
         this.items = this.allItems.filter(itm => itm.isSelected);
@@ -55,6 +62,7 @@ export class MultiSelectChipComponent implements OnInit {
 
     addToSelectedItems(item: item) {
         const isExist = this.items.some(itm => itm.id == item.id);
+        
         if (!isExist) {
             item.isSelected = true;
             this.items.push(item);
