@@ -29,12 +29,12 @@
                         <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
                             <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
                                 (error)="getUserAPI()" class="img-fulid user-profile" alt="">
-                            <span *ngIf="user.sellerPersonalProfile.firstName; else name"
+                            <span *ngIf="user.sellerPersonalProfile.firstName"
                                 class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
-                            <ng-template #name>
+                            <!-- <ng-template #name>
                                 <span class="profileName">{{user.phone}}</span>
-                            </ng-template>
-                            <!-- <p>Personal Profile</p> -->
+                            </ng-template> -->
+                            <p>{{user.phone}}</p>
                         </a>
 
                         <mat-menu class="navMenus" #menu="matMenu">

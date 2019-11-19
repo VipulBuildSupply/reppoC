@@ -1,5 +1,5 @@
 <form [formGroup]="addressForm" (ngSubmit)="submit()">
-    <h4>ADD NEW {{addrs.addressCategory}} ADDRESS</h4>
+    <h4>{{ addrs.addressCategory | lowercase }} Address</h4>
     <div class="business-field-area">
         <div class="row">
 
@@ -138,7 +138,7 @@
 
             <ng-container *ngIf="!isNonProfile">
                 <div *ngIf="!isEdit" class="col-md-12">
-                    <div class="form-check pl-0 mt-4 isCheckboxClass">
+                    <div class="form-check pl-0 mt-2 isCheckboxClass">
                         <input type="checkbox" class="checkbox-style" formControlName="isAdditionalAddress"
                             (change)="isAdditionalAddressClicked($event)" id="check2">
                         <label for="check2"><strong> Also add this as
