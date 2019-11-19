@@ -17,14 +17,16 @@
 
 
 
-     <div class="Pricing-Information  border-b" *ngIf="(wareHouseAdd && (wareHouseAdd.data.length>0))">
+     <div class="Pricing-Information  border-b">
          <p class="top-tital mt-2">Quote Details (excluding GST)</p>
          <div class="form-check pl-0 mt-3">
-             <label class="container addRemainingPriceCheckBox">Use the same quotes for all warehouses
-                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
-                     [checked]="addPriceToAllWareHouseCheckBoxCheck">
-                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
-             </label>
+             <div *ngIf="showLeadObjDetails" class="form-check pl-0 mt-3">
+                 <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
+                     <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
+                         [checked]="showLeadObjDetails.data.request.samePriceAllWarehouse">
+                     <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
+                 </label>
+             </div>
          </div>
      </div>
 
@@ -251,15 +253,15 @@
                      <div class="col-md-6">
                          <div class="form-group lableup mt-md-4">
                              <mat-form-field>
-                                 <input matInput #ref class="form-control inputLableUp" [matDatepicker]="picker"
-                                     placeholder="Quote Valid Till" (dateChange)="datePicker(ref.value)"
-                                     (focus)="picker.open()" required>
+                                 <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                     [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                     (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                  <mat-datepicker #picker></mat-datepicker>
                              </mat-form-field>
+
                          </div>
                      </div>
-
                  </div>
              </ng-container>
 
@@ -267,19 +269,19 @@
          <br>
 
          <div class="col-md-12">
-             <ng-container *ngIf="wareHouseAdd">
+             <ng-container *ngIf="showLeadObjDetails.data.warehouseList.length > 0">
                  <div class="house-address p-3">
                      <h4 class="cement-title">Warehouse Address</h4>
 
-                     <ng-container *ngFor="let warehouse of wareHouseAdd.data">
+                     <ng-container *ngFor="let warehouse of showLeadObjDetails.data.warehouseList">
                          <div class="addres-details mb-2">
-                             <p class="ads-t">{{warehouse.name}}</p>
-                             <p>{{warehouse.addressLine1}}</p>
-                             <p>{{warehouse.addressLine2}}</p>
-                             <p>{{warehouse.city.name}},
-                                 {{warehouse.state.name}} -
-                                 {{warehouse.pincode}}</p>
-                             <p>Phone : {{warehouse.phoneNo}}</p>
+                             <p class="ads-t">{{warehouse.warehouseAddress.name}}</p>
+                             <p>{{warehouse.warehouseAddress.addressLine1}}</p>
+                             <p>{{warehouse.warehouseAddress.addressLine2}}</p>
+                             <p>{{warehouse.warehouseAddress.city.name}},
+                                 {{warehouse.warehouseAddress.state.name}} -
+                                 {{warehouse.warehouseAddress.pincode}}</p>
+                             <p>Phone : {{warehouse.warehouseAddress.phoneNo}}</p>
                          </div>
                      </ng-container>
 
@@ -298,7 +300,7 @@
 
                  </div>
              </ng-container>
-             <ng-container *ngIf="wareHouseAdd && (wareHouseAdd.data.length == 0)">
+             <ng-container *ngIf="showLeadObjDetails.data.warehouseList.length == 0">
                  <h4 class="cement-title">Warehouse Address</h4>
                  <a (click)="addWareHouseAddressBtnClicked()" href="javascript:void(0)">
                      <div class="add-address">
@@ -312,11 +314,11 @@
 
 
      <div *ngIf="!addPriceToAllWareHouseCheckBox">
-         <div class="house-address p-3" *ngIf="(wareHouseAdd && (wareHouseAdd.data.length>0));else showIndividualAdd">
+         <div class="house-address p-3" *ngIf="showLeadObjDetails.data.warehouseList.length>0;else showIndividualAdd">
              <div class="col-md-6">
                  <div class="form-group lableup mt-md-4">
                      <mat-form-field>
-                         <input matInput #ref class="form-control inputLableUp" [matDatepicker]="picker"
+                         <input matInput #ref class="form-control inputLableUp" [min]="minDate" [matDatepicker]="picker"
                              placeholder="Quote Valid Till" (focus)="picker.open()"
                              (dateChange)="datePicker(ref.value)">
                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -330,8 +332,8 @@
              <ng-container *ngFor="let warehouse of warehouseData;let indx = index">
                  <div class="addres-details mb-2">
                      <p class="ads-t">{{warehouse.address.name}}</p>
-                     <p>{{warehouse.address.Line1}}</p>
-                     <p>{{warehouse.address.Line2}}</p>
+                     <p>{{warehouse.address.addressLine1}}</p>
+                     <p>{{warehouse.address.addressLine2}}</p>
                      <p>{{warehouse.address.city.name}},
                          {{warehouse.address.state.name}} -
                          {{warehouse.address.pincode}}</p>
@@ -427,7 +429,8 @@
                          </form>
                      </div>
 
-                     <div class="row">
+                     <div *ngIf="(showLeadObjDetails.data.warehouseList[0].warehousePriceList && showLeadObjDetails.data.warehouseList[0].warehousePriceList.length == 0) || isEditBtnClicked"
+                         class="row">
                          <div class="col-md-6">
                              <div class="form-check pl-0 mt-3">
                                  <label class="container addRemainingPriceCheckBox">For qty more than or
@@ -449,6 +452,7 @@
                              </div>
                          </div>
                      </div>
+
                  </div>
                  <br>
                  <hr *ngIf="indx<(warehouseData.length-1)">
