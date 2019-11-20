@@ -51,7 +51,7 @@
     .admin-box {
         position: absolute;
         top: 0px;
-        right: 60px;
+        right: 40px;
     }
 
     .header-main .navbar {
@@ -284,10 +284,34 @@
         border-top: 1px solid #e1e1e1;
     }
 
-    // .navbar-collapse.collapse.show .widget-header.admin-box{
-    //     position: absolute;
-    //     top: 14px;
-    // }
+    .hamburger.mat-icon-button {
+        cursor: pointer;
+        display: block;
+        position: absolute;
+        top: 4px;
+        right: 10px;
+    }
+
+    .header-main{
+        &__mobile-navigation{
+            width: 240px;
+            display: block;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            li{
+                line-height: 14px;
+                font-size: 14px;
+                margin: 10px 0;
+            }
+            li a{
+                cursor: pointer;
+            }
+        }
+        &__navigation{
+            display: none;
+        }
+    }
 }
 
 
@@ -309,11 +333,11 @@
         padding: 5px 15px;
     }
 
-    .admin-box {
-        position: absolute;
-        top: 6px;
-        right: 93px;
-    }
+    // .admin-box {
+    //     position: absolute;
+    //     top: 6px;
+    //     right: 93px;
+    // }
 
     .leads-srch .add-new {
         width: 25%;
@@ -355,6 +379,16 @@
     }
 }
 
+@media (max-width: 575px){
+    .hide-on-mobile{
+        display: none;
+    }
+
+    .position-abs{
+        position: absolute;
+    }
+}
+
 @media (max-width: 540px){
     .login_panel, .sell-on, .grow-business {
         padding-left: 20px;
@@ -365,6 +399,14 @@
         .save-orange .orangeBttn{
             width: 100%;
         }
+    }
+
+    .logo-main img {
+        width: 190px;
+    }
+
+    .admin-box{
+        right: 30px;
     }
 }
 
@@ -462,6 +504,21 @@
             height: 49px;
             font-size: 14px;
         }
+    }
+
+    .header-main{
+        height: 120px;
+    }
+
+    .widget-header.admin-box {
+        position: absolute !important;
+        top: 27px;
+        left: 8px;
+        right: 12px;
+    }
+
+    .hamburger.mat-icon-button{
+        top: -20px;
     }
 }
 
