@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SigninSignupService } from '../services/signin-signup.service';
 import { UserService } from '../services/user.service';
 import { UserModel } from '../models/user.model';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { MatSidenav } from '@angular/material';
+import { CommonService } from '../services/common.service';
+import { HEADER_NAV } from '../constants';
+import { HeaderNavigaton } from '../models/header';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +16,21 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   profileDropdown;
-  headerNavBar;
+  headerNavBar: HeaderNavigaton[];
   selectedProfile: any;
   user: UserModel;
   private subscriptions: Subscription[] = [];
+  @Input('menu') menu: MatSidenav;
+  private routerParamsSubs: Subscription;
 
   constructor(private userService: UserService,
     private signinService: SigninSignupService,
     private router: Router) { }
+
+  openMenu() {
+    this.menu.open();
+    CommonService.hideBodyOverFlow();
+  }
 
   // Sub Menu Functionality
   // profileType() {
@@ -41,23 +52,15 @@ export class HeaderComponent implements OnInit {
       // { name: 'Settings', link: '' },
       // { name: 'Help Centre', link: '' }
     ]
-
-    this.headerNavBar = [
-      { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
-      // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
-      { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
-      // { name: 'PO', link: '', imgUrl: 'assets/img/po.png' }
-    ]
   }
 
   ngOnInit() {
-
     this.startSubscriptions();
-
     if (this.signinService.isLoggedIn) {
       this.user = this.userService.user;
     }
     this.getProfileDropdown();
+    this.headerNavBar = HEADER_NAV;
   }
 
   startSubscriptions() {
@@ -65,7 +68,18 @@ export class HeaderComponent implements OnInit {
       //? this subscription is used to check is any data update in user Object
       this.userService.userUpdated$.subscribe(usrData => {
         this.user = usrData;
+      }),
+
+      this.routerParamsSubs = this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          CommonService.smoothScrollToTop();
+          if (this.menu.opened) {
+            CommonService.addBodyOverFlow()
+            this.menu.close();
+          }
+        }
       })
+
     );
   }
 

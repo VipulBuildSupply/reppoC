@@ -4,6 +4,19 @@
     box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;
+    padding: 12px 0;
+    &__navigation{
+        list-style: none;
+        padding-left: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 0;
+        li{
+            line-height: 14px;
+            font-size: 14px;
+        }
+    }
 }
 .header-main .navbar {
     padding: 14px 0;
@@ -136,3 +149,7 @@
     font-weight: 600
 }
 // Drop down
+
+.hamburger.mat-icon-button {
+    display: none;
+}

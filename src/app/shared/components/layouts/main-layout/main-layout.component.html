@@ -1,0 +1,17 @@
+<mat-sidenav-container class="main-nav__wrapper-phone">
+    <mat-sidenav class="sidenav" #sidenav [fixedInViewport]="true" [mode]="'over'">
+        <button class="menu-close" (click)="sidenav.close()" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <app-side-navigation></app-side-navigation>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <app-header #header [menu]="sidenav"></app-header>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
+    
+<app-footer></app-footer>

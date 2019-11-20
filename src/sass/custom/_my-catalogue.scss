@@ -837,3 +837,19 @@
 .mat-chip.mat-standard-chip::after {
     background: #c3c3c3;
 }
+
+.buttons-right {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.clicked{
+    background-color: gray;
+}
+
+.highlightSku{
+    background-color: #E0F8FF;
+    box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
+}

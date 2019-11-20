@@ -47,8 +47,8 @@
             </div>
 
             <div class="col-lg-5">
-                <div class="select-box-left" *ngFor="let catalogue of catalogueList">
-                    <div (click)="selectUniqueCatalogue(catalogue.id)">
+                <div class="select-box-left" *ngFor="let catalogue of catalogueList" [class.highlightSku]="catalogue.isSelected">
+                    <div (click)="selectUniqueCatalogue(catalogue.id);">
                         <div class="quote-smt" *ngIf="catalogue.stockStatus == 'N'">
                             Out of Stock
                         </div>

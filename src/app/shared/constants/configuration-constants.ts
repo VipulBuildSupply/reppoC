@@ -1,3 +1,4 @@
+import { HeaderNavigaton } from '../models/header';
 
 export const ConfigurationConstants = {
     CUSTOM_POPUP_MAX_WIDTH: '920px',
@@ -74,3 +75,10 @@ export const API = {
     GET_LEADS_DATA: 'product/api/quoterequest/list',
     GET_ALL_LEADS: `product/api/quoterequest/list/all`
 }
+
+export const HEADER_NAV: HeaderNavigaton[] = [
+    { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
+    // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
+    { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
+    // { name: 'PO', link: '', imgUrl: 'assets/img/po.png' }
+]       // in milli seconds
