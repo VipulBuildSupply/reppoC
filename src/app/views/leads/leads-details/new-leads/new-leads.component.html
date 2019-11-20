@@ -255,7 +255,8 @@
                              <mat-form-field>
                                  <input matInput #ref class="form-control inputLableUp" [min]="minDate"
                                      [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                     (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
+                                     (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
+                                     [formControl]="datePickerValue" required>
                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                  <mat-datepicker #picker></mat-datepicker>
                              </mat-form-field>
@@ -319,8 +320,8 @@
                  <div class="form-group lableup mt-md-4">
                      <mat-form-field>
                          <input matInput #ref class="form-control inputLableUp" [min]="minDate" [matDatepicker]="picker"
-                             placeholder="Quote Valid Till" (focus)="picker.open()"
-                             (dateChange)="datePicker(ref.value)">
+                             placeholder="Quote Valid Till" (focus)="picker.open()" (dateChange)="datePicker(ref.value)"
+                             [formControl]="datePickerValue">
                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                          <mat-datepicker #picker></mat-datepicker>
                      </mat-form-field>

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
@@ -19,12 +19,8 @@ interface Warehouse {
   templateUrl: './new-leads.component.html'
 })
 
-
 export class NewLeadComponent implements OnInit {
   minDate = new Date();
-
-  maxDate = new Date(2020, 0, 1);
-
   datePickerValue: any;
   isEditBtnClicked: boolean;
   catalogueList: any;
@@ -32,14 +28,10 @@ export class NewLeadComponent implements OnInit {
   uniqueCatalogueData: any;
   pricingForm: FormGroup;
   addPriceToAllWareHouseCheckBox: boolean;
-  stockResponse: any;
-  addAnotherRangeCount: any[] = [];
   addPriceForRemainingQuantity: boolean;
   addPriceForRemainingIndividualQuantity: boolean[] = [];
   minValuesQty: number[] = [];
   maxValuesQty: number[] = [];
-  errorMin: boolean;
-  errorMax: boolean;
   pricingForms: FormGroup[] = [];
   pricingFormsIndividual: FormGroup[][] = [];
   editPricingAllForms: FormGroup[] = [];
@@ -53,11 +45,9 @@ export class NewLeadComponent implements OnInit {
   addPriceForRemainingIndividualQuantityNumber: any[] = [];
   checkPriceValidate: boolean;
   AllIndividualForms: boolean;
-  stockstatus: boolean;
   selectedFilters: any;
   message: string;
   submitQuoteMsg: string;
-
 
   private routeSub: Subscription;
   leadId: number;
@@ -67,7 +57,10 @@ export class NewLeadComponent implements OnInit {
   checkQuoteWarehouse: boolean;
   addPriceToAllWareHouseCheckBoxCheck: boolean;
   warehouseHasPricing: boolean;
-  constructor(private route: ActivatedRoute, private _formBuilder: FormBuilder, private _router: Router,
+  datePickerValueLeads: any;
+
+  constructor(private route: ActivatedRoute,
+    private _formBuilder: FormBuilder, private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
     private data: DataService,
@@ -91,11 +84,9 @@ export class NewLeadComponent implements OnInit {
   }
 
   getLeadObj(leadId) {
-    this.errorMin = false;
     this.editMinMaxIsFalse = false;
     this.AllIndividualForms = false;
     this.isEditBtnClicked = false;
-    this.errorMax = false;
     this.checkPriceValidate = false;
     this.minMaxValidValue = true;
     this.editMinMaxIsFalse = false;
@@ -110,7 +101,6 @@ export class NewLeadComponent implements OnInit {
     this.sendPricingToAllArray = [];
     this.sendPricingToAllArrayEdit = [];
     this.sendPricingToIndividualArrayAdd = [];
-    this.addAnotherRangeCount.push('1');
     this.addAnotherRange();
 
     this.Userservice.getLeadObj(leadId).then(res => {
@@ -119,6 +109,14 @@ export class NewLeadComponent implements OnInit {
 
       this.warehouseData = [];
 
+
+      const day = res.data.request.expireDt.substring(0, 2);
+      const month = res.data.request.expireDt.substring(3, 5);
+      const year = res.data.request.expireDt.substring(6, 10);
+      console.log("Day : " + day + " Month : " + month + " Year : " + year);
+      const dateVal = month + "-" + day + "-" + year;
+      this.datePickerValue = new FormControl(new Date(year, month - 1, day));
+      this.datePickerValueLeads = dateVal;
       this.createWarehouseData(this.showLeadObjDetails.data.warehouseList);
 
       if (this.showLeadObjDetails.data.request.samePriceAllWarehouse) {
@@ -142,18 +140,6 @@ export class NewLeadComponent implements OnInit {
     // this.addAnotherRange();
 
 
-  }
-
-  getCatalogueItems() {
-    this.Userservice.getCatalogueItems().then(res => {
-      if (res.data.length > 0) {
-        this.catalogueList = res.data;
-        this.catalogueListTemp = this.catalogueList;
-      }
-      else {
-        this._router.navigate([`/catalogue/add-catalogue`]);
-      }
-    });
   }
 
   createWarehouseData(warehouselist) {
@@ -195,60 +181,6 @@ export class NewLeadComponent implements OnInit {
     });
   }
 
-  selectUniqueCatalogue(id) {
-    this.errorMin = false;
-    this.editMinMaxIsFalse = false;
-    this.AllIndividualForms = false;
-    this.isEditBtnClicked = false;
-    this.errorMax = false;
-    this.checkPriceValidate = false;
-    this.minMaxValidValue = true;
-    this.editMinMaxIsFalse = false;
-    this.addPriceForRemainingIndividualQuantity = [];
-    this.addPriceToAllWareHouseCheckBox = false;
-    this.addPriceForRemainingQuantity = false;
-    this.addPriceForRemainingIndividualQuantityNumber = [];
-    this.sendPricingToIndividualArrayAdd = [];
-    this.pricingForms = [];
-    this.pricingFormsIndividual = [];
-    this.editPricingAllForms = [];
-    this.sendPricingToAllArray = [];
-    this.sendPricingToAllArrayEdit = [];
-    this.sendPricingToIndividualArrayAdd = [];
-    this.addAnotherRangeCount.push('1');
-    this.addAnotherRange();
-
-    this.Userservice.getUniqueCatalogueItem(id).then(res => {
-      if (res) {
-        this.uniqueCatalogueData = res.data;
-        this.warehouseData = [];
-        this.createWarehouseData(this.uniqueCatalogueData.warehouseList);
-        if (this.uniqueCatalogueData.catalogueItem.samePriceAllWarehouse) {
-          this.addPriceToAllWareHouseCheckBox = true;
-        }
-        if (this.uniqueCatalogueData.warehouseList.length > 0) {
-          if (this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length > 0) {
-            this.editPricingAllForms = [];
-            this.isEditBtnClicked = true;
-            for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
-              this.editPricingForms(i);
-              this.isEditBtnClicked = true;
-            }
-          }
-        }
-
-
-        if (this.uniqueCatalogueData.catalogueItem.stockStatus == 'N') {
-          this.stockstatus = false;
-        }
-        else if (this.uniqueCatalogueData.catalogueItem.stockStatus == 'Y') {
-          this.stockstatus = true;
-        }
-      }
-    });
-
-  }
-
   deletePicingAllWarehouse(index) {
     this.pricingForms.splice(index, 1);
   }
@@ -256,7 +188,6 @@ export class NewLeadComponent implements OnInit {
   deletePicingAllWarehouseEdit(index) {
     this.editPricingAllForms.splice(index, 1);
   }
-
 
   addAnotherRange() {
     if (this.isEditBtnClicked) {
@@ -365,6 +296,7 @@ export class NewLeadComponent implements OnInit {
   deletePicingIndividualWarehouse(form, index) {
     form.splice(index, 1);
   }
+
   addAnotherRangeIndividual(form, index) {
     if (this.isEditBtnClicked) {
       form.push(
@@ -458,20 +390,6 @@ export class NewLeadComponent implements OnInit {
     );
   }
 
-  isEditBtnClickedFunc() {
-    this.isEditBtnClicked = true;
-    // console.log(this.isEditBtnClicked);
-    for (let i = 0; i < this.showLeadObjDetails.data.warehouseList[0].warehousePriceList.length; i++) {
-      this.editPricingForms(i);
-    }
-    // console.log(this.editPricingAllForms);
-  }
-
-  isEditBtnNotClickedFunc() {
-    this.isEditBtnClicked = false;
-    this.editPricingAllForms = [];
-  }
-
   isMinMaxInValid(form: FormGroup) {
     const min = form.controls.minPrice.value;
     const max = form.controls.maxPrice.value;
@@ -547,8 +465,9 @@ export class NewLeadComponent implements OnInit {
   }
 
   datePicker(value) {
-    this.datePickerValue = value.replace('/', '-');
-    this.datePickerValue = this.datePickerValue.replace('/', '-');
+    this.datePickerValue = new FormControl(new Date(value));
+    this.datePickerValueLeads = value.replace('/', '-');
+    this.datePickerValueLeads = this.datePickerValueLeads.replace('/', '-');
   }
 
   addPriceForRemainingQty(event) {
@@ -853,7 +772,6 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
-
   addPricingIndividualWarehouseAddress() {
     this.sendPricingToIndividualArrayAdd = [];
 
@@ -865,7 +783,7 @@ export class NewLeadComponent implements OnInit {
           const object = {
             "id": this.leadId,
 
-            "validEndDt": this.datePickerValue,
+            "validEndDt": this.datePickerValueLeads,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
             "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
@@ -903,7 +821,7 @@ export class NewLeadComponent implements OnInit {
       for (var i = 0; i < this.editPricingAllForms.length; i++) {
         const object = {
           "id": this.leadId,
-          "validEndDt": this.datePickerValue,
+          "validEndDt": this.datePickerValueLeads,
           "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
           "minQty": this.editPricingAllForms[i].controls.minPrice.value,
           "price": this.editPricingAllForms[i].controls.price.value,
@@ -935,6 +853,7 @@ export class NewLeadComponent implements OnInit {
       for (var i = 0; i < this.pricingForms.length; i++) {
         const object = {
           "id": this.leadId,
+          "validEndDt": this.datePickerValueLeads,
           "maxQty": this.pricingForms[i].controls.maxPrice.value,
           "minQty": this.pricingForms[i].controls.minPrice.value,
           "price": this.pricingForms[i].controls.price.value,
@@ -993,6 +912,5 @@ export class NewLeadComponent implements OnInit {
   addWareHouseAddressBtnClicked() {
     this._router.navigate([`/user/profile/address/warehouse/add`]);
   }
-
 
 }
