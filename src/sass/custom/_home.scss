@@ -18,6 +18,24 @@
     }
 }
 
+.required-box.active-leads {
+
+    @include border-radius(4px);
+    @include bg-color(#E0F8FF);
+    box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
+    display: inline-block;
+    width: 100%;
+    padding: 15px 25px;
+    margin: 0px 0 10px;
+    position: relative;
+    transition: all .5s ease-in-out;
+
+    &:hover {
+        background-color: #E0F8FF;
+    }
+
+}
+
 .cement-title {
     color: rgba(0, 0, 0, 0.9);
     font-size: 16px;

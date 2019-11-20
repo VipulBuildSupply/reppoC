@@ -184,44 +184,52 @@
         left: 22px;
     }
 
-    .login_panel{
+    .login_panel {
         max-width: 540px;
         margin: auto;
-        &--btn{
+
+        &--btn {
             display: none !important;
         }
     }
 
-    .loginfield{
+    .loginfield {
         flex-wrap: wrap;
         padding: 0px;
-        .loginfield-detail{
+
+        .loginfield-detail {
             order: 2;
             width: 100%;
             background-color: #f5f5f5;
             padding: 30px;
             border: 1px solid #e1e1e1;
-            .save-orange{
+
+            .save-orange {
                 text-align: center;
                 width: 100%;
             }
         }
-        &__app{
+
+        &__app {
             order: 1;
             width: 100%;
             position: relative;
             margin: 30px auto 10px;
             text-align: center;
         }
-        h2{
+
+        h2 {
             padding-bottom: 15px;
         }
+
         .login-subhead {
             font-size: 20px;
         }
     }
 
-    .loginbg, .e-procurement, .footer-copyright{
+    .loginbg,
+    .e-procurement,
+    .footer-copyright {
         display: none;
     }
 
@@ -232,6 +240,7 @@
         padding: 15px 20px;
         border: 1px solid #e1e1e1;
         border-top: none;
+
         img {
             max-width: 220px;
         }
@@ -242,28 +251,32 @@
         width: 100%;
     }
 
-    .grow-business{
+    .grow-business {
         background-color: #fff;
         padding: 40px 0px;
         max-width: 540px;
         margin: auto;
+
         &__inner {
             padding: 0 80px;
             margin-bottom: 35px;
         }
     }
 
-    .sell-on{
+    .sell-on {
         padding: 0px;
         max-width: 540px;
         margin: auto;
-        &__points{
+
+        &__points {
             padding-left: 60px;
-            li{
+
+            li {
                 margin-bottom: 15px;
             }
         }
-        &__image{
+
+        &__image {
             width: 100%;
             margin-bottom: 20px;
         }
@@ -347,6 +360,8 @@
         font-size: 12px;
     }
 
+
+
     .order-status-right-box .orangeBttn {
         font-size: 12px;
         padding: 0 8px;
@@ -389,14 +404,17 @@
     }
 }
 
-@media (max-width: 540px){
-    .login_panel, .sell-on, .grow-business {
+@media (max-width: 540px) {
+
+    .login_panel,
+    .sell-on,
+    .grow-business {
         padding-left: 20px;
         padding-right: 20px;
     }
 
-    .login_panel{
-        .save-orange .orangeBttn{
+    .login_panel {
+        .save-orange .orangeBttn {
             width: 100%;
         }
     }
@@ -411,8 +429,8 @@
 }
 
 
-@media (max-width: 485px){
-    .grow-business{
+@media (max-width: 485px) {
+    .grow-business {
         &__inner {
             padding: 0 60px;
         }
@@ -499,8 +517,8 @@
         width: 50%;
     }
 
-    .login_panel{
-        .save-orange .orangeBttn{
+    .login_panel {
+        .save-orange .orangeBttn {
             height: 49px;
             font-size: 14px;
         }
@@ -522,28 +540,32 @@
     }
 }
 
-@media (max-width: 445px){
-    .grow-business{
+@media (max-width: 445px) {
+    .grow-business {
         &__inner {
             padding: 0 40px;
         }
+
         &__image img {
             width: 60px;
         }
+
         &__number {
             font-size: 30px;
         }
+
         &__subtitle {
             font-size: 14px;
         }
     }
 }
 
-@media (max-width: 425px){
-    .sell-on{
+@media (max-width: 425px) {
+    .sell-on {
         &__points {
             padding-left: 30px;
-            li{
+
+            li {
                 font-size: 20px;
                 margin-bottom: 10px;
             }
@@ -556,12 +578,13 @@
 }
 
 
-@media (max-width: 382px){
-    .loginfield{
-        h2{
+@media (max-width: 382px) {
+    .loginfield {
+        h2 {
             font-size: 18px;
         }
-        .loginfield-detail{
+
+        .loginfield-detail {
             padding: 30px 20px;
         }
     }
@@ -579,14 +602,16 @@
         line-height: 34px;
     }
 
-    .grow-business{
+    .grow-business {
         padding-bottom: 0px;
+
         &__inner {
             padding: 0 30px;
         }
 
         &__number {
             font-size: 26px;
+
             span {
                 font-size: 16px;
             }
@@ -597,16 +622,16 @@
         }
     }
 
-    .sell-on{
-        &__points li{
+    .sell-on {
+        &__points li {
             font-size: 18px;
         }
     }
 }
 
-@media (max-width: 320px){
-    .grow-business{
-        &__subtitle{
+@media (max-width: 320px) {
+    .grow-business {
+        &__subtitle {
             font-size: 13px;
         }
     }
@@ -617,8 +642,8 @@
         margin-bottom: 25px;
     }
 
-    .sell-on{
-        &__points li{
+    .sell-on {
+        &__points li {
             font-size: 16px;
         }
     }

@@ -21,6 +21,7 @@ export class LeadSidebarComponent implements OnInit {
   search: string;
   submitQuoteMsg: string;
   @Input() childMessage: string;
+  activeLeads: boolean[];
 
   constructor(private userService: UserService,
     private customdate: CustomDatePipe,
@@ -82,7 +83,7 @@ export class LeadSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.bookmarkClicked = [];
-
+    this.activeLeads = [];
     this.data.currentMessage.subscribe(message => this.message = message);
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
     this.data.searchLeads.subscribe(search => this.search = search);
@@ -175,6 +176,11 @@ export class LeadSidebarComponent implements OnInit {
     }
 
 
+  }
+
+  viewQuote(index) {
+    this.activeLeads = [];
+    this.activeLeads[index] = true;
   }
 
   bookmarkToggle(index, skuId) {

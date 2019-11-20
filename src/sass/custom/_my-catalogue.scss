@@ -301,12 +301,6 @@
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }
 
-    &.active,
-    &:active,
-    &:focus {
-        background-color: #E0F8FF;
-        box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
-    }
 
     p {
         color: #4A4A4A;
@@ -779,19 +773,20 @@
 
 }
 
-.close-btn.mat-menu-item{
+.close-btn.mat-menu-item {
     background-color: transparent !important;
     width: auto !important;
     position: absolute;
     right: -10px;
     top: 42px;
-    .mat-icon{
+
+    .mat-icon {
         margin-left: -11px;
         margin-top: -16px;
         font-size: 20px;
     }
 
-    .mat-menu-ripple{
+    .mat-menu-ripple {
         width: 30px;
         height: 30px;
         border: 1px solid #e1e1e1;
@@ -799,10 +794,11 @@
     }
 }
 
-.catalogue-box-area{
-    &__other{
+.catalogue-box-area {
+    &__other {
         border: 1px solid #e1e1e1;
-        &:after{
+
+        &:after {
             display: none;
         }
 
@@ -819,7 +815,8 @@
         h6 {
             text-shadow: none;
             font-weight: 600;
-            .btn{
+
+            .btn {
                 font-size: 16px;
                 letter-spacing: 0.5px;
                 height: 42px;
