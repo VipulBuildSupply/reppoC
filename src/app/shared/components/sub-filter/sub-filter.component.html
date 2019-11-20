@@ -1,0 +1,21 @@
+<div class="filter-box">
+    <ul>
+        <li class="accordion mb-0">City</li>
+        <mat-form-field class="search-filters">
+            <input matInput placeholder="Search" (input)="searchFilter($event.target.value)">
+            <span matPrefix><mat-icon>search</mat-icon></span>
+        </mat-form-field>
+        
+        <div class="panel" *ngIf="filtersList && filtersList.locations">
+            <mat-selection-list #filtersElm class="pt-0"
+                (selectionChange)="filteredProductsLists($event.option)">
+                <mat-list-option [value]="location"
+                    [selected]="isSelected(location.id)"
+                    *ngFor="let location of filtersList.locations"
+                    (selectedFilterLists)="filterLists(filtersElm)">
+                    {{location.name}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+    </ul>
+</div>

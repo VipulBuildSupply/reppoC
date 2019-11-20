@@ -50,8 +50,8 @@
 @media (max-width:767px) {
     .admin-box {
         position: absolute;
-        top: 20px;
-        right: 93px;
+        top: 0px;
+        right: 60px;
     }
 
     .header-main .navbar {
@@ -268,6 +268,26 @@
             margin-bottom: 20px;
         }
     }
+
+    .navbar-dark .navbar-toggler{
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+    }
+
+    .navbar-nav {
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        background-color: #fff;
+        left: 0;
+        border-top: 1px solid #e1e1e1;
+    }
+
+    // .navbar-collapse.collapse.show .widget-header.admin-box{
+    //     position: absolute;
+    //     top: 14px;
+    // }
 }
 
 

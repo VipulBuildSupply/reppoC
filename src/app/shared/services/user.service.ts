@@ -327,10 +327,4 @@ export class UserService {
         return this.dataService.sendPostRequest(API.QUOTE_SUBMIT_ALL_WAREHOUSE(leadID), data).then(res => res);
 
     }
-
-    getLeadsAll(){
-        return this.dataService.getRequest(API.GET_ALL_LEADS).then((res: any) => res);
-    }
-
-
 }

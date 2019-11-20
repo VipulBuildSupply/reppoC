@@ -1,0 +1,94 @@
+<mat-dialog-content>
+    <div class="modal-content">
+        <div class="container">
+
+            <div class="modal-header">
+                <div class="modal-header__inner">
+                    <h5 class="modal-title">All Filters</h5>
+                    <div class="save-orange m-0">
+                        <button type="submit" class="btn orangeBttn" (click)="applyFilters()">apply</button>
+                    </div>
+                </div>
+                <button type="button" class="close" (click)="closeDialog()">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div *ngIf="filterNames" class="output-box">
+                            <div  class="selected-option" *ngFor="let filter of filterNames">
+                                {{filter.name}} 
+                                <span class="cross-option">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelCatFilters(cat)">
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- <div *ngIf="filtersElm" class="output-box">
+                            <div  class="selected-option" *ngFor="let loc of locNames">
+                                {{loc.name}} 
+                                <span class="cross-option">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelLocFilters(loc)">
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <sub-filter *ngIf="filtersList" [filtersList]="filtersList" [title]="City">
+                            
+                        </sub-filter>
+                    </div>
+                    
+
+                    <!-- <div class="col-md-4">
+                        <div class="filter-box">
+                            <ul>
+                                <li class="accordion mb-0">City</li>
+                                <mat-form-field class="search-filters">
+                                    <input matInput placeholder="Search" (input)="searchFilter($event.target.value)">
+                                    <span matPrefix><mat-icon>search</mat-icon></span>
+                                </mat-form-field>
+
+                                <div class="panel" *ngIf="filtersList && filtersList.locations">
+                                    <mat-selection-list #filtersElm class="pt-0"
+                                        (selectionChange)="filteredProductsLists($event.option)">
+                                        <mat-list-option [value]="location" [selected]="isSelected(location.id)"
+                                            *ngFor="let location of filtersList.locations">
+                                            {{location.name}}
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                </div>
+                            </ul>
+                        </div>
+                    </div> -->
+        
+                    <!-- <div class="col-md-4">
+                        <div class="filter-box">
+                            <ul>
+                                <li class="accordion mb-0">Material Type</li>
+                                <mat-form-field class="search-filters">
+                                    <input matInput placeholder="Search" (input)="searchFilter($event.target.value)">
+                                    <span matPrefix><mat-icon>search</mat-icon></span>
+                                </mat-form-field>
+
+                                <div class="panel">
+                                    <mat-selection-list #filtersCatElm class="pt-0"
+                                        (selectionChange)="filteredProductsLists($event.option)">
+                                        <mat-list-option [value]="categories" [selected]="isSelected(categories.id)"
+                                            *ngFor="let categories of filtersList.categories">
+                                            {{categories.name}}
+                                        </mat-list-option>
+                                    </mat-selection-list>
+                                </div>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
