@@ -1,5 +1,71 @@
 <header class="header-main">
-    <nav class="navbar navbar-expand-md navbar-dark bg-white">
+
+    <div class="container-fluid">
+        <div class="row align-items-center position-relative">
+            <div class="col-md-3 col-sm-4 pr-0 logo-section">
+                <div class="logo-main">
+                    <a href="javascript:void(0)"
+                    [routerLink]="['/profile-verification/status']"><img src="/assets/img/logo.svg"></a>
+                </div>
+            </div>
+
+            <div class="col-md-3 d-sm-none d-md-block hide-on-mobile"></div>
+
+            <div class="col-md-6 col-sm-8 position-abs">
+                
+                <div class="d-flex align-items-center justify-content-end">
+                    <ul class="header-main__navigation">
+                        <li class="nav-item active" *ngFor="let item of headerNavBar">
+                            <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active" 
+                                href="javascript:void(0)">
+                            <img [src]=[item.imgUrl]> {{item.name}}</a>
+                        </li>
+                    </ul>
+        
+                    <div class="widget-header admin-box">
+    
+                        <ng-container *ngIf="!user; else userProfile">
+                            <div>
+                                <a [routerLink]="['/auth/enter-mobile']"><i class="fa fa-user" aria-hidden="true"></i>Log In</a>
+                                <span class="dark-transp"> | </span>
+                                <a [routerLink]="['/auth/enter-mobile']">Sign Up</a>
+                            </div>
+                        </ng-container>
+        
+                        <ng-template #userProfile>
+                            <div>
+                                <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
+                                    <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
+                                        (error)="getUserAPI()" class="img-fulid user-profile" alt="">
+                                    <span *ngIf="user.sellerPersonalProfile.firstName"
+                                        class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
+                                    <!-- <ng-template #name>
+                                        <span class="profileName">{{user.phone}}</span>
+                                    </ng-template> -->
+                                    <p>{{user.phone}}</p>
+                                </a>
+        
+                                <mat-menu class="navMenus" #menu="matMenu">
+                                    <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
+                                        mat-menu-item>{{ item.name }}</button>
+                                    <button (click)="logout()" mat-menu-item>Logout</button>
+                                </mat-menu>
+                            </div>
+                        </ng-template>
+        
+                    </div>
+
+                </div>
+
+                <button class="hamburger" (click)="openMenu()" mat-icon-button>
+                    <mat-icon>menu</mat-icon>
+                </button>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- <nav class="navbar navbar-expand-md navbar-dark bg-white">
         <div class="container-fluid">
             <a class="navbar-brand logo-main" href="javascript:void(0)"
                 [routerLink]="['/profile-verification/status']"><img src="assets/img/logo.svg"></a>
@@ -22,19 +88,19 @@
                         <span class="dark-transp"> | </span>
                         <a [routerLink]="['/auth/enter-mobile']">Sign Up</a>
                     </div>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-template #userProfile>
+                <!-- <ng-template #userProfile>
                     <div>
                         <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
                             <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
                                 (error)="getUserAPI()" class="img-fulid user-profile" alt="">
                             <span *ngIf="user.sellerPersonalProfile.firstName"
-                                class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
+                                class="profileName">{{ user.sellerPersonalProfile.firstName }}</span> -->
                             <!-- <ng-template #name>
                                 <span class="profileName">{{user.phone}}</span>
                             </ng-template> -->
-                            <p>{{user.phone}}</p>
+                            <!-- <p>{{user.phone}}</p>
                         </a>
 
                         <mat-menu class="navMenus" #menu="matMenu">
@@ -45,6 +111,9 @@
                     </div>
                 </ng-template>
 
+                <button class="hamburger" (click)="openMenu()" mat-icon-button>
+                    <mat-icon>menu</mat-icon>
+                </button> -->
 
                 <!-- <ul class="drop-edit">
                     <li><a href="#">Profile</a></li>
@@ -56,7 +125,7 @@
                     <li><a href="#">Help Centre</a></li>
                     <li><a href="#">Switch Profiles</a></li>
                 </ul> -->
-            </div>
+            <!-- </div>
         </div>
-    </nav>
+    </nav> -->
 </header>

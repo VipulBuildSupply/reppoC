@@ -17,6 +17,3 @@ export class LeadFiltersComponent implements OnInit {
 
   }
 }
-
-
-

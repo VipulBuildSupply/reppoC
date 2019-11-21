@@ -1,0 +1,9 @@
+<div class="d-flex align-items-center justify-content-end">
+    <ul class="header-main__mobile-navigation">
+        <li class="nav-item active" *ngFor="let item of headerNavBar">
+            <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active" 
+                href="javascript:void(0)">
+            <img [src]=[item.imgUrl]> {{item.name}}</a>
+        </li>
+    </ul>
+</div>

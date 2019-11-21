@@ -142,6 +142,9 @@ export class CataloguesList implements OnInit {
   }
 
   selectUniqueCatalogue(id) {
+    this.catalogueList.forEach(elem => {
+      elem.isSelected = elem.id == id;
+    });
     CommonService.smoothScrollToTop();
     this.errorMin = false;
     this.editMinMaxIsFalse = false;

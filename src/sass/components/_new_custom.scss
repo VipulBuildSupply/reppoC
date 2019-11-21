@@ -44,7 +44,7 @@ body{
     padding: 0 0;
     //transform: translateY(-1em);
    // transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.0s, z-index 0s linear 0.00s;
-    top: 26px;
+    top: 4px;
 }
 
 .mat-menu-panel.mat-menu-below button.mat-menu-item {
@@ -132,10 +132,11 @@ cursor: default;
             width: 115px;
             overflow: hidden;
             float: left;
-            line-height: 32px;
+            line-height: 14px;
+            margin-top: 6px;
         }
         p{
-            line-height: 7px;
+            line-height: 26px;
             text-transform: capitalize;
             width: 180px;
             color: #212121;

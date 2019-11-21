@@ -327,6 +327,4 @@ export class UserService {
         return this.dataService.sendPostRequest(API.QUOTE_SUBMIT_ALL_WAREHOUSE(leadID), data).then(res => res);
 
     }
-
-
 }
