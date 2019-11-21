@@ -109,14 +109,16 @@ export class NewLeadComponent implements OnInit {
 
       this.warehouseData = [];
 
+      if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
+        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
+        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
+        const year = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(6, 10);
+        console.log("Day : " + day + " Month : " + month + " Year : " + year);
+        const dateVal = month + "-" + day + "-" + year;
+        this.datePickerValue = new FormControl(new Date(year, month - 1, day));
+        this.datePickerValueLeads = dateVal;
+      }
 
-      const day = res.data.request.expireDt.substring(0, 2);
-      const month = res.data.request.expireDt.substring(3, 5);
-      const year = res.data.request.expireDt.substring(6, 10);
-      console.log("Day : " + day + " Month : " + month + " Year : " + year);
-      const dateVal = month + "-" + day + "-" + year;
-      this.datePickerValue = new FormControl(new Date(year, month - 1, day));
-      this.datePickerValueLeads = dateVal;
       this.createWarehouseData(this.showLeadObjDetails.data.warehouseList);
 
       if (this.showLeadObjDetails.data.request.samePriceAllWarehouse) {
