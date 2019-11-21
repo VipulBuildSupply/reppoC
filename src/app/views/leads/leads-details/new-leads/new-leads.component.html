@@ -13,7 +13,7 @@
          </div>
 
      </div>
-     <div class="title mb-2 border-b">Required by {{showLeadObjDetails.data.request.expireDt | gmtToLocal}}</div>
+     <div class="title mb-2 border-b">Required by {{showLeadObjDetails.data.request.requiredEndDt | gmtToLocal}}</div>
 
 
 
@@ -252,14 +252,26 @@
                      </div>
                      <div class="col-md-6">
                          <div class="form-group lableup mt-md-4">
-                             <mat-form-field>
-                                 <input matInput #ref class="form-control inputLableUp" [min]="minDate"
-                                     [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                     (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
-                                     [formControl]="datePickerValue" required>
-                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                 <mat-datepicker #picker></mat-datepicker>
-                             </mat-form-field>
+                             <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
+                                 <mat-form-field>
+                                     <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                         [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                         (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
+                                         [formControl]="datePickerValue" required>
+                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                     <mat-datepicker #picker></mat-datepicker>
+                                 </mat-form-field>
+                             </ng-container>
+                             <ng-container *ngIf="message == 'NewLeads'">
+                                 <mat-form-field>
+                                     <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                         [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                         (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
+                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                     <mat-datepicker #picker></mat-datepicker>
+                                 </mat-form-field>
+                             </ng-container>
+
 
                          </div>
                      </div>
@@ -318,13 +330,25 @@
          <div class="house-address p-3" *ngIf="showLeadObjDetails.data.warehouseList.length>0;else showIndividualAdd">
              <div class="col-md-6">
                  <div class="form-group lableup mt-md-4">
-                     <mat-form-field>
-                         <input matInput #ref class="form-control inputLableUp" [min]="minDate" [matDatepicker]="picker"
-                             placeholder="Quote Valid Till" (focus)="picker.open()" (dateChange)="datePicker(ref.value)"
-                             [formControl]="datePickerValue">
-                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                         <mat-datepicker #picker></mat-datepicker>
-                     </mat-form-field>
+                     <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
+                         <mat-form-field>
+                             <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                 [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                 (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
+                                 [formControl]="datePickerValue" required>
+                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                             <mat-datepicker #picker></mat-datepicker>
+                         </mat-form-field>
+                     </ng-container>
+                     <ng-container *ngIf="message == 'NewLeads'">
+                         <mat-form-field>
+                             <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                 [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                 (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
+                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                             <mat-datepicker #picker></mat-datepicker>
+                         </mat-form-field>
+                     </ng-container>
                  </div>
              </div>
              <br>
