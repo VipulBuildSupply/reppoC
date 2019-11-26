@@ -12,7 +12,7 @@
                 
                 <ng-container *ngFor="let category of categories">
                     <div class="col-sm-6 col-md-4">
-                        <div class="catalogue-box-area">
+                        <div class="catalogue-box-area" [class.disableCategories]="category.isDisable == true">
                             <div class="catalogue-box-inner" 
                                 (click)="category.isSelected = !category.isSelected"
                                 [class.active]="category.isSelected">

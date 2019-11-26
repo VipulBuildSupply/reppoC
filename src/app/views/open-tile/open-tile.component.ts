@@ -82,8 +82,7 @@ export class OpenTileComponent implements OnInit {
     d.afterClosed().toPromise().then((data: any) => {
       if (data) {
           this.otherCategoryValue = data;
-          this.categories.push({id: null, name: this.otherCategoryValue, isSelected: true});
-          console.log(this.categories);
+          this.categories.push({id: null, name: this.otherCategoryValue, isSelected: true, isDisable: true});
       }
     });
   }

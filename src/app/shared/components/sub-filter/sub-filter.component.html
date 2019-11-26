@@ -1,0 +1,20 @@
+<div class="filter-box">
+    <ul>
+        <li class="accordion mb-0">{{title}}</li>
+        <mat-form-field class="search-filters">
+            <input matInput placeholder="Search" (input)="searchFilter($event.target.value)">
+            <span matPrefix><mat-icon>search</mat-icon></span>
+        </mat-form-field>
+        
+        <div class="panel" *ngIf="filtersList && filtersList.length">
+            <mat-selection-list #filtersElm class="pt-0" (selectionChange)="filteredProductsLists()">
+                
+                <mat-list-option [value]="filter" [selected]="isSelected(filter.id)"
+                    *ngFor="let filter of filtersList">
+                    {{filter.name}}
+                </mat-list-option>
+            
+            </mat-selection-list>
+        </div>
+    </ul>
+</div>

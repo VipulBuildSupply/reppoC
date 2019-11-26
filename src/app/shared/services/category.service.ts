@@ -11,6 +11,9 @@ export class CategoryService {
     getCatIds: any[] = [];
     updateSkusList$ = new Subject<any>();
     selectedFiltersCount$ = new Subject<number>();
+    updateLeadsSkusList$ = new Subject<any>();
+    countLeadFilters$ = new Subject<number>();
+    activeTab$ = new Subject<string>();
 
     constructor(
         private dataService: DataService
@@ -76,5 +79,11 @@ export class CategoryService {
         return this.dataService.getRequest(API.GET_LEADS_FILTERS).then(res => {
             return res;
         });
+    }
+
+    getUpdatedSkusList(data){
+        return this.dataService.getRequest(API.GET_UPDATED_SKUS_LIST, data).then(res => {
+            return res;
+        })
     }
 }
