@@ -31,13 +31,13 @@
                     </div>
                     
                     <div class="col-md-4">
-                        <sub-filter #locationFilter *ngIf="filtersList" [filtersList]="filtersList.locations" [title]="City"
+                        <sub-filter #locationFilter *ngIf="filtersList" [filtersList]="filtersList.locations" [title]="'City'"
                             (onUpdate)="selectedFiltersList($event)" [selectedFiltersList]="data.selectedFiltersData"></sub-filter>
                     </div>
 
                     <div class="col-md-4">
-                        <sub-filter #categoryFilter *ngIf="filtersList" [filtersList]="filtersList.categories" [title]="Material"
-                            (onUpdate)="selectedFiltersList($event)"></sub-filter>
+                        <sub-filter #categoryFilter *ngIf="filtersList" [filtersList]="filtersList.categories" [title]="'Material'"
+                            (onUpdate)="selectedFiltersList($event)" [selectedFiltersList]="data.selectedFiltersData"></sub-filter>
                     </div>
 
                 </div>

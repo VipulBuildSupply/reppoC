@@ -144,6 +144,7 @@ export class LeadSidebarComponent implements OnInit {
     }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
+        // this._categoryService.activeTab$.next("NewLeads");
         this.userService.getNewLeads().then(res => {
           if (res) {
             if (res.data.length > 0) {
@@ -163,6 +164,7 @@ export class LeadSidebarComponent implements OnInit {
         });
       } 
       else if (this.message === "ActedLeads") {
+        // this._categoryService.activeTab$.next("ActedLeads");
         this.userService.getActedLeads().then(res => {
           if (res) {
             if (res.data.length > 0) {

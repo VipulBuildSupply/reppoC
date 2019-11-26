@@ -1,9 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { LocationsLists, Filters, CategoriesLists, UpdatedData } from '../../models/leads';
+import { LocationsLists, CategoriesLists, UpdatedData } from '../../models/leads';
 import { MatSelectionList } from '@angular/material';
-
-
-
 
 @Component({
   selector: 'sub-filter',
@@ -26,8 +23,6 @@ export class SubFilterComponent implements OnInit {
   }
 
   isSelected(id) {
-    console.log(this.filtersList);
-    
     if (this.selectedFiltersList && this.selectedFiltersList.length) {
       return this.selectedFiltersList.some(selectedFilterId => selectedFilterId === id);
     } else {

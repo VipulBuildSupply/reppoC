@@ -4,6 +4,7 @@ import { CategoryService } from '../../services/category.service';
 import { Filters, CategoriesLists, LocationsLists, UpdatedData } from '../../models/leads';
 import { SubFilterComponent } from '../../components/sub-filter/sub-filter.component';
 import { LeadFilterSku } from '../../models/lead-filter-sku';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lead-filters',
@@ -18,8 +19,7 @@ export class LeadFiltersComponent implements OnInit {
   filteredSkus: LeadFilterSku;
   selectedLocCode: string[] = [];
   selectedCatId: number[] = [];
-  selectedLocationLists: LocationsLists[];
-  selectedCategoryLists: CategoriesLists[];
+  // subscriptions: Subscription[] = [];
 
   constructor(public dialogRef: MatDialogRef<LeadFiltersComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -43,25 +43,16 @@ export class LeadFiltersComponent implements OnInit {
       });
 
       this.filtersList = res.data;
-      // this.allFilterList = this.filtersList;
 
-      if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
-        
+      // this.data.selectedFiltersData = this.data.filterCount == 0 ? [] : this.data.selectedFiltersData;
+
+      if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) { 
         const locationsList = this.filtersList.locations.filter(item => this.data.selectedFiltersData.indexOf(item.id) != -1);
         const categoriesList = this.filtersList.categories.filter(item => this.data.selectedFiltersData.indexOf(item.id) != -1);
         this.selectedFilters = [...locationsList, ...categoriesList];
-        console.log(this.selectedFilters);
       }
     });
   }
-
-  // isSelected(id): boolean {
-  //   if (this.data.selectedFiltersData && this.data.selectedFiltersData.length) {
-  //     return this.data.selectedFiltersData.some(selectedFilterId => selectedFilterId === id);
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   /**
    * @description function to close popup window
@@ -84,15 +75,16 @@ export class LeadFiltersComponent implements OnInit {
         this.selectedCatId.push(item.id);
       }
     });
-    this._categoryService.countLeadFilters$.next(this.selectedFilters.length);
+
+    // this._categoryService.countLeadFilters$.next(this.selectedFilters.length);
 
     if(this.selectedLocCode && this.selectedCatId){
       this.displayUpdatedSkus(this.selectedLocCode, this.selectedCatId);
     }
 
     const filtersId = this.selectedFilters.map(item => item.id);
-
-    this.closeDialog(filtersId);
+    const dataAfterClosed = [{ tab: this.data.activeLeadtab}, { filtersId: filtersId}];
+    this.closeDialog(dataAfterClosed);
   }
 
   /**
@@ -114,7 +106,6 @@ export class LeadFiltersComponent implements OnInit {
       this.categoryFilter.deselectFilters(selectedOption.id)
     }
   }
-
 
   /**
    * @description function to get the skus list based on selected category filters
