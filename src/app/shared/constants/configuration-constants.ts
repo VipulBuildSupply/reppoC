@@ -73,7 +73,8 @@ export const API = {
     QUOTE_SUBMIT_ALL_WAREHOUSE: (leadid) => `product/api/quoterequest/${leadid}/price`,
     GET_LEADS_FILTERS: 'product/api/quoterequest/filters',
     GET_LEADS_DATA: 'product/api/quoterequest/list',
-    GET_ALL_LEADS: `product/api/quoterequest/list/all`
+    GET_ALL_LEADS: `product/api/quoterequest/list/all`,
+    GET_UPDATED_SKUS_LIST: 'product/api/quoterequest/list'
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

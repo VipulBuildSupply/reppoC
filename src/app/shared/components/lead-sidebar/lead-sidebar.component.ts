@@ -5,6 +5,8 @@ import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-lead-sidebar',
@@ -12,8 +14,6 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   providers: [CustomDatePipe]
 })
 export class LeadSidebarComponent implements OnInit {
-
-
   new_leads: any;
   new_leadsTemp: any;
   bookmarkClicked: boolean[] = [];
@@ -22,12 +22,14 @@ export class LeadSidebarComponent implements OnInit {
   submitQuoteMsg: string;
   @Input() childMessage: string;
   activeLeads: boolean[];
+  subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService,
     private customdate: CustomDatePipe,
     private data: DataService,
     private _router: Router,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private _categoryService: CategoryService) { }
 
   ngDoCheck() {
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
@@ -80,14 +82,13 @@ export class LeadSidebarComponent implements OnInit {
     }
   }
 
-
   ngOnInit() {
     this.bookmarkClicked = [];
     this.activeLeads = [];
     this.data.currentMessage.subscribe(message => this.message = message);
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
     this.data.searchLeads.subscribe(search => this.search = search);
-
+    
     if (this.submitQuoteMsg === "SUBMIT") {
       this.userService.getNewLeads().then(res => {
         if (res) {
@@ -108,6 +109,18 @@ export class LeadSidebarComponent implements OnInit {
     }
 
     this.getNewLeads();
+    this.startSubscriptions();
+  }
+
+  startSubscriptions() {
+    this.subscriptions.push(
+      this._categoryService.updateLeadsSkusList$.subscribe(data => {
+        if (data) {
+          this.new_leads = data;
+          this.new_leadsTemp = data;
+        }
+      })
+    )
   }
 
   getNewLeads() {
@@ -148,7 +161,8 @@ export class LeadSidebarComponent implements OnInit {
           }
 
         });
-      } else if (this.message === "ActedLeads") {
+      } 
+      else if (this.message === "ActedLeads") {
         this.userService.getActedLeads().then(res => {
           if (res) {
             if (res.data.length > 0) {
@@ -172,6 +186,7 @@ export class LeadSidebarComponent implements OnInit {
           }
 
         });
+        this.startSubscriptions();
       }
     }
 

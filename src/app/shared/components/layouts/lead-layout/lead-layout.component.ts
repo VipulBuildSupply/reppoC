@@ -5,6 +5,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { DataService } from 'src/app/shared/services/data.service';
 import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
 import { MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { CategoryService } from 'src/app/shared/services/category.service';
 
 @Component({
   selector: 'app-lead-layout',
@@ -13,16 +15,16 @@ import { MatDialog } from '@angular/material';
 export class LeadLayoutComponent implements OnInit {
   new_tab = "inactive";
   acted_tab = "inactive";
-
   message: string;
   search: String;
-
   selectedFilters: any;
-
+  subscriptions: Subscription[] = [];
+  count: number;
 
   constructor(private data: DataService,
     private _dialog: MatDialog,
-    private _userService: UserService
+    private _userService: UserService,
+    private _categoryService: CategoryService
   ) { }
 
   ngDoCheck() {
@@ -35,6 +37,7 @@ export class LeadLayoutComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.startSubscriptions();
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
     this.data.currentMessage.subscribe(message => this.message = message);
@@ -55,9 +58,16 @@ export class LeadLayoutComponent implements OnInit {
       }
 
     });
-
-
   }
+
+  startSubscriptions() {
+    this.subscriptions.push(
+      this._categoryService.countLeadFilters$.subscribe(value => {
+        this.count = value;
+      })
+    )
+  }
+
   toggleleadsnew() {
     this.acted_tab = "inactive-tab";
     this.new_tab = "active-tab";
@@ -71,7 +81,7 @@ export class LeadLayoutComponent implements OnInit {
 
   filters() {
     const d = this._dialog.open(LeadFiltersComponent, {
-      data: { selectedFiltersData: this.selectedFilters },
+      data: { selectedFiltersData: this.selectedFilters, activeLeadtab: this.message },
       disableClose: true,
       panelClass: 'catalogue-filters-popup',
       height: '90vh'

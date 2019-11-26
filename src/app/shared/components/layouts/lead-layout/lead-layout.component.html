@@ -18,10 +18,13 @@
                   placeholder="Search">
               </div>
               
-              <!-- <a href="javascript:void(0)" (click)="filters()" role="button" style="color:rgba(125,125,125,0.95);"> <img
-                  src="assets/img/svg-img/ic_filter.svg" alt="">
+              <a href="javascript:void(0)" (click)="filters()" role="button" style="color:rgba(125,125,125,0.95);"> 
+                <!-- <img src="assets/img/svg-img/ic_filter.svg" alt=""> -->
+                <img [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'"
+                    alt="">
+                <span class="filter-no" *ngIf="count">{{count}}</span>
                 Filters
-              </a> -->
+              </a>
             </div>
 
           </div>
