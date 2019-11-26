@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BankDetails } from '../../models/address';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { SellerPersonalProfile } from '../../models/user.model';
 
 @Component({
     selector: 'app-bank-details-show',
@@ -9,15 +10,15 @@ import { Router } from '@angular/router';
 })
 export class BankDetailsShowComponent implements OnInit {
 
-    selectedProfile: any;
+    selectedProfile: SellerPersonalProfile;
     addressType: string;
-    constructor(private _userService: UserService,
-        private _router: Router,
-        private userService: UserService) { }
-
     @Input('bankDetail') bankDetail: BankDetails;
     @Output('onDelete') deleteBankDetails = new EventEmitter<number>();
     @Input('isOptions') isOptions: boolean;
+
+    constructor(private _userService: UserService,
+        private _router: Router,
+        private userService: UserService) { }
 
     ngOnInit(): void {
         this.selectedProfile = this.userService.selectedProfile;
