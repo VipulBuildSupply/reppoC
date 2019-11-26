@@ -1,34 +1,34 @@
-import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Address } from 'src/app/shared/models/address';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { DeleteWarehouseAddressComponent } from 'src/app/shared/dialogs/delete-warehouse-address/delete-warehouse-address.component';
+import { SellerPersonalProfile } from 'src/app/shared/models/user.model';
 
 @Component({
     selector: 'app-address-profile',
     templateUrl: './address-profile.component.html'
 })
 export class AddressProfileComponent implements OnInit, OnDestroy {
-    selectedProfile: any;
     constructor(private activatedRoute: ActivatedRoute,
         private userService: UserService,
         private router: Router,
         private _dialog: MatDialog) { }
-
+        
+    selectedProfile: SellerPersonalProfile;
     addresses: Address[];
     addressType: string;
-    // onDelete:EventEmitter<string> = new EventEmitter();
-
     subscriptions: Subscription[] = [];
+    // onDelete:EventEmitter<string> = new EventEmitter();
 
     ngOnInit(): void {
 
         this.selectedProfile = this.userService.selectedProfile;
 
         this.userService.getUserData().then(res => {
-            if(res.sellerPersonalProfile.hideRequestVerification == false){
+            if (res.sellerPersonalProfile.hideRequestVerification == false) {
                 this.userService.enableProfile$.next(true);
             }
         });
@@ -44,7 +44,6 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
             }),
 
             this.userService.editAddress$.subscribe((addrs: Address) => {
-
                 this.userService.addressToEdit = addrs;
             }),
 
@@ -53,26 +52,18 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
                 this.router.navigateByUrl('blank').then(() => {
                     this.router.navigate([url]);
                 })
-
-
             })
-
         );
-
-
-
     }
 
     ngOnDestroy(): void {
         //Called once, before the instance is destroyed.
         //Add 'implements OnDestroy' to the class.
         this.subscriptions.forEach(subs => subs.unsubscribe())
-
     }
 
     deleteAddrs(addressId: number): void {
-
-        if(this.addressType === 'warehouse'){
+        if (this.addressType === 'warehouse') {
             /**
              * Open popup if deleted address is warehouse address
              */
@@ -88,8 +79,7 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
                     this.userService.getUserPercentage().then(res => this.userService.updatePercentage$.next(res));
                 }
             });
-        }else{
-
+        } else {
             /**
              * No popup when deleted address is billing address
              */
@@ -98,6 +88,6 @@ export class AddressProfileComponent implements OnInit, OnDestroy {
                 this.addresses.splice(deletedIndex, 1);
                 this.userService.getUserPercentage().then(res => this.userService.updatePercentage$.next(res));
             });
-        }   
+        }
     }
 }

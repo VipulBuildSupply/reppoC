@@ -19,7 +19,7 @@ export class AddAddressComponent implements OnInit {
     addressForm: FormGroup;
     addrs: Address;
     selectedProfile;
-    asdeliveryRangeAddress: false;
+    asdeliveryRangeAddress: boolean = false;
     additionalAddress;
     states;
     cities;

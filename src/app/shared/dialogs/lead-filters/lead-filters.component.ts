@@ -76,8 +76,6 @@ export class LeadFiltersComponent implements OnInit {
       }
     });
 
-    // this._categoryService.countLeadFilters$.next(this.selectedFilters.length);
-
     if(this.selectedLocCode && this.selectedCatId){
       this.displayUpdatedSkus(this.selectedLocCode, this.selectedCatId);
     }

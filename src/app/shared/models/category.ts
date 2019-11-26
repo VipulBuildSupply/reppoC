@@ -8,6 +8,7 @@ export class Category {
     isSelected?: boolean;
     categoryId?: number;
     categoryName?: string;
+    isDisable?: boolean;
 
     /*constructor({
         code = '',

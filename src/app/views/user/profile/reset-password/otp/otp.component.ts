@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { ResetPasswordComponent } from '../reset-password.component';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
+import { OtpTimer } from 'src/app/shared/models/otp';
 @Component({
     selector: 'app-otp',
     templateUrl: './otp.component.html'
@@ -14,51 +15,51 @@ export class OtpComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private commonService: CommonService,
         private userService: UserService,
-        private resetPasswordComponent:ResetPasswordComponent) { }
+        private resetPasswordComponent: ResetPasswordComponent) { }
 
-        time = {
-            min: 0,
-            sec: 60
-        };
-        otpVerifyForm: FormGroup;
-        timer;
-        otp1 = '';
-        otp2 = '';
-        otp3 = '';
-        otp4 = '';
-        resendotp=false;
-        errorMsg : any;
-        isForget:boolean;
-    
-        @Input('phone') phone: string;
-        
+    time: OtpTimer = {
+        min: 0,
+        sec: 60
+    };
+    otpVerifyForm: FormGroup;
+    timer;
+    otp1 = '';
+    otp2 = '';
+    otp3 = '';
+    otp4 = '';
+    resendotp: boolean = false;
+    errorMsg: string;
+    isForget: boolean;
+
+    @Input('phone') phone: string;
+
     ngOnInit(): void {
         this.startTimer();
-        this.phone= this.userService.user.phone;
-        this.isForget = this.signinService.isForgot ;
+        this.phone = this.userService.user.phone;
+        this.isForget = this.signinService.isForgot;
         this.commonService.otmTimer.subscribe(val => val ? this.startTimer() : this.stopTimer());
 
         this.otpVerifyForm = this._formBuilder.group({
-            otp1: [ this.otp1, {
-                Validators: [ Validators.required, Validators.maxLength(1), Validators.minLength(1) ]
-            } ],
-            otp2: [ this.otp1, {
-                Validators: [ Validators.required, Validators.maxLength(1), Validators.minLength(1) ]
-            } ],
-            otp3: [ this.otp1, {
-                Validators: [ Validators.required, Validators.maxLength(1), Validators.minLength(1) ]
-            } ],
-            otp4: [ this.otp1, {
-                Validators: [ Validators.required, Validators.maxLength(1), Validators.minLength(1) ]
-            } ]
+            otp1: [this.otp1, {
+                Validators: [Validators.required, Validators.maxLength(1), Validators.minLength(1)]
+            }],
+            otp2: [this.otp1, {
+                Validators: [Validators.required, Validators.maxLength(1), Validators.minLength(1)]
+            }],
+            otp3: [this.otp1, {
+                Validators: [Validators.required, Validators.maxLength(1), Validators.minLength(1)]
+            }],
+            otp4: [this.otp1, {
+                Validators: [Validators.required, Validators.maxLength(1), Validators.minLength(1)]
+            }]
         });
-     }
-      /**
-     * @description: This function is used to start OTP timer
-     */
+    }
+    /**
+   * @description: This function is used to start OTP timer
+   */
     startTimer() {
         this.resetTimer();
-        if(this.timer){
+        if (this.timer) {
             clearInterval(this.timer);
         }
 
@@ -68,7 +69,7 @@ export class OtpComponent implements OnInit {
             if (this.time.sec <= 0) {
                 this.time.sec = 0;
                 this.time.min = 1;
-                
+
                 clearInterval(this.timer);
                 this.resendotp = true;
             }
@@ -83,7 +84,6 @@ export class OtpComponent implements OnInit {
         this.time = { min: 0, sec: 60 };
     }
 
-
     /**
      * @description: This function is used to stop OTP Timer
      */
@@ -96,11 +96,11 @@ export class OtpComponent implements OnInit {
      * @description This function is used for Resend OTP
      */
 
-    resendOtp(){
+    resendOtp() {
         this.otpVerifyForm.reset();
         this.resendotp = false;
         this.signinService.createOTP(this.phone).then(res => {
-            if(res.status == 1001){
+            if (res.status == 1001) {
                 return res;
             } else {
                 throw res;
@@ -124,17 +124,12 @@ export class OtpComponent implements OnInit {
                 phone: this.phone,
             }).then(res => {
                 if (res.success) {
-                    this.resetPasswordComponent.resetPass=true;
-                    // if(this.signinService.isForgot){
-                    //     this.moveTo('forgot');
-                    // }else{
-                    //     this.moveTo('signup');
-                    // }
+                    this.resetPasswordComponent.resetPass = true;
 
-                }else {
+                } else {
                     // show error
                     this.errorMsg = res.message;
-                    if(this.errorMsg){
+                    if (this.errorMsg) {
                         this.otpVerifyForm.reset();
                     }
                     FormHelper.validateAllFormFields(this.otpVerifyForm);

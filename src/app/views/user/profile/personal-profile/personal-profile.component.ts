@@ -20,7 +20,7 @@ export class PersonalProfileComponent implements OnInit {
     photoForm: FormGroup;
     _isEdit: boolean = false;
     msg: string;
-    localImg;
+    localImg: string | ArrayBuffer;
     firstName: string;
 
     constructor(private userService: UserService,
@@ -86,7 +86,6 @@ export class PersonalProfileComponent implements OnInit {
         this.subscriptions.push(
 
             this.activatedRout.url.subscribe(url => {
-
             }),
 
             this.activatedRout.params.subscribe(prm => {
@@ -109,7 +108,6 @@ export class PersonalProfileComponent implements OnInit {
     formInit() {
 
         this.userForm = this._formBuilder.group({
-
             firstName: [{
                 value: this.user.sellerPersonalProfile.firstName,
                 disabled: (!this._isEdit)
@@ -145,7 +143,6 @@ export class PersonalProfileComponent implements OnInit {
 
     onFileSelect(event) {
         if (event.target.files.length > 0) {
-
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]);
             reader.onload = (event) => {

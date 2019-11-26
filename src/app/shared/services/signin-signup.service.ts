@@ -23,13 +23,11 @@ export class SigninSignupService {
         private router: Router,
         private notify: NotificationService,
         private _categoryService: CategoryService) {
-
     }
 
     get isLoggedIn() {
         return localStorage.getItem('user') != null;
     }
-
 
     isPhoneExist(phone: string): any {
         this.userPhone = phone;
@@ -58,7 +56,7 @@ export class SigninSignupService {
             Utils.JSON_to_URLEncoded(obj, null, null), { headers }).then(res => {
                 if (res.data.jwtToken) {
                     return this._localLogin(res.data.jwtToken).then(userDetails => {
-                        if(userDetails.userType === "BUYER"){
+                        if (userDetails.userType === "BUYER") {
                             res.data.userType = "BUYER";
                             return res.data;
                         }
@@ -73,10 +71,10 @@ export class SigninSignupService {
         data.userType = ConfigurationConstants.USER_TYPE;
         return this.dataService.sendPostRequest(`${API.SIGNUP}`, data).then(res => {
             if (res.status == 1001) {
-               return this._localLogin(res.data.jwtToken).then(_ => {
-                return res;
-               });
-                
+                return this._localLogin(res.data.jwtToken).then(_ => {
+                    return res;
+                });
+
             } else {
                 throw res;
             }
@@ -87,15 +85,15 @@ export class SigninSignupService {
         data.userType = ConfigurationConstants.USER_TYPE;
         return this.dataService.sendPostRequest(API.SIGNIN, data).then(res => {
             if (res.status == 1001) {
-                if(res.data.loggedInUserType == 'BUYER'){
+                if (res.data.loggedInUserType == 'BUYER') {
                     return res;
-                }else{
+                } else {
                     return this._localLogin(res.data.jwtToken).then(_ => {
                         this.notify.snack('Logged In Successfully');
                         return res;
                     });
                 }
-            }else {
+            } else {
                 throw res;
             }
         });
@@ -106,15 +104,14 @@ export class SigninSignupService {
         return this.dataService.sendPostRequest(API.RESET_PASSWORD, data).then(res => {
             if (res.data.jwtToken) {
                 return this._localLogin(res.data.jwtToken).then(userDetails => {
-                    if(userDetails.userType === "BUYER"){
+                    if (userDetails.userType === "BUYER") {
                         res.data.userType = "BUYER";
-                        // this.notify.snack('Reset Password Successfully');
                         return res.data;
                     }
                     this.notify.snack('Reset Password Successfully');
                     return res
                 });
-            }else{
+            } else {
                 return res;
             }
         });
@@ -123,7 +120,7 @@ export class SigninSignupService {
     refreshUserToken(companyId, selectedProfileType) {
         return this.dataService.sendPostRequest(`${API.REFRESH_USER_TOKEN}${companyId}`, {}).then(res => {
             if (res.data.jwtToken) {
-               return this._localLogin(res.data.jwtToken).then(_ => {
+                return this._localLogin(res.data.jwtToken).then(_ => {
                     return res
                 });
             }
@@ -138,7 +135,7 @@ export class SigninSignupService {
     }
 
     logout() {
-        this.router.navigate([ '/auth/enter-mobile' ]).then(_ => {
+        this.router.navigate(['/auth/enter-mobile']).then(_ => {
             this.token.clearToken();
             this.userService.removeUser();
             this._categoryService.removeCategories();

@@ -2,16 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
-import { Address, BankDetails, BankName } from 'src/app/shared/models/address';
-import { ConfigurationConstants, FieldRegExConst } from 'src/app/shared/constants';
+import { BankDetails } from 'src/app/shared/models/address';
+import { ConfigurationConstants } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
+import { SellerPersonalProfile } from 'src/app/shared/models/user.model';
 
 @Component({
     selector: 'app-add-bank-details',
     templateUrl: './add-bank-details.component.html'
 })
 export class AddBankDetailsComponent implements OnInit {
-    cancelledChequeDeleted: boolean;
+
     constructor(private _formBuilder: FormBuilder,
         private _activatedRout: ActivatedRoute,
         private _router: Router,
@@ -22,18 +23,15 @@ export class AddBankDetailsComponent implements OnInit {
     bankNames: any;
     ifscPrefix: any;
     bankNameCode: any;
-    selectedProfile;
+    selectedProfile: SellerPersonalProfile;
     cities;
     submitBtn = false;
     isEdit: boolean;
     fileName: any;
-    // percentage: number;
+    cancelledChequeDeleted: boolean;
 
     ngOnInit(): void {
 
-        // if((this.bankDetailsForm.valid) && (this.bankDetails.state.id > 0)){
-        //     this.submitBtn=true;
-        // }
         this.cancelledChequeDeleted = false;
         this.bankDetails = {
             accountHolderName: '',
@@ -48,10 +46,7 @@ export class AddBankDetailsComponent implements OnInit {
         this.bankDetails.companyId = this._userService.selectedProfile.companyId;
         this.bankDetails.userDomain = ConfigurationConstants.USER_TYPE;
         this.selectedProfile = this._userService.selectedProfile;
-
         this._activatedRout.params.subscribe(params => {
-            // this.bankDetails.addressCategory = params.type.toUpperCase();
-
         });
 
         this._activatedRout.url.subscribe(url => {
@@ -67,8 +62,6 @@ export class AddBankDetailsComponent implements OnInit {
                 this.bankNames = res.data;
             }
         });
-
-
 
         this.bankDetailsForm = this._formBuilder.group({
             accountHolderName: [this.bankDetails.accountHolderName, Validators.required],
@@ -88,11 +81,10 @@ export class AddBankDetailsComponent implements OnInit {
             this.fileName = event.target.files[0].name;
             const file = event.target.files[0];
             this.bankDetailsForm.get('cancelledChequePhotoImage').setValue(file);
-
         }
     }
-    deleteCancelledCheque() {
 
+    deleteCancelledCheque() {
         this._userService.deleteCancelledChequeAPI(this.bankDetails.id).then(res => {
             if (res.data.success) {
                 this.cancelledChequeDeleted = true;
@@ -107,7 +99,6 @@ export class AddBankDetailsComponent implements OnInit {
             const defaults: any = {
                 userDomain: ConfigurationConstants.USER_TYPE,
             };
-
             const data = Object.assign(this.bankDetailsForm.value, defaults);
 
             if (this.isEdit) {
@@ -130,19 +121,16 @@ export class AddBankDetailsComponent implements OnInit {
         else {
             FormHelper.validateAllFormFields(this.bankDetailsForm);
         }
-
     }
 
     /**
     *  @description: this function is used to cancel the billing/deliveryRange address after editing
     */
-
     goToBankDetailsPage() {
         this._router.navigate([`/user/profile/bank-details`]);
     }
 
     changeBank(event) {
-
         for (let i = 0; i < this.bankNames.length; i++) {
             if (this.bankNames[i].code === event.value) {
                 this.ifscPrefix = this.bankNames[i].ifscPrefix;
