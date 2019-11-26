@@ -113,7 +113,6 @@ export class NewLeadComponent implements OnInit {
         const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
         const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
         const year = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(6, 10);
-        console.log("Day : " + day + " Month : " + month + " Year : " + year);
         const dateVal = month + "-" + day + "-" + year;
         this.datePickerValue = new FormControl(new Date(year, month - 1, day));
         this.datePickerValueLeads = dateVal;
@@ -352,7 +351,6 @@ export class NewLeadComponent implements OnInit {
       if (this.addPriceForRemainingIndividualQuantity) {
         for (let i = 0; i < form.length - 1; i++) {
           form[i].controls.maxPrice.enable();
-          console.log(form[i].controls.maxPrice.value);
 
           if ((form[i].controls.maxPrice.value) === 2147483647) {
             form[i].controls.maxPrice.setValue(null);
@@ -492,7 +490,6 @@ export class NewLeadComponent implements OnInit {
             this.minMaxValidValue = false;
           }
         }
-        console.log(this.editPricingAllForms);
       }
 
       if (this.pricingForms.length > 0 && this.editPricingAllForms.length == 0) {
@@ -512,8 +509,6 @@ export class NewLeadComponent implements OnInit {
             this.minMaxValidValue = false;
           }
         }
-
-        console.log(this.pricingForms);
       }
     }
     else {
@@ -573,7 +568,6 @@ export class NewLeadComponent implements OnInit {
       for (let i = 0; i < priceforms.length; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-      // console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     }
   }
 
@@ -780,8 +774,6 @@ export class NewLeadComponent implements OnInit {
     for (let i = 0; i < this.warehouseData.length; i++) {
       for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
         if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
-          // console.log(this.warehouseData[i].pricingForms[j].controls.minPrice.value);
-          // console.log(this.warehouseData[i].address.addressId);
           const object = {
             "id": this.leadId,
 
@@ -797,7 +789,6 @@ export class NewLeadComponent implements OnInit {
 
       }
     }
-    console.log(this.sendPricingToIndividualArrayAdd);
     this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
@@ -811,8 +802,6 @@ export class NewLeadComponent implements OnInit {
         this._router.navigate([`/lead`]);
       }
     });
-    //   console.log(this.sendPricingToIndividualArrayAdd);
-
   }
 
   addPricingAllWarehouseAddress() {
@@ -831,9 +820,6 @@ export class NewLeadComponent implements OnInit {
         }
         this.sendPricingToAllArrayEdit.push(object);
       }
-
-
-      //console.log(this.sendPricingToAllArrayEdit);
 
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
         if (res) {
@@ -865,7 +851,6 @@ export class NewLeadComponent implements OnInit {
 
       }
 
-      //console.log(this.sendPricingToAllArray);
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);

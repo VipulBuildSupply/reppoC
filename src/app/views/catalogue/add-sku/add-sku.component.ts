@@ -145,7 +145,6 @@ export class AddSkuComponent implements OnInit {
 
     if (event.value) {
       this.brandIdTemp = event.value;
-      //    console.log(this.brandIdTemp);
     }
     this.searchSku();
   }
@@ -199,7 +198,6 @@ export class AddSkuComponent implements OnInit {
   }
 
   searchResultCheckBox(event, id) {
-    // console.log(event);
     if (event.target.checked) {
       this.SearchResultsIds.push(id);
     } else {
@@ -217,7 +215,6 @@ export class AddSkuComponent implements OnInit {
     else {
       this.ischecked = false;
     }
-    console.log(this.SearchResultsIds);
   }
 
   searchInAddSku(filterValue: string) {

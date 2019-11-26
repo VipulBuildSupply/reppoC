@@ -19,9 +19,9 @@ export class AddBankDetailsComponent implements OnInit {
 
     bankDetailsForm: FormGroup;
     bankDetails: BankDetails;
-    bankNames : any;
-    ifscPrefix : any;
-    bankNameCode :any ;
+    bankNames: any;
+    ifscPrefix: any;
+    bankNameCode: any;
     selectedProfile;
     cities;
     submitBtn = false;
@@ -36,13 +36,13 @@ export class AddBankDetailsComponent implements OnInit {
         // }
         this.cancelledChequeDeleted = false;
         this.bankDetails = {
-           accountHolderName : '',
-           bank:null ,
-           bankName:'',
-           accountNumber : '',
-           ifscCode : '',
-           cancelledChequePhotoImage : '',
-           userDomain: ConfigurationConstants.USER_TYPE,
+            accountHolderName: '',
+            bank: null,
+            bankName: '',
+            accountNumber: '',
+            ifscCode: '',
+            cancelledChequePhotoImage: '',
+            userDomain: ConfigurationConstants.USER_TYPE,
         }
 
         this.bankDetails.companyId = this._userService.selectedProfile.companyId;
@@ -50,7 +50,7 @@ export class AddBankDetailsComponent implements OnInit {
         this.selectedProfile = this._userService.selectedProfile;
 
         this._activatedRout.params.subscribe(params => {
-         // this.bankDetails.addressCategory = params.type.toUpperCase();
+            // this.bankDetails.addressCategory = params.type.toUpperCase();
 
         });
 
@@ -74,55 +74,47 @@ export class AddBankDetailsComponent implements OnInit {
             accountHolderName: [this.bankDetails.accountHolderName, Validators.required],
             bankName: [{ value: (this.bankDetails.bankName ? this.bankDetails.bank.code : '') }, Validators.required],
             accountNumber: [this.bankDetails.accountNumber, Validators.required],
-            ifscCode: [  this.bankDetails.ifscCode , Validators.required],
-            cancelledChequePhotoImage:[this.bankDetails.cancelledChequePhotoImage]
+            ifscCode: [this.bankDetails.ifscCode, Validators.required],
+            cancelledChequePhotoImage: [this.bankDetails.cancelledChequePhotoImage]
         });
 
-        if(this.isEdit){
+        if (this.isEdit) {
             this.bankDetailsForm.get('bankName').setValue(this.bankDetails.bank.code);
-            console.log(this.bankDetails.bank.code);
         }
     }
 
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-          // console.log(event.target.files[0].name);
-          this.fileName = event.target.files[0].name;
-          const file = event.target.files[0];
-          this.bankDetailsForm.get('cancelledChequePhotoImage').setValue(file);
+            this.fileName = event.target.files[0].name;
+            const file = event.target.files[0];
+            this.bankDetailsForm.get('cancelledChequePhotoImage').setValue(file);
 
         }
-      }
-      deleteCancelledCheque(){
+    }
+    deleteCancelledCheque() {
 
         this._userService.deleteCancelledChequeAPI(this.bankDetails.id).then(res => {
             if (res.data.success) {
-               this.cancelledChequeDeleted = true;
-               this.bankDetails.cancelledChequePhotoImage = '';
+                this.cancelledChequeDeleted = true;
+                this.bankDetails.cancelledChequePhotoImage = '';
             }
         });
-      }
+    }
 
     submit() {
-       
-        //return;
         if (this.bankDetailsForm.valid) {
-            //console.log(this.bankDetails.state.id);
 
             const defaults: any = {
-
                 userDomain: ConfigurationConstants.USER_TYPE,
             };
 
-           
             const data = Object.assign(this.bankDetailsForm.value, defaults);
- 
-            if (this.isEdit) {
 
+            if (this.isEdit) {
                 this._userService.editBankDetails(this.bankDetails.id, data).then(res => {
                     if (res.success) {
                         this.goToBankDetailsPage();
-                        
+
                     }
                 });
 
@@ -149,25 +141,13 @@ export class AddBankDetailsComponent implements OnInit {
         this._router.navigate([`/user/profile/bank-details`]);
     }
 
-    changeBank(event){
-        console.log(event.value);
+    changeBank(event) {
 
-        for(let i=0; i<this.bankNames.length ; i++)
-        {
-            if(this.bankNames[i].code === event.value)
-            {
+        for (let i = 0; i < this.bankNames.length; i++) {
+            if (this.bankNames[i].code === event.value) {
                 this.ifscPrefix = this.bankNames[i].ifscPrefix;
             }
         }
-
-        console.log(this.ifscPrefix);
-       // this.bankDetailsForm.get('bankName').setValue(this.bankNameCode);
         this.bankDetailsForm.get('ifscCode').setValue(this.ifscPrefix);
     }
-
-
-    /*getUpdatedProfilePer(){
-        this.percentage = this._userService.getUserPercentage().then(res => res);
-        this._userService.updatePercentage$.next(this.percentage);
-    }*/
 }

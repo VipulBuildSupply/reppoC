@@ -7,6 +7,7 @@ import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-f
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { LocationsLists, CategoriesLists } from 'src/app/shared/models/leads';
 
 @Component({
   selector: 'app-lead-layout',
@@ -17,8 +18,7 @@ export class LeadLayoutComponent implements OnInit {
   acted_tab = "inactive";
   message: string;
   search: String;
-  selectedFilters: any;
-  // subscriptions: Subscription[] = [];
+  selectedFilters: Array<LocationsLists | CategoriesLists>;
   count: number;
   tabName: string;
 
@@ -40,7 +40,6 @@ export class LeadLayoutComponent implements OnInit {
     }
   }
   ngOnInit() {
-    // this.startSubscriptions();
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
     this.data.currentMessage.subscribe(message => this.message = message);
@@ -62,14 +61,6 @@ export class LeadLayoutComponent implements OnInit {
 
     });
   }
-
-  // startSubscriptions() {
-  //   this.subscriptions.push(
-  //     this._categoryService.countLeadFilters$.subscribe(value => {
-  //       this.count = value;
-  //     })
-  //   )
-  // }
 
   toggleleadsnew() {
     this.acted_tab = "inactive-tab";
@@ -105,17 +96,14 @@ export class LeadLayoutComponent implements OnInit {
   applySearchFilter(filterValue: String) {
     if (filterValue.trim) {
       filterValue = filterValue.toLowerCase();
-
       this.search = filterValue;
       this.data.searchAllLeads(this.search);
-
     }
-
   }
-  
 
-  getActiveFiltersCount(){
-    if(this.tabName && this.tabName.length){
+
+  getActiveFiltersCount() {
+    if (this.tabName && this.tabName.length) {
       this.count = this.tabName != this.message ? 0 : this.count;
       this.selectedFilters = this.tabName != this.message ? [] : this.selectedFilters;
     }

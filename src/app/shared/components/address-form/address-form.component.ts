@@ -104,7 +104,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-            // console.log(event.target.files[0].name);
             this.fileName = event.target.files[0].name;
             const file = event.target.files[0];
             this.addressForm.get('addressProof').setValue(file);
@@ -198,12 +197,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 for (let i = 0; i < this.warehouseAdd.length; i++) {
                     if ((this.warehouseAdd[i].addressProofFile != "")) {
                         this.addressProofAlreadyPresent = true;
-
-                        console.log("chita :: " + this.addressProofAlreadyPresent);
                     }
                 }
             });
-            console.log("Outside : " + this.addressProofAlreadyPresent);
         }
     }
 

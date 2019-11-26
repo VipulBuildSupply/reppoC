@@ -63,7 +63,6 @@ export class LeadSidebarComponent implements OnInit {
       else if (this.message === "ActedLeads") {
         this.userService.getActedLeads().then(res => {
           this.new_leads = res;
-          console.log(this.new_leads);
           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
         });
       }

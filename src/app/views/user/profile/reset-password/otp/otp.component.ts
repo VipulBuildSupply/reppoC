@@ -72,7 +72,6 @@ export class OtpComponent implements OnInit {
                 clearInterval(this.timer);
                 this.resendotp = true;
             }
-            //console.log(this.time.sec);
         }, 1000);
     }
 
@@ -101,7 +100,6 @@ export class OtpComponent implements OnInit {
         this.otpVerifyForm.reset();
         this.resendotp = false;
         this.signinService.createOTP(this.phone).then(res => {
-            //console.log(res);
             if(res.status == 1001){
                 return res;
             } else {

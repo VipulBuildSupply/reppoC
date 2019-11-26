@@ -34,3 +34,12 @@ class SubCategories extends Category{
         this.pid = 0;
     }*/
 }
+
+export class SelectedCategoryIds{
+    categoryId: number;
+    categoryName: string;
+    id: number;
+    pid: number;
+    name?: string;
+    isSelected?: boolean;
+}

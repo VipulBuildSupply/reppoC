@@ -88,16 +88,14 @@ export class UserService {
     }
 
     deleteBankDetails(bankId: number) {
-        //   console.log(`${API.DELETE_BANK_DETAILS}/${bankId}`);
         return this.dataService.sendDeleteRequest(API.DELETE_BANK_DETAILS(bankId), {}).then(res => res);
-
     }
 
     getStates() {
-        return this.dataService.getRequest(API.STATE).then(res => res)
+        return this.dataService.getRequest(API.STATE).then(res => res);
     }
     getCities(stateId) {
-        return this.dataService.getRequest(API.CITY(stateId)).then(res => res)
+        return this.dataService.getRequest(API.CITY(stateId)).then(res => res);
     }
 
     addAddress(data) {

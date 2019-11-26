@@ -14,8 +14,7 @@ export class SubFilterComponent implements OnInit {
   @ViewChild('filtersElm', { static: false }) filtersElm: MatSelectionList;
   @Output('onUpdate') onUpdate = new EventEmitter<UpdatedData>();
   allFilterList: Array<LocationsLists | CategoriesLists>;
-  filterNames: any[];
-
+  
   constructor() { }
 
   ngOnInit() {
