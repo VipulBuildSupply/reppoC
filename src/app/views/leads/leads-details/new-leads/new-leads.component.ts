@@ -14,6 +14,7 @@ interface Warehouse {
   pricingForms: FormGroup[]
 }
 
+
 @Component({
   selector: 'app-new-leads',
   templateUrl: './new-leads.component.html'
@@ -48,6 +49,8 @@ export class NewLeadComponent implements OnInit {
   selectedFilters: any;
   message: string;
   submitQuoteMsg: string;
+  paymentTermCode: string;
+  paymentterms: any;
 
   private routeSub: Subscription;
   leadId: number;
@@ -58,6 +61,7 @@ export class NewLeadComponent implements OnInit {
   addPriceToAllWareHouseCheckBoxCheck: boolean;
   warehouseHasPricing: boolean;
   datePickerValueLeads: any;
+  openTextBoxPayment: boolean;
 
   constructor(private route: ActivatedRoute,
     private _formBuilder: FormBuilder, private _router: Router,
@@ -78,12 +82,16 @@ export class NewLeadComponent implements OnInit {
       this.addPriceToAllWareHouseCheckBoxCheck = true;
       this.pricingForms = [];
       this.editPricingAllForms = [];
+      this.Userservice.showPaymentTerms().then(res => {
+        this.paymentterms = res.data;
+      })
       this.getLeadObj(this.leadId);
     });
 
   }
 
   getLeadObj(leadId) {
+    this.openTextBoxPayment = false;
     this.editMinMaxIsFalse = false;
     this.AllIndividualForms = false;
     this.isEditBtnClicked = false;
@@ -143,6 +151,19 @@ export class NewLeadComponent implements OnInit {
 
 
   }
+  paymentTermsSelect(event) {
+    this.paymentTermCode = event.value;
+    if (this.paymentTermCode === 'bs.paymenterm.others') {
+      this.openTextBoxPayment = true;
+    }
+    else {
+      this.openTextBoxPayment = false;
+    }
+  }
+  setOtherPaymentTerms(event) {
+    this.paymentTermCode = event.target.value;
+  }
+
 
   createWarehouseData(warehouselist) {
 
@@ -790,7 +811,8 @@ export class NewLeadComponent implements OnInit {
             "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
             "samePriceAllWarehouse": false,
-            "warehouseId": this.warehouseData[i].address.addressId
+            "warehouseId": this.warehouseData[i].address.addressId,
+            "paymentTerm": this.paymentTermCode
           }
           this.sendPricingToIndividualArrayAdd.push(object);
         }
@@ -827,7 +849,8 @@ export class NewLeadComponent implements OnInit {
           "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
           "minQty": this.editPricingAllForms[i].controls.minPrice.value,
           "price": this.editPricingAllForms[i].controls.price.value,
-          "samePriceAllWarehouse": true
+          "samePriceAllWarehouse": true,
+          "paymentTerm": this.paymentTermCode
         }
         this.sendPricingToAllArrayEdit.push(object);
       }
@@ -859,7 +882,8 @@ export class NewLeadComponent implements OnInit {
           "maxQty": this.pricingForms[i].controls.maxPrice.value,
           "minQty": this.pricingForms[i].controls.minPrice.value,
           "price": this.pricingForms[i].controls.price.value,
-          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox
+          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+          "paymentTerm": this.paymentTermCode
         }
         this.sendPricingToAllArray.push(object);
 

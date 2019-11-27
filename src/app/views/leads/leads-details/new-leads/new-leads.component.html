@@ -271,8 +271,6 @@
                                      <mat-datepicker #picker></mat-datepicker>
                                  </mat-form-field>
                              </ng-container>
-
-
                          </div>
                      </div>
                  </div>
@@ -303,7 +301,20 @@
                          <ul [innerHTML]="showLeadObjDetails.data.request.paymentTerm">
                          </ul>
                      </div>
-
+                     <h6>Please select your expected payment terms</h6>
+                     <mat-form-field>
+                         <mat-label>Payment terms</mat-label>
+                         <mat-select (selectionChange)="paymentTermsSelect($event)">
+                             <mat-option *ngFor="let paymentterm of paymentterms" [value]="paymentterm.code">
+                                 {{paymentterm.displayName}}
+                             </mat-option>
+                         </mat-select>
+                     </mat-form-field>
+                     <br>
+                     <mat-form-field *ngIf="openTextBoxPayment">
+                         <input matInput class="form-control" (input)="setOtherPaymentTerms($event)"
+                             placeholder="Paymemt Terms" required>
+                     </mat-form-field>
 
                      <div class="save-orange">
 
@@ -489,6 +500,20 @@
                  </ul>
              </div>
 
+             <h6>Please select your expected payment terms</h6>
+             <mat-form-field>
+                 <mat-label>Payment terms</mat-label>
+                 <mat-select (selectionChange)="paymentTermsSelect($event)">
+                     <mat-option *ngFor="let paymentterm of paymentterms" [value]="paymentterm.code">
+                         {{paymentterm.displayName}}
+                     </mat-option>
+                 </mat-select>
+             </mat-form-field>
+             <br>
+             <mat-form-field *ngIf="openTextBoxPayment">
+                 <input matInput class="form-control" (input)="setOtherPaymentTerms($event)" placeholder="Paymemt Terms"
+                     required>
+             </mat-form-field>
              <div class="save-orange">
                  <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
                      [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Submit</button>
@@ -505,4 +530,6 @@
              </div>
          </ng-template>
      </div>
+
+
  </ng-container>
