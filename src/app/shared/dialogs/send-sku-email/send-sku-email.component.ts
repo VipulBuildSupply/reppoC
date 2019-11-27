@@ -14,6 +14,8 @@ export class SendSkuEmailComponent implements OnInit {
   profileVerifyForm: FormGroup;
   email: any;
   success: any;
+  isCatalogue: string = '';
+
   constructor(public dialogRef: MatDialogRef<SendSkuEmailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snack: MatSnackBar,
@@ -22,6 +24,12 @@ export class SendSkuEmailComponent implements OnInit {
 
   ngOnInit() {
     this.success = false;
+    
+    if (this.data.catalogueEmail == 'catalogueEmail') {
+
+      this.isCatalogue = 'catalogueEmail';
+      debugger
+    }
   }
 
   addSkuOnEmail() {
@@ -67,6 +75,19 @@ export class SendSkuEmailComponent implements OnInit {
       });
     }
 
+  }
+
+  addCatalogueOnEmail(){
+    this.Userservice.sendSkuToEmail(this.data.dataForCatalogueEmail).then(res => {
+      if (res.data.success == true) {
+        this.success = true;
+        // this.snack.open(res.data.message, 'OK', { duration: 3000 })
+      }
+      else {
+        this.success = false;
+        this.snack.open(res.data.message, 'OK', { duration: 3000 });
+      }
+    });
   }
 
   closeDialog(): void {

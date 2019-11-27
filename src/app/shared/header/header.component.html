@@ -23,36 +23,50 @@
                     </ul>
         
                     <div class="widget-header admin-box">
-    
-                        <ng-container *ngIf="!user; else userProfile">
-                            <div>
-                                <a [routerLink]="['/auth/enter-mobile']"><i class="fa fa-user" aria-hidden="true"></i>Log In</a>
-                                <span class="dark-transp"> | </span>
-                                <a [routerLink]="['/auth/enter-mobile']">Sign Up</a>
-                            </div>
-                        </ng-container>
-        
+
+                        <mat-card matRipple class="profile-card" *ngIf="!user; else userProfile">
+                            <mat-card-header>
+                                <div mat-card-avatar>
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </div>
+                                <mat-card-title [routerLink]="['/auth/enter-mobile']" class="non-login">Login <span>|</span> Signup</mat-card-title>
+                            </mat-card-header>
+                        </mat-card>
+
                         <ng-template #userProfile>
-                            <div>
-                                <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
-                                    <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
-                                        (error)="getUserAPI()" class="img-fulid user-profile" alt="">
-                                    <span *ngIf="user.sellerPersonalProfile.firstName"
-                                        class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
-                                    <!-- <ng-template #name>
-                                        <span class="profileName">{{user.phone}}</span>
-                                    </ng-template> -->
-                                    <p>{{user.phone}}</p>
-                                </a>
-        
-                                <mat-menu class="navMenus" #menu="matMenu">
-                                    <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
-                                        mat-menu-item>{{ item.name }}</button>
-                                    <button (click)="logout()" mat-menu-item>Logout</button>
-                                </mat-menu>
-                            </div>
+                            <mat-card [matMenuTriggerFor]="menu" matRipple class="profile-card">
+                                <mat-card-header>
+                                    <div mat-card-avatar>
+                                        <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
+                                            (error)="getUserAPI()" class="img-fulid user-profile" alt="">
+                                    </div>
+                                    <mat-card-title *ngIf="user.sellerPersonalProfile.firstName; else noName">
+                                        {{ user.sellerPersonalProfile.firstName }}
+                                    </mat-card-title>
+                                    <ng-template #noName>
+                                        <mat-card-title>
+                                            ------
+                                        </mat-card-title>
+                                    </ng-template>
+                                    <mat-card-subtitle>{{user.phone}}</mat-card-subtitle>
+                                    <mat-icon>arrow_drop_down</mat-icon>
+                                </mat-card-header>
+    
+                            </mat-card>
+    
+                            <!-- menu -->
+                            <mat-menu class="user-dd-menu" #menu="matMenu">
+                                <button [disabled]="!item.link" [routerLink]="[ item.link ]"
+                                    *ngFor="let item of profileDropdown" mat-menu-item>{{ item.name }}</button>
+    
+                                <button *ngIf="user.hasCorporateProfile" (click)="switchProfilePopup()" mat-menu-item>Switch
+                                    Profiles</button>
+                                <button *ngIf="user.hasCorporateProfile" mat-menu-item
+                                    (click)="checkCurrentProfile()">Approval Requests</button>
+                                <button (click)="logout()" mat-menu-item>Logout</button>
+                            </mat-menu>
                         </ng-template>
-        
+    
                     </div>
 
                 </div>
@@ -64,68 +78,4 @@
             </div>
         </div>
     </div>
-
-    <!-- <nav class="navbar navbar-expand-md navbar-dark bg-white">
-        <div class="container-fluid">
-            <a class="navbar-brand logo-main" href="javascript:void(0)"
-                [routerLink]="['/profile-verification/status']"><img src="assets/img/logo.svg"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active" *ngFor="let item of headerNavBar"><a class="nav-link"
-                            [routerLink]="[item.link]" routerLinkActive="active" href="javascript:void(0)"><img
-                                [src]=[item.imgUrl]> {{item.name}}</a></li>
-                </ul>
-            </div>
-            <div class="widget-header admin-box">
-
-                <ng-container *ngIf="!user; else userProfile">
-                    <div>
-                        <a [routerLink]="['/auth/enter-mobile']"><i class="fa fa-user" aria-hidden="true"></i>Log In</a>
-                        <span class="dark-transp"> | </span>
-                        <a [routerLink]="['/auth/enter-mobile']">Sign Up</a>
-                    </div>
-                </ng-container> -->
-
-                <!-- <ng-template #userProfile>
-                    <div>
-                        <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
-                            <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
-                                (error)="getUserAPI()" class="img-fulid user-profile" alt="">
-                            <span *ngIf="user.sellerPersonalProfile.firstName"
-                                class="profileName">{{ user.sellerPersonalProfile.firstName }}</span> -->
-                            <!-- <ng-template #name>
-                                <span class="profileName">{{user.phone}}</span>
-                            </ng-template> -->
-                            <!-- <p>{{user.phone}}</p>
-                        </a>
-
-                        <mat-menu class="navMenus" #menu="matMenu">
-                            <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
-                                mat-menu-item>{{ item.name }}</button>
-                            <button (click)="logout()" mat-menu-item>Logout</button>
-                        </mat-menu>
-                    </div>
-                </ng-template>
-
-                <button class="hamburger" (click)="openMenu()" mat-icon-button>
-                    <mat-icon>menu</mat-icon>
-                </button> -->
-
-                <!-- <ul class="drop-edit">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">My Orders</a></li>
-                    <li><a href="#">My RFQ</a></li>
-                    <li><a href="#">My Wishlist</a></li>
-                    <li><a href="#">Approval Requests</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Help Centre</a></li>
-                    <li><a href="#">Switch Profiles</a></li>
-                </ul> -->
-            <!-- </div>
-        </div>
-    </nav> -->
 </header>

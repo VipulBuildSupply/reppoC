@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { SendSkuEmailComponent } from 'src/app/shared/dialogs/send-sku-email/send-sku-email.component';
 
 interface Warehouse {
   address: any;
@@ -958,16 +959,12 @@ export class CataloguesList implements OnInit {
       "brandIds": [],
       "categoryId": 0
     }
-    this.Userservice.sendSkuToEmail(data).then(res => {
-      if (res.data.success == true) {
-        this.snack.open(res.data.message, 'OK', { duration: 3000 })
-      }
-      else {
-        this.snack.open(res.data.message, 'OK', { duration: 3000 })
-      }
-    }
 
-    );
+    const dialogRef = this._dialog.open(SendSkuEmailComponent, {
+      data: { dataForCatalogueEmail : data, catalogueEmail:'catalogueEmail' },
+      panelClass: 'sku-email-popup'
+    });
+
   }
 
   openDialog(): void {
