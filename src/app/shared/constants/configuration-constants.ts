@@ -74,7 +74,8 @@ export const API = {
     GET_LEADS_FILTERS: 'product/api/quoterequest/filters',
     GET_LEADS_DATA: 'product/api/quoterequest/list',
     GET_ALL_LEADS: `product/api/quoterequest/list/all`,
-    GET_PAYMENT_TERMS: `product/api/system/paymentTerms`
+    GET_PAYMENT_TERMS: `product/api/system/paymentTerms`,
+    GET_UPDATED_SKUS_LIST: 'product/api/quoterequest/list'
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { SendSkuEmailComponent } from 'src/app/shared/dialogs/send-sku-email/send-sku-email.component';
 
 interface Warehouse {
   address: any;
@@ -358,7 +359,6 @@ export class CataloguesList implements OnInit {
       if (this.addPriceForRemainingIndividualQuantity) {
         for (let i = 0; i < form.length - 1; i++) {
           form[i].controls.maxPrice.enable();
-          console.log(form[i].controls.maxPrice.value);
 
           if ((form[i].controls.maxPrice.value) === 2147483647) {
             form[i].controls.maxPrice.setValue(null);
@@ -400,11 +400,9 @@ export class CataloguesList implements OnInit {
 
   isEditBtnClickedFunc() {
     this.isEditBtnClicked = true;
-    // console.log(this.isEditBtnClicked);
     for (let i = 0; i < this.uniqueCatalogueData.warehouseList[0].warehousePriceList.length; i++) {
       this.editPricingForms(i);
     }
-    // console.log(this.editPricingAllForms);
   }
 
   isEditBtnNotClickedFunc() {
@@ -513,7 +511,6 @@ export class CataloguesList implements OnInit {
             this.minMaxValidValue = false;
           }
         }
-        console.log(this.editPricingAllForms);
       }
 
       if (this.pricingForms.length > 0 && this.editPricingAllForms.length == 0) {
@@ -533,8 +530,6 @@ export class CataloguesList implements OnInit {
             this.minMaxValidValue = false;
           }
         }
-
-        console.log(this.pricingForms);
       }
     }
     else {
@@ -598,7 +593,6 @@ export class CataloguesList implements OnInit {
       for (let i = 0; i < priceforms.length; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-      // console.log(this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value);
     }
   }
 
@@ -837,8 +831,6 @@ export class CataloguesList implements OnInit {
     for (let i = 0; i < this.warehouseData.length; i++) {
       for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
         if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
-          // console.log(this.warehouseData[i].pricingForms[j].controls.minPrice.value);
-          // console.log(this.warehouseData[i].address.addressId);
           const object = {
             "catalogueItemId": this.uniqueCatalogueData.catalogueItem.id,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
@@ -879,8 +871,6 @@ export class CataloguesList implements OnInit {
         this.sendPricingToAllArrayEdit.push(object);
       }
 
-      // console.log(this.sendPricingToAllArrayEdit);
-
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArrayEdit).then(res => {
         if (res) {
           this.getCatalogueItems();
@@ -901,12 +891,8 @@ export class CataloguesList implements OnInit {
           "price": this.pricingForms[i].controls.price.value,
           "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox
         }
-
-
         this.sendPricingToAllArray.push(object);
       }
-
-      // console.log(this.sendPricingToAllArray);
 
       this.Userservice.sendPricingToAllWarehouse(this.sendPricingToAllArray).then(res => {
         if (res) {
@@ -973,17 +959,12 @@ export class CataloguesList implements OnInit {
       "brandIds": [],
       "categoryId": 0
     }
-    console.log(data);
-    this.Userservice.sendSkuToEmail(data).then(res => {
-      if (res.data.success == true) {
-        this.snack.open(res.data.message, 'OK', { duration: 3000 })
-      }
-      else {
-        this.snack.open(res.data.message, 'OK', { duration: 3000 })
-      }
-    }
 
-    );
+    const dialogRef = this._dialog.open(SendSkuEmailComponent, {
+      data: { dataForCatalogueEmail : data, catalogueEmail:'catalogueEmail' },
+      panelClass: 'sku-email-popup'
+    });
+
   }
 
   openDialog(): void {

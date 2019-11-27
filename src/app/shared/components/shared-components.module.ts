@@ -14,6 +14,7 @@ import { BankDetailsShowComponent } from './bank-details-show/bank-details-show.
 import { LeadSidebarComponent } from './lead-sidebar/lead-sidebar.component';
 import { SharedDirectivesModule } from '../directive/shared-directives.module';
 import { SideNavigationComponent } from './side-navigation/side-navigation.component';
+import { SubFilterComponent } from './sub-filter/sub-filter.component';
 
 
 const components = [
@@ -26,7 +27,8 @@ const components = [
   SnackComponent,
   ProfileVerifyComponent,
   LeadSidebarComponent,
-  SideNavigationComponent
+  SideNavigationComponent,
+  SubFilterComponent
 ]
 
 @NgModule({

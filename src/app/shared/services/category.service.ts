@@ -11,6 +11,8 @@ export class CategoryService {
     getCatIds: any[] = [];
     updateSkusList$ = new Subject<any>();
     selectedFiltersCount$ = new Subject<number>();
+    updateLeadsSkusList$ = new Subject<any>();
+    activeTab$ = new Subject<string>();
 
     constructor(
         private dataService: DataService
@@ -37,23 +39,6 @@ export class CategoryService {
         });
     }
 
-    // get isCategories() {
-    //     return localStorage.getItem('SelectedCategories') != null;
-    // }
-
-    // setCatalogueCategories(data){
-    //     if(data){
-    //         localStorage.setItem('SelectedCategories', JSON.stringify(data));
-    //     }
-    //     return this.dataService.sendPostRequest(API.GET_CATALOGUE_CATEGORIES, data).then((res: any) => res);
-    // }
-
-    // getCatalogueCategories() {
-    //     return this.dataService.getRequest(API.GET_CATALOGUE_CATEGORIES).then(res => {
-    //         return this.setCatalogueCategories(res.data);
-    //     });
-    // }
-
     removeCategories() {
         localStorage.removeItem('SelectedCategories');
     }
@@ -76,5 +61,11 @@ export class CategoryService {
         return this.dataService.getRequest(API.GET_LEADS_FILTERS).then(res => {
             return res;
         });
+    }
+
+    getUpdatedSkusList(data){
+        return this.dataService.getRequest(API.GET_UPDATED_SKUS_LIST, data).then(res => {
+            return res;
+        })
     }
 }

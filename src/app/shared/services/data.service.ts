@@ -130,7 +130,6 @@ export class DataService {
 
     private handleError(err: HttpErrorResponse, skipErrorNotify = false) {
 
-
         if ((!window.navigator.onLine) || ((typeof err === 'object') && (err.status === ErrorCodesConstants.ERROR_HTTP_NO_RESPONSE))) {
             this.notifier.clearAllNotifications();
             this.notifier.notify("INTERNET CONNECTION ISSUE");

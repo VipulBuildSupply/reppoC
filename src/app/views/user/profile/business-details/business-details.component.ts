@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
-import { Category } from 'src/app/shared/models/category';
-import { BusinessDetails, State, City, Address } from 'src/app/shared/models/address';
-import { FormGroup, FormBuilder, Validators, FormControl, ControlContainer } from '@angular/forms';
+import { Category, SelectedCategoryIds } from 'src/app/shared/models/category';
+import { BusinessDetails, Address } from 'src/app/shared/models/address';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FieldRegExConst, ConfigurationConstants } from 'src/app/shared/constants';
+import { FieldRegExConst } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
-import { Subscription } from 'rxjs';
 import { UserModel } from 'src/app/shared/models/user.model';
+import { Turnovers, BusinessType } from 'src/app/shared/models/profile';
 
 @Component({
     selector: 'app-business-details',
@@ -17,27 +17,27 @@ import { UserModel } from 'src/app/shared/models/user.model';
 export class BusinessDetailsComponent implements OnInit {
 
     user: UserModel;
-    turnovers: any;
-    businessType: any;
-    selectedCategoryList: any;
+    turnovers: Turnovers;
+    businessType: BusinessType;
+    selectedCategoryList: SelectedCategoryIds[];
     allCategoriesList: Category[];
-    selectedIds: any[] = [];
+    selectedIds: number[] = [];
     categoryErr: boolean = false;
     businessDetailsForm: FormGroup;
     businessDetails: BusinessDetails;
     cities;
     states;
-    addressProofFiles: any;
-    panPhotoImage: any;
+    addressProofFiles: string;
+    panPhotoImage: string;
     data: any;
     _isEdit: boolean = false;
-    userVerified: any;
+    userVerified: string;
     updatedCategories: any = {
         "itemList": [],
         "customCategories": []
     }
-    selectedName: any[] = [];
-    othersInput: any;
+    othersInput: boolean;
+    // selectedName: any[] = [];
     // selectValue: string;
 
     constructor(private _userService: UserService,
@@ -58,6 +58,7 @@ export class BusinessDetailsComponent implements OnInit {
         this._categoryService.getCatalogueCategories().then(res => {
             
             this.selectedCategoryList = res.data;
+            
             this.selectedCategoryList.forEach(cat => {
                 cat.categoryId = cat.categoryId ? cat.categoryId : cat.id;
                 cat.name = cat.name ? cat.name : cat.categoryName;
@@ -231,19 +232,18 @@ export class BusinessDetailsComponent implements OnInit {
             const list = res.data;
 
             selectedCatList.forEach(selectedCat => {
-                    // this.selectedIds.push(selectedCat.categoryId);
 
-                   const existingCatIndex =  list.findIndex(cat => cat.id == selectedCat.categoryId);
+                const existingCatIndex =  list.findIndex(cat => cat.id == selectedCat.categoryId);
 
-                    if(existingCatIndex >= 0){
-                        list[existingCatIndex].isSelected = true;
-                    }
-                    if(selectedCat.id == selectedCat.categoryId){
-                         // only custom category
-                         list.push(selectedCat);
-                    }
+                if(existingCatIndex >= 0){
+                    list[existingCatIndex].isSelected = true;
+                }
+                if(selectedCat.id == selectedCat.categoryId){
+                        // only custom category
+                        list.push(selectedCat);
+                }
 
-            });   
+            });
 
             this.allCategoriesList = list;
             this.allCategoriesList.push({id: 0, name: 'Others', categoryId: 0, categoryName: 'Others'});

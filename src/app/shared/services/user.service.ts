@@ -29,7 +29,6 @@ export class UserService {
     }
 
     setUser(user: UserModel) {
-
         if (localStorage.getItem('user')) {
             const oldUserInfo = JSON.parse(localStorage.getItem('user'));
             user = Object.assign(oldUserInfo, user);
@@ -52,7 +51,6 @@ export class UserService {
         this.userUpdated$.next(null);
     }
 
-
     getUserData() {
         return this.dataService.getRequest(API.PROFILE).then(res => {
 
@@ -61,18 +59,13 @@ export class UserService {
             } else {
                 return this.setUser(res.data);
             }
-
-            /*if(res.data.seller){
-                return this.setUser(res.data);
-            }else{
-                return this.isBuyer('SELLER', res.data);
-            }*/
         })
     }
 
     get selectedProfile(): SellerPersonalProfile {
         return this.user.sellerPersonalProfile;
     }
+
     deleteCancelledChequeAPI(bankAccountId) {
         return this.dataService.sendDeleteRequest(API.DELETE_CANCELLED_CHEQUE(bankAccountId), {}).then(res => res);
     }
@@ -80,24 +73,25 @@ export class UserService {
     getAddress(addressType) {
         return this.dataService.getRequest(`${API.ADDRESS}/${addressType}`).then(res => res);
     }
+
     getBankDetails() {
         return this.dataService.getRequest(`${API.BANK_DETAILS_GET}`).then(res => res);
     }
+
     deleteAddress(addressId: number) {
         return this.dataService.sendDeleteRequest(`${API.ADDRESS}/${addressId}`, {}).then(res => res);
     }
 
     deleteBankDetails(bankId: number) {
-        //   console.log(`${API.DELETE_BANK_DETAILS}/${bankId}`);
         return this.dataService.sendDeleteRequest(API.DELETE_BANK_DETAILS(bankId), {}).then(res => res);
-
     }
 
     getStates() {
-        return this.dataService.getRequest(API.STATE).then(res => res)
+        return this.dataService.getRequest(API.STATE).then(res => res);
     }
+
     getCities(stateId) {
-        return this.dataService.getRequest(API.CITY(stateId)).then(res => res)
+        return this.dataService.getRequest(API.CITY(stateId)).then(res => res);
     }
 
     addAddress(data) {
@@ -109,7 +103,6 @@ export class UserService {
 
         });
         // const headers = 'Content-Type, multipart/form-data';
-
         return this.dataService.sendPostRequest(API.ADDRESS, fData).then(res => {
             return res.data
         })
@@ -124,11 +117,9 @@ export class UserService {
 
         });
         // const headers = 'Content-Type, multipart/form-data';
-
         return this.dataService.sendPostRequest(API.BANK_DETAILS, fData).then(res => {
             return res.data
         })
-
     }
 
     getPincode(pincode) {
@@ -145,7 +136,6 @@ export class UserService {
 
     getUserPercentage() {
         return this.dataService.getRequest(API.GET_PERCENTAGE).then(res => {
-            //this.onUpdatePercentage$.next(res.data);
             return res.data;
         });
     }
@@ -199,29 +189,27 @@ export class UserService {
     getCategory() {
         return this.dataService.getRequest(API.GET_CATEGORY_ONE).then(res => res.data);
     }
+
     getBrand(categoryId) {
         return this.dataService.getRequest(API.GET_BRAND(categoryId)).then(res => res.data);
     }
+
     getSearchResults(data) {
-        // const fData = new FormData();
-        // Object.keys(data).map(key => {
-        //     if(data[key]){
-        //         fData.append(key, data[ key ]);
-        //     }
-
-        // });
-
         return this.dataService.sendPostRequest(API.SEARCH_SKU, data).then((res: any) => res);
     }
+
     addCatalogueItems(data) {
         return this.dataService.sendPutRequest(API.ADD_CATALOGUE, data).then((res: any) => res);
     }
+
     getCatalogueItems() {
         return this.dataService.getRequest(API.GET_CATALOGUE_LIST).then((res: any) => res);
     }
+
     getUniqueCatalogueItem(catalogueItemId) {
         return this.dataService.getRequest(API.GET_UNIQUE_CATALOGUE(catalogueItemId)).then((res: any) => res);
     }
+
     toggleStockStatus(catalogueId, status) {
         return this.dataService.sendPutRequest(API.TOGGLE_STOCK_STATUS(catalogueId, status), null).then((res: any) => res);
     }
@@ -234,12 +222,10 @@ export class UserService {
         return this.dataService.getRequest(API.GET_BANK_NAME).then((res: any) => res);
     }
 
-
     updateBusinessDetails(data) {
         const fData = new FormData();
-        Object.keys(data).map(key => {
 
-            //if(edit == true){
+        Object.keys(data).map(key => {
             if (key == 'address') {
                 data = data.address;
                 Object.keys(data).map(key => {
@@ -254,21 +240,6 @@ export class UserService {
             } else {
                 fData.append(key, data[key]);
             }
-
-            /*}else{
-                if(key == 'address'){
-                    data = data.address;
-                    Object.keys(data).map(key => {
-                        if(data[key]){
-                            fData.append('address.'.concat(key), data[ key ]);
-                        }
-                    })
-                }else if(data[key] == ""){
-                    fData.delete(key);
-                }else{
-                    fData.append(key, data[ key ]);
-                }
-            } */
         });
 
         return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => res);
@@ -294,12 +265,15 @@ export class UserService {
     getSkuListFromSearch(text) {
         return this.dataService.sendPostRequest(API.SEARCH_SKU_TEXT, text).then(res => res);
     }
+
     sendSkuToEmail(data) {
         return this.dataService.sendPostRequest(API.SEND_TO_EMAIL, data).then(res => res);
     }
+
     updateFileBulkCat(data) {
         return this.dataService.sendPostRequest(API.FILE_BULK_CATALOGUE, data).then(res => res.data)
     }
+
     getLeadsAll() {
         return this.dataService.getRequest(API.GET_ALL_LEADS).then((res: any) => res);
     }
@@ -307,9 +281,11 @@ export class UserService {
     getNewLeads() {
         return this.dataService.getRequest(API.GET_NEW_LEADS).then((res: any) => res);
     }
+
     getActedLeads() {
         return this.dataService.getRequest(API.GET_ACTED_LEADS).then((res: any) => res);
     }
+
     saveLeadAsBookmark(skuId, Status) {
         return this.dataService.sendPutRequest(API.ADD_BOOKMARK_SAVE_LEADS(skuId, Status), null).then(res => res);
     }
@@ -323,9 +299,7 @@ export class UserService {
     }
 
     sendQuoteToAllWarehouse(data, leadID) {
-
         return this.dataService.sendPostRequest(API.QUOTE_SUBMIT_ALL_WAREHOUSE(leadID), data).then(res => res);
-
     }
     showPaymentTerms() {
         return this.dataService.getRequest(API.GET_PAYMENT_TERMS).then((res: any) => res);

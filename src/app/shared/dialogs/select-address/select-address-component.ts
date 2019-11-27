@@ -26,8 +26,6 @@ export class SelectAddressComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedProfile = this.userService.selectedProfile;
-        // console.log(this.selectedProfile);
-
         this.addressType = this.data.addressType;
         this.getAddrList();
         this.addLink = `/user/address/${this.addressType}/add`

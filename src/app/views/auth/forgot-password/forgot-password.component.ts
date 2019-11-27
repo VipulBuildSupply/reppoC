@@ -12,15 +12,15 @@ import { MatDialog } from '@angular/material';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-    @Input('phone') phone;
-    password = "";
-    confirmPassword = "";
+    @Input('phone') phone: number;
+    password: string = "";
+    confirmPassword: string = "";
     forgotForm: FormGroup;
-    passwordError: any;
+    passwordError: string;
     isPasswordMatch: boolean;
     phoneNumber: number;
-    pass: any;
-    confirmPass: any;
+    pass: string;
+    confirmPass: string;
 
     constructor(private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
@@ -47,6 +47,12 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
 
+    /**
+     * @description function to compare current and confirm passwords value
+     * @property {string} pass - to store password value 
+     * @property {string} confirmPass - to store confirm Password value
+     * @return {boolean}
+     */
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
         if (group) {
             let pass = group.controls.password.value;
@@ -55,7 +61,11 @@ export class ForgotPasswordComponent implements OnInit {
         }
     }
 
-
+    /**
+     * @description function to submit the forgot password form
+     * @property {string} passwordError - to store error message related to password
+     * @property {object} data - to store forgot password form value
+     */
     submit() {
 
         if (this.forgotForm.valid) {
@@ -87,6 +97,10 @@ export class ForgotPasswordComponent implements OnInit {
         }
     }
 
+    /**
+     * @description function to open switch user profile popup when the entered user is buyer
+     * @property {object} userData - to store UserModel data
+     */
     switchUserProfile(userProfileData){
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },

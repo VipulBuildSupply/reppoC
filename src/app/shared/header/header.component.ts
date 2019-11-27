@@ -8,6 +8,7 @@ import { MatSidenav } from '@angular/material';
 import { CommonService } from '../services/common.service';
 import { HEADER_NAV } from '../constants';
 import { HeaderNavigaton } from '../models/header';
+import { ProfileSideBarMenus } from '../models/profile';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +16,9 @@ import { HeaderNavigaton } from '../models/header';
 })
 export class HeaderComponent implements OnInit {
 
-  profileDropdown;
+  profileDropdown: ProfileSideBarMenus[];
   headerNavBar: HeaderNavigaton[];
-  selectedProfile: any;
+  // selectedProfile: any;
   user: UserModel;
   private subscriptions: Subscription[] = [];
   @Input('menu') menu: MatSidenav;
@@ -31,11 +32,6 @@ export class HeaderComponent implements OnInit {
     this.menu.open();
     CommonService.hideBodyOverFlow();
   }
-
-  // Sub Menu Functionality
-  // profileType() {
-  //   return (this.selectedProfile ? this.selectedProfile.type : '').toLowerCase();
-  // }
 
   /**
    * @description function to display dropdown menus in header after user logged in
@@ -88,8 +84,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserAPI() {
-    // for user image update 
-    console.log("user image updated");
+    // for user image update
     this.userService.getUserData();
   }
 }

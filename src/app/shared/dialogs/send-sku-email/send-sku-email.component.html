@@ -34,8 +34,12 @@
             </li>
           </ol>
         </div>
-
-        <button class="btn orangeBttn modal-body--btn" (click)="addSkuOnEmail()">Get Email</button>
+        <ng-container *ngIf="isCatalogue == 'catalogueEmail'; else getEmail">
+          <button class="btn orangeBttn modal-body--btn" (click)="addCatalogueOnEmail()">Get Catalogue</button>
+        </ng-container>
+        <ng-template #getEmail>
+          <button class="btn orangeBttn modal-body--btn" (click)="addSkuOnEmail()">Get Email</button>
+        </ng-template>
       </div>
     </ng-container>
 

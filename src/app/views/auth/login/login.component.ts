@@ -17,11 +17,11 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class LoginComponent implements OnInit {
 
     @Output() parentLinker = new EventEmitter<any>();
-    phoneNumber;
+    phoneNumber: number;
     signinForm: FormGroup;
     password: string;
     isForgot: boolean;
-    errorMsg: any;
+    errorMsg: string;
     constructor(private commonService: CommonService,
         private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
@@ -56,6 +56,11 @@ export class LoginComponent implements OnInit {
         this.errorMsg = '';
     }
 
+    /**
+     * @description function to submit the login form
+     * @property {string} errorMsg - to store error message
+     * @property {object} data - to store login form value
+     */
     submit(): void {
 
         this.errorMsg = '';
@@ -74,11 +79,7 @@ export class LoginComponent implements OnInit {
                     this.switchUserProfile(res.data);
                 } else {
                     this._userService.getUserData().then(res => {
-                        // if(res.sellerPersonalProfile.verifyStatus == "Unverified"){
-                            this._router.navigate(['profile-verification/status']);
-                        // }else{
-                            // this._router.navigate(['/user/profile/personal']);
-                        // }
+                        this._router.navigate(['profile-verification/status']);
                     });
                 }
             }, err => {
@@ -90,6 +91,9 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    /**
+     * @description function will execute when if user click on forgot password link and generate OTP
+     */
     forgot() {
         this.signinService.isForgot = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
@@ -97,7 +101,9 @@ export class LoginComponent implements OnInit {
         });
     }
 
-
+    /**
+     * @description function will execute when user click on login with OTP link and generate OTP
+     */
     loginOtp() {
         this.signinService.isLoginWithOtp = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
@@ -105,6 +111,10 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    /**
+     * @description function to open switch user profile popup when the entered user is buyer
+     * @property {object} userData - to store UserModel data
+     */
     switchUserProfile(userProfileData) {
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },

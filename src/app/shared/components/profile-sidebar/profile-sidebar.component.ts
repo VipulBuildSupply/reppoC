@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { MatDialog } from '@angular/material';
 import { ProfileVerifyComponent } from '../../dialogs/profile-verify/profile-verify.component';
+import { ProfileSideBarMenus } from '../../models/profile';
 
 @Component({
   selector: 'app-profile-sidebar',
@@ -11,13 +12,12 @@ import { ProfileVerifyComponent } from '../../dialogs/profile-verify/profile-ver
 })
 export class ProfileSidebarComponent implements OnInit, OnDestroy {
 
-  profileSideBarDropDown;
+  profileSideBarDropDown: ProfileSideBarMenus[];
   private userInfoUpdated: Subscription;
   user: UserModel;
-  percentage: any;
+  percentage: number;
   subscriptions: Subscription[] = [];
   profileVerfyStatus: boolean;
-  existPercentage: any;
 
   constructor(private userService: UserService,
     private dialog: MatDialog) { }
@@ -29,19 +29,12 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
      */
     this.user = this.userService.user;
 
-    // this.getProfilePercentage();
-
     /**
      * @description get the updated user info
      */
     this.userInfoUpdated = this.userService.userUpdated$.subscribe(user => {
       this.user = this.userService.user;
-    })
-
-
-    // this.onUpdatePercentage = this.userService.updatePercentage$.subscribe(data => {
-    //     this.getProfilePercentage();
-    // });
+    });
 
     /**
      * @description display profile sidebar menus on profile page
@@ -74,7 +67,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
         }
       }),
 
-      this.userService.updatePercentage$.subscribe(value => {
+      this.userService.updatePercentage$.subscribe((value: any) => {
         this.percentage = value;
       })
     )

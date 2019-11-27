@@ -9,6 +9,5 @@ export class LeadsService {
     constructor(
         private dataService: DataService
     ) { }
-
     
 }

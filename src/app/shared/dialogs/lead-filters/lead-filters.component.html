@@ -1,0 +1,47 @@
+<mat-dialog-content>
+    <div class="modal-content">
+        <div class="container">
+
+            <div class="modal-header">
+                <div class="modal-header__inner">
+                    <h5 class="modal-title">All Filters</h5>
+                    <div class="buttons-right">
+                        <div class="save-orange m-0">
+                            <button type="button" class="btn orangeBttn brdbttn" (click)="closeDialog()">Cancel</button>
+                        </div>
+                        <div class="save-orange m-0">
+                            <button type="submit" class="btn orangeBttn" (click)="applyFilters()">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div *ngIf="selectedFilters" class="output-box">
+                            <div  class="selected-option" *ngFor="let filter of selectedFilters">
+                                {{filter.name}} 
+                                <span class="cross-option">
+                                    <img src="assets/img/Cancel.svg" (click)="cancelFilters(filter)">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <sub-filter #locationFilter *ngIf="filtersList" [filtersList]="filtersList.locations" [title]="'City'"
+                            (onUpdate)="selectedFiltersList($event)" [selectedFiltersList]="data.selectedFiltersData"></sub-filter>
+                    </div>
+
+                    <div class="col-md-4">
+                        <sub-filter #categoryFilter *ngIf="filtersList" [filtersList]="filtersList.categories" [title]="'Material'"
+                            (onUpdate)="selectedFiltersList($event)" [selectedFiltersList]="data.selectedFiltersData"></sub-filter>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

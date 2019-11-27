@@ -112,9 +112,6 @@ export class CatalogueFiltersComponent implements OnInit {
   cancelFilters(option) {
     this.filtersElm.options.find(op => op.value.id === option.id).selected = false;
     this.categoryNames = this.filtersElm.selectedOptions.selected.map(filter => filter.value);
-
-    // const index = this.filteredLists.categoryIdList.findIndex(item => item == option.id);
-    // this.filteredLists.categoryIdList.splice(index, 1);
   }
 
   /**
