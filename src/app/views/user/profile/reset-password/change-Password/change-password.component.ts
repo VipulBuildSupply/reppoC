@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 export class ChangePasswordComponent implements OnInit {
 
     @Input('phone') phone;
-    password = "";
-    confirmPassword = "";
+    password: string = "";
+    confirmPassword: string = "";
     forgotForm: FormGroup;
-    passwordError: any;
+    passwordError: string;
     isPasswordMatch: boolean;
     phoneNumber: number;
-    pass: any;
-    confirmPass: any;
+    pass: string;
+    confirmPass: string;
 
     constructor(private signinService: SigninSignupService,
         private _formBuilder: FormBuilder,
@@ -56,7 +56,6 @@ export class ChangePasswordComponent implements OnInit {
     submit() {
 
         if (this.forgotForm.valid) {
-
             if (this.pass != this.confirmPass) {
                 return;
             }
@@ -78,5 +77,4 @@ export class ChangePasswordComponent implements OnInit {
             });
         }
     }
-
 }

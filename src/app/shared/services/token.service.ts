@@ -1,34 +1,28 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 // import {DynamicRoutesTypes} from '../../core/shared/constants/dynamic-routes-types';
-
 @Injectable()
 export class TokenService {
 
-     
     /**
      * @important - Do not use any other service in Token Service - can cause circular dependency issue
      * */
-    constructor() {
+    constructor() {}
 
 
-       
-    }
- 
-  
     /**
      * @description get access token
      * */
     getToken(): string {
         return localStorage.getItem('accessToken');
-    } 
+    }
 
     /**
      * @description set access token
      * */
     saveAccessToken(token): string {
-        if(token){
+        if (token) {
             localStorage.setItem('accessToken', token);
-        }else{
+        } else {
             localStorage.removeItem('accessToken');
         }
         return this.getToken();
@@ -46,10 +40,10 @@ export class TokenService {
      * */
     saveLoginStatus(status: boolean): boolean {
         localStorage.setItem('is_loggedIn', (status) ? 'true' : 'false');
-      //  this._isLoggedIn = status;
+        //  this._isLoggedIn = status;
         return this.getLoggedIn();
     }
- 
+
     /**
      * @description set access token, login status and user data information
      * */
@@ -58,10 +52,10 @@ export class TokenService {
         this.saveLoginStatus(loginStatus);
     }
 
-    clearToken(){
+    clearToken() {
         this.saveAccessToken(null);
     }
 
     /**** Login and access token specific functions ends ****/
-    
+
 }

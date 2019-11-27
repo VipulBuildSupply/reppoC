@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material';
 import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
 
@@ -63,7 +62,6 @@ export class LeadSidebarComponent implements OnInit {
       else if (this.message === "ActedLeads") {
         this.userService.getActedLeads().then(res => {
           this.new_leads = res;
-          console.log(this.new_leads);
           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
         });
       }
@@ -88,7 +86,7 @@ export class LeadSidebarComponent implements OnInit {
     this.data.currentMessage.subscribe(message => this.message = message);
     this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
     this.data.searchLeads.subscribe(search => this.search = search);
-    
+
     if (this.submitQuoteMsg === "SUBMIT") {
       this.userService.getNewLeads().then(res => {
         if (res) {
@@ -144,7 +142,6 @@ export class LeadSidebarComponent implements OnInit {
     }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
-        // this._categoryService.activeTab$.next("NewLeads");
         this.userService.getNewLeads().then(res => {
           if (res) {
             if (res.data.length > 0) {
@@ -162,9 +159,8 @@ export class LeadSidebarComponent implements OnInit {
           }
 
         });
-      } 
+      }
       else if (this.message === "ActedLeads") {
-        // this._categoryService.activeTab$.next("ActedLeads");
         this.userService.getActedLeads().then(res => {
           if (res) {
             if (res.data.length > 0) {
@@ -221,5 +217,3 @@ export class LeadSidebarComponent implements OnInit {
     });
   }
 }
-
-

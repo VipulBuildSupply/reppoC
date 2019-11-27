@@ -12,15 +12,14 @@ import { CategoryService } from 'src/app/shared/services/category.service';
 export class SignupComponent implements OnInit {
 
     @Output() parentLinker = new EventEmitter<any>();
-
-    password = "";
-    confirmPassword = "";
+    password: string = "";
+    confirmPassword: string = "";
     signupForm: FormGroup;
-    passwordError: any;
+    passwordError: string;
     isPasswordMatch: boolean;
     CustomValidators: any;
     mobileNumber: number;
-    terms: any;
+    terms: string;
 
     constructor(private _formBuilder: FormBuilder,
         private signinService: SigninSignupService,
@@ -30,9 +29,6 @@ export class SignupComponent implements OnInit {
     ngOnInit(): void {
 
         this.mobileNumber = this.signinService.userPhone;
-
-
-
 
         if (this.mobileNumber == undefined) {
             this._router.navigate(['/auth/enter-mobile']);
@@ -44,7 +40,6 @@ export class SignupComponent implements OnInit {
                 validators: [
                     Validators.required,
                     Validators.minLength(6)
-                    // Validators.pattern(FieldRegExConst.PASSWORD)
                 ]
             }],
             confirmPassword: [this.confirmPassword, {
@@ -63,6 +58,12 @@ export class SignupComponent implements OnInit {
 
     }
 
+    /**
+     * @description function to compare current and confirm passwords value
+     * @property {string} pass - to store password value 
+     * @property {string} confirmPass - to store confirm Password value
+     * @return {boolean}
+     */
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
         if (group) {
             let pass = group.controls.password.value;
@@ -71,6 +72,11 @@ export class SignupComponent implements OnInit {
         }
     }
 
+    /**
+     * @description function to submit signup form
+     * @property {object} data - to store signup form all field values
+     * @property {string} passwordError - to store error message value
+     */
     submit() {
 
         if (this.signupForm.valid) {

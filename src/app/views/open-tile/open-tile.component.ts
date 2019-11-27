@@ -3,6 +3,7 @@ import { CategoryService } from 'src/app/shared/services/category.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { OtherCategoryComponent } from 'src/app/shared/dialogs/other-category/other-category.component';
+import { Category } from 'src/app/shared/models/category';
 
 @Component({
   selector: 'open-tile',
@@ -11,13 +12,13 @@ import { OtherCategoryComponent } from 'src/app/shared/dialogs/other-category/ot
 })
 export class OpenTileComponent implements OnInit {
 
-  categories: any[] = [];
-  items: any;
+  categories: Category[] = [];
   categoryIds: any = {
     "itemList": [],
     "customCategories": []
   }
   otherCategoryValue: string;
+  // items: any;
 
   constructor(private _categoryService: CategoryService,
     private _router: Router,

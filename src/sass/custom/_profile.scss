@@ -785,3 +785,46 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
+
+.profile-card.mat-card {
+    box-shadow: none;
+    padding: 4px 15px;
+    background-color: transparent;
+    height: 50px;
+    .mat-card-header .mat-card-title.non-login {
+        line-height: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: 'Open Sans', sans-serif;
+        &:focus {
+            outline: 0;
+        }
+    }
+    .fa-user{
+        color: #b2b2b2;
+        margin: 3px 10px 0 0;
+        border: 1px solid #ececec;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        padding: 6px;
+        text-align: center;
+    }
+    .mat-card-header-text{
+        margin: 0 0 0 10px;
+        max-width: 135px;
+        padding: 0 0px 0 2px;
+        min-width: 135px;
+    }
+    .mat-card-subtitle{
+        margin-bottom: 0px;
+    }
+}
+
+.profile-card .mat-card-header .mat-card-title {
+    margin-bottom: 0px;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

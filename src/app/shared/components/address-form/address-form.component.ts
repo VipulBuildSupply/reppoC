@@ -15,29 +15,24 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     @Output('submitForm') submitForm = new EventEmitter();
     @Input('isNonProfile') isNonProfile: boolean;
-
     @Output('onCancel') onCancel = new EventEmitter();
-
     subscriptions: Subscription[] = [];
     addressProofAlreadyPresent: boolean;
+    addressForm: FormGroup;
+    addrs: Address;
+    asdeliveryRangeAddress: boolean = false;
+    additionalAddress;
+    states;
+    cities;
+    submitBtn: boolean = false;
+    isEdit: boolean;
+    fileName: any;
+    warehouseAdd: any;
 
     constructor(private _formBuilder: FormBuilder,
         private _activatedRout: ActivatedRoute,
         private _router: Router,
         private _userService: UserService) { }
-
-    addressForm: FormGroup;
-    //selectedProfile;
-    addrs: Address;
-    asdeliveryRangeAddress: false;
-    additionalAddress;
-    states;
-    cities;
-    submitBtn = false;
-    isEdit: boolean;
-    fileName: any;
-    warehouseAdd: any;
-
 
     ngOnInit(): void {
 
@@ -65,20 +60,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         * we dont need to start any subscription
         */
         if (!this.isNonProfile) {
-
             this.startSubscriptions();
         }
 
-
-
-        // this.states = this._activatedRout.snapshot.data.states
-        //  this.addrs.companyId = this._userService.selectedProfile.companyId;
         this.addrs.userType = ConfigurationConstants.USER_TYPE;
-        //  this.selectedProfile = this._userService.selectedProfile
-
         this.formInit();
         this.checkGstin();
-
         this.checkAddressProof();
     }
 
@@ -104,11 +91,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-            // console.log(event.target.files[0].name);
             this.fileName = event.target.files[0].name;
             const file = event.target.files[0];
             this.addressForm.get('addressProof').setValue(file);
-
         }
     }
 
@@ -198,12 +183,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 for (let i = 0; i < this.warehouseAdd.length; i++) {
                     if ((this.warehouseAdd[i].addressProofFile != "")) {
                         this.addressProofAlreadyPresent = true;
-
-                        console.log("chita :: " + this.addressProofAlreadyPresent);
                     }
                 }
             });
-            console.log("Outside : " + this.addressProofAlreadyPresent);
         }
     }
 
@@ -220,21 +202,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
 
             } else {
-                // this.addressForm.get('gstin').setValue("");
                 this.addressForm.get('gstin').clearValidators();
                 this.addressForm.get('gstin').updateValueAndValidity();
-
             }
         }
         else if (this.addrs.addressCategory === 'BILLING') {
             if (e.target.checked) {
                 this.addressForm.get('deliveryRange').setValidators([Validators.required]);
-
             } else {
-                // this.addressForm.get('deliveryRange').setValue("");
                 this.addressForm.get('deliveryRange').clearValidators();
                 this.addressForm.get('deliveryRange').updateValueAndValidity();
-
             }
         }
 
@@ -245,11 +222,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
         }
     }
+
     validatedeliveryRange(e) {
         if (e.target.value) {
             this.addressForm.get('deliveryRange').setValidators([Validators.required]);
         }
     }
+
     onPaste(event: ClipboardEvent) {
         let clipboardData = event.clipboardData; //|| window.clipboardData;
         let pastedText = clipboardData.getData('text');
@@ -260,6 +239,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
         this.validateGstin(e);
     }
+
     onPastedeliveryRange(event: ClipboardEvent) {
         let clipboardData = event.clipboardData; //|| window.clipboardData;
         let pastedText = clipboardData.getData('text');
@@ -272,9 +252,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     submit() {
-
         this.checkGstin();
-        //return;
         if (this.addressForm.valid) {
 
             const defaults: any = {
@@ -284,11 +262,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 additionalTypes: '',
                 name: this.addressForm.value.gstHolderName
             };
-
-            //if (this.selectedProfile.type == 'corporate') {
-            // defaults.companyId = this.addrs.companyId;
-            //}
-
 
             if (this.addressForm.get('isAdditionalAddress').value) {
                 defaults.additionalTypes = this.addrs.addressCategory == "BILLING" ? "WAREHOUSE" : "BILLING";
@@ -314,7 +287,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             } else {
                 data.addressCategory = "PROJECT_ADDRESS";
                 this.submitAddAddress(data);
-                // this.submitForm.emit(Object.assign({}, this.addrs, data));
             }
         }
         else {
@@ -326,8 +298,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     submitAddAddress(data) {
         this._userService.addAddress(data).then(res => {
             if (res.success) {
-                //this._router.navigate([ `/user/address/${this.addrs.addressCategory.toLowerCase()}` ])
-
                 if (data.addressCategory == "PROJECT_ADDRESS") {
                     const newData = Object.assign({}, this.addrs, data, { addressId: res.id })
                     this.submitForm.emit(newData);
@@ -342,7 +312,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     submitEditAddr(data) {
         this._userService.editAddress(this.addrs.addressId, data).then(res => {
             if (res.success) {
-                //this._router.navigate([ `/user/address/${this.addrs.addressCategory.toLowerCase()}` ])
                 this.goToAddressPage();
             }
         });
@@ -351,9 +320,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     /**
     *  @description: this function is used to cancel the billing/deliveryRange address after editing
     */
-
     goToAddressPage() {
-
         if (this.isNonProfile) {
             this.onCancel.emit();
         } else {

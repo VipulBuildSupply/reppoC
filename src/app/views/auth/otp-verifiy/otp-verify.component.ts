@@ -7,6 +7,7 @@ import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-profile/switch-user-profile.component';
+import { OtpTimer } from 'src/app/shared/models/otp';
 
 @Component({
     selector: 'otp-verify',
@@ -14,7 +15,7 @@ import { SwitchUserProfileComponent } from 'src/app/shared/dialogs/switch-user-p
 })
 export class OtpVerifyComponent implements OnInit, OnDestroy {
 
-    time = {
+    time: OtpTimer = {
         min: 0,
         sec: 60
     };
@@ -27,10 +28,9 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
 
     activeOtp: boolean = false;
     isForget: boolean;
-
     @Input('phone') phone: string;
-    phoneNumber: any;
-    errorMsg: any;
+    phoneNumber: number;
+    errorMsg: string;
 
     constructor(private commonService: CommonService,
         private _formBuilder: FormBuilder,
@@ -40,22 +40,13 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
 
 
     ngOnInit(): void {
-
+        
         this.isForget = this.signinService.isForgot;
         this.phone = this.signinService.userPhone;
 
         if(this.phone == undefined){
             this._router.navigate(['/auth/enter-mobile']);
         }
-
-        //this.commonService.otmTimer.subscribe(val => val ? this.startTimer() : this.stopTimer());
-        /*this.signinService.createOTP(this.phone).then(res => {
-            if(res.status == 1001){
-                return res;
-            } else {
-                throw res;
-            }
-        });*/
 
         this.startTimer();
 
@@ -76,8 +67,8 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
     }
 
     /**
-         * @description: This function is used to start OTP timer
-         */
+     * @description function to start OTP timer
+     */
     startTimer() {
 
         this.resetTimer();
@@ -100,7 +91,9 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * @description : this function is used to rest OTP timer
+     * @description function to Reset OTP timer
+     * @property {boolean} activeOtp
+     * @property {OtpTimer} time - store minutes and seconds
      */
     resetTimer() {
         this.activeOtp = false;
@@ -117,9 +110,9 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * @description This function is used for Resend OTP
+     * @description function to Send OTP again once timer get paused by calling create OTP API
+     * @property {boolean} activeOtp
      */
-
     resendOtp() {
         this.otpVerifyForm.reset();
         this.activeOtp = false;
@@ -138,9 +131,10 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
 
 
     /**
-     * @description This function is used to submit OTP form
+     * @description function to submit otp form
+     * @property {object} otp - to get and join all otp1, otp2, otp3, and otp4 values
+     * @property {object} data - to store otp and phone number values
      */
-
     submit(): void {
 
         if (this.otpVerifyForm.valid) {
@@ -193,10 +187,13 @@ export class OtpVerifyComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         //Called once, before the instance is destroyed.
-        //Add 'implements OnDestroy' to the class.
         this.stopTimer();
     }
 
+    /**
+     * @description function to open switch user profile popup when the entered user is buyer
+     * @property {object} userData - to store UserModel data
+     */
     switchUserProfile(userProfileData){
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },

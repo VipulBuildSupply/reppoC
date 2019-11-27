@@ -19,21 +19,14 @@ export class AddAddressComponent implements OnInit {
     addressForm: FormGroup;
     addrs: Address;
     selectedProfile;
-    asdeliveryRangeAddress: false;
+    asdeliveryRangeAddress: boolean = false;
     additionalAddress;
-   
     states;
     cities;
     submitBtn = false;
     isEdit: boolean;
-        
 
     ngOnInit(): void {
-
-        // if((this.addressForm.valid) && (this.addrs.state.id > 0)){
-        //     this.submitBtn=true;
-        // }
-
         this.addrs = {
             addressLine1: '',
             addressLine2: '',
@@ -41,7 +34,7 @@ export class AddAddressComponent implements OnInit {
             companyId: '',
             defaultAddress: false,
             gstHolderName: '',
-            deliveryRange : '',
+            deliveryRange: '',
             gstin: '',
             name: '',
             phoneNo: '',
@@ -72,14 +65,11 @@ export class AddAddressComponent implements OnInit {
             }
         })
 
-
-
-
         this.addressForm = this._formBuilder.group({
             gstHolderName: [this.addrs.name, Validators.required],
             addressLine1: [this.addrs.addressLine1, Validators.required],
             addressLine2: [this.addrs.addressLine2],
-            cityId: [  this.addrs.city.id , Validators.required],
+            cityId: [this.addrs.city.id, Validators.required],
             defaultAddress: [this.addrs.defaultAddress],
             phoneNo: [this.addrs.phoneNo, {
                 validators: [
@@ -103,7 +93,7 @@ export class AddAddressComponent implements OnInit {
                 ]
             }],
             stateId: [this.addrs.state.id, Validators.required],
-            deliveryRange:[this.addrs.deliveryRange],
+            deliveryRange: [this.addrs.deliveryRange],
             isAdditionalAddress: [false]
         });
 
@@ -111,29 +101,19 @@ export class AddAddressComponent implements OnInit {
 
     }
 
-    ValidatePincode(e){
-        if(e.target.value.length == 6)
-        {
+    ValidatePincode(e) {
+        if (e.target.value.length == 6) {
             this._userService.getPincode(e.target.value).then(res => {
                 if (res.data) {
-
-
-                    
-                    this.addressForm.get('cityId').setValue( res.data.cityId)
-                    this.addressForm.get('stateId').setValue( res.data.stateId)
+                    this.addressForm.get('cityId').setValue(res.data.cityId)
+                    this.addressForm.get('stateId').setValue(res.data.stateId)
                     this.addrs.state.name = res.data.state;
                     this.addrs.city.name = res.data.city;
-                    // this.addrs.state.
-                    // name = res.data.state;
-                    // this.addrs.city.name = res.data.city;
-                    // console.log(this.addrs.state.id + " -> " + this.addrs.city.id + "..."+this.addrs.state.name +".."+this.addrs.city.name);
                 }
             })
 
-
-            // = res.data
         }
-        else{
+        else {
             this.addrs.state.name = "";
             this.addrs.city.name = "";
         }
@@ -158,39 +138,33 @@ export class AddAddressComponent implements OnInit {
 
     isAdditionalAddressClicked(e) {
         if (e.target.checked) {
-            console.log("checked");
             this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
 
         } else {
-            console.log("UNchecked");
-            // this.addressForm.get('gstin').setValue("");
             this.addressForm.get('gstin').clearValidators();
             this.addressForm.get('gstin').updateValueAndValidity();
 
         }
     }
-    validateGstin(e){
-        if(e.target.value){
-            //console.log("hey");
+    validateGstin(e) {
+        if (e.target.value) {
             this.addressForm.get('gstin').setValidators([Validators.required, Validators.pattern(FieldRegExConst.GSTIN)]);
         }
     }
     onPaste(event: ClipboardEvent) {
-        let clipboardData = event.clipboardData ; //|| window.clipboardData;
+        let clipboardData = event.clipboardData; //|| window.clipboardData;
         let pastedText = clipboardData.getData('text');
         let e = {
-            target:{
+            target: {
                 value: pastedText
             }
         }
         this.validateGstin(e);
-       }
+    }
 
     submit() {
         this.checkGstin();
-        //return;
         if (this.addressForm.valid) {
-            //console.log(this.addrs.state.id);
 
             const defaults: any = {
 
@@ -210,8 +184,6 @@ export class AddAddressComponent implements OnInit {
             }
 
             const data = Object.assign(this.addressForm.value, defaults);
-            console.log(data);
-            console.log(this.addrs.userType);
 
             if (this.addrs.addressCategory !== 'BILLING' && this.addressForm.get('isAdditionalAddress').value !== true) {
                 delete data.gstin;

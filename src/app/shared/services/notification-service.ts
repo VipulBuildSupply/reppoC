@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {SnotifyService, SnotifyToastConfig, SnotifyPosition} from 'ng-snotify';
+import { Injectable } from '@angular/core';
+import { SnotifyService, SnotifyToastConfig, SnotifyPosition } from 'ng-snotify';
 import { ConfigurationConstants } from '../constants/configuration-constants';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackComponent } from '../components/snack/snack.component';
 
 @Injectable()
@@ -25,19 +25,19 @@ export class NotificationService {
         config.showProgressBar = false;
         config.pauseOnHover = true;
         config.position = SnotifyPosition.centerTop;
-        config.animation = {enter: 'fadeIn', exit: 'fadeOut', time: 400};
+        config.animation = { enter: 'fadeIn', exit: 'fadeOut', time: 400 };
         config.timeout = ConfigurationConstants.DEFAULT_NOTIFICATION_TIMEOUT;
         this.snotifyService.info(message, (title) ? title : null, config);
     }
 
-    snack(msg){
+    snack(msg) {
         this._snackBar.openFromComponent(SnackComponent, {
             duration: 2 * 1000,
-            data:{msg, verticalPosition:'top'}
-          });
+            data: { msg, verticalPosition: 'top' }
+        });
     }
 
-    
+
 
     clearAllNotifications() {
         this.snotifyService.clear();

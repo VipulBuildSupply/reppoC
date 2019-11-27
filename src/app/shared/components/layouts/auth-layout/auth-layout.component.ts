@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { SlideConfig } from 'src/app/shared/models/slider';
 
 @Component({
   selector: 'app-auth-layout',
@@ -42,8 +43,8 @@ export class AuthLayoutComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  slideConfig: any;
-  isSlick:boolean;
+  slideConfig: SlideConfig;
+  isSlick: boolean;
   @ViewChild('slickModal', { read: ViewContainerRef, static: true }) slickModal: SlickCarouselComponent;
   activeIndex = 0;
 
@@ -66,20 +67,15 @@ export class AuthLayoutComponent implements OnInit, AfterViewInit {
   }
   
   slickInit(e) {
-    // console.log('slick initialized');
-   
   }
   
   breakpoint(e) {
-    // console.log('breakpoint');
   }
   
   afterChange(e) {
-    // console.log('afterChange');
   }
   
   beforeChange(e) {
-    // console.log('beforeChange');
   }
 
   configBanners() {
