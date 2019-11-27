@@ -54,19 +54,40 @@
     
                             </mat-card>
     
-                            <!-- menu -->
-                            <mat-menu class="user-dd-menu" #menu="matMenu">
-                                <button [disabled]="!item.link" [routerLink]="[ item.link ]"
-                                    *ngFor="let item of profileDropdown" mat-menu-item>{{ item.name }}</button>
-    
-                                <button *ngIf="user.hasCorporateProfile" (click)="switchProfilePopup()" mat-menu-item>Switch
-                                    Profiles</button>
-                                <button *ngIf="user.hasCorporateProfile" mat-menu-item
-                                    (click)="checkCurrentProfile()">Approval Requests</button>
+                            <mat-menu class="navMenus" #menu="matMenu">
+                                <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
+                                    mat-menu-item>{{ item.name }}</button>
                                 <button (click)="logout()" mat-menu-item>Logout</button>
                             </mat-menu>
                         </ng-template>
     
+                        <!-- <ng-container *ngIf="!user; else userProfile">
+                            <div>
+                                <a [routerLink]="['/auth/enter-mobile']"><i class="fa fa-user" aria-hidden="true"></i>Log In</a>
+                                <span class="dark-transp"> | </span>
+                                <a [routerLink]="['/auth/enter-mobile']">Sign Up</a>
+                            </div>
+                        </ng-container> -->
+
+                        
+                        <!-- <ng-template #userProfile>
+                            <div>
+                                <a [matMenuTriggerFor]="menu" href="javascript:void(0)">
+                                    <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
+                                        (error)="getUserAPI()" class="img-fulid user-profile" alt="">
+                                    <span *ngIf="user.sellerPersonalProfile.firstName"
+                                        class="profileName">{{ user.sellerPersonalProfile.firstName }}</span>
+                                    <p>{{user.phone}}</p>
+                                </a>
+        
+                                <mat-menu class="navMenus" #menu="matMenu">
+                                    <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
+                                        mat-menu-item>{{ item.name }}</button>
+                                    <button (click)="logout()" mat-menu-item>Logout</button>
+                                </mat-menu>
+                            </div>
+                        </ng-template> -->
+        
                     </div>
 
                 </div>
