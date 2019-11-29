@@ -1,5 +1,5 @@
 
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, ViewChild } from '@angular/core';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { DataService } from 'src/app/shared/services/data.service';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { LocationsLists, CategoriesLists } from 'src/app/shared/models/leads';
+import { LeadSidebarComponent } from '../../lead-sidebar/lead-sidebar.component';
 
 @Component({
   selector: 'app-lead-layout',
@@ -20,7 +21,13 @@ export class LeadLayoutComponent implements OnInit {
   search: String;
   selectedFilters: Array<LocationsLists | CategoriesLists>;
   count: number;
+  submitQuoteMsg: string;
   tabName: string;
+
+  currentmessage: Subscription;
+  submitQuote: Subscription;
+
+  @ViewChild('leadSideBar', { static: false }) leadSideBar: LeadSidebarComponent;
 
   constructor(private data: DataService,
     private _dialog: MatDialog,
@@ -42,8 +49,15 @@ export class LeadLayoutComponent implements OnInit {
   ngOnInit() {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.searchLeads.subscribe(search => this.search = search);
+    this.currentmessage = this.data.currentMessage.subscribe(message => this.message = message);
+
+    this.submitQuote = this.data.submitQuoteMsg.subscribe(message => {
+      this.submitQuoteMsg = message;
+      if (this.submitQuoteMsg == 'SUBMIT') {
+        this.leadSideBar.loadComponent();
+      }
+
+    });
 
     this._userService.getNewLeads().then(res => {
       if (res) {
@@ -60,6 +74,15 @@ export class LeadLayoutComponent implements OnInit {
       }
 
     });
+  }
+
+  ngOnDestroy() {
+    if (this.currentmessage) {
+      this.currentmessage.unsubscribe();
+    }
+    if (this.submitQuote) {
+      this.submitQuote.unsubscribe();
+    }
   }
 
   toggleleadsnew() {
@@ -97,7 +120,7 @@ export class LeadLayoutComponent implements OnInit {
     if (filterValue.trim) {
       filterValue = filterValue.toLowerCase();
       this.search = filterValue;
-      this.data.searchAllLeads(this.search);
+      this.leadSideBar.searchFilter(filterValue);
     }
   }
 

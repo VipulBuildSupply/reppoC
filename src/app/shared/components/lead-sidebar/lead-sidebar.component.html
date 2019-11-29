@@ -67,15 +67,24 @@
             </div>
             <div class="flex-sb-m">
                 <div class="title mt-2 ">Required by {{newlead.requiredEndDt | gmtToLocal }}</div>
-                <div class="request-bttn" *ngIf="message === 'NewLeads'"><a href="javascript:void(0)"
-                        class="orangeBttn brdbttn mr-0" (click)="viewQuote(i)"
-                        [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View
-                        Quote</a></div>
+                <div class="request-bttn" *ngIf="message === 'NewLeads'">
+                    <a href="javascript:void(0)" *ngIf="!newlead.expired" class="orangeBttn brdbttn mr-0"
+                        (click)="viewQuote(i)" [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View
+                        Quote</a>
+                    <a *ngIf="newlead.expired" href="javascript:void(0)" class="expiredLeadBttn brdbttn mr-0">Expired
+                        Lead</a>
+                </div>
 
-                <div class="request-bttn" *ngIf="message === 'ActedLeads'"><a href="javascript:void(0)"
-                        class="orangeBttn brdbttn mr-0" (click)="viewQuote(i)"
-                        [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View
-                        Quote</a></div>
+                <div class="request-bttn" *ngIf="message === 'ActedLeads'">
+                    <a *ngIf="!newlead.expired" href="javascript:void(0)" class="orangeBttn brdbttn mr-0"
+                        (click)="viewQuote(i)" [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View
+                        Quote</a>
+
+                    <a *ngIf="newlead.expired" href="javascript:void(0)" (click)="viewQuote(i)"
+                        [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
+                        class="expiredLeadBttn brdbttn mr-0">Expired
+                        Lead</a>
+                </div>
 
             </div>
         </div>

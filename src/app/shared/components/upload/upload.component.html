@@ -1,0 +1,39 @@
+<div class="col-12">
+    <label for="{{id}}" class="bs-btn bs-btn__link cursor_pointer before-none">
+        <i class="fa fa-upload"></i>
+        Upload Attachment
+    </label>
+    <input (change)="uploadFiles($event.target.files)" [hidden]="true" id="{{id}}" multiple type="file" />
+    <mat-card *ngIf="fileToUpload" class="pt-0 pb-0 mb-4 col-6">
+        <mat-list class="pt-0">
+            <ng-container *ngIf="fileToUpload">
+
+                <ng-container *ngFor="let file of fileToUpload; let i = index">
+                    <mat-list-item>
+                        {{ file.name}}
+                        <button type="button" (click)="removeFile(i)" mat-icon-button>
+
+                            <mat-icon class="font-size-16">cancel</mat-icon>
+                        </button>
+                    </mat-list-item>
+                    <mat-divider *ngIf="(i+1) != fileToUpload.length"></mat-divider>
+                </ng-container>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="uploadedDocs">
+                <ng-container *ngFor="let file of uploadedDocs">
+                    <mat-divider></mat-divider>
+                    <mat-list-item>
+                        {{ file.orginalFileName}}
+                        <button type="button" (click)="onUploadedRemove(file.id)" mat-icon-button>
+
+                            <mat-icon class="font-size-16">cancel</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </ng-container>
+            </ng-container> -->
+        </mat-list>
+    </mat-card>
+
+
+</div>

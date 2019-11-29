@@ -16,10 +16,9 @@
                 <input type="text" class="form-control" (keyup)="applySearchFilter($event.target.value)"
                   placeholder="Search">
               </div>
-              
-              <a href="javascript:void(0)" (click)="filters()" role="button" style="color:rgba(125,125,125,0.95);"> 
-                <img [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'"
-                    alt="">
+
+              <a href="javascript:void(0)" (click)="filters()" role="button" style="color:rgba(125,125,125,0.95);">
+                <img [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'" alt="">
                 <span class="filter-no" *ngIf="count">{{count}}</span>
                 Filters
               </a>
@@ -31,12 +30,20 @@
     </div>
 
     <div class="row">
+
       <div class="col-lg-5" *ngIf="new_tab == 'active-tab'">
-        <app-lead-sidebar></app-lead-sidebar>
+        <app-lead-sidebar #leadSideBar>
+        </app-lead-sidebar>
+        <!-- <app-lead-sidebar #leadSideBar *ngIf="submitQuoteMsg == 'SUBMIT'">
+        </app-lead-sidebar> -->
       </div>
       <div class="col-lg-5" *ngIf="new_tab != 'active-tab'">
-        <app-lead-sidebar></app-lead-sidebar>
+        <app-lead-sidebar #leadSideBar>
+        </app-lead-sidebar>
+        <!-- <app-lead-sidebar #leadSideBar *ngIf="submitQuoteMsg == 'SUBMIT'">
+        </app-lead-sidebar> -->
       </div>
+
       <div class="col-lg-7">
         <div class="rightbar-panel">
           <router-outlet></router-outlet>
