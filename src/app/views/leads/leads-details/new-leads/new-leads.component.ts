@@ -78,12 +78,12 @@ export class NewLeadComponent implements OnInit {
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       this.leadId = params['id'];
-      this.data.currentMessage.subscribe(message => this.message = message);
-      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
       this.addPriceToAllWareHouseCheckBoxCheck = true;
       this.pricingForms = [];
       this.editPricingAllForms = [];
+
+      this.startSubscriptions();
 
       this.Userservice.showPaymentTerms().then(res => {
         this.paymentterms = res.data;
@@ -94,6 +94,20 @@ export class NewLeadComponent implements OnInit {
     });
 
   }
+
+  startSubscriptions() {
+    this.subscriptions.push(
+      this.data.currentMessage.subscribe(message => this.message = message),
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
+    )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
   paymentForm() {
 
     this.leadPaymentForm = this._formBuilder.group({
@@ -199,9 +213,13 @@ export class NewLeadComponent implements OnInit {
     this.paymentTermCode = event.value;
     if (this.paymentTermCode === 'bs.paymenterm.others') {
       this.openTextBoxPayment = true;
+
+      this.leadPaymentForm.get('PaymentInput').setValue(null);
     }
     else {
       this.leadPaymentForm.get('PaymentTerm').setValue(this.paymentTermCode);
+
+      this.leadPaymentForm.get('PaymentInput').setValue(null);
       this.openTextBoxPayment = false;
     }
   }

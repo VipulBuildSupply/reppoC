@@ -91,10 +91,8 @@ export class LeadSidebarComponent implements OnInit {
   loadComponent() {
     this.bookmarkClicked = [];
     this.activeLeads = [];
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
-
+    this.startSubscriptions();
     if (this.submitQuoteMsg === "SUBMIT") {
 
       this.userService.getNewLeads().then(res => {
@@ -118,7 +116,6 @@ export class LeadSidebarComponent implements OnInit {
     }
 
     this.getNewLeads();
-    this.startSubscriptions();
   }
 
   searchFilter(filterValue?) {
@@ -141,30 +138,53 @@ export class LeadSidebarComponent implements OnInit {
           this.new_leads = data;
           this.new_leadsTemp = data;
         }
-      })
+      }),
+      this.data.currentMessage.subscribe(message => this.message = message),
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
     )
   }
 
   getNewLeads() {
     if (this.submitQuoteMsg === "SUBMIT") {
-      this.userService.getNewLeads().then(res => {
-        if (res) {
-          if (res.data.length > 0) {
-            this.new_leads = res.data;
-            this.new_leadsTemp = res.data;
-            this._router.navigate([`/lead`]);
+      if (this.message === "NewLeads") {
+        this.userService.getNewLeads().then(res => {
+          if (res) {
+            if (res.data.length > 0) {
+              this.new_leads = res.data;
+              this.new_leadsTemp = res.data;
+              this._router.navigate([`/lead`]);
+            }
+            else {
+              this.data.changeMessage("ActedLeads");
+            }
           }
           else {
             this.data.changeMessage("ActedLeads");
           }
-        }
-        else {
-          this.data.changeMessage("ActedLeads");
-        }
 
-      });
-      this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
+        });
+        this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
 
+      }
+      if (this.message == "ActedLeads") {
+        this.userService.getActedLeads().then(res => {
+          if (res) {
+            if (res.data.length > 0) {
+              this.new_leads = res.data;
+              this.new_leadsTemp = res.data;
+              this._router.navigate([`/lead`]);
+            }
+            else {
+              this.data.changeMessage("NewLeads");
+            }
+          }
+          else {
+            this.data.changeMessage("NewLeads");
+          }
+
+        });
+        this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
+      }
     }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
@@ -213,8 +233,6 @@ export class LeadSidebarComponent implements OnInit {
         this.startSubscriptions();
       }
     }
-
-
   }
 
   viewQuote(index) {
@@ -240,6 +258,12 @@ export class LeadSidebarComponent implements OnInit {
   DismissBtnClicked(skuId) {
     this.userService.DismissLead(skuId, "DISMISS").then(res => {
       this.getNewLeads();
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
     });
   }
 }
