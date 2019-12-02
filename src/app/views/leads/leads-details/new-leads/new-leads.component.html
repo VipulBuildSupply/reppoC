@@ -378,6 +378,28 @@
                                     <span>Note:</span> Above prices are excluding shipping and GST charges.
                                 </div>
                             </div>
+
+                            <ng-container *ngIf="showLeadObjDetails && showLeadObjDetails.data.warehouseList && paymentterms">
+                                <h6>Please select your expected payment terms</h6>
+                                <form [formGroup]="leadPaymentForm">
+                                    <mat-form-field>
+                                        <mat-label>Payment terms</mat-label>
+                                        <mat-select formControlName="PaymentTerm"
+                                            (selectionChange)="paymentTermsSelect($event)">
+                                            <mat-option *ngFor="let paymentterm of paymentterms" [value]="paymentterm.code">
+                                                {{paymentterm.displayName}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <br>
+                                    <mat-form-field *ngIf="openTextBoxPayment">
+                                        <input matInput formControlName="PaymentInput" class="form-control"
+                                            (input)="setOtherPaymentTerms($event)" placeholder="payment Terms" required>
+                                    </mat-form-field>
+                                </form>
+                            </ng-container>
+       
+                            <app-upload class="col-12" (onFileUpdate)="fileUpdate($event)"></app-upload>
         
         
                             <div class="save-orange">
@@ -545,6 +567,27 @@
                             <span>Note:</span> Above prices are excluding shipping and GST charges.
                         </div>
                     </div>
+
+                    <ng-container *ngIf="showLeadObjDetails && warehouseData && paymentterms">
+                        <h6>Please select your expected payment terms</h6>
+                        <form [formGroup]="leadPaymentForm">
+                            <mat-form-field>
+                                <mat-label>Payment terms</mat-label>
+                                <mat-select formControlName="PaymentTerm" (selectionChange)="paymentTermsSelect($event)">
+                                    <mat-option *ngFor="let paymentterm of paymentterms" [value]="paymentterm.code">
+                                        {{paymentterm.displayName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field *ngIf="openTextBoxPayment">
+                                <input matInput formControlName="PaymentInput" class="form-control"
+                                    (input)="setOtherPaymentTerms($event)" placeholder="payment Terms" required>
+                            </mat-form-field>
+                        </form>
+                    </ng-container>
+       
+                    <app-upload class="col-12" (onFileUpdate)="fileUpdate($event)"></app-upload>
         
                     <div class="save-orange">
                         <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
@@ -566,8 +609,4 @@
             </div>
         </div>
     </div>
-    
-    
-
-    
 </ng-container>

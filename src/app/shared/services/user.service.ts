@@ -301,4 +301,14 @@ export class UserService {
     sendQuoteToAllWarehouse(data, leadID) {
         return this.dataService.sendPostRequest(API.QUOTE_SUBMIT_ALL_WAREHOUSE(leadID), data).then(res => res);
     }
+    showPaymentTerms() {
+        return this.dataService.getRequest(API.GET_PAYMENT_TERMS).then((res: any) => res);
+    }
+
+    getSequenceId() {
+        return this.dataService.getRequest(API.UNIQUE_ID).then(res => res.data);
+    }
+    docUpload(data) {
+        return this.dataService.sendPostRequest(API.UPLOAD_DOC, data).then(res => res)
+    }
 }
