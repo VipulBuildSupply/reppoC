@@ -8,6 +8,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
+import { LoggerService } from 'src/app/shared/services/logger.service';
 
 interface Warehouse {
   address: any;
@@ -106,6 +107,7 @@ export class NewLeadComponent implements OnInit {
     this.Userservice.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
+      LoggerService.debug(this.showLeadObjDetails.data.request);
 
       this.warehouseData = [];
 
