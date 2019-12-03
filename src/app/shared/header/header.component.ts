@@ -87,4 +87,10 @@ export class HeaderComponent implements OnInit {
     // for user image update
     this.userService.getUserData();
   }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+        subscription.unsubscribe();
+    });
+  }
 }

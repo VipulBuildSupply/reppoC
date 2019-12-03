@@ -20,7 +20,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     addressProofAlreadyPresent: boolean;
     addressForm: FormGroup;
     addrs: Address;
-    asdeliveryRangeAddress: boolean = false;
+    asdeliveryRangeAddress = false;
     additionalAddress;
     states;
     cities;

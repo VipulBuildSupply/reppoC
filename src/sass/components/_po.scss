@@ -1,0 +1,74 @@
+.po{
+    .mat-card{
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        border: 1px solid #ececec;
+    }
+
+    &__title-section {
+        padding: 13px 15px;
+    }
+
+    &__header-image{
+        width: 100px !important;
+        height: auto !important;
+    }
+
+    .divider{
+        width: 100%;
+        height: 1px;
+        background-color: #ececec;
+    }
+
+    h4{
+        color: rgba(0,0,0,0.9);
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+    }
+
+    &__dateTime{
+        color: #878787;
+        font-family: "Open Sans", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 17px;
+        margin-bottom: 0;
+    }
+
+    .mat-card-header{
+        padding: 13px 15px;
+    }
+
+    .mat-card-title{
+        color: #212121;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 22px;
+        margin-bottom: 15px;
+    }
+
+    .mat-card-subtitle{
+        margin-bottom: 0;
+        color: #000000;
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+    .text-right span{
+        border: 1.1px solid #E8B00C;
+        border-radius: 4.4px;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 14px;
+        color: #E8B00C;
+        padding: 5px 8px;
+        letter-spacing: 1px;
+        font-family: "Open Sans", sans-serif;
+        text-transform: uppercase;
+    }
+}
