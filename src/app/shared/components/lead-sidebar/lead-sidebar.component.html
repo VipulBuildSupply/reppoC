@@ -1,8 +1,8 @@
 <ng-container *ngIf="new_leads">
     <ng-container *ngFor="let newlead of new_leads;let i = index">
         <mat-card class="leads-card" 
-            [ngClass]="(activeLeads[i]?'required-box active-leads':'required-box')">
-
+            [ngClass]="[activeLeads[i] ? 'required-box active-leads' : 'required-box', 
+                        (activeLeads[i] && newlead.expired) ? 'activeExpiredLeads' : '']">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image">
                     <img [src]="newlead.imageUrl || 'assets/img/bricks.png'" alt="">
@@ -97,25 +97,41 @@
                 <div class="required-date">Required by {{newlead.requiredEndDt | gmtToLocal }}</div>
 
                 <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
-                    <ng-container *ngIf="message === 'NewLeads'">
-                        <button mat-button class="orangeBttn brdbttn mr-0"
-                            (click)="viewQuote(i)" 
-                            [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View Quote</button>
-                    </ng-container>
-    
-                    <ng-container *ngIf="message === 'ActedLeads'">
-                        <button mat-button class="orangeBttn brdbttn mr-0"
-                            (click)="viewQuote(i)"
-                            [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View Quote</button>
-                    </ng-container>
+                        
+                    <div *ngIf="message === 'ActedLeads'">
+                        <!--------- Condition if submit quote, Acted Lead and not expired ------>
+                        <ng-container *ngIf="!newlead.expired; else expiredLeadActed">
+                            <button mat-button class="orangeBttn brdbttn mr-0"
+                                (click)="viewQuote(i)"
+                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View Quote</button>
+                        </ng-container>
+
+                        <!--------- Condition if submit quote, Acted Lead and expired ------>
+                        <ng-template #expiredLeadActed>
+                            <button (click)="viewQuote(i)"
+                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
+                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                        </ng-template>
+                    </div>
                 </ng-container>
 
                 <ng-container *ngIf="newlead.status != 'Submit' || newlead.statusCd != 'quote.request.sts.seller.submit'">
-                    <ng-container *ngIf="message === 'NewLeads' || message === 'ActedLeads'">
-                        <button mat-button class="orangeBttn brdbttn mr-0"
-                            (click)="viewQuote(i)" 
-                            [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View Lead</button>
-                    </ng-container>
+                    <div *ngIf="message === 'NewLeads' || message === 'ActedLeads'">
+                        
+                        <!--------- Condition if submit quote, Acted & New Lead and not expired ------>
+                        <ng-container *ngIf="!newlead.expired; else expiredLeadBoth">
+                            <button mat-button class="orangeBttn brdbttn mr-0"
+                                (click)="viewQuote(i)" 
+                                [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View Lead</button>
+                        </ng-container>
+
+                        <!--------- Condition if submit quote, Acted & New Lead and expired ------>
+                        <ng-template #expiredLeadBoth>
+                            <button (click)="viewQuote(i)"
+                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
+                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                        </ng-template>
+                    </div>
                 </ng-container>
             
             </mat-card-actions>

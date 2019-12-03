@@ -41,17 +41,19 @@ a:hover {
 
 
 .expiredLeadBttn {
-    font-size: 12px;
-    font-weight: $font-weight-600;
-    line-height: 37px;
-    padding: 0 12px;
-    display: inline-block;
+    width: 92px;
+    height: 24px;
     color: #FF0000;
-    height: 37px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 14px;
+    font-family: "open sans", sans-serif;
+    display: inline-block;
     border: 1px solid #FF0000;
     border-radius: 3px;
     background-color: #FFF1F1;
     text-transform: uppercase;
+    -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
 

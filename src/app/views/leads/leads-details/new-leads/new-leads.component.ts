@@ -8,9 +8,8 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
-import { LoggerService } from 'src/app/shared/services/logger.service';
 import { of } from 'rxjs';
-
+import { LoggerService } from 'src/app/shared/services/logger.service';
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
@@ -65,14 +64,19 @@ export class NewLeadComponent implements OnInit {
   warehouseHasPricing: boolean;
   datePickerValueLeads: any;
   openTextBoxPayment: boolean;
+  activeLeadId: number;
+  activeLeadStatus: boolean;
+  notes: string;
 
   constructor(private route: ActivatedRoute,
-    private _formBuilder: FormBuilder, private _router: Router,
+    private _formBuilder: FormBuilder, 
+    private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
     private data: DataService,
     private ref: ChangeDetectorRef,
-    private _categoryService: CategoryService, private Userservice: UserService) {
+    private _categoryService: CategoryService, 
+    private Userservice: UserService) {
 
   }
 
@@ -98,9 +102,13 @@ export class NewLeadComponent implements OnInit {
 
   startSubscriptions() {
     this.subscriptions.push(
+      this.route.params.subscribe(params => {
+          this.activeLeadId = parseInt(params.id);
+      }),
+      
       this.data.currentMessage.subscribe(message => this.message = message),
       this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
-    )
+    );
   }
 
   ngOnDestroy() {
@@ -119,6 +127,7 @@ export class NewLeadComponent implements OnInit {
       PaymentInput: new FormControl()
     });
   }
+
   getLeadObj(leadId) {
     this.openTextBoxPayment = false;
     this.editMinMaxIsFalse = false;
@@ -144,8 +153,7 @@ export class NewLeadComponent implements OnInit {
     this.Userservice.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
-      LoggerService.debug(this.showLeadObjDetails.data.request);
-
+      this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
       this.warehouseData = [];
 
       if (this.showLeadObjDetails.data.request.sellerPaymentTerm) {
@@ -856,6 +864,10 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
+  OnInput(event){
+    this.notes = event.value;
+  }
+
   addPricingIndividualWarehouseAddress() {
     this.uploadDocs();
     this.sendPricingToIndividualArrayAdd = [];
@@ -872,7 +884,8 @@ export class NewLeadComponent implements OnInit {
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
             "samePriceAllWarehouse": false,
             "warehouseId": this.warehouseData[i].address.addressId,
-            "paymentTerm": this.paymentTermCode
+            "paymentTerm": this.paymentTermCode,
+            "note": this.notes
           }
           this.sendPricingToIndividualArrayAdd.push(object);
         }
@@ -909,7 +922,8 @@ export class NewLeadComponent implements OnInit {
           "minQty": this.editPricingAllForms[i].controls.minPrice.value,
           "price": this.editPricingAllForms[i].controls.price.value,
           "samePriceAllWarehouse": true,
-          "paymentTerm": this.paymentTermCode
+          "paymentTerm": this.paymentTermCode,
+          "note": this.notes
         }
         this.sendPricingToAllArrayEdit.push(object);
       }

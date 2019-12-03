@@ -40,7 +40,7 @@ import { MainLayoutComponent } from './shared/components/layouts/main-layout/mai
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
     LeadLayoutComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
   ],
   imports: [
     BrowserModule,

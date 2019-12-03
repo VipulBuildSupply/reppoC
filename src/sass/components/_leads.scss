@@ -150,7 +150,6 @@
     }
 
     &__details{
-        border-bottom: 2px solid #ececec;
         padding: 20px 28px 10px;
     }
 
@@ -271,6 +270,38 @@
             background-color: #03B10F;
         }
     }
+
+    &__error-msg {
+        border: 1px solid #FF0000;
+        background-color: #FFF1F1;
+        p {
+            color: #FC3C3C;
+            font-family: "Open Sans";
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 19px;
+            margin-bottom: 0;
+            padding: 15px 20px;
+        }
+    }
+
+    &__lead-expired {
+        padding: 10px 28px 140px;
+        color: #878787;
+        text-align: center;
+        font-family: "open sans", sans-serif;
+        h4{
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 33px;
+        }
+        p{
+            font-size: 16px;
+            line-height: 24px;
+            width: 78%;
+            margin: auto;
+        }
+    }
 }
 
 .blue-link-color{
@@ -282,7 +313,7 @@
 }
 
 .Pricing-Information {
-    
+
     .quote-date{
         .mat-form-field-appearance-legacy .mat-form-field-infix{
             padding: 0;
@@ -424,4 +455,14 @@
     color: rgba(0,0,0,0.8);
     font-size: 14px;
     opacity: 0.9;
+}
+
+.activeExpiredLeads{
+    border: 1px solid #FF0000;
+    border-radius: 4px;
+}
+
+.quote-details-section{
+    padding: 0px 28px 20px;
+    border-bottom: 2px solid #ececec;
 }
