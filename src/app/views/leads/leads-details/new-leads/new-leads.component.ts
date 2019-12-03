@@ -91,6 +91,8 @@ export class NewLeadComponent implements OnInit {
 
   startSubscriptions() {
     this.subscriptions.push(
+      this.data.currentMessage.subscribe(message => this.message = message),
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message),
       this.route.params.subscribe(params => {
         
         this.activeLeadId = parseInt(params.id);
@@ -108,9 +110,6 @@ export class NewLeadComponent implements OnInit {
         this.getLeadObj(this.leadId);
         this.paymentForm();
       }),
-
-      this.data.currentMessage.subscribe(message => this.message = message),
-      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
     );
   }
 
