@@ -55,7 +55,7 @@ export class NewLeadComponent implements OnInit {
   paymentterms: any;
   leadPaymentForm: FormGroup;
   sequenceId: any;
-  private routeSub: Subscription;
+  // private routeSub: Subscription;
   leadId: number;
   wareHouseAdd: any;
   showLeadObjDetails: any;
@@ -84,31 +84,29 @@ export class NewLeadComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routeSub = this.route.params.subscribe(params => {
-      this.leadId = params['id'];
 
-      this.addPriceToAllWareHouseCheckBoxCheck = true;
-      this.pricingForms = [];
-      this.editPricingAllForms = [];
-
-      this.startSubscriptions();
-
-      this.Userservice.showPaymentTerms().then(res => {
-        this.paymentterms = res.data;
-      });
-
-      this.getLeadObj(this.leadId);
-      this.paymentForm();
-
-
-    });
+    this.startSubscriptions();
 
   }
 
   startSubscriptions() {
     this.subscriptions.push(
       this.route.params.subscribe(params => {
+        
         this.activeLeadId = parseInt(params.id);
+
+        this.leadId = params['id'];
+
+        this.addPriceToAllWareHouseCheckBoxCheck = true;
+        this.pricingForms = [];
+        this.editPricingAllForms = [];
+
+        this.Userservice.showPaymentTerms().then(res => {
+          this.paymentterms = res.data;
+        });
+
+        this.getLeadObj(this.leadId);
+        this.paymentForm();
       }),
 
       this.data.currentMessage.subscribe(message => this.message = message),

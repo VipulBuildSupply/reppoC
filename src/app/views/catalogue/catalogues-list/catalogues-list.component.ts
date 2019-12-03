@@ -975,5 +975,11 @@ export class CataloguesList implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+        subscription.unsubscribe();
+    });
+  }
+
 
 }
