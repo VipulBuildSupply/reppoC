@@ -15,6 +15,7 @@ export class UploadComponent implements OnInit {
 
 
     @Output('onFileUpdate') onFileUpdate = new EventEmitter<FileList>();
+
     @Input('parentId') parentId;
 
     constructor() { }
@@ -28,10 +29,7 @@ export class UploadComponent implements OnInit {
    * @param files Document to be upload
    */
     uploadFiles(files: FileList) {
-
         let newFiles = new DataTransfer();
-
-
         Object.keys(files).forEach((key) => {
             newFiles.items.add(files[key]);
         });
@@ -41,10 +39,7 @@ export class UploadComponent implements OnInit {
                 newFiles.items.add(this.fileToUpload[key]);
             });
         }
-
         this.fileToUpload = newFiles.files;
-
-
         this.onFileUpdate.emit(this.fileToUpload);
     }
 
@@ -56,8 +51,6 @@ export class UploadComponent implements OnInit {
      */
     removeFile(i) {
         let newFiles = new DataTransfer();
-
-
         Object.keys(this.fileToUpload).forEach((key) => {
             if (Number(key) !== i) {
                 newFiles.items.add(this.fileToUpload[key]);
@@ -93,5 +86,14 @@ export class UploadComponent implements OnInit {
 
     //     });
     // }
+
+    viewFile(file){
+        var win = window.open(file, '_blank');
+        win.focus();
+    }
+
+    blankFiles(){
+        this.fileToUpload = (new DataTransfer()).files;
+    }
 
 }

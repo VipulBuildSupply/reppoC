@@ -206,6 +206,7 @@
         font-weight: 600;
         line-height: 19px;
         margin-left: 12px;
+        cursor: pointer;
     }
 
     &__attachment-close{
@@ -221,6 +222,7 @@
         font-weight: 600;
         line-height: 19px;
         margin-top: 12px;
+        cursor: pointer;
         img{
             height: 18px;
             width: 14px;
@@ -463,6 +465,76 @@
 }
 
 .quote-details-section{
-    padding: 0px 28px 20px;
+    padding: 0px 28px 0px;
     border-bottom: 2px solid #ececec;
+}
+
+.fileToUpload {
+    label {
+        color: #1896BA;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 19px;
+        margin-top: 12px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+    mat-card{
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        border: 1px solid #ECECEC;
+        background-color: #FBFBFB;
+        height: auto;
+        padding: 9.5px 12px;
+        box-shadow: none !important;
+        border-radius: 0;
+        width: 100%;
+    }
+    .mat-list-base{
+        width: 100%
+    }
+    .mat-list-item-content{
+        width: 100%;
+        justify-content: space-between;
+    }
+    .file-name{
+        color: #000000;
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 19px;
+        margin-left: 12px;
+        cursor: pointer;
+    }
+    .mat-icon{
+        font-size: 20px;
+        color: rgba(0, 0, 0, 0.4);
+        margin: 0 0 0 30px;
+        cursor: pointer;
+        background-color: transparent;
+    }
+
+    .mat-list-item-content{
+        padding-left: 1rem !important;
+    }
+
+    .attachment-name{
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 19px;
+        margin-left: 12px;
+        cursor: pointer;
+        font-family: "Open Sans", sans-serif;
+    }
+}
+
+.nonEditable{
+    opacity: 0.9;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+    background-color: #ffffff;
 }

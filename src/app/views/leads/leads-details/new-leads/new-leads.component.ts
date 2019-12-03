@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -10,6 +10,7 @@ import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filt
 import { DataService } from 'src/app/shared/services/data.service';
 import { of } from 'rxjs';
 import { LoggerService } from 'src/app/shared/services/logger.service';
+import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
@@ -68,14 +69,16 @@ export class NewLeadComponent implements OnInit {
   activeLeadStatus: boolean;
   notes: string;
 
+  @ViewChild('upload', { static: false }) upload: UploadComponent;
+
   constructor(private route: ActivatedRoute,
-    private _formBuilder: FormBuilder, 
+    private _formBuilder: FormBuilder,
     private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
     private data: DataService,
     private ref: ChangeDetectorRef,
-    private _categoryService: CategoryService, 
+    private _categoryService: CategoryService,
     private Userservice: UserService) {
 
   }
@@ -96,6 +99,8 @@ export class NewLeadComponent implements OnInit {
 
       this.getLeadObj(this.leadId);
       this.paymentForm();
+
+
     });
 
   }
@@ -103,9 +108,9 @@ export class NewLeadComponent implements OnInit {
   startSubscriptions() {
     this.subscriptions.push(
       this.route.params.subscribe(params => {
-          this.activeLeadId = parseInt(params.id);
+        this.activeLeadId = parseInt(params.id);
       }),
-      
+
       this.data.currentMessage.subscribe(message => this.message = message),
       this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
     );
@@ -129,6 +134,7 @@ export class NewLeadComponent implements OnInit {
   }
 
   getLeadObj(leadId) {
+    this.docs = null;
     this.openTextBoxPayment = false;
     this.editMinMaxIsFalse = false;
     this.paymentTermCode = null;
@@ -151,6 +157,9 @@ export class NewLeadComponent implements OnInit {
     this.addAnotherRange();
 
     this.Userservice.getLeadObj(leadId).then(res => {
+
+
+
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
       this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
@@ -175,9 +184,10 @@ export class NewLeadComponent implements OnInit {
             this.leadPaymentForm.get('PaymentInput').setValue(this.showLeadObjDetails.data.request.sellerPaymentTerm);
           }
         });
-
-
       }
+
+
+
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
         const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
         const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
@@ -209,14 +219,17 @@ export class NewLeadComponent implements OnInit {
           this.sequenceId = res.id;
         }
       })
-
       this.paymentForm();
-
+      this.updateFileList();
     });
 
     // this.addAnotherRange();
+  }
 
-
+  updateFileList() {
+    if (this.upload) {
+      this.upload.blankFiles();
+    }
   }
 
   paymentTermsSelect(event) {
@@ -233,11 +246,11 @@ export class NewLeadComponent implements OnInit {
       this.openTextBoxPayment = false;
     }
   }
+
   setOtherPaymentTerms(event) {
     this.paymentTermCode = event.target.value;
     this.leadPaymentForm.get('PaymentInput').setValue(this.paymentTermCode);
   }
-
 
   createWarehouseData(warehouselist) {
 
@@ -864,7 +877,7 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
-  OnInput(event){
+  OnInput(event) {
     this.notes = event.value;
   }
 
@@ -1036,6 +1049,11 @@ export class NewLeadComponent implements OnInit {
       of().toPromise();
     }
 
+  }
+
+  downloadDoc(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
   }
 
 }
