@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -8,7 +8,9 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { SendBulkCatalogueEmailComponent } from 'src/app/shared/dialogs/send-bulk-catalogue-email/send-bulk-catalogue-email.component';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
-
+import { of } from 'rxjs';
+import { LoggerService } from 'src/app/shared/services/logger.service';
+import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
@@ -27,6 +29,7 @@ export class NewLeadComponent implements OnInit {
   catalogueListTemp: any;
   uniqueCatalogueData: any;
   pricingForm: FormGroup;
+  docs: FileList;
   addPriceToAllWareHouseCheckBox: boolean;
   addPriceForRemainingQuantity: boolean;
   addPriceForRemainingIndividualQuantity: boolean[] = [];
@@ -48,7 +51,10 @@ export class NewLeadComponent implements OnInit {
   selectedFilters: any;
   message: string;
   submitQuoteMsg: string;
-
+  paymentTermCode: string;
+  paymentterms: any;
+  leadPaymentForm: FormGroup;
+  sequenceId: any;
   private routeSub: Subscription;
   leadId: number;
   wareHouseAdd: any;
@@ -58,33 +64,80 @@ export class NewLeadComponent implements OnInit {
   addPriceToAllWareHouseCheckBoxCheck: boolean;
   warehouseHasPricing: boolean;
   datePickerValueLeads: any;
+  openTextBoxPayment: boolean;
+  activeLeadId: number;
+  activeLeadStatus: boolean;
+  notes: string;
+
+  @ViewChild('upload', { static: false }) upload: UploadComponent;
 
   constructor(private route: ActivatedRoute,
-    private _formBuilder: FormBuilder, private _router: Router,
+    private _formBuilder: FormBuilder,
+    private _router: Router,
     private _dialog: MatDialog,
     private snack: MatSnackBar,
     private data: DataService,
     private ref: ChangeDetectorRef,
-    private _categoryService: CategoryService, private Userservice: UserService) {
+    private _categoryService: CategoryService,
+    private Userservice: UserService) {
 
   }
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
       this.leadId = params['id'];
-      this.data.currentMessage.subscribe(message => this.message = message);
-      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
 
       this.addPriceToAllWareHouseCheckBoxCheck = true;
       this.pricingForms = [];
       this.editPricingAllForms = [];
+
+      this.startSubscriptions();
+
+      this.Userservice.showPaymentTerms().then(res => {
+        this.paymentterms = res.data;
+      });
+
       this.getLeadObj(this.leadId);
+      this.paymentForm();
+
+
     });
 
   }
 
+  startSubscriptions() {
+    this.subscriptions.push(
+      this.route.params.subscribe(params => {
+        this.activeLeadId = parseInt(params.id);
+      }),
+
+      this.data.currentMessage.subscribe(message => this.message = message),
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
+    });
+  }
+
+  paymentForm() {
+
+    this.leadPaymentForm = this._formBuilder.group({
+      //  PaymentTerm: new FormControl(this.paymentTermCode, Validators.required),
+      //   PaymentInput: [{ value: (this.paymentTermCode ? '' : this.showLeadObjDetails.data.request.sellerPaymentTerm) }]
+      // PaymentInput: new FormControl(this.openTextBoxPayment ? this.showLeadObjDetails.data.request.sellerPaymentTerm : '')
+      PaymentTerm: new FormControl(),
+      PaymentInput: new FormControl()
+    });
+  }
+
   getLeadObj(leadId) {
+    this.docs = null;
+    this.openTextBoxPayment = false;
     this.editMinMaxIsFalse = false;
+    this.paymentTermCode = null;
     this.AllIndividualForms = false;
     this.isEditBtnClicked = false;
     this.checkPriceValidate = false;
@@ -104,10 +157,36 @@ export class NewLeadComponent implements OnInit {
     this.addAnotherRange();
 
     this.Userservice.getLeadObj(leadId).then(res => {
+
+
+
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
-
+      this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
       this.warehouseData = [];
+
+      if (this.showLeadObjDetails.data.request.sellerPaymentTerm) {
+        this.Userservice.showPaymentTerms().then(res => {
+          this.paymentterms = res.data;
+          const terms = this.showLeadObjDetails.data.request.sellerPaymentTerm;
+          for (let i = 0; i < this.paymentterms.length; i++) {
+            if (this.paymentterms[i].displayName == terms) {
+              this.paymentTermCode = this.paymentterms[i].code;
+              this.openTextBoxPayment = false;
+            }
+          }
+          if (this.paymentTermCode == null) {
+            this.paymentTermCode = 'bs.paymenterm.others';
+            this.openTextBoxPayment = true;
+          }
+          this.leadPaymentForm.get('PaymentTerm').setValue(this.paymentTermCode);
+          if (this.paymentTermCode = 'bs.paymenterm.others') {
+            this.leadPaymentForm.get('PaymentInput').setValue(this.showLeadObjDetails.data.request.sellerPaymentTerm);
+          }
+        });
+      }
+
+
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
         const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
@@ -135,12 +214,42 @@ export class NewLeadComponent implements OnInit {
           }
         }
       }
-
+      this.Userservice.getSequenceId().then(res => {
+        if (res) {
+          this.sequenceId = res.id;
+        }
+      })
+      this.paymentForm();
+      this.updateFileList();
     });
 
     // this.addAnotherRange();
+  }
 
+  updateFileList() {
+    if (this.upload) {
+      this.upload.blankFiles();
+    }
+  }
 
+  paymentTermsSelect(event) {
+    this.paymentTermCode = event.value;
+    if (this.paymentTermCode === 'bs.paymenterm.others') {
+      this.openTextBoxPayment = true;
+
+      this.leadPaymentForm.get('PaymentInput').setValue(null);
+    }
+    else {
+      this.leadPaymentForm.get('PaymentTerm').setValue(this.paymentTermCode);
+
+      this.leadPaymentForm.get('PaymentInput').setValue(null);
+      this.openTextBoxPayment = false;
+    }
+  }
+
+  setOtherPaymentTerms(event) {
+    this.paymentTermCode = event.target.value;
+    this.leadPaymentForm.get('PaymentInput').setValue(this.paymentTermCode);
   }
 
   createWarehouseData(warehouselist) {
@@ -768,7 +877,12 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
+  OnInput(event) {
+    this.notes = event.value;
+  }
+
   addPricingIndividualWarehouseAddress() {
+    this.uploadDocs();
     this.sendPricingToIndividualArrayAdd = [];
 
     for (let i = 0; i < this.warehouseData.length; i++) {
@@ -776,13 +890,15 @@ export class NewLeadComponent implements OnInit {
         if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
           const object = {
             "id": this.leadId,
-
+            "attachId": this.sequenceId,
             "validEndDt": this.datePickerValueLeads,
             "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
             "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
             "price": this.warehouseData[i].pricingForms[j].controls.price.value,
             "samePriceAllWarehouse": false,
-            "warehouseId": this.warehouseData[i].address.addressId
+            "warehouseId": this.warehouseData[i].address.addressId,
+            "paymentTerm": this.paymentTermCode,
+            "note": this.notes
           }
           this.sendPricingToIndividualArrayAdd.push(object);
         }
@@ -807,16 +923,20 @@ export class NewLeadComponent implements OnInit {
   addPricingAllWarehouseAddress() {
 
     if (this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
+      this.uploadDocs();
       this.sendPricingToAllArrayEdit = [];
 
       for (var i = 0; i < this.editPricingAllForms.length; i++) {
         const object = {
           "id": this.leadId,
+          "attachId": this.sequenceId,
           "validEndDt": this.datePickerValueLeads,
           "maxQty": this.editPricingAllForms[i].controls.maxPrice.value,
           "minQty": this.editPricingAllForms[i].controls.minPrice.value,
           "price": this.editPricingAllForms[i].controls.price.value,
-          "samePriceAllWarehouse": true
+          "samePriceAllWarehouse": true,
+          "paymentTerm": this.paymentTermCode,
+          "note": this.notes
         }
         this.sendPricingToAllArrayEdit.push(object);
       }
@@ -836,16 +956,19 @@ export class NewLeadComponent implements OnInit {
       });
     }
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
+      this.uploadDocs()
       this.sendPricingToAllArray = [];
 
       for (var i = 0; i < this.pricingForms.length; i++) {
         const object = {
           "id": this.leadId,
+          "attachId": this.sequenceId,
           "validEndDt": this.datePickerValueLeads,
           "maxQty": this.pricingForms[i].controls.maxPrice.value,
           "minQty": this.pricingForms[i].controls.minPrice.value,
           "price": this.pricingForms[i].controls.price.value,
-          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox
+          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+          "paymentTerm": this.paymentTermCode
         }
         this.sendPricingToAllArray.push(object);
 
@@ -898,6 +1021,39 @@ export class NewLeadComponent implements OnInit {
 
   addWareHouseAddressBtnClicked() {
     this._router.navigate([`/user/profile/address/warehouse/add`]);
+  }
+
+  fileUpdate(files: FileList) {
+    // this.item.itemForm.get('files').setValue(files);
+    this.docs = files;
+  }
+
+  uploadDocs() {
+    if (this.docs && this.docs.length) {
+
+      const data = new FormData();
+
+      const fileArr: File[] = [];
+
+      for (let key in Object.keys(this.docs)) {
+        fileArr.push(this.docs[key]);
+        data.append(`files[${key}]`, this.docs[key]);
+      }
+      // data.append(`files`, fileArr);
+      data.append('fileUploadType', 'SELLER_LEAD_RESPONSE');
+      data.append('parentId', this.sequenceId);
+      return this.Userservice.docUpload(data).then(res => {
+        return res;
+      });
+    } else {
+      of().toPromise();
+    }
+
+  }
+
+  downloadDoc(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
   }
 
 }

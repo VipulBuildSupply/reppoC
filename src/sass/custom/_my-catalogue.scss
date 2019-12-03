@@ -347,13 +347,13 @@
 }
 
 .inputFieldOfPrice {
-    width: 50%;
+    width: 100%;
 
     .mat-form-field-flex {
         display: inline-flex;
         align-items: baseline;
         box-sizing: border-box;
-        width: 265px;
+        // width: 265px;
     }
 }
 
@@ -451,7 +451,7 @@
 }
 
 .Pricing-Information {
-    padding: 25px;
+    padding: 10px 0 25px;
     clear: both;
 
     h4 {

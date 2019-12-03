@@ -25,7 +25,6 @@
     box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     display: inline-block;
     width: 100%;
-    padding: 15px 25px;
     margin: 0px 0 10px;
     position: relative;
     transition: all .5s ease-in-out;
@@ -84,6 +83,7 @@
             color: rgba(0, 0, 0, 0.9);
             font-size: 12px;
             vertical-align: super;
+            line-height: 22px;
         }
     }
 }
@@ -131,20 +131,15 @@
         display: block;
         color: rgba(0, 0, 0, 0.6);
         font-size: 12px;
+        margin-bottom: 0;
     }
 
-
     .form-control {
-        width: 20%;
-        float: left;
-        margin-right: 20px;
         opacity: 0.8;
         color: #000000;
         font-size: 16px;
         font-weight: 600;
-
-
-
+        font-family: 'Open Sans', sans-serif;
     }
 }
 
@@ -161,11 +156,12 @@
 }
 
 .addres-details {
-    border: 1px solid rgba(#979797, 0.5);
-    padding: 10px;
+    border: 1px solid #ECECEC;
+    padding: 15px 18px;
+    margin: 0 0 18px 0;
 
     p {
-        opacity: 0.6;
+        opacity: 0.8;
         color: #000000;
         font-size: 14px;
         margin-bottom: 0px;
@@ -178,9 +174,9 @@
 }
 
 .payment-terms {
-    margin: 25px 0px 40px;
+    margin: 25px 0px 0px;
 
-    p {
+    p, h6 {
         color: #000000;
         font-size: 16px;
         font-weight: 600;
@@ -197,5 +193,8 @@
         }
     }
 
+    .mat-form-field{
+        width: 65%;
+    }
 
 }

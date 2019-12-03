@@ -12,7 +12,9 @@ import { CategoryService } from '../../services/category.service';
   templateUrl: './lead-sidebar.component.html',
   providers: [CustomDatePipe]
 })
+
 export class LeadSidebarComponent implements OnInit {
+
   new_leads: any;
   new_leadsTemp: any;
   bookmarkClicked: boolean[] = [];
@@ -30,64 +32,69 @@ export class LeadSidebarComponent implements OnInit {
     private dialog: MatDialog,
     private _categoryService: CategoryService) { }
 
-  ngDoCheck() {
-    this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.searchLeads.subscribe(search => this.search = search);
+  // ngDoCheck() {
+  //   //  this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
+  //   // this.data.currentMessage.subscribe(message => this.message = message);
+  //   //this.data.searchLeads.subscribe(search => this.search = search);
 
-    if (this.submitQuoteMsg === "SUBMIT") {
+  //   // if (this.submitQuoteMsg === "SUBMIT") {
 
-      if (this.message === "NewLeads") {
-        this.userService.getNewLeads().then(res => {
-          if (res) {
-            if (res.data.length > 0) {
-              this.new_leads = res;
-              this.new_leadsTemp = res.data;
-              this._router.navigate([`/lead`]);
+  //   //   if (this.message === "NewLeads") {
+  //   //     this.userService.getNewLeads().then(res => {
+  //   //       if (res) {
+  //   //         if (res.data.length > 0) {
+  //   //           this.new_leads = res;
+  //   //           this.new_leadsTemp = res.data;
+  //   //           this._router.navigate([`/lead`]);
 
-              this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-            }
-            else {
-              this.data.changeMessage("ActedLeads");
-              this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-            }
-          }
-          else {
-            this.data.changeMessage("ActedLeads");
-            this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-          }
+  //   //           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+  //   //         }
+  //   //         else {
+  //   //           this.data.changeMessage("ActedLeads");
+  //   //           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+  //   //         }
+  //   //       }
+  //   //       else {
+  //   //         this.data.changeMessage("ActedLeads");
+  //   //         this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+  //   //       }
 
-        });
-      }
-      else if (this.message === "ActedLeads") {
-        this.userService.getActedLeads().then(res => {
-          this.new_leads = res;
-          this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-        });
-      }
+  //   //     });
+  //   //   }
+  //   //   else if (this.message === "ActedLeads") {
+  //   //     this.userService.getActedLeads().then(res => {
+  //   //       this.new_leads = res;
+  //   //       this.new_leadsTemp = res.data;
+  //   //       this._router.navigate([`/lead`]);
+  //   //       this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
+  //   //     });
+  //   //   }
 
-    }
+  //   // }
 
-    if (this.search != '' || this.search != null) {
-      if (this.new_leads) {
-        this.new_leads = this.new_leadsTemp.filter(item => {
-          return item.skuName.toLowerCase().indexOf(this.search) != -1;
-        });
-      }
+  //   // if (this.search != '' || this.search != null) {
+  //   //   if (this.new_leads) {
+  //   //     this.new_leads = this.new_leadsTemp.filter(item => {
+  //   //       return item.skuName.toLowerCase().indexOf(this.search) != -1;
+  //   //     });
+  //   //   }
 
-    } else {
-      this.new_leads = this.new_leadsTemp;
-    }
-  }
+  //   // } else {
+  //   //   this.new_leads = this.new_leadsTemp;
+  //   // }
+  // }
 
   ngOnInit() {
+    this.loadComponent();
+  }
+
+  loadComponent() {
     this.bookmarkClicked = [];
     this.activeLeads = [];
-    this.data.currentMessage.subscribe(message => this.message = message);
-    this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
-    this.data.searchLeads.subscribe(search => this.search = search);
 
+    this.startSubscriptions();
     if (this.submitQuoteMsg === "SUBMIT") {
+
       this.userService.getNewLeads().then(res => {
         if (res) {
           if (res.data.length > 0) {
@@ -98,6 +105,8 @@ export class LeadSidebarComponent implements OnInit {
           else {
             this.data.changeMessage("ActedLeads");
           }
+
+          this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
         }
         else {
           this.data.changeMessage("ActedLeads");
@@ -107,7 +116,19 @@ export class LeadSidebarComponent implements OnInit {
     }
 
     this.getNewLeads();
-    this.startSubscriptions();
+  }
+
+  searchFilter(filterValue?) {
+    if (filterValue != '' || filterValue != null) {
+      if (this.new_leads) {
+        this.new_leads = this.new_leadsTemp.filter(item => {
+          return item.skuName.toLowerCase().indexOf(filterValue) != -1;
+        });
+      }
+
+    } else {
+      this.new_leads = this.new_leadsTemp;
+    }
   }
 
   startSubscriptions() {
@@ -117,28 +138,53 @@ export class LeadSidebarComponent implements OnInit {
           this.new_leads = data;
           this.new_leadsTemp = data;
         }
-      })
+      }),
+      this.data.currentMessage.subscribe(message => this.message = message),
+      this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message)
     )
   }
 
   getNewLeads() {
     if (this.submitQuoteMsg === "SUBMIT") {
-      this.userService.getNewLeads().then(res => {
-        if (res) {
-          if (res.data.length > 0) {
-            this.new_leads = res.data;
-            this.new_leadsTemp = res.data;
-            this._router.navigate([`/lead`]);
+      if (this.message === "NewLeads") {
+        this.userService.getNewLeads().then(res => {
+          if (res) {
+            if (res.data.length > 0) {
+              this.new_leads = res.data;
+              this.new_leadsTemp = res.data;
+              this._router.navigate([`/lead`]);
+            }
+            else {
+              this.data.changeMessage("ActedLeads");
+            }
           }
           else {
             this.data.changeMessage("ActedLeads");
           }
-        }
-        else {
-          this.data.changeMessage("ActedLeads");
-        }
 
-      });
+        });
+        this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
+
+      }
+      if (this.message == "ActedLeads") {
+        this.userService.getActedLeads().then(res => {
+          if (res) {
+            if (res.data.length > 0) {
+              this.new_leads = res.data;
+              this.new_leadsTemp = res.data;
+              this._router.navigate([`/lead`]);
+            }
+            else {
+              this.data.changeMessage("NewLeads");
+            }
+          }
+          else {
+            this.data.changeMessage("NewLeads");
+          }
+
+        });
+        this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
+      }
     }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
@@ -187,8 +233,6 @@ export class LeadSidebarComponent implements OnInit {
         this.startSubscriptions();
       }
     }
-
-
   }
 
   viewQuote(index) {
@@ -214,6 +258,12 @@ export class LeadSidebarComponent implements OnInit {
   DismissBtnClicked(skuId) {
     this.userService.DismissLead(skuId, "DISMISS").then(res => {
       this.getNewLeads();
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
     });
   }
 }
