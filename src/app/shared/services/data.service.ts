@@ -8,6 +8,7 @@ import { ConfigurationConstants } from '../constants';
 import { ResolveData } from '@angular/router';
 import { NotificationService } from './notification-service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -15,13 +16,14 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 export class DataService {
 
     private baseUrl: string;
+    activeTab$ = new Subject<string>();
 
     constructor(private http: HttpClient,
         private notifier: NotificationService,
-        private token: TokenService
-    ) {
+        private token: TokenService) {
         this.baseUrl = environment.apiURL + '/';
     }
+    
     private messageSource = new BehaviorSubject("NewLeads");
     currentMessage = this.messageSource.asObservable();
 

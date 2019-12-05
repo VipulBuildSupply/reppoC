@@ -1,5 +1,5 @@
 <ng-container *ngIf="new_leads">
-    <ng-container *ngFor="let newlead of new_leads;let i = index">
+    <ng-container *ngFor="let newlead of new_leads; let i = index">
         <mat-card class="leads-card" 
             [ngClass]="[activeLeads[i] ? 'required-box active-leads' : 'required-box', 
                         (activeLeads[i] && newlead.expired) ? 'activeExpiredLeads' : '']">
@@ -9,7 +9,7 @@
                 </div>
                 <mat-card-title>
                     <div class="row align-items-start">
-                        <div class="col-md-9 pr-0 mgtn4 lead-title">{{newlead.skuName}}</div>
+                        <div class="col-md-9 pr-1 mgtn4 lead-title">{{newlead.skuName}}</div>
 
                         <div class="col-md-3 pr-0 text-right d-flex justify-content-end align-items-center mgn12">
                             <ng-container *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
@@ -49,6 +49,18 @@
                                     </span>
                                 </div>
                             </ng-container>
+
+
+                            <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
+                                <div class="breakLine mb-3 mt-2"></div>
+                
+                                <div class="quote-section mt-2">
+                                    <div class="quote-price">
+                                        <span>Submitted</span> 
+                                        <img alt="" src="assets/img/green-check.png">
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </mat-card-title>
@@ -77,13 +89,17 @@
                     <mat-card-subtitle>
                         <div class="row">
                             <div class="col-md-6">
-                                <h6>{{newlead.minPrice}}</h6>
-                                <p>Lowest Quote(₹)</p>
+                                <ng-container *ngIf="newlead.minPrice">
+                                    <h6>{{newlead.minPrice}}</h6>
+                                    <p>Lowest Quote(₹)</p>
+                                </ng-container>
                             </div>
     
                             <div class="col-md-6">
-                                <h6>{{newlead.quotePrice}}</h6>
-                                <p>Submitted Quote(₹)</p>
+                                <ng-container *ngIf="newlead.quotePrice">
+                                    <h6>{{newlead.quotePrice}}</h6>
+                                    <p>Submitted Quote(₹)</p>
+                                </ng-container>
                             </div>
                         </div>
                     </mat-card-subtitle>
@@ -136,143 +152,17 @@
             
             </mat-card-actions>
 
-            <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
+            <!-- <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
                 <div class="breakLine mb-3 mt-2"></div>
 
                 <div class="quote-section">
                     <div class="quote-price">
-                        <span>Quote Submitted</span> 
+                        <span>Submitted</span> 
                         <img alt="" src="assets/img/green-check.png">
                     </div>
                 </div>
-            </ng-container>
+            </ng-container> -->
 
         </mat-card>
     </ng-container>
 </ng-container>
-
-
-<!-- <ng-container *ngIf="new_leads">
-    <ng-container *ngFor="let newlead of new_leads;let i = index">
-        <div [ngClass]="(activeLeads[i]?'required-box active-leads':'required-box')">
-
-            <div class="bot-box" *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
-                <div *ngIf="!bookmarkClicked[i]" class="quote-smt">
-                    <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""
-                        (click)="bookmarkToggle(i,newlead.id)">
-
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button (click)="DismissBtnClicked(newlead.id)" mat-menu-item>
-                            <mat-icon>delete</mat-icon>
-                            <span>Dismiss</span>
-                        </button>
-                    </mat-menu>
-                </div>
-
-                <div *ngIf="bookmarkClicked[i]" class="quote-smt">
-                    <img src="assets/img/wishlist-icon-2.png" class="bookmark" alt=""
-                        (click)="bookmarkToggle(i,newlead.id)">
-
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button (click)="DismissBtnClicked(newlead.id)" mat-menu-item>
-                            <mat-icon>delete</mat-icon>
-                            <span>Dismiss</span>
-                        </button>
-                    </mat-menu>
-                </div>
-            </div>
-
-
-
-            <div class="bot-box"
-                *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
-                <div class="quote-smt-price">
-                    Quote Submitted
-                    <img src="assets/img/green-check.png" alt="">
-                </div>
-            </div>
-
-            <h4 class="cement-title">{{newlead.skuName}}</h4>
-
-            <div class="required-info-box flex-sb-m">
-                <div class="required-info">
-                    <p>{{newlead.requestQty}} {{newlead.unit}}</p>
-                    <span>Quantity</span>
-                </div>
-                <div class="required-info">
-                    <p>{{newlead.deliveryLocation}}</p>
-                    <span>City</span>
-                </div>
-            </div>
-
-            <div class="required-info-box flex-sb-m">
-                <div class="required-info">
-                    <p>{{newlead.minPrice}}</p>
-                    <span>Lowest Quote (₹)</span>
-                </div>
-                <div class="required-info">
-                    <p>{{newlead.quotePrice}}</p>
-                    <span>Submitted Quote (₹)
-                    </span>
-                </div>
-            </div>
-
-            <div class="flex-sb-m">
-                <div class="title mt-2 ">Required by {{newlead.requiredEndDt | gmtToLocal }}</div>
-                <div class="request-bttn" *ngIf="message === 'NewLeads'">
-                    <a href="javascript:void(0)" *ngIf="!newlead.expired" class="orangeBttn brdbttn mr-0"
-                        (click)="viewQuote(i)" [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View
-                        Quote</a>
-                    <a *ngIf="newlead.expired" href="javascript:void(0)" class="expiredLeadBttn brdbttn mr-0">Expired
-                        Lead</a>
-                </div>
-
-                <div class="request-bttn" *ngIf="message === 'ActedLeads'">
-                    <a *ngIf="!newlead.expired" href="javascript:void(0)" class="orangeBttn brdbttn mr-0"
-                        (click)="viewQuote(i)" [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View
-                        Quote</a>
-
-                <div class="request-bttn" *ngIf="message === 'ActedLeads'"><a href="javascript:void(0)"
-                        class="orangeBttn brdbttn mr-0" (click)="viewQuote(i)"
-                        [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View
-                        Quote</a></div>
-                    <a *ngIf="newlead.expired" href="javascript:void(0)" (click)="viewQuote(i)"
-                        [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
-                        class="expiredLeadBttn brdbttn mr-0">Expired
-                        Lead</a>
-                </div>
-
-            </div>
-
-        </div>
-    </ng-container>
-</ng-container> -->
-
-
-<!--
-    brandIconImageUrl: null
-deliveryLocation: null
-deliveryLocationCd: "HR.ST.131001"
-expireDt: "07-12-2019 00:00:00"
-expired: true
-id: 6
-imageUrl: null
-minPrice: null
-note: "<li>sd,mfn,↵</li>"
-paymentTerm: "<li>fdsnfmn↵</li>"
-pid: 0
-quotePrice: null
-requestQty: "5000"
-requiredEndDt: "2019-10-29"
-requiredStartDt: "2019-10-22"
-skuId: 352
-skuName: "Cera Bidet S5020101"
-status: null
-statusCd: null
--->

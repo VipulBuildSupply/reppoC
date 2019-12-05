@@ -5,11 +5,16 @@
         <div class="leads-top-section">
           <h4>Leads</h4>
 
-          <div class="leads-srch-box  flex-sb-m">
+          <div class="leads-srch-box flex-sb-m">
+            
             <div class="leads-tap">
-              <a href="javascript:void(0)" [class]="new_tab" (click)="toggleleadsnew()">New Leads</a>
-              <a href="javascript:void(0)" [class]="acted_tab" (click)="toggleleadsacted()">Acted Leads</a>
+              <a href="javascript:void(0)" [class]="new_tab" (click)="toggleNewLeads()">New Leads</a>
+              <a href="javascript:void(0)" [class]="acted_tab" (click)="toggleActedLeads()">Acted Leads</a>
+
+              <!-- <a href="javascript:void(0)" [ngClass]="isnewLeadActive ? 'active-tab' : 'inactive-tab'" (click)="isnewLeadActive = true">New Leads</a>
+              <a href="javascript:void(0)" [ngClass]="!isnewLeadActive ? 'active-tab' : 'inactive-tab'"  (click)="isnewLeadActive = false">Acted Leads</a> -->
             </div>
+
             <div class=" leads-srch">
               <div class="form-group has-search mb-0">
                 <span class="form-control-feedback"><img src="assets/img/search-icon.png" alt=""></span>
@@ -32,16 +37,11 @@
     <div class="row">
 
       <div class="col-lg-5" *ngIf="new_tab == 'active-tab'">
-        <app-lead-sidebar #leadSideBar>
-        </app-lead-sidebar>
-        <!-- <app-lead-sidebar #leadSideBar *ngIf="submitQuoteMsg == 'SUBMIT'">
-        </app-lead-sidebar> -->
+        <app-lead-sidebar #leadSideBar></app-lead-sidebar>
       </div>
+
       <div class="col-lg-5" *ngIf="new_tab != 'active-tab'">
-        <app-lead-sidebar #leadSideBar>
-        </app-lead-sidebar>
-        <!-- <app-lead-sidebar #leadSideBar *ngIf="submitQuoteMsg == 'SUBMIT'">
-        </app-lead-sidebar> -->
+        <app-lead-sidebar #leadSideBar></app-lead-sidebar>
       </div>
 
       <div class="col-lg-7">

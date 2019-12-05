@@ -46,6 +46,11 @@
                     </h6>
                 </div>
         
+                <div class="view-lead__notes" *ngIf="showLeadObjDetails.data.request.paymentTerm">
+                    <p class="view-lead__note-title w-100">BuildSupply Payment Terms:</p>
+                    <h6 class="view-lead__note-content" [innerHTML]="showLeadObjDetails.data.request.paymentTerm"></h6>
+                </div>
+
                 <div class="view-lead__notes" *ngIf="showLeadObjDetails.data.request.note">
                     <p class="view-lead__note-title">BuildSupply Note:</p>
                     <h6 class="view-lead__note-content" [innerHTML]="showLeadObjDetails.data.request.note"></h6>
@@ -74,7 +79,7 @@
 
             <ng-template #leadDetailsBlock>
                 <div class="Pricing-Information border-b quote-details-section">
-                    <p class="top-tital mt-2 mb-0">Quote Details (excluding GST)</p>
+                    <p class="top-tital mt-2">Your Quote Details</p>
 
                     <div class="quote-date">
                         <div class="form-group lableup my-0">
@@ -133,7 +138,18 @@
                         </h5>
                     </div> -->
 
-                    <app-upload class="col-12" (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                    <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
+                        <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
+                        <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
+                            <div class="view-lead__attachment-left">
+                                <img src="assets/img/file.png" alt="pdf file">
+                                <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
+                            </div>
+                            <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
+                        </div>
+                    </div>
+
+                    <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
 
                 </div>
 
@@ -418,7 +434,7 @@
                                                     </mat-select>
                                                 </mat-form-field>
                                                 <br>
-                                                <mat-form-field *ngIf="openTextBoxPayment">
+                                                <mat-form-field *ngIf="openTextBoxPayment" class="otherPaymentCat mt-2">
                                                     <input matInput formControlName="PaymentInput" class="form-control"
                                                         (input)="setOtherPaymentTerms($event)" placeholder="payment Terms" required>
                                                 </mat-form-field>

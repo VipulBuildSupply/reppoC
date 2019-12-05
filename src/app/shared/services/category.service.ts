@@ -12,7 +12,6 @@ export class CategoryService {
     updateSkusList$ = new Subject<any>();
     selectedFiltersCount$ = new Subject<number>();
     updateLeadsSkusList$ = new Subject<any>();
-    activeTab$ = new Subject<string>();
 
     constructor(
         private dataService: DataService

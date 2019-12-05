@@ -1,12 +1,10 @@
 
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { UserModel } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { DataService } from 'src/app/shared/services/data.service';
 import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { CategoryService } from 'src/app/shared/services/category.service';
 import { LocationsLists, CategoriesLists } from 'src/app/shared/models/leads';
 import { LeadSidebarComponent } from '../../lead-sidebar/lead-sidebar.component';
 
@@ -15,37 +13,38 @@ import { LeadSidebarComponent } from '../../lead-sidebar/lead-sidebar.component'
   templateUrl: './lead-layout.component.html'
 })
 export class LeadLayoutComponent implements OnInit {
-  new_tab = "inactive";
-  acted_tab = "inactive";
+  // new_tab = "inactive";
+  // acted_tab = "inactive";
+  new_tab: string;
+  acted_tab: string;
   message: string;
   search: String;
   selectedFilters: Array<LocationsLists | CategoriesLists>;
   count: number;
   submitQuoteMsg: string;
   tabName: string;
-
   currentmessage: Subscription;
   submitQuote: Subscription;
-
   @ViewChild('leadSideBar', { static: false }) leadSideBar: LeadSidebarComponent;
+  // isnewLeadActive = true;
 
   constructor(private data: DataService,
     private _dialog: MatDialog,
-    private _userService: UserService,
-    private _categoryService: CategoryService
-  ) { }
+    private _userService: UserService) { }
 
   ngDoCheck() {
     this.data.currentMessage.subscribe(message => this.message = message);
     if (this.message == "ActedLeads") {
       this.getActiveFiltersCount();
-      this.toggleleadsacted();
+      this.toggleActedLeads();
     }
     else if (this.message == "NewLeads") {
       this.getActiveFiltersCount();
-      this.toggleleadsnew();
+      this.toggleNewLeads();
     }
   }
+  
+  
   ngOnInit() {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
@@ -62,17 +61,15 @@ export class LeadLayoutComponent implements OnInit {
     this._userService.getNewLeads().then(res => {
       if (res) {
         if (res.data.length > 0) {
-          this.toggleleadsnew();
+          this.toggleNewLeads();
         }
         else {
-          this.toggleleadsacted();
+          this.toggleActedLeads();
         }
-
       }
       else {
-        this.toggleleadsacted();
+        this.toggleActedLeads();
       }
-
     });
   }
 
@@ -85,15 +82,18 @@ export class LeadLayoutComponent implements OnInit {
     }
   }
 
-  toggleleadsnew() {
+  toggleNewLeads() {
     this.acted_tab = "inactive-tab";
     this.new_tab = "active-tab";
     this.data.changeMessage("NewLeads");
+    // this.data.activeTab$.next("NewLeads");
   }
-  toggleleadsacted() {
+
+  toggleActedLeads() {
     this.acted_tab = "active-tab";
     this.new_tab = "inactive-tab";
     this.data.changeMessage("ActedLeads");
+    // this.data.activeTab$.next("ActedLeads");
   }
 
   filters() {
@@ -125,6 +125,9 @@ export class LeadLayoutComponent implements OnInit {
   }
 
 
+  /**
+   * Get all active filters Numbers
+   */
   getActiveFiltersCount() {
     if (this.tabName && this.tabName.length) {
       this.count = this.tabName != this.message ? 0 : this.count;

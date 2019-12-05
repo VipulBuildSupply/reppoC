@@ -21,6 +21,15 @@
         background-color: #ececec;
     }
 
+    h3 {
+        font-family: "Open Sans", sans-serif;
+        color: #212121;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 27px;
+        text-transform: uppercase;
+    }
+
     h4{
         color: rgba(0,0,0,0.9);
         font-family: "Open Sans", sans-serif;
@@ -40,6 +49,7 @@
 
     .mat-card-header{
         padding: 13px 15px;
+        justify-content: space-between;
     }
 
     .mat-card-title{
@@ -59,7 +69,7 @@
         line-height: 19px;
     }
 
-    .text-right span{
+    &__header-right span{
         border: 1.1px solid #E8B00C;
         border-radius: 4.4px;
         font-size: 10px;
@@ -70,5 +80,50 @@
         letter-spacing: 1px;
         font-family: "Open Sans", sans-serif;
         text-transform: uppercase;
+    }
+
+    .mat-card-header-text,
+    .mat-card-content{
+        display: none;
+    }
+
+    .mat-card-header-text.mat-card__title{
+        display: block;
+    }
+
+    &__header-left{
+        display: flex;
+    }
+
+    .mat-button{
+        height: 40px;
+        width: 164px;
+        border: 1px solid #F47721;
+        border-radius: 24px;
+        background-color: #F47721;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+    }
+
+    .mat-card>.mat-card-actions:last-child{
+        padding: 13px 15px;
+        margin: 0px !important;
+    }
+
+    .mat-card-actions {
+        span{
+            color: rgba(0,0,0,0.9);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 22px;
+        }
+
+        .mat-button-wrapper{
+            color: #fff !important;
+        }
     }
 }

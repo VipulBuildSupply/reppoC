@@ -84,5 +84,5 @@ export const HEADER_NAV: HeaderNavigaton[] = [
     { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
     // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
     { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
-    // { name: 'PO', link: '/orders/', imgUrl: 'assets/img/po.png' }
+    { name: 'PO', link: '/orders/', imgUrl: 'assets/img/po.png' }
 ]
