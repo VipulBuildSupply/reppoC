@@ -1,21 +1,16 @@
 <div class="po">
     <div class="container">
-        <div class="po__headBar">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Purchase Order</h4>
-                </div>
-                <div class="col-md-3 offset-md-6">
-                    <div class="leads-srch-box flex-sb-m">
-                        <div class=" leads-srch">
-                            <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
-                                        src="assets/img/search-icon.png"></span>
-                                <input class="form-control" placeholder="Search" type="text">
-                            </div>
-                            <!-- <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"><img alt="" src="assets/img/svg-img/ic_filter.svg">
-                                Filters </a> -->
-                        </div>
+        <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+
+            <h3>Purchase Order</h3>
+            <div class="leads-srch-box flex-sb-m">
+                <div class=" leads-srch">
+                    <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
+                                src="assets/img/search-icon.png"></span>
+                        <input class="form-control" placeholder="Search" type="text">
                     </div>
+                    <!-- <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"><img alt="" src="assets/img/svg-img/ic_filter.svg">
+                        Filters </a> -->
                 </div>
             </div>
         </div>
@@ -38,13 +33,19 @@
                     <div class="divider"></div>
 
                     <mat-card-header class="po__header-section">
-                        <div mat-card-avatar class="po__header-image">
-                            <img src="assets/img/bricks.png" alt="" class="img-fluid">
-                        </div>
-                        <mat-card-title>Ambuja Powercem Cement OPC 43 50 Kg 50 kg Bag</mat-card-title>
-                        <mat-card-subtitle>Price: ₹369789 <small>(Excl. GST @28%)</small> /Bags</mat-card-subtitle>
+                        <div class="po__header-left">
+                            <div mat-card-avatar class="po__header-image">
+                                <img src="assets/img/bricks.png" alt="" class="img-fluid">
+                            </div>
 
-                        <div class="text-right">
+                            <div class="mat-card-header-text mat-card__title">
+                                <mat-card-title>Ambuja Powercem Cement OPC 43 50 Kg 50 kg Bag</mat-card-title>
+                                <mat-card-subtitle>Price: ₹369789 <small>(Excl. GST @28%)</small> /Bags</mat-card-subtitle>
+                                <mat-card-subtitle class="pt-2">Quantity: 1000 Bags</mat-card-subtitle>
+                            </div>
+                        </div>
+
+                        <div class="po__header-right">
                             <span>Partially Delivered</span>
                         </div>
                     </mat-card-header>
@@ -56,9 +57,9 @@
                         </div>
                     </mat-card-content>
                     
-                    <mat-card-actions>
-                        <button mat-button>LIKE</button>
-                        <button mat-button>SHARE</button>
+                    <mat-card-actions class="d-flex align-items-center justify-content-between">
+                        <span>Order Total : 993,992,833.0</span>
+                        <button mat-button>Order Details</button>
                     </mat-card-actions>
                 </mat-card>
             </div>

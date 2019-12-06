@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { MatDialog } from '@angular/material';
 import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
@@ -29,60 +28,7 @@ export class LeadSidebarComponent implements OnInit {
     private customdate: CustomDatePipe,
     private data: DataService,
     private _router: Router,
-    private dialog: MatDialog,
     private _categoryService: CategoryService) { }
-
-  // ngDoCheck() {
-  //   //  this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message);
-  //   // this.data.currentMessage.subscribe(message => this.message = message);
-  //   //this.data.searchLeads.subscribe(search => this.search = search);
-
-  //   // if (this.submitQuoteMsg === "SUBMIT") {
-
-  //   //   if (this.message === "NewLeads") {
-  //   //     this.userService.getNewLeads().then(res => {
-  //   //       if (res) {
-  //   //         if (res.data.length > 0) {
-  //   //           this.new_leads = res;
-  //   //           this.new_leadsTemp = res.data;
-  //   //           this._router.navigate([`/lead`]);
-
-  //   //           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-  //   //         }
-  //   //         else {
-  //   //           this.data.changeMessage("ActedLeads");
-  //   //           this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-  //   //         }
-  //   //       }
-  //   //       else {
-  //   //         this.data.changeMessage("ActedLeads");
-  //   //         this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-  //   //       }
-
-  //   //     });
-  //   //   }
-  //   //   else if (this.message === "ActedLeads") {
-  //   //     this.userService.getActedLeads().then(res => {
-  //   //       this.new_leads = res;
-  //   //       this.new_leadsTemp = res.data;
-  //   //       this._router.navigate([`/lead`]);
-  //   //       this.data.changeSubmitQuoteMessage("NOTSUBMITTED");
-  //   //     });
-  //   //   }
-
-  //   // }
-
-  //   // if (this.search != '' || this.search != null) {
-  //   //   if (this.new_leads) {
-  //   //     this.new_leads = this.new_leadsTemp.filter(item => {
-  //   //       return item.skuName.toLowerCase().indexOf(this.search) != -1;
-  //   //     });
-  //   //   }
-
-  //   // } else {
-  //   //   this.new_leads = this.new_leadsTemp;
-  //   // }
-  // }
 
   ngOnInit() {
     this.loadComponent();
@@ -91,8 +37,8 @@ export class LeadSidebarComponent implements OnInit {
   loadComponent() {
     this.bookmarkClicked = [];
     this.activeLeads = [];
-
     this.startSubscriptions();
+
     if (this.submitQuoteMsg === "SUBMIT") {
 
       this.userService.getNewLeads().then(res => {

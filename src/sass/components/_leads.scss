@@ -87,7 +87,7 @@
     }
 
     .quote-section .quote-price{
-        max-width: 132px;
+        max-width: 90px;
         padding: 1px 5px;
         border: 1.1px solid #03B10F;
         border-radius: 4.4px;
@@ -457,6 +457,7 @@
     color: rgba(0,0,0,0.8);
     font-size: 14px;
     opacity: 0.9;
+    margin-bottom: 30px;
 }
 
 .activeExpiredLeads{
@@ -475,7 +476,7 @@
         font-size: 14px;
         font-weight: 600;
         line-height: 19px;
-        margin-top: 12px;
+        margin: 12px 0 24px;
         cursor: pointer;
         text-transform: uppercase;
     }
@@ -529,6 +530,10 @@
         cursor: pointer;
         font-family: "Open Sans", sans-serif;
     }
+
+    .mat-list-base .mat-list-item, .mat-list-base .mat-list-option{
+        height: auto;
+    }
 }
 
 .nonEditable{
@@ -537,4 +542,10 @@
     position: absolute;
     z-index: 0;
     background-color: #ffffff;
+}
+
+.otherPaymentCat.mat-form-field-appearance-legacy .mat-form-field-infix{
+    height: 48px;
+    padding: 0;
+    border-top: none;
 }
