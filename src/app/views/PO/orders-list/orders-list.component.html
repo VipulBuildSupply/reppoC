@@ -5,16 +5,16 @@
             <h3>
                 <i aria-hidden="true" class="fa fa-angle-left" tabindex="0"></i>
                 Purchase Order Details</h3>
-            <!-- <div class="leads-srch-box flex-sb-m">
-                <div class=" leads-srch">
-                    <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
-                                src="assets/img/search-icon.png"></span>
-                        <input class="form-control" placeholder="Search" type="text">
+                <!-- <div class="leads-srch-box flex-sb-m">
+                    <div class=" leads-srch">
+                        <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
+                                    src="assets/img/search-icon.png"></span>
+                            <input class="form-control" placeholder="Search" type="text">
+                        </div>
+                        <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"><img alt="" src="assets/img/svg-img/ic_filter.svg">
+                            Filters </a>
                     </div>
-                    <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"><img alt="" src="assets/img/svg-img/ic_filter.svg">
-                        Filters </a>
-                </div>
-            </div> -->
+                </div> -->
         </div>
 
 
@@ -30,7 +30,8 @@
                                 <p class="datetime mb-0">{{ orders.purchaseOrder.createDt }}</p>
                             </div>
                             
-                            <!-- <div class="po__title-right d-flex align-items-center">
+                            <!-- Disabled because functionality not started for it
+                            <div class="po__title-right d-flex align-items-center">
                                 <button mat-button class="brdbttn mr-2">Reject</button>
                                 <button mat-button class="btnAccept">Accept</button>
                             </div> -->
@@ -58,40 +59,81 @@
                     <div class="line-br"></div>
 
                     <mat-card-content *ngIf="orders && orders.purchaseOrder">
-                        <mat-expansion-panel class="payment-terms">
+
+                        <mat-expansion-panel class="payment-terms" *ngIf="orders.purchaseOrder.paymentTerm">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                 Payment Terms
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                            
                             <p [innerHTML]="orders.purchaseOrder.paymentTerm"></p>
-                            
                         </mat-expansion-panel>
 
 
-                        <div class="addresses">
-                            <h5 class="addresses__title">All Addresses</h5>
-                            <div class="addresses__inner">
-                                <div class="addresses__column">
-                                    <h4>Supplier Billing Address</h4>
-                                    <div class="address" [innerHTML]="orders.purchaseOrder.sellerAddress">
-                                    </div>
-                                </div>
 
-                                <div class="addresses__column">
-                                    <h4>Delivery Address</h4>
-                                    <div class="address" [innerHTML]="orders.purchaseOrder.deliveryAddress">
+                        <ng-container *ngIf="orders.purchaseOrder.poAddress; else stringAddress">
+
+                            <div class="addresses po-address"
+                                *ngIf="orders.purchaseOrder.poAddress.sellerAddress || orders.purchaseOrder.poAddress.deliveryAddress || orders.purchaseOrder.poAddress.billingAddress">
+                                <h5 class="addresses__title">All Addresses</h5>
+                                <div class="addresses__inner">
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.sellerAddress">
+                                        <h4>Supplier Billing Address</h4>
+                                        <div class="address">
+                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.sellerAddress.name }}</span></p>
+                                            <p>{{ orders.purchaseOrder.poAddress.sellerAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.sellerAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.sellerAddress.state }}, {{ orders.purchaseOrder.poAddress.sellerAddress.pincode }}</p>
+                                            <p>{{ orders.purchaseOrder.poAddress.sellerAddress.phoneNo }}</p>
+                                            <p>GSTIN: {{ orders.purchaseOrder.poAddress.sellerAddress.gstin }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="addresses__column">
-                                    <h4>Buyer Billing Address</h4>
-                                    <div class="address" [innerHTML]="orders.purchaseOrder.buyerAddress">
+    
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.deliveryAddress">
+                                        <h4>Delivery Address</h4>
+                                        <div class="address">
+                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.deliveryAddress.name }}</span></p>
+                                            <p>{{ orders.purchaseOrder.poAddress.deliveryAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.state }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.pincode }}</p>
+                                            <p>{{ orders.purchaseOrder.poAddress.deliveryAddress.phoneNo }}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.billingAddress">
+                                        <h4>Buyer Billing Address</h4>
+                                        <div class="address">
+                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.billingAddress.name }}</span></p>
+                                            <p>{{ orders.purchaseOrder.poAddress.billingAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.billingAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.billingAddress.state }}, {{ orders.purchaseOrder.poAddress.billingAddress.pincode }}</p>
+                                            <p>{{ orders.purchaseOrder.poAddress.billingAddress.phoneNo }}</p>
+                                            <p>GSTIN: {{ orders.purchaseOrder.poAddress.billingAddress.gstin }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ng-container>
+
+
+                        <ng-template #stringAddress>
+                            <div class="addresses" *ngIf="orders.purchaseOrder.sellerAddress || orders.purchaseOrder.deliveryAddress || orders.purchaseOrder.buyerAddress">
+                                <h5 class="addresses__title">All Addresses</h5>
+                                <div class="addresses__inner">
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.sellerAddress">
+                                        <h4>Supplier Billing Address</h4>
+                                        <div class="address" [innerHTML]="orders.purchaseOrder.sellerAddress">
+                                        </div>
+                                    </div>
+    
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.deliveryAddress">
+                                        <h4>Delivery Address</h4>
+                                        <div class="address" [innerHTML]="orders.purchaseOrder.deliveryAddress">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.buyerAddress">
+                                        <h4>Buyer Billing Address</h4>
+                                        <div class="address" [innerHTML]="orders.purchaseOrder.buyerAddress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
 
                         <div class="additional-info">
                             <h5 class="additional-info__title">Additional Information</h5>
@@ -158,15 +200,13 @@
                             </div>
                         </div>
 
-                        <mat-expansion-panel class="terms-conditions">
+                        <mat-expansion-panel class="terms-conditions" *ngIf="orders.purchaseOrder.termCondition">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                 Terms & Conditions
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                            
                             <p [innerHTML]="orders.purchaseOrder.termCondition"></p>
-                            
                         </mat-expansion-panel>
 
                     </mat-card-content>

@@ -15,7 +15,7 @@ export class PurchaseOrdersService {
         return this.dataService.getRequest(API.GET_PO_REQUEST(reqId)).then((res: any) => res);
     }
 
-    getPOPdfDwonload(pid){
+    getPOPdfDownload(pid){
         return this.dataService.getRequest(API.GET_PO_PDF_DOWNLOAD(pid)).then((res: any) => res);
     }
 }

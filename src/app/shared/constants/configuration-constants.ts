@@ -80,8 +80,8 @@ export const API = {
     UPLOAD_DOC: 'product/api/upload',
 
     GET_PO_LIST: 'product/api/po/list',
-    GET_PO_REQUEST: (id) => `product/api/po/${id}/obj`,
-    GET_PO_PDF_DOWNLOAD: (pid) => `product/api/pdf/seller/purchaseorder/${pid}`
+    GET_PO_REQUEST: (id: number) => `product/api/po/${id}/obj`,
+    GET_PO_PDF_DOWNLOAD: (pid: number) => `product/api/pdf/seller/purchaseorder/${pid}`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [
