@@ -78,11 +78,15 @@ export const API = {
     GET_UPDATED_SKUS_LIST: 'product/api/quoterequest/list',
     UNIQUE_ID: 'product/api/system/upload/seqno',
     UPLOAD_DOC: 'product/api/upload',
+
+    GET_PO_LIST: 'product/api/po/list',
+    GET_PO_REQUEST: (id) => `product/api/po/${id}/obj`,
+    GET_PO_PDF_DOWNLOAD: (pid) => `product/api/pdf/seller/purchaseorder/${pid}`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [
     { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
     // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
     { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
-    { name: 'PO', link: '/orders/', imgUrl: 'assets/img/po.png' }
+    { name: 'PO', link: '/orders/details', imgUrl: 'assets/img/po.png' }
 ]

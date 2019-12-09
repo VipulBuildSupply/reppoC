@@ -8,6 +8,7 @@ import { SharedDialogs } from './dialogs/shared-dialogs';
 import { SharedDirectivesModule } from './directive/shared-directives.module';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IndianCurrency } from './pipes/indianCurrency.pipe';
 
 @NgModule({
   imports: [
@@ -17,12 +18,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedDirectivesModule,
     SlickCarouselModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   declarations: [
     ...SharedDialogs,
-    OtpDirective
+    OtpDirective,
+    IndianCurrency
   ],
   exports: [
     ...SharedDialogs,
@@ -30,7 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedMaterialModule,
     OtpDirective,
     SharedDirectivesModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    IndianCurrency
   ],
   entryComponents: [
     ...SharedDialogs,

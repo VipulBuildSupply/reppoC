@@ -35,13 +35,13 @@
                     </div>
                 </div>
         
-                <div class="view-lead__delivery-address">
+                <div class="view-lead__delivery-address" *ngIf="showLeadObjDetails.data.request.deliveryAddress && showLeadObjDetails.data.request.deliveryAddress.length">
                     <h6 class="d-flex just-content-between align-items-start">
                         <span class="view-lead__delivery-title">Delivery Address: </span> 
                         <span class="view-lead__delivery-details">
-                            <span>Lloyd Knight</span>
+                            <!-- <span>Lloyd Knight</span>
                             <span>9785842558</span> 
-                            <span>98 Taylor Walks Suite 585, Bangalore, Karnataka 120342</span>
+                            <span>98 Taylor Walks Suite 585, Bangalore, Karnataka 120342</span> -->
                         </span>
                     </h6>
                 </div>
@@ -56,9 +56,9 @@
                     <h6 class="view-lead__note-content" [innerHTML]="showLeadObjDetails.data.request.note"></h6>
                 </div>
         
-                <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
+                <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.opsAttachments && showLeadObjDetails.data.request.opsAttachments.length">
                     <p class="view-lead__attachment-title">BuildSupply Attachment:</p>
-                    <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
+                    <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.opsAttachments">
                         <div class="view-lead__attachment-left">
                             <img src="assets/img/file.png" alt="pdf file">
                             <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
