@@ -183,7 +183,6 @@
     &__inner{
         display: flex;
         justify-content: space-between;
-        align-items: center;
     }
     &__column {
         border: 1px solid rgba(151, 151, 151, 0.5);
@@ -312,4 +311,14 @@ span.mat-expansion-indicator{
 .line-br {
     border-top: 1px solid #ececec;
     margin: 10px 0;
+}
+
+.po-address{
+    p{
+        word-break: break-word;
+        margin-bottom: 7px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
 }

@@ -46,3 +46,17 @@ export class OrderItemsList extends POList{
     skuName?: string;
     unit: string;
 }
+
+export class DownloadPO{
+    accessType?: string;
+    bucketFilePath: string;
+    cleanFileName: string;
+    fileDownloadUri: string;
+    filesize: number;
+    id: number;
+    localFilePath?: string;
+    mimeType?: string;
+    orginalFileName: string;
+    servingUrl?: string;
+    signedUrl: string;
+}
