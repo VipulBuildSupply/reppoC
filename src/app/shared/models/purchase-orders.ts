@@ -1,3 +1,8 @@
+export class POOrders{
+    purchaseOrder: PurchaseOrders;
+    orderItemList: OrderItemsList[];
+}
+
 export class POList{
     cgstAmount?: number;
     createDt: string;
@@ -30,6 +35,7 @@ export class PurchaseOrders extends POList{
     totalItemAmount?: number;
     transporterTermCondition?: string;
     poAddress: POAddress;
+    shippingCost?: number;
 }
 
 export class OrderItemsList extends POList{ 

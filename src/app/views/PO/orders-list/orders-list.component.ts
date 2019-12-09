@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
-import { PurchaseOrders, DownloadPO, OrderItemsList } from 'src/app/shared/models/purchase-orders';
+import { PurchaseOrders, DownloadPO, OrderItemsList, POOrders } from 'src/app/shared/models/purchase-orders';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class OrdersListComponent implements OnInit {
 
-  orders: Array<PurchaseOrders | OrderItemsList> = [];
+  orders: POOrders;
   po: DownloadPO;
 
   constructor(private _purchaseOrdersService: PurchaseOrdersService,
