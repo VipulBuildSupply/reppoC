@@ -28,7 +28,7 @@ export class OrdersListComponent implements OnInit {
 
 
   downloadPOPdf(pid: number){
-    this._purchaseOrdersService.getPOPdfDwonload(pid).then(res => this.po = res.data);
+    this._purchaseOrdersService.getPOPdfDownload(pid).then(res => this.po = res.data);
   }
 
   downloadPO(url: string){
