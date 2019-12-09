@@ -28,6 +28,7 @@ import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 import { LeadsService } from './shared/services/leads.service';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
+import { PurchaseOrdersService } from './shared/services/purchase-orders.service';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { MainLayoutComponent } from './shared/components/layouts/main-layout/mai
     CategoryService,
     AuthGuardService,
     CatalogueGuardService,
-    LeadsService
+    LeadsService,
+    PurchaseOrdersService
   ],
   bootstrap: [AppComponent]
 })
