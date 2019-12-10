@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
-import { PurchaseOrders, DownloadPO, OrderItemsList, POOrders } from 'src/app/shared/models/purchase-orders';
+import { PurchaseOrders, DownloadPo, OrderItemsList, PoOrders } from 'src/app/shared/models/purchase-orders';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
