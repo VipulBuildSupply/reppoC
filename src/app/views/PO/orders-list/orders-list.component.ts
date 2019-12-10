@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class OrdersListComponent implements OnInit {
 
-  orders: POOrders;
-  po: DownloadPO;
+  orders: PoOrders;
+  po: DownloadPo;
 
   addressTypes = {
     'Supplier Billing Address': 'sellerAddress',
@@ -25,18 +25,25 @@ export class OrdersListComponent implements OnInit {
     const reqId = this._activatedRoute.snapshot.params;
     this.getPurcahseOrdersList(parseInt(reqId.id));
     this.downloadPOPdf(parseInt(reqId.id));
-
   }
 
+  /**
+   * Get all orders list for specific PO id
+   */
   getPurcahseOrdersList(orderId: number){
     this._purchaseOrdersService.getPORequest(orderId).then(res => this.orders = res.data);
   }
 
-
+  /**
+   * Get the PO download URL 
+   */
   downloadPOPdf(pid: number){
     this._purchaseOrdersService.getPOPdfDownload(pid).then(res => this.po = res.data);
   }
 
+  /**
+   * Downlaod the PO for specific purchase order
+   */
   downloadPO(url: string){
     var win = window.open(url, '_blank');
     win.focus();
