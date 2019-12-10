@@ -12,6 +12,12 @@ export class OrdersListComponent implements OnInit {
   orders: POOrders;
   po: DownloadPO;
 
+  addressTypes = {
+    'Supplier Billing Address': 'sellerAddress',
+    'Delivery Address': 'deliveryAddress',
+    'Buyer Billing Address': 'buyerAddress'
+  }
+
   constructor(private _purchaseOrdersService: PurchaseOrdersService,
     private _activatedRoute: ActivatedRoute) { }
 

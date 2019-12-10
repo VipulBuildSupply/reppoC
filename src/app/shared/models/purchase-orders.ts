@@ -34,8 +34,14 @@ export class PurchaseOrders extends POList{
     totalItem?: number;
     totalItemAmount?: number;
     transporterTermCondition?: string;
-    poAddress: POAddress;
+    // poAddress?: POAddress;
     shippingCost?: number;
+    addresses:{
+        displayName: string;
+        rawText: boolean;
+        type: string;
+        address: Address
+    }[];
 }
 
 export class OrderItemsList extends POList{ 
@@ -68,36 +74,36 @@ export class DownloadPO{
     signedUrl: string;
 }
 
-export class POAddress{
-    billingAddress: Addresses;
-    deliveryAddress: Addresses;
-    sellerAddress: Addresses;
-}
+// export class POAddress{
+//     billingAddress: Addresses;
+//     deliveryAddress: Addresses;
+//     sellerAddress: Addresses;
+// }
 
-export class Addresses{
+export class Address{
     addressLine1: string;
     addressLine2: string;
-    addressProofPhoto?: string;
     addressTypeCode: string;
     city: string;
     cityCd: string;
     cityId: number;
-    cityDto: CityInfo;
-    companyId?: number;
-    countryCd?: number;
-    countryId?: number
-    default: boolean;
+    countryId?: number;
+    createrId: number;
+    deleted: boolean;
     deliveryRange?: number;
-    gstin: string;
     id: number;
+    inviteId: number;
+    isDefault: boolean;
+    modifierId: number;
     modifyDt: string;
     name: string;
     phoneNo: string;
     pincode: string;
     state: string;
     stateCd: string;
-    stateDto: any;
-    stateId: StateInfo;
+    stateId: number;
+    userId: number;
+    gstin?: string;
 }
 
 export class StateInfo{

@@ -3,7 +3,7 @@
         <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
 
             <h3>
-                <i aria-hidden="true" class="fa fa-angle-left" tabindex="0"></i>
+                <i aria-hidden="true" class="fa fa-angle-left" tabindex="0" [routerLink]="['/orders/details']"></i>
                 Purchase Order Details</h3>
                 <!-- <div class="leads-srch-box flex-sb-m">
                     <div class=" leads-srch">
@@ -44,7 +44,7 @@
                         <mat-card-header class="po__header-section" *ngFor="let item of orders.orderItemList">
                             <div class="po__header-left">
                                 <div mat-card-avatar class="po__header-image">
-                                    <img [src]="item.imgUrl ? item.imgUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
+                                    <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
                                 </div>
     
                                 <div class="mat-card-header-text mat-card__title">
@@ -70,8 +70,35 @@
                         </mat-expansion-panel>
 
 
+                        <ng-container >
+                            <div class="addresses po-address">
+                                <h5 class="addresses__title">All Addresses</h5>
+                                <div class="addresses__inner">
+                                    <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
+                                        
+                                        <ng-container *ngIf="!addr.rawText; else showStringAddr">
 
-                        <ng-container *ngIf="orders.purchaseOrder.poAddress; else stringAddress">
+                                            
+                                            <h4>{{ addr.displayName }}</h4>
+                                            <div class="address">
+                                                <p><span class="font600">{{ addr.address.name }}</span></p>
+                                                <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }}, {{ addr.address.state }}, {{ addr.address.pincode }}</p>
+                                                <p>{{ addr.address.phoneNo }}</p>
+                                                <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN: {{ addr.address.gstin }}</p>
+                                            </div>
+                                        </ng-container>
+
+                                        <ng-template #showStringAddr>
+                                                <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
+                                                    </div>
+                                        </ng-template>  
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+
+                        <!-- <ng-container *ngIf="orders.purchaseOrder.poAddress; else stringAddress">
 
                             <div class="addresses po-address"
                                 *ngIf="orders.purchaseOrder.poAddress.sellerAddress || orders.purchaseOrder.poAddress.deliveryAddress || orders.purchaseOrder.poAddress.billingAddress">
@@ -107,10 +134,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
+                        </ng-container> -->
 
 
-                        <ng-template #stringAddress>
+                        <!-- <ng-template #stringAddress>
                             <div class="addresses" *ngIf="orders.purchaseOrder.sellerAddress || orders.purchaseOrder.deliveryAddress || orders.purchaseOrder.buyerAddress">
                                 <h5 class="addresses__title">All Addresses</h5>
                                 <div class="addresses__inner">
@@ -133,7 +160,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-template>
+                        </ng-template> -->
 
                         <div class="additional-info">
                             <h5 class="additional-info__title">Additional Information</h5>
