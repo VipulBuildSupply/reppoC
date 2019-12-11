@@ -39,7 +39,8 @@ export class PurchaseOrders extends PoList{
         displayName: string;
         rawText: boolean;
         type: string;
-        address: Address
+        address: Address;
+        addressString?: string;
     }[];
 }
 

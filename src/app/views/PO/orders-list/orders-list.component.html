@@ -76,10 +76,9 @@
                                 <div class="addresses__inner">
                                     <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
                                         
-                                        <ng-container *ngIf="!addr.rawText; else showStringAddr">
+                                        <h4>{{ addr.displayName }}</h4>
 
-                                            
-                                            <h4>{{ addr.displayName }}</h4>
+                                        <ng-container *ngIf="!addr.rawText; else showStringAddr">
                                             <div class="address">
                                                 <p><span class="font600">{{ addr.address.name }}</span></p>
                                                 <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }}, {{ addr.address.state }}, {{ addr.address.pincode }}</p>
@@ -89,8 +88,10 @@
                                         </ng-container>
 
                                         <ng-template #showStringAddr>
-                                                <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
-                                                    </div>
+                                            <!-- <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
+                                            </div> -->
+                                            <div class="address" *ngIf="addr.addressString" [innerHTML]="addr.addressString">
+                                            </div>
                                         </ng-template>  
                                     </div>
                                 </div>
