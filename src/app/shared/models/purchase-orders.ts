@@ -1,9 +1,9 @@
-export class POOrders{
+export class PoOrders{
     purchaseOrder: PurchaseOrders;
     orderItemList: OrderItemsList[];
 }
 
-export class POList{
+export class PoList{
     cgstAmount?: number;
     createDt: string;
     id: number;
@@ -18,7 +18,7 @@ export class POList{
     totalAmount: number;
 }
 
-export class PurchaseOrders extends POList{
+export class PurchaseOrders extends PoList{
     buyerAddress: string;
     contractCondition?: string;
     creditDay: number;
@@ -34,7 +34,6 @@ export class PurchaseOrders extends POList{
     totalItem?: number;
     totalItemAmount?: number;
     transporterTermCondition?: string;
-    // poAddress?: POAddress;
     shippingCost?: number;
     addresses:{
         displayName: string;
@@ -44,7 +43,7 @@ export class PurchaseOrders extends POList{
     }[];
 }
 
-export class OrderItemsList extends POList{ 
+export class OrderItemsList extends PoList{ 
     deliveryList: any[];
     gstTax: number;
     hsn: string;
@@ -60,7 +59,7 @@ export class OrderItemsList extends POList{
     unit: string;
 }
 
-export class DownloadPO{
+export class DownloadPo{
     accessType?: string;
     bucketFilePath: string;
     cleanFileName: string;
@@ -73,12 +72,6 @@ export class DownloadPO{
     servingUrl?: string;
     signedUrl: string;
 }
-
-// export class POAddress{
-//     billingAddress: Addresses;
-//     deliveryAddress: Addresses;
-//     sellerAddress: Addresses;
-// }
 
 export class Address{
     addressLine1: string;
@@ -104,16 +97,4 @@ export class Address{
     stateId: number;
     userId: number;
     gstin?: string;
-}
-
-export class StateInfo{
-    id: number;
-    name: string;
-    code: string;
-    countryId?: number;
-}
-
-export class CityInfo extends StateInfo{
-    stateCode: string;
-    stateId: number;
 }
