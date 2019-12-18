@@ -8,6 +8,7 @@ import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filt
 import { DataService } from 'src/app/shared/services/data.service';
 import { of } from 'rxjs';
 import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
+import { LoggerService } from 'src/app/shared/services/logger.service';
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
@@ -680,6 +681,11 @@ export class NewLeadComponent implements OnInit {
     }
 
     else if (currentFormIndex == 0) {
+
+      const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+      const maxPricing = this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value;
+      const minPricing = this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value;
+
       if (this.warehouseData[Index].pricingForms[currentFormIndex + 1]) {
         if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value > this.warehouseData[Index].pricingForms[currentFormIndex + 1].controls.minPrice.value) {
           this.editMinMaxIsFalse = true;
@@ -699,6 +705,14 @@ export class NewLeadComponent implements OnInit {
         this.minMaxValidValue = false;
       }
 
+      /**
+       * condition to check if requested quantity is in the range of min and max or not
+       */
+      if(minPricing > requestedQty || maxPricing < requestedQty || minPricing == maxPricing){
+          this.editMinMaxIsFalse = true;
+      }else{
+          this.editMinMaxIsFalse = false;
+      }
     }
 
     if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value == null) {
