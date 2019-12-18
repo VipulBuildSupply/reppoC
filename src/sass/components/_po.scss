@@ -166,6 +166,17 @@
             border: 1px solid #f47721;
         }
     }
+
+    .order-accept-reject{
+        span{
+            color: #F47721;
+            border: 1px solid #F47721;
+            padding: 6px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: auto;
+        }
+    }
 }
 
 .font600{
@@ -178,7 +189,7 @@
     }
 }
 
-.addresses, .additional-info {
+.addresses, .additional-info, .pickup-history {
     padding: 13px 15px;
     &__inner{
         display: flex;
@@ -320,5 +331,20 @@ span.mat-expansion-indicator{
         &:last-child{
             margin-bottom: 0;
         }
+    }
+}
+
+.lh40{
+    line-height: 40px;
+}
+
+.download-link{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pickup-history{
+    &__column:not(:last-child){
+        margin-right: 30px;
     }
 }
