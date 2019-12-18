@@ -81,7 +81,8 @@ export const API = {
 
     GET_PO_LIST: 'product/api/po/list',
     GET_PO_REQUEST: (id: number) => `product/api/po/${id}/obj`,
-    GET_PO_PDF_DOWNLOAD: (pid: number) => `product/api/pdf/seller/purchaseorder/${pid}`
+    GET_PO_PDF_DOWNLOAD: (pid: number) => `product/api/pdf/seller/purchaseorder/${pid}`,
+    PO_ACCEPT_REJECT: (pid: number, status: string) => `product/api/po/${pid}/status/${status}`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

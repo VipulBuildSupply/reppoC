@@ -30,36 +30,79 @@
                                 <p class="datetime mb-0">{{ orders.purchaseOrder.createDt }}</p>
                             </div>
                             
-                            <!-- Disabled because functionality not started for it
-                            <div class="po__title-right d-flex align-items-center">
-                                <button mat-button class="brdbttn mr-2">Reject</button>
-                                <button mat-button class="btnAccept">Accept</button>
-                            </div> -->
+                            <!-- Accept/Reject PO Functionality -->
+                            <div class="po__title-right d-flex align-items-center"
+                                *ngIf="orders.purchaseOrder.statusCd == 'sellerpo.ops.sent'">
+                                <button mat-button class="brdbttn mr-2" (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">Reject</button>
+                                <button mat-button class="btnAccept" (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
+                            </div>
+
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirmed'">
+                                <div class="order-accept-reject">
+                                    <span>PO Accepted</span>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.rejected'">
+                                <div class="order-accept-reject">
+                                    <span>PO Rejected</span>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
 
                     <div class="divider"></div>
 
-                    <ng-container *ngIf="orders && orders.orderItemList">
-                        <mat-card-header class="po__header-section" *ngFor="let item of orders.orderItemList">
-                            <div class="po__header-left">
-                                <div mat-card-avatar class="po__header-image">
-                                    <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
+                    <ng-container *ngIf="orders && orders.orderItemList && orders.orderItemList.length">
+                        
+                        <ng-container *ngFor="let item of orders.orderItemList">
+                            <mat-card-header class="po__header-section">
+                                <div class="po__header-left">
+                                    <div mat-card-avatar class="po__header-image">
+                                        <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
+                                    </div>
+        
+                                    <div class="mat-card-header-text mat-card__title">
+                                        <mat-card-title>{{ item.name }}</mat-card-title>
+                                        <mat-card-subtitle>Quantity: {{ item.requestQty }} {{ item.unit }}</mat-card-subtitle>
+                                        <mat-card-subtitle class="pt-2">₹{{ item.sellerPrice }}</mat-card-subtitle>
+                                    </div>
                                 </div>
-    
-                                <div class="mat-card-header-text mat-card__title">
-                                    <mat-card-title>{{ item.name }}</mat-card-title>
-                                    <mat-card-subtitle>Quantity: {{ item.requestQty }} {{ item.unit }}</mat-card-subtitle>
-                                    <mat-card-subtitle class="pt-2">₹{{ item.sellerPrice }}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <!-- PO Pickup History -->
+                            <div class="pickup-history po-address" *ngIf="item.deliveryList && item.deliveryList.length">
+                                <h5 class="pickup-history__title">Pickup History</h5>
+                                <div class="pickup-history__inner justify-content-start">
+                                    <div class="pickup-history__column" *ngFor="let pickupAddr of item.deliveryList; let i = index">
+                                        <div class="pickup-history__heading d-flex justify-content-between">
+                                            <span class="font600">Pickup {{ i+1 }}</span>
+                                            <!-- <span>
+                                                <img alt="" src="assets/img/svg-img/ic_download.svg"> 
+                                                &nbsp; <a class="text-uppercase download-link" href="">Download Invoice</a>
+                                            </span> -->
+                                        </div>
+
+                                        <div class="pickup-history__row lh40 d-flex justify-content-between">
+                                            <span>Pickedup Quantity</span>
+                                            <span>{{ pickupAddr.requestQty }}</span>
+                                        </div>
+
+                                        <div class="pickup-history__row d-flex justify-content-between">
+                                            <span>Picked On</span>
+                                            <span>{{ pickupAddr.createDt }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </mat-card-header>
+                        </ng-container>
                     </ng-container>
 
                     <div class="line-br"></div>
 
                     <mat-card-content *ngIf="orders && orders.purchaseOrder">
 
+                        <!-- Payment Terms -->
                         <mat-expansion-panel class="payment-terms" *ngIf="orders.purchaseOrder.paymentTerm">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
@@ -70,33 +113,32 @@
                         </mat-expansion-panel>
 
 
-                        <ng-container >
-                            <div class="addresses po-address">
-                                <h5 class="addresses__title">All Addresses</h5>
-                                <div class="addresses__inner">
-                                    <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
-                                        
-                                        <h4>{{ addr.displayName }}</h4>
+                        <!-- All PO Addresses Lists -->
+                        <div class="addresses po-address">
+                            <h5 class="addresses__title">All Addresses</h5>
+                            <div class="addresses__inner">
+                                <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
+                                    
+                                    <h4>{{ addr.displayName }}</h4>
 
-                                        <ng-container *ngIf="!addr.rawText; else showStringAddr">
-                                            <div class="address">
-                                                <p><span class="font600">{{ addr.address.name }}</span></p>
-                                                <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }}, {{ addr.address.state }}, {{ addr.address.pincode }}</p>
-                                                <p>{{ addr.address.phoneNo }}</p>
-                                                <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN: {{ addr.address.gstin }}</p>
-                                            </div>
-                                        </ng-container>
+                                    <ng-container *ngIf="!addr.rawText; else showStringAddr">
+                                        <div class="address">
+                                            <p><span class="font600">{{ addr.address.name }}</span></p>
+                                            <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }}, {{ addr.address.state }}, {{ addr.address.pincode }}</p>
+                                            <p>{{ addr.address.phoneNo }}</p>
+                                            <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN: {{ addr.address.gstin }}</p>
+                                        </div>
+                                    </ng-container>
 
-                                        <ng-template #showStringAddr>
-                                            <!-- <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
-                                            </div> -->
-                                            <div class="address" *ngIf="addr.addressString" [innerHTML]="addr.addressString">
-                                            </div>
-                                        </ng-template>  
-                                    </div>
+                                    <ng-template #showStringAddr>
+                                        <!-- <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
+                                        </div> -->
+                                        <div class="address" *ngIf="addr.addressString" [innerHTML]="addr.addressString">
+                                        </div>
+                                    </ng-template>  
                                 </div>
                             </div>
-                        </ng-container>
+                        </div>
 
 
                         <!-- <ng-container *ngIf="orders.purchaseOrder.poAddress; else stringAddress">

@@ -5,17 +5,21 @@ import { API } from '../constants';
 @Injectable()
 export class PurchaseOrdersService {
 
-    constructor(private dataService: DataService) { }
+    constructor(private _dataService: DataService) { }
 
     getSellerPOList() {
-        return this.dataService.getRequest(API.GET_PO_LIST).then((res: any) => res);
+        return this._dataService.getRequest(API.GET_PO_LIST).then((res: any) => res);
     }
 
     getPORequest(reqId) {
-        return this.dataService.getRequest(API.GET_PO_REQUEST(reqId)).then((res: any) => res);
+        return this._dataService.getRequest(API.GET_PO_REQUEST(reqId)).then((res: any) => res);
     }
 
     getPOPdfDownload(pid){
-        return this.dataService.getRequest(API.GET_PO_PDF_DOWNLOAD(pid)).then((res: any) => res);
+        return this._dataService.getRequest(API.GET_PO_PDF_DOWNLOAD(pid)).then((res: any) => res);
+    }
+
+    acceptRejectPO(pid, status){
+        return this._dataService.sendPutRequest(API.PO_ACCEPT_REJECT(pid, status), null).then((res: any) => res);
     }
 }
