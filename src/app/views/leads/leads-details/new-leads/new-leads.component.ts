@@ -162,8 +162,8 @@ export class NewLeadComponent implements OnInit {
       }
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
-        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
-        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
+        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
+        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
         const year = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(6, 10);
         const dateVal = month + "-" + day + "-" + year;
         this.datePickerValue = new FormControl(new Date(year, month - 1, day));

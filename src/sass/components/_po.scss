@@ -1,4 +1,4 @@
-.po{
+.po, .mark-in-transit{
     .mat-card{
         padding: 0;
         border-radius: 0;
@@ -347,4 +347,72 @@ span.mat-expansion-indicator{
     &__column:not(:last-child){
         margin-right: 30px;
     }
+}
+
+.btn-mark-in-transit{
+    width: auto;
+}
+
+.mark-in-transit{
+
+    &__title-section{
+        padding: 13px 0px;
+    }
+
+    .mat-checkbox{
+        display: block;
+    }
+
+    .item-image img {
+        width: 100px;
+        height: auto;
+        margin: 0 20px 0 10px;
+    }
+
+    h4{
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .item-input-qty .mat-form-field-infix{
+        height: 40px;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        height: 2px;
+    }
+
+    &__vehicle-details {
+        background-color: #fff;
+        padding: 20px 35px;
+        border: 1px solid #ececec;
+        border-radius: 4px;
+    }
+
+    .upload-invoice .myLabel span{
+        text-transform: uppercase;
+        color: #1896ba;
+        font-size: 13px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-datepicker-toggle-default-icon, 
+    .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-datepicker-toggle-default-icon {
+        width: 2em;
+        margin-bottom: 20px;
+    }
+}
+
+.container .mark-in-transit__orders-list .mat-form-field input{
+    opacity: 1;
+    position: relative;
+    height: auto;
+    width: auto;
+    line-height: 26px;
+}
+
+.w-33{
+    max-width: 33.333%;
+    flex: 0 0 33.333%;
 }
