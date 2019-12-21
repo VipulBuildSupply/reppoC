@@ -1,4 +1,4 @@
-<div [class.nonEditable]="(message == 'ActedLeads') && (activeLeadStatus === true)">
+<div [class.nonEditable]="message == 'ActedLeads'">
 
     <ng-container *ngIf="showLeadObjDetails" class="view-lead">
     
@@ -157,13 +157,37 @@
                                     <div *ngFor="let pricingForm of pricingForms; let i=index">
                                         <form [formGroup]="pricingForm">
 
-                                            <ng-container *ngIf="(!showLeadObjDetails.data.warehouseList[0].specs); else specsBlock">
+                                            <ng-container *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length > 0; else noSpecsBlock">
+                                                <div class="specs-row d-flex justify-content-between" *ngIf="i === 0">
+                                                    <span class="specs-column">Dia</span>
+                                                    <span class="specs-column">Quantity Range (Bags)</span>
+                                                    <span class="specs-column">Price Per Bag (₹)</span>
+                                                </div>
+
+                                                <div class="specs-row d-flex justify-content-between align-items-center">
+                                                    <span class="individual-spec">{{ pricingForm.controls.diameter.value }}</span>
+                                                    
+                                                    <div class="individual-spec d-flex justify-content-between">
+                                                        <mat-form-field class="quantity-mat-form">
+                                                            <input matInput formControlName="specMinQty" type="number">
+                                                        </mat-form-field>
+                                                        <mat-form-field class="quantity-mat-form">
+                                                            <input matInput formControlName="specMaxQty" type="number">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <mat-form-field class="individual-spec quantity-mat-form">
+                                                        <input matInput formControlName="specPrice" type="number">
+                                                    </mat-form-field>
+                                                </div>
+                                            </ng-container>
+
+                                            <ng-template #noSpecsBlock>
                                                 <h6 class="qty-title">Quantity Range (Bags)</h6>
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="Quantity-Range mat-input-styling">
                                                             <div class="form-group mb-1">
-                    
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <mat-form-field class="quantity-mat-form inputFieldOfPrice">
@@ -220,7 +244,6 @@
                     
                                                                     </div>
                                                                 </div>
-                    
                                                             </div>
                                                         </div>
                                                     </div>
@@ -236,19 +259,10 @@
                                                                     Price is Required</mat-error>
                                                             </mat-form-field>
                                                         </div>
-                                                        <!-- <div *ngIf="i > 0">
-                                                            <button class="close-btn" (click)="deletePicingAllWarehouse(i)" mat-menu-item>
-                                                                <mat-icon>close</mat-icon>
-                                                            </button>
-                                                        </div> -->
                                                     </div>
-
                                                 </div>
-                                            </ng-container>
-
-                                            <ng-template #specsBlock>
-
                                             </ng-template>
+
                                         </form>
                                     </div>
                                 </div>
@@ -368,15 +382,7 @@
                                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                                             </label>
                                         </div>
-                                    </div>
-            
-                                    <!-- <div class="col-md-6">
-                                        <div *ngIf="!addPriceForRemainingQuantity">
-                                            <a href="javascript:void(0)" (click)="addAnotherRange()" class="edit mt-lg-3">+
-                                                ADD ANOTHER RANGE</a>
-                                        </div>
-                                    </div> -->
-            
+                                    </div>            
                                 </div>
                             </ng-container>
                 
@@ -404,12 +410,6 @@
                                         </div>
                                     </ng-container>
                 
-                                    <!-- <div class="payment-terms">
-                                        <p>Please select your expected payment Terms</p>
-                                        <ul [innerHTML]="showLeadObjDetails.data.request.paymentTerm">
-                                        </ul>
-                                    </div> -->
-
                                     <ng-container *ngIf="showLeadObjDetails && showLeadObjDetails.data.warehouseList && paymentterms">
                                         <div class="payment-terms">
                                             <h6>Please select your expected payment terms</h6>
@@ -433,10 +433,7 @@
                                                 <span>Note:</span> Above prices are excluding shipping and GST charges.
                                             </div>
                                         </div>
-                                    </ng-container>
-            
-                                    <!-- <app-upload class="col-12" (onFileUpdate)="fileUpdate($event)"></app-upload> -->
-                
+                                    </ng-container>                
                 
                                     <div class="save-orange mt-2">
                                         <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
@@ -446,6 +443,7 @@
                 
                                 </div>
                             </ng-container>
+
                             <ng-container *ngIf="showLeadObjDetails.data.warehouseList.length == 0">
                                 <h4 class="cement-title">Warehouse Address</h4>
                                 <a (click)="addWareHouseAddressBtnClicked()" href="javascript:void(0)">

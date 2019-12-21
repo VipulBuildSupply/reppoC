@@ -536,13 +536,13 @@
     }
 }
 
-.nonEditable{
-    opacity: 0.9;
-    pointer-events: none;
-    position: absolute;
-    z-index: 0;
-    background-color: #ffffff;
-}
+// .nonEditable{
+//     opacity: 0.9;
+//     pointer-events: none;
+//     position: absolute;
+//     z-index: 0;
+//     background-color: #ffffff;
+// }
 
 .otherPaymentCat.mat-form-field-appearance-legacy .mat-form-field-infix{
     height: 48px;
@@ -567,4 +567,17 @@
     font-size: 12px;
     vertical-align: super;
     line-height: 22px;
+}
+
+.nonEditable{
+    pointer-events: none;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.31);
+    }
 }
