@@ -549,3 +549,22 @@
     padding: 0;
     border-top: none;
 }
+
+.individual-spec, .specs-row span,
+.individual-spec .mat-form-field {
+    max-width: 33.33%;
+    flex: 0 0 33.33%;
+}
+
+.specs-row span:first-child {
+    max-width: 15%;
+    flex: 0 0 15%;
+}
+
+.specs-row span.specs-column {
+    opacity: 0.6;
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 12px;
+    vertical-align: super;
+    line-height: 22px;
+}
