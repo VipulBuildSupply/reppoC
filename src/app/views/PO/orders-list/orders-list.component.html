@@ -37,9 +37,9 @@
                                     (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">Reject</button>
                                 <button mat-button class="btnAccept"
                                     (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
-                                <button mat-button class="btn-mark-in-transit ml-2"
+                                <!-- <button mat-button class="btn-mark-in-transit ml-2"
                                     [routerLink]="['/orders/list/'+orders.purchaseOrder.id+'/mark-in-transit']">
-                                    Mark In Transit</button>
+                                    Mark In Transit</button> -->
                             </div>
 
                             <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirmed'">
