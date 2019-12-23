@@ -38,7 +38,7 @@
                 <div class="view-lead__delivery-address" *ngIf="showLeadObjDetails.data.request.deliveryAddress && showLeadObjDetails.data.request.deliveryAddress.length">
                     <h6 class="d-flex just-content-between align-items-start">
                         <span class="view-lead__delivery-title">Delivery Address: </span> 
-                        <span class="view-lead__delivery-details">
+                        <span class="view-lead__delivery-details" [innerHTML]="showLeadObjDetails.data.request.deliveryAddress">
                             <!-- <span>Lloyd Knight</span>
                             <span>9785842558</span> 
                             <span>98 Taylor Walks Suite 585, Bangalore, Karnataka 120342</span> -->
@@ -108,6 +108,7 @@
 
                     <div class="optional-note">
                         <ng-container *ngIf="showLeadObjDetails.data.request.sellerNote; else noteInput">
+                            <p class="view-lead__note-title w-100">Seller Note:</p>
                             <p [innerHTML]="showLeadObjDetails.data.request.sellerNote"></p>
                         </ng-container>
 
@@ -154,10 +155,10 @@
                         <div class="Pricing-Information border-b">
                             <ng-container>
                                 <div *ngIf="!isEditBtnClicked">
-                                    <div *ngFor="let pricingForm of pricingForms; let i=index">
-                                        <form [formGroup]="pricingForm">
 
-                                            <ng-container *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length > 0; else noSpecsBlock">
+                                    <ng-container *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length > 0; else noSpecsBlock">
+                                        <div *ngFor="let pricingForm of warehouseData[0].pricingForms; let i=index">
+                                            <form [formGroup]="pricingForm">
                                                 <div class="specs-row d-flex justify-content-between" *ngIf="i === 0">
                                                     <span class="specs-column">Dia</span>
                                                     <span class="specs-column">Quantity Range (Bags)</span>
@@ -169,20 +170,29 @@
                                                     
                                                     <div class="individual-spec d-flex justify-content-between">
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput formControlName="specMinQty" type="number">
+                                                            <input matInput formControlName="specMinQty" type="number"
+                                                            (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                         </mat-form-field>
+
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput formControlName="specMaxQty" type="number">
+                                                            <input matInput formControlName="specMaxQty" type="number" 
+                                                            (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                         </mat-form-field>
                                                     </div>
 
                                                     <mat-form-field class="individual-spec quantity-mat-form">
-                                                        <input matInput formControlName="specPrice" type="number">
+                                                        <input matInput formControlName="specPrice" type="number"
+                                                        (input)="checkPriceSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                     </mat-form-field>
                                                 </div>
-                                            </ng-container>
+                                            </form>
+                                        </div>
+                                    </ng-container>
 
-                                            <ng-template #noSpecsBlock>
+                                    <ng-template #noSpecsBlock>
+                                        <div *ngFor="let pricingForm of pricingForms; let i=index">
+                                            <form [formGroup]="pricingForm">
+    
                                                 <h6 class="qty-title">Quantity Range (Bags)</h6>
                                                 <div class="row">
                                                     <div class="col-md-5">
@@ -202,7 +212,7 @@
                                                                                 Min is Required</mat-error>
                                                                         </mat-form-field>
                                                                     </div>
-
+    
                                                                     <div class="col-md-6">
                                                                         <mat-form-field *ngIf="i < pricingForms.length-1"
                                                                             class="quantity-mat-form inputFieldOfPrice">
@@ -215,7 +225,7 @@
                                                                                 *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
                                                                                 Invalid</mat-error>
                                                                         </mat-form-field>
-
+    
                                                                         <input matInput class="form-control" formControlName="check" hidden
                                                                             placeholder="end">
                     
@@ -247,7 +257,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
+    
                                                     <div class="col-md-4 ml-3">
                                                         <div class="form-group lableup mb-0 mat-input-styling">
                                                             <mat-form-field class="quantity-mat-form">
@@ -261,10 +271,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </ng-template>
-
-                                        </form>
-                                    </div>
+    
+                                            </form>
+                                        </div>
+                                    </ng-template>
                                 </div>
                             </ng-container>
                 
@@ -362,7 +372,7 @@
                                 </div>
                             </ng-container>
                 
-                            <ng-container>
+                            <ng-container *ngIf="!showLeadObjDetails.data.warehouseList[0].specs.length">
                                 <div class="row qty-range-label">
                                     <div class="col-md-12">
                                         <div class="form-check pl-0">
@@ -437,6 +447,9 @@
                 
                                     <div class="save-orange mt-2">
                                         <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
+                                        <!-- {{ editMinMaxIsFalse }}
+                                        {{ minMaxValidValue }}
+                                        {{ checkPriceValidate }} -->
                                         <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
                                             [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Submit</button>
                                     </div>
@@ -490,19 +503,21 @@
                                                     
                                                     <div class="individual-spec d-flex justify-content-between">
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput formControlName="specMinQty" type="number">
+                                                            <input matInput formControlName="specMinQty" type="number" 
+                                                            (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                         </mat-form-field>
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput formControlName="specMaxQty" type="number">
+                                                            <input matInput formControlName="specMaxQty" type="number" 
+                                                            (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                         </mat-form-field>
                                                     </div>
 
                                                     <mat-form-field class="individual-spec quantity-mat-form">
-                                                        <input matInput formControlName="specPrice" type="number">
+                                                        <input matInput formControlName="specPrice" type="number" 
+                                                        (input)="checkPriceSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                     </mat-form-field>
                                                 </div>
                                             </ng-container>
-
 
                                             <ng-template #noSpecsBlock>
                                                 <h6 class="qty-title">Quantity Range (Bags)</h6>
@@ -583,11 +598,10 @@
                                                 </div>
                                             </ng-template>
 
-                                            
                                         </form>
                                     </div>
-                
-                                    <ng-container *ngIf="(!showLeadObjDetails.data.warehouseList[0].specs)">
+                                    
+                                    <ng-container *ngIf="(!showLeadObjDetails.data.warehouseList[0].specs.length)">
                                         <div *ngIf="(showLeadObjDetails.data.warehouseList[0].warehousePriceList && showLeadObjDetails.data.warehouseList[0].warehousePriceList.length == 0) || isEditBtnClicked"
                                             class="row qty-range-label">
                                             <div class="col-md-12">
@@ -634,6 +648,9 @@
                             
                             <div class="save-orange mt-2">
                                 <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
+                                <!-- {{ editMinMaxIsFalse }}
+                                {{ minMaxValidValue }}
+                                {{ checkPriceValidate }} -->
                                 <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
                                     [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Submit</button>
                             </div>

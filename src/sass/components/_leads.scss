@@ -169,16 +169,30 @@
         margin: 12px 0 5px;
     }
 
-    &__delivery-details span{
-        color: #212121;
-        font-family: "Open Sans", sans-serif;
-        font-size: 14px;
-        line-height: 22px;
-        &:not(:last-child):after{
-            content: '';
-            border-right: 1px solid #b3b3b3;
-            margin: 0 10px;
+    &__delivery-details{
+        display: flex;
+        list-style: none;
+        span{
+            color: #212121;
+            font-family: "Open Sans", sans-serif;
+            font-size: 14px;
+            line-height: 22px;
+            &:not(:last-child):after{
+                content: '';
+                border-right: 1px solid #b3b3b3;
+                margin: 0 10px;
+            }
         }
+
+        li:not(:last-child):after {
+            content: ',';
+            margin-right: 5px;
+        }
+    }
+
+    &__delivery-title {
+        width: auto;
+        margin-right: 10px;
     }
 
     &__note-content{

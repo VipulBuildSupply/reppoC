@@ -138,8 +138,6 @@ export class NewLeadComponent implements OnInit {
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
       this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
-      LoggerService.debug(this.activeLeadStatus);
-      
       this.warehouseData = [];
 
       if (this.showLeadObjDetails.data.request.sellerPaymentTerm) {
@@ -243,7 +241,8 @@ export class NewLeadComponent implements OnInit {
                 specPrice: [spec.price, Validators.required],
                 check: [''],
                 specCode: [spec.specCd],
-                specId: [spec.specId]
+                specId: [spec.specId],
+                specRelId: [spec.id]
               })
             );
           });
@@ -257,7 +256,8 @@ export class NewLeadComponent implements OnInit {
                 specPrice: [spec.price, Validators.required],
                 check: [''],
                 specCode: [spec.specCd],
-                specId: [spec.specId]
+                specId: [spec.specId],
+                specRelId: [spec.id]
               })
             );
           })
@@ -509,8 +509,6 @@ export class NewLeadComponent implements OnInit {
 
   isMinMaxInValid(form: FormGroup) {
 
-    // LoggerService.debug(this.showLeadObjDetails);
-    // debugger
     // if(this.showLeadObjDetails.data && this.showLeadObjDetails.data.warehouselist[0].specs){
     //   var min = form.controls.specMinQty.value;
     //   var max = form.controls.specMaxQty.value;
@@ -544,7 +542,6 @@ export class NewLeadComponent implements OnInit {
       this.checkPriceValidate = true;
     }
     else if (this.pricingForms[currentFormIndex].controls.price.value == "") {
-
       this.checkPriceValidate = true;
     }
     else {
@@ -757,7 +754,7 @@ export class NewLeadComponent implements OnInit {
       /**
        * condition to check if requested quantity is in the range of min and max or not
        */
-      if (minPricing > requestedQty || maxPricing < requestedQty || minPricing == maxPricing) {
+      if (minPricing > requestedQty || maxPricing < requestedQty || minPricing == null || minPricing == "") {
         this.editMinMaxIsFalse = true;
       } else {
         this.editMinMaxIsFalse = false;
@@ -816,6 +813,11 @@ export class NewLeadComponent implements OnInit {
       }
 
       else if (currentFormIndex == 0) {
+
+        const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+        const maxPricing = this.pricingForms[currentFormIndex].controls.maxPrice.value;
+        const minPricing = this.pricingForms[currentFormIndex].controls.minPrice.value;
+        
         if (this.pricingForms[currentFormIndex + 1]) {
           if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
             //   this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
@@ -827,6 +829,16 @@ export class NewLeadComponent implements OnInit {
             this.pricingForms[currentFormIndex].controls.check.setErrors(null);
           }
         }
+
+        /**
+         * condition to check if requested quantity is in the range of min and max or not
+         */
+        if (minPricing > requestedQty || maxPricing < requestedQty || minPricing == null || minPricing == "") {
+          this.editMinMaxIsFalse = true;
+        } else {
+          this.editMinMaxIsFalse = false;
+        }
+        
       }
 
       if (this.pricingForms[currentFormIndex].controls.minPrice.value > this.pricingForms[currentFormIndex].controls.maxPrice.value) {
@@ -902,6 +914,64 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
+  compareMinMaxSpecs(Index, checked){
+    
+      if(!checked){
+
+        for(var i = 0; i<this.warehouseData[0].pricingForms.length; i++){
+
+          const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+          const minQty = this.warehouseData[0].pricingForms[i].controls.specMinQty.value;
+          const maxQty = this.warehouseData[0].pricingForms[i].controls.specMaxQty.value; 
+      
+          /**
+           * condition to check if requested quantity is in the range of min and max or not
+           */
+          if (minQty > requestedQty || maxQty < requestedQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
+            this.minMaxValidValue = true;
+          } else {
+            this.minMaxValidValue = false;
+          }
+    
+          this.checkPriceSpecs(Index, checked);
+        }
+      }else{
+          const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+          const minQty = this.warehouseData[0].pricingForms[Index].controls.specMinQty.value;
+          const maxQty = this.warehouseData[0].pricingForms[Index].controls.specMaxQty.value; 
+      
+          /**
+           * condition to check if requested quantity is in the range of min and max or not
+           */
+          if (minQty > requestedQty || maxQty < requestedQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
+            this.minMaxValidValue = true;
+          } else {
+            this.minMaxValidValue = false;
+          }
+    
+          this.checkPriceSpecs(Index, checked);
+      }
+  }
+
+  checkPriceSpecs(index, checked){
+
+    if(!checked){
+      const minQty = this.warehouseData[0].pricingForms[index].controls.specMinQty.value;
+      const maxQty = this.warehouseData[0].pricingForms[index].controls.specMaxQty.value;
+      const price = this.warehouseData[0].pricingForms[index].controls.specPrice.value;
+      const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+
+      if(minQty == null || minQty > maxQty || price == null || price == "" || minQty == "" || minQty > requestedQty || maxQty < requestedQty){
+          this.minMaxValidValue = true;
+      }else{
+          this.minMaxValidValue = false;
+      }
+
+    }else{
+
+    }
+  }
+
   OnInput(event) {
     this.notes = event.value;
   }
@@ -929,7 +999,7 @@ export class NewLeadComponent implements OnInit {
               "specCd": this.warehouseData[i].pricingForms[j].controls.specCode.value,
               "specId": this.warehouseData[i].pricingForms[j].controls.specId.value,
               "specName": this.warehouseData[i].pricingForms[j].controls.diameter.value,
-              "specRelId": this.showLeadObjDetails.data.request.id
+              "specRelId": this.warehouseData[i].pricingForms[j].controls.specRelId.value
             }
             this.sendPricingToIndividualArrayAdd.push(object);
           }
@@ -1010,31 +1080,33 @@ export class NewLeadComponent implements OnInit {
 
 
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
+
+      LoggerService.debug(this.warehouseData[0].pricingForms);
+      debugger
+
       this.uploadDocs()
       this.sendPricingToAllArray = [];
 
       if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
-        for (let i = 0; i < this.warehouseData.length; i++) {
-          for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
-            if ((this.warehouseData[i].pricingForms[j].controls.specMinQty.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.specMinQty.value != "")) {
-              const object = {
-                "id": this.leadId,
-                "attachId": this.sequenceId,
-                "validEndDt": this.datePickerValueLeads,
-                "maxQty": this.warehouseData[i].pricingForms[j].controls.specMaxQty.value,
-                "minQty": this.warehouseData[i].pricingForms[j].controls.specMinQty.value,
-                "price": this.warehouseData[i].pricingForms[j].controls.specPrice.value,
-                "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
-                "warehouseId": this.warehouseData[i].address.addressId,
-                "paymentTerm": this.paymentTermCode,
-                "note": this.notes,
-                "specCd": this.warehouseData[i].pricingForms[j].controls.specCode.value,
-                "specId": this.warehouseData[i].pricingForms[j].controls.specId.value,
-                "specName": this.warehouseData[i].pricingForms[j].controls.diameter.value,
-                "specRelId": this.showLeadObjDetails.data.request.id
-              }
-              this.sendPricingToIndividualArrayAdd.push(object);
+        for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
+          if ((this.warehouseData[0].pricingForms[i].controls.specMinQty.value >= 0) && (this.warehouseData[0].pricingForms[i].controls.specMinQty.value != "")) {
+            const object = {
+              "id": this.leadId,
+              "attachId": this.sequenceId,
+              "validEndDt": this.datePickerValueLeads,
+              "maxQty": this.warehouseData[0].pricingForms[i].controls.specMaxQty.value,
+              "minQty": this.warehouseData[0].pricingForms[i].controls.specMinQty.value,
+              "price": this.warehouseData[0].pricingForms[i].controls.specPrice.value,
+              "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+              "warehouseId": this.warehouseData[0].address.addressId,
+              "paymentTerm": this.paymentTermCode,
+              "note": this.notes,
+              "specCd": this.warehouseData[0].pricingForms[i].controls.specCode.value,
+              "specId": this.warehouseData[0].pricingForms[i].controls.specId.value,
+              "specName": this.warehouseData[0].pricingForms[i].controls.diameter.value,
+              "specRelId":  this.warehouseData[0].pricingForms[i].controls.specRelId.value
             }
+            this.sendPricingToAllArray.push(object);
           }
         }
       }else{
@@ -1072,12 +1144,11 @@ export class NewLeadComponent implements OnInit {
 
   addPriceToAllWareHouseAddress(event) {
     if (event.target.checked) {
-      this.addPriceToAllWareHouseCheckBox = true;
+      this.addPriceToAllWareHouseCheckBox = true;      
     }
     else {
       this.addPriceToAllWareHouseCheckBox = false;
     }
-
   }
 
   filters() {
