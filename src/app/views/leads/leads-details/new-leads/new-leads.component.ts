@@ -162,8 +162,8 @@ export class NewLeadComponent implements OnInit {
       }
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
-        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
-        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
+        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
+        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
         const year = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(6, 10);
         const dateVal = month + "-" + day + "-" + year;
         this.datePickerValue = new FormControl(new Date(year, month - 1, day));
@@ -196,7 +196,6 @@ export class NewLeadComponent implements OnInit {
       this.updateFileList();
     });
 
-    // this.addAnotherRange();
   }
 
   updateFileList() {
@@ -223,38 +222,81 @@ export class NewLeadComponent implements OnInit {
     this.leadPaymentForm.get('PaymentInput').setValue(this.paymentTermCode);
   }
 
+
   createWarehouseData(warehouselist) {
 
     warehouselist.forEach(warehouse => {
+
       const forms = [];
-      if (warehouse.warehousePriceList.length) {
-        warehouse.warehousePriceList.forEach(pricesItem => {
+
+      if (warehouse.specs && warehouse.specs.length) {
+
+        if(warehouse.warehousePriceList.length === 0){
+          warehouse.specs.forEach(spec => {
+            forms.push(
+              this._formBuilder.group({
+                diameter: [spec.specName],
+                specMinQty: [spec.minQty, Validators.required],
+                specMaxQty: [spec.maxQty],
+                specPrice: [spec.price, Validators.required],
+                check: [''],
+                specCode: [spec.specCd],
+                specId: [spec.specId],
+                specRelId: [spec.id]
+              })
+            );
+          });
+        }else{
+          warehouse.warehousePriceList.forEach(spec => {
+            forms.push(
+              this._formBuilder.group({
+                diameter: [spec.specName],
+                specMinQty: [spec.minQty, Validators.required],
+                specMaxQty: [spec.maxQty],
+                specPrice: [spec.price, Validators.required],
+                check: [''],
+                specCode: [spec.specCd],
+                specId: [spec.specId],
+                specRelId: [spec.id]
+              })
+            );
+          })
+        }
+      }
+
+      else {
+        if (warehouse.warehousePriceList.length) {
+          warehouse.warehousePriceList.forEach(pricesItem => {
+            forms.push(
+              this._formBuilder.group({
+                minPrice: [pricesItem.minQty, Validators.required],
+                maxPrice: [pricesItem.maxQty],
+                price: [pricesItem.price, Validators.required],
+                check: ['']
+              }, { validators: this.isMinMaxInValid })
+            );
+          });
+
+        } else {
+          // if no data in price List set on default price form
           forms.push(
             this._formBuilder.group({
-              minPrice: [pricesItem.minQty, Validators.required],
-              maxPrice: [pricesItem.maxQty],
-              price: [pricesItem.price, Validators.required],
+              minPrice: ['', Validators.required],
+              maxPrice: [''],
+              price: ['', Validators.required],
               check: ['']
             }, { validators: this.isMinMaxInValid })
           );
-        });
-
-      } else {
-        // if no data in price List set on default price form
-        forms.push(
-          this._formBuilder.group({
-            minPrice: ['', Validators.required],
-            maxPrice: [''],
-            price: ['', Validators.required],
-            check: ['']
-          }, { validators: this.isMinMaxInValid })
-        );
+        }
       }
+
       this.warehouseData.push({
         address: warehouse.warehouseAddress,
         pricingForms: forms
       });
     });
+
+    LoggerService.debug(this.warehouseData);
   }
 
   deletePicingAllWarehouse(index) {
@@ -466,8 +508,14 @@ export class NewLeadComponent implements OnInit {
   }
 
   isMinMaxInValid(form: FormGroup) {
-    const min = form.controls.minPrice.value;
-    const max = form.controls.maxPrice.value;
+
+    // if(this.showLeadObjDetails.data && this.showLeadObjDetails.data.warehouselist[0].specs){
+    //   var min = form.controls.specMinQty.value;
+    //   var max = form.controls.specMaxQty.value;
+    // }else{
+      var min = form.controls.minPrice.value;
+      var max = form.controls.maxPrice.value;
+    // }
 
     if (min != "" && max != "" && (Number(min) > Number(max))) {
       form.controls.minPrice.setErrors({ isMinMaxInValid: false });
@@ -494,7 +542,6 @@ export class NewLeadComponent implements OnInit {
       this.checkPriceValidate = true;
     }
     else if (this.pricingForms[currentFormIndex].controls.price.value == "") {
-
       this.checkPriceValidate = true;
     }
     else {
@@ -619,7 +666,6 @@ export class NewLeadComponent implements OnInit {
       for (let i = 0; i < priceforms.length - 1; i++) {
         this.warehouseData[index].pricingForms[i].controls.maxPrice.enable();
       }
-      // this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.disable();
       this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.setValue(2147483647);
       if (this.warehouseData[index].pricingForms[priceforms.length - 1].controls.maxPrice.value == 2147483647) {
         if (this.warehouseData[index].pricingForms[priceforms.length - 1].controls.minPrice.value == null) {
@@ -708,10 +754,10 @@ export class NewLeadComponent implements OnInit {
       /**
        * condition to check if requested quantity is in the range of min and max or not
        */
-      if(minPricing > requestedQty || maxPricing < requestedQty || minPricing == maxPricing){
-          this.editMinMaxIsFalse = true;
-      }else{
-          this.editMinMaxIsFalse = false;
+      if (minPricing > requestedQty || maxPricing < requestedQty || minPricing == null || minPricing == "") {
+        this.editMinMaxIsFalse = true;
+      } else {
+        this.editMinMaxIsFalse = false;
       }
     }
 
@@ -747,7 +793,6 @@ export class NewLeadComponent implements OnInit {
 
       if (currentFormIndex > 0) {
         if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
-          //   this.pricingForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
           this.editMinMaxIsFalse = true;
           this.pricingForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
         }
@@ -768,6 +813,11 @@ export class NewLeadComponent implements OnInit {
       }
 
       else if (currentFormIndex == 0) {
+
+        const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+        const maxPricing = this.pricingForms[currentFormIndex].controls.maxPrice.value;
+        const minPricing = this.pricingForms[currentFormIndex].controls.minPrice.value;
+        
         if (this.pricingForms[currentFormIndex + 1]) {
           if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
             //   this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
@@ -779,6 +829,16 @@ export class NewLeadComponent implements OnInit {
             this.pricingForms[currentFormIndex].controls.check.setErrors(null);
           }
         }
+
+        /**
+         * condition to check if requested quantity is in the range of min and max or not
+         */
+        if (minPricing > requestedQty || maxPricing < requestedQty || minPricing == null || minPricing == "") {
+          this.editMinMaxIsFalse = true;
+        } else {
+          this.editMinMaxIsFalse = false;
+        }
+        
       }
 
       if (this.pricingForms[currentFormIndex].controls.minPrice.value > this.pricingForms[currentFormIndex].controls.maxPrice.value) {
@@ -803,7 +863,6 @@ export class NewLeadComponent implements OnInit {
 
       if (currentFormIndex > 0) {
         if (this.editPricingAllForms[currentFormIndex].controls.minPrice.value < this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.value) {
-          //   this.editPricingAllForms[currentFormIndex - 1].controls.maxPrice.setErrors(null);
           this.editMinMaxIsFalse = true;
           this.editPricingAllForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
         }
@@ -855,34 +914,119 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
+  compareMinMaxSpecs(Index, checked){
+    
+      if(!checked){
+
+        for(var i = 0; i<this.warehouseData[0].pricingForms.length; i++){
+
+          const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+          const minQty = this.warehouseData[0].pricingForms[i].controls.specMinQty.value;
+          const maxQty = this.warehouseData[0].pricingForms[i].controls.specMaxQty.value; 
+      
+          /**
+           * condition to check if requested quantity is in the range of min and max or not
+           */
+          if (minQty > requestedQty || maxQty < requestedQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
+            this.minMaxValidValue = true;
+          } else {
+            this.minMaxValidValue = false;
+          }
+    
+          this.checkPriceSpecs(Index, checked);
+        }
+      }else{
+          const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+          const minQty = this.warehouseData[0].pricingForms[Index].controls.specMinQty.value;
+          const maxQty = this.warehouseData[0].pricingForms[Index].controls.specMaxQty.value; 
+      
+          /**
+           * condition to check if requested quantity is in the range of min and max or not
+           */
+          if (minQty > requestedQty || maxQty < requestedQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
+            this.minMaxValidValue = true;
+          } else {
+            this.minMaxValidValue = false;
+          }
+    
+          this.checkPriceSpecs(Index, checked);
+      }
+  }
+
+  checkPriceSpecs(index, checked){
+
+    if(!checked){
+      const minQty = this.warehouseData[0].pricingForms[index].controls.specMinQty.value;
+      const maxQty = this.warehouseData[0].pricingForms[index].controls.specMaxQty.value;
+      const price = this.warehouseData[0].pricingForms[index].controls.specPrice.value;
+      const requestedQty = this.showLeadObjDetails.data.request.requestQty;
+
+      if(minQty == null || minQty > maxQty || price == null || price == "" || minQty == "" || minQty > requestedQty || maxQty < requestedQty){
+          this.minMaxValidValue = true;
+      }else{
+          this.minMaxValidValue = false;
+      }
+
+    }else{
+
+    }
+  }
+
   OnInput(event) {
     this.notes = event.value;
   }
 
   addPricingIndividualWarehouseAddress() {
+
     this.uploadDocs();
     this.sendPricingToIndividualArrayAdd = [];
 
-    for (let i = 0; i < this.warehouseData.length; i++) {
-      for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
-        if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
-          const object = {
-            "id": this.leadId,
-            "attachId": this.sequenceId,
-            "validEndDt": this.datePickerValueLeads,
-            "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
-            "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
-            "price": this.warehouseData[i].pricingForms[j].controls.price.value,
-            "samePriceAllWarehouse": false,
-            "warehouseId": this.warehouseData[i].address.addressId,
-            "paymentTerm": this.paymentTermCode,
-            "note": this.notes
+    if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
+      for (let i = 0; i < this.warehouseData.length; i++) {
+        for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
+          if ((this.warehouseData[i].pricingForms[j].controls.specMinQty.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.specMinQty.value != "")) {
+            const object = {
+              "id": this.leadId,
+              "attachId": this.sequenceId,
+              "validEndDt": this.datePickerValueLeads,
+              "maxQty": this.warehouseData[i].pricingForms[j].controls.specMaxQty.value,
+              "minQty": this.warehouseData[i].pricingForms[j].controls.specMinQty.value,
+              "price": this.warehouseData[i].pricingForms[j].controls.specPrice.value,
+              "samePriceAllWarehouse": false,
+              "warehouseId": this.warehouseData[i].address.addressId,
+              "paymentTerm": this.paymentTermCode,
+              "note": this.notes,
+              "specCd": this.warehouseData[i].pricingForms[j].controls.specCode.value,
+              "specId": this.warehouseData[i].pricingForms[j].controls.specId.value,
+              "specName": this.warehouseData[i].pricingForms[j].controls.diameter.value,
+              "specRelId": this.warehouseData[i].pricingForms[j].controls.specRelId.value
+            }
+            this.sendPricingToIndividualArrayAdd.push(object);
           }
-          this.sendPricingToIndividualArrayAdd.push(object);
         }
-
+      }
+    }else{
+      for (let i = 0; i < this.warehouseData.length; i++) {
+        for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
+          if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
+            const object = {
+              "id": this.leadId,
+              "attachId": this.sequenceId,
+              "validEndDt": this.datePickerValueLeads,
+              "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
+              "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
+              "price": this.warehouseData[i].pricingForms[j].controls.price.value,
+              "samePriceAllWarehouse": false,
+              "warehouseId": this.warehouseData[i].address.addressId,
+              "paymentTerm": this.paymentTermCode,
+              "note": this.notes
+            }
+            this.sendPricingToIndividualArrayAdd.push(object);
+          }
+        }
       }
     }
+
     this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
@@ -936,21 +1080,49 @@ export class NewLeadComponent implements OnInit {
 
 
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
+
+      LoggerService.debug(this.warehouseData[0].pricingForms);
+      debugger
+
       this.uploadDocs()
       this.sendPricingToAllArray = [];
 
-      for (var i = 0; i < this.pricingForms.length; i++) {
-        const object = {
-          "id": this.leadId,
-          "attachId": this.sequenceId,
-          "validEndDt": this.datePickerValueLeads,
-          "maxQty": this.pricingForms[i].controls.maxPrice.value,
-          "minQty": this.pricingForms[i].controls.minPrice.value,
-          "price": this.pricingForms[i].controls.price.value,
-          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
-          "paymentTerm": this.paymentTermCode
+      if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
+        for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
+          if ((this.warehouseData[0].pricingForms[i].controls.specMinQty.value >= 0) && (this.warehouseData[0].pricingForms[i].controls.specMinQty.value != "")) {
+            const object = {
+              "id": this.leadId,
+              "attachId": this.sequenceId,
+              "validEndDt": this.datePickerValueLeads,
+              "maxQty": this.warehouseData[0].pricingForms[i].controls.specMaxQty.value,
+              "minQty": this.warehouseData[0].pricingForms[i].controls.specMinQty.value,
+              "price": this.warehouseData[0].pricingForms[i].controls.specPrice.value,
+              "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+              "warehouseId": this.warehouseData[0].address.addressId,
+              "paymentTerm": this.paymentTermCode,
+              "note": this.notes,
+              "specCd": this.warehouseData[0].pricingForms[i].controls.specCode.value,
+              "specId": this.warehouseData[0].pricingForms[i].controls.specId.value,
+              "specName": this.warehouseData[0].pricingForms[i].controls.diameter.value,
+              "specRelId":  this.warehouseData[0].pricingForms[i].controls.specRelId.value
+            }
+            this.sendPricingToAllArray.push(object);
+          }
         }
-        this.sendPricingToAllArray.push(object);
+      }else{
+        for (var i = 0; i < this.pricingForms.length; i++) {
+          const object = {
+            "id": this.leadId,
+            "attachId": this.sequenceId,
+            "validEndDt": this.datePickerValueLeads,
+            "maxQty": this.pricingForms[i].controls.maxPrice.value,
+            "minQty": this.pricingForms[i].controls.minPrice.value,
+            "price": this.pricingForms[i].controls.price.value,
+            "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+            "paymentTerm": this.paymentTermCode
+          }
+          this.sendPricingToAllArray.push(object);
+        }
       }
 
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
@@ -972,12 +1144,11 @@ export class NewLeadComponent implements OnInit {
 
   addPriceToAllWareHouseAddress(event) {
     if (event.target.checked) {
-      this.addPriceToAllWareHouseCheckBox = true;
+      this.addPriceToAllWareHouseCheckBox = true;      
     }
     else {
       this.addPriceToAllWareHouseCheckBox = false;
     }
-
   }
 
   filters() {

@@ -169,16 +169,30 @@
         margin: 12px 0 5px;
     }
 
-    &__delivery-details span{
-        color: #212121;
-        font-family: "Open Sans", sans-serif;
-        font-size: 14px;
-        line-height: 22px;
-        &:not(:last-child):after{
-            content: '';
-            border-right: 1px solid #b3b3b3;
-            margin: 0 10px;
+    &__delivery-details{
+        display: flex;
+        list-style: none;
+        span{
+            color: #212121;
+            font-family: "Open Sans", sans-serif;
+            font-size: 14px;
+            line-height: 22px;
+            &:not(:last-child):after{
+                content: '';
+                border-right: 1px solid #b3b3b3;
+                margin: 0 10px;
+            }
         }
+
+        li:not(:last-child):after {
+            content: ',';
+            margin-right: 5px;
+        }
+    }
+
+    &__delivery-title {
+        width: auto;
+        margin-right: 10px;
     }
 
     &__note-content{
@@ -536,16 +550,48 @@
     }
 }
 
-.nonEditable{
-    opacity: 0.9;
-    pointer-events: none;
-    position: absolute;
-    z-index: 0;
-    background-color: #ffffff;
-}
+// .nonEditable{
+//     opacity: 0.9;
+//     pointer-events: none;
+//     position: absolute;
+//     z-index: 0;
+//     background-color: #ffffff;
+// }
 
 .otherPaymentCat.mat-form-field-appearance-legacy .mat-form-field-infix{
     height: 48px;
     padding: 0;
     border-top: none;
+}
+
+.individual-spec, .specs-row span,
+.individual-spec .mat-form-field {
+    max-width: 33.33%;
+    flex: 0 0 33.33%;
+}
+
+.specs-row span:first-child {
+    max-width: 15%;
+    flex: 0 0 15%;
+}
+
+.specs-row span.specs-column {
+    opacity: 0.6;
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 12px;
+    vertical-align: super;
+    line-height: 22px;
+}
+
+.nonEditable{
+    pointer-events: none;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.31);
+    }
 }

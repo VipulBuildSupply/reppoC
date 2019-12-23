@@ -1,0 +1,227 @@
+<div class="mark-in-transit">
+    <div class="container">
+        <div class="mark-in-transit__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+            <h3>
+                <i aria-hidden="true" class="fa fa-angle-left" tabindex="0" [routerLink]="['/orders/list/']"></i>
+                Mark In Transit</h3>
+        </div>
+
+        <div class="mark-in-transit__orders-list">
+            <div class="mark-in-transit__order mb-3">
+                <div class="mark-in-transit__card">
+
+                    <div class="mark-in-transit__title-section">
+                        <div class="mark-in-transit__title-left">
+                            <h4 class="mb-1">Purchase Order Id : 243138</h4>
+                            <p class="datetime mb-0">18 Dec 2019 at 20:40 pm</p>
+                        </div>
+                    </div>
+
+                    <div class="mark-in-transit__items">
+                        <p class="mb-2">Please Select Items Per Vehicle</p>
+                        <hr class="mt-1"/>
+                        <div class="mark-in-transit__items-list">
+                            <mat-checkbox>
+                                <div class="item-details d-flex">
+                                    <div class="item-image">
+                                        <img src="assets/img/svg-img/OPC-53.webp" alt="">
+                                    </div>
+                                    <div class="item-desc">
+                                        <h4>Ambuja Powercem OPC 43 Cement 50 Kg Bag</h4>
+                                        <div class="item-quantity d-flex">
+                                            <span>Balance Quantity: 1000 bags</span>
+                                            <span>Requested Quantity: 1000 bags</span>
+                                        </div>
+                                        
+                                        <mat-form-field class="item-enter-qty"> 
+                                            <input matInput type="number" name="" id="" placeholder="Enter delivery quantity" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </mat-checkbox>
+                        </div>
+                    </div>
+
+
+                    <div class="mark-in-transit__vehicle-details">
+                        <form action="">
+
+                            <h3 class="mb-3">Invoice</h3>
+
+                            <div class="row invoice d-flex align-items-center">
+                                <div class="col-md-4">
+                                    <mat-form-field class="invoice-input mr-5 w-75">
+                                        <input matInput type="text" placeholder="Invoice Number" value="">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="upload-invoice">
+                                        <img src="assets/img/upload.png" class="download-img" alt="">
+                                        <label class="myLabel">
+                                            <input type="file" name="uploadInvoice" 
+                                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                                class="inputLableUp">
+                                            <span>Upload Invoice</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr/>
+
+
+                            <h3 class="mt-4 mb-3">Eway Bill</h3>
+
+                            <div class="row invoice d-flex align-items-center">
+                                <div class="col-md-4">
+                                    <mat-form-field class="invoice-input mr-5 w-75">
+                                        <input matInput type="text" placeholder="Eway Bill Number" value="">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="mr-5 w-75">
+                                        <input matInput [matDatepicker]="picker1" placeholder="Date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="upload-invoice">
+                                        <img src="assets/img/upload.png" class="download-img" alt="">
+                                        <label class="myLabel">
+                                            <input type="file" name="uploadInvoice" 
+                                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                                class="inputLableUp">
+                                            <span>Upload Eway Bill</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+
+
+                            <h3 class="mt-4 mb-3">Delivery Challan</h3>
+                            <div class="row invoice d-flex align-items-center">
+                                <div class="col-md-4">
+                                    <mat-form-field class="invoice-input mr-5 w-75">
+                                        <input matInput type="text" placeholder="Delivery Challan Number" value="">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-form-field class="mr-5 w-75">
+                                        <input matInput [matDatepicker]="picker2" placeholder="Date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="upload-invoice">
+                                        <img src="assets/img/upload.png" class="download-img" alt="">
+                                        <label class="myLabel">
+                                            <input type="file" name="uploadInvoice" 
+                                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                                class="inputLableUp">
+                                            <span>Upload Delivery Challan</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+
+                            <h3 class="mt-4 mb-3">Material Test Certificate</h3>
+                            <div class="upload-invoice">
+                                <img src="assets/img/upload.png" class="download-img" alt="">
+                                <label class="myLabel">
+                                    <input type="file" name="uploadInvoice" 
+                                        accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                        class="inputLableUp">
+                                    <span>Upload MTC</span>
+                                </label>
+                            </div>
+
+                            <h3 class="mt-4 mb-3">Vehicle Details</h3>
+                            <div class="vehicle-details-desc">
+
+                                <div class="row invoice d-flex align-items-center">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="text" placeholder="Transporter Name" value="">
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="text" placeholder="Mode of Transport" value="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="row invoice d-flex align-items-center">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="text" placeholder="Vehicle No." value="">
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="text" placeholder="Driver Name" value="">
+                                        </mat-form-field>    
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="number" placeholder="Driver Contact No." value="">
+                                        </mat-form-field>    
+                                    </div>
+                                </div>
+
+                                <div class="row invoice d-flex align-items-center">
+
+                                    <div class="col-md-4">
+                                        <mat-form-field class="invoice-input mr-5 w-75">
+                                            <input matInput type="text" placeholder="LR No." value="">
+                                        </mat-form-field>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <mat-form-field class="mr-5 w-75">
+                                            <input matInput [matDatepicker]="picker3" placeholder="Date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="upload-invoice">
+                                            <img src="assets/img/upload.png" class="download-img" alt="">
+                                            <label class="myLabel">
+                                                <input type="file" name="uploadInvoice" 
+                                                    accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                                    class="inputLableUp">
+                                                <span>Upload Lorry Recipt</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="btn-groups mt-3">
+                                <button mat-button class="btn brdbttn mr-2">Cancel</button>
+                                <button mat-button class="btn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

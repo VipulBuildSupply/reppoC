@@ -5,7 +5,7 @@
             <h3>
                 <i aria-hidden="true" class="fa fa-angle-left" tabindex="0" [routerLink]="['/orders/details']"></i>
                 Purchase Order Details</h3>
-                <!-- <div class="leads-srch-box flex-sb-m">
+            <!-- <div class="leads-srch-box flex-sb-m">
                     <div class=" leads-srch">
                         <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
                                     src="assets/img/search-icon.png"></span>
@@ -23,18 +23,23 @@
                 <mat-card class="po__card">
 
                     <div class="po__title-section">
-                        <div class="d-flex justify-content-between align-items-center" 
+                        <div class="d-flex justify-content-between align-items-center"
                             *ngIf="orders && orders.purchaseOrder">
                             <div class="po__title-left">
                                 <h4 class="mb-1">Purchase Order Id : {{ orders.purchaseOrder.orderNo }}</h4>
                                 <p class="datetime mb-0">{{ orders.purchaseOrder.createDt }}</p>
                             </div>
-                            
+
                             <!-- Accept/Reject PO Functionality -->
                             <div class="po__title-right d-flex align-items-center"
                                 *ngIf="orders.purchaseOrder.statusCd == 'sellerpo.ops.sent'">
-                                <button mat-button class="brdbttn mr-2" (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">Reject</button>
-                                <button mat-button class="btnAccept" (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
+                                <button mat-button class="brdbttn mr-2"
+                                    (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">Reject</button>
+                                <button mat-button class="btnAccept"
+                                    (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
+                                <button mat-button class="btn-mark-in-transit ml-2"
+                                    [routerLink]="['/orders/list/'+orders.purchaseOrder.id+'/mark-in-transit']">
+                                    Mark In Transit</button>
                             </div>
 
                             <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirmed'">
@@ -54,29 +59,34 @@
                     <div class="divider"></div>
 
                     <ng-container *ngIf="orders && orders.orderItemList && orders.orderItemList.length">
-                        
+
                         <ng-container *ngFor="let item of orders.orderItemList">
                             <mat-card-header class="po__header-section">
                                 <div class="po__header-left">
                                     <div mat-card-avatar class="po__header-image">
-                                        <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
+                                        <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/bricks.png'" alt=""
+                                            class="img-fluid">
                                     </div>
-        
+
                                     <div class="mat-card-header-text mat-card__title">
                                         <mat-card-title>{{ item.name }}</mat-card-title>
-                                        <mat-card-subtitle>Quantity: {{ item.requestQty }} {{ item.unit }}</mat-card-subtitle>
+                                        <mat-card-subtitle>Quantity: {{ item.requestQty }} {{ item.unit }}
+                                        </mat-card-subtitle>
                                         <mat-card-subtitle class="pt-2">₹{{ item.sellerPrice }}</mat-card-subtitle>
                                     </div>
                                 </div>
                             </mat-card-header>
 
                             <!-- PO Pickup History -->
-                            <div class="pickup-history po-address" *ngIf="item.deliveryList && item.deliveryList.length">
-                                <h5 class="pickup-history__title">Pickup History</h5>
+                            <div class="pickup-history po-address"
+                                *ngIf="item.deliveryList && item.deliveryList.length">
+                                <h5 class="pickup-history__title">Delivery History</h5>
+                                <hr class="py-2" />
                                 <div class="pickup-history__inner justify-content-start">
-                                    <div class="pickup-history__column" *ngFor="let pickupAddr of item.deliveryList; let i = index">
+                                    <div class="pickup-history__column"
+                                        *ngFor="let pickupAddr of item.deliveryList; let i = index">
                                         <div class="pickup-history__heading d-flex justify-content-between">
-                                            <span class="font600">Pickup {{ i+1 }}</span>
+                                            <span class="font600">Delivery {{ i+1 }}</span>
                                             <!-- <span>
                                                 <img alt="" src="assets/img/svg-img/ic_download.svg"> 
                                                 &nbsp; <a class="text-uppercase download-link" href="">Download Invoice</a>
@@ -95,10 +105,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="line-br"></div>
+
                         </ng-container>
                     </ng-container>
 
-                    <div class="line-br"></div>
+
 
                     <mat-card-content *ngIf="orders && orders.purchaseOrder">
 
@@ -106,7 +119,7 @@
                         <mat-expansion-panel class="payment-terms" *ngIf="orders.purchaseOrder.paymentTerm">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                Payment Terms
+                                    Payment Terms
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
                             <p [innerHTML]="orders.purchaseOrder.paymentTerm"></p>
@@ -118,24 +131,27 @@
                             <h5 class="addresses__title">All Addresses</h5>
                             <div class="addresses__inner">
                                 <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
-                                    
+
                                     <h4>{{ addr.displayName }}</h4>
 
                                     <ng-container *ngIf="!addr.rawText; else showStringAddr">
                                         <div class="address">
                                             <p><span class="font600">{{ addr.address.name }}</span></p>
-                                            <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }}, {{ addr.address.state }}, {{ addr.address.pincode }}</p>
+                                            <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }},
+                                                {{ addr.address.state }}, {{ addr.address.pincode }}</p>
                                             <p>{{ addr.address.phoneNo }}</p>
-                                            <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN: {{ addr.address.gstin }}</p>
+                                            <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN:
+                                                {{ addr.address.gstin }}</p>
                                         </div>
                                     </ng-container>
 
                                     <ng-template #showStringAddr>
                                         <!-- <div class="address" [innerHTML]="orders.purchaseOrder[addressTypes[addr.displayName]]">
                                         </div> -->
-                                        <div class="address" *ngIf="addr.addressString" [innerHTML]="addr.addressString">
+                                        <div class="address" *ngIf="addr.addressString"
+                                            [innerHTML]="addr.addressString">
                                         </div>
-                                    </ng-template>  
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
@@ -210,7 +226,8 @@
                             <div class="additional-info__details">
                                 <p>Date of delivery: {{ orders.purchaseOrder.deliveryDt }}</p>
                                 <p>Number of credits days available: {{ orders.purchaseOrder.creditDay }} days</p>
-                                <p>Transport Terms: <span [innerHTML]="orders.purchaseOrder.transporterTermCondition"></span></p>
+                                <p>Transport Terms: <span
+                                        [innerHTML]="orders.purchaseOrder.transporterTermCondition"></span></p>
                                 <p>Remarks: <span [innerHTML]="orders.purchaseOrder.remark"></span></p>
                             </div>
                         </div>
@@ -273,7 +290,7 @@
                         <mat-expansion-panel class="terms-conditions" *ngIf="orders.purchaseOrder.termCondition">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                Terms & Conditions
+                                    Terms & Conditions
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
                             <p [innerHTML]="orders.purchaseOrder.termCondition"></p>
