@@ -2,12 +2,11 @@
     
     <mat-card *ngIf="fileToUpload && fileToUpload.length" class="p-0">
         <mat-list class="pt-0">
-            <!-- <ng-container *ngIf="fileToUpload"> -->
                 <ng-container *ngFor="let file of fileToUpload; let i = index">
                     
                     <mat-list-item>
                         <div class="file-details">
-                            <img alt="pdf file" src="assets/img/file.png">
+                            <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="pdf file" class="fileExtImg">
                             <span class="file-name">{{file.name}}</span>
                         </div>
                         
@@ -22,20 +21,6 @@
 
                     <mat-divider *ngIf="(i+1) != fileToUpload.length"></mat-divider>
                 </ng-container>
-            <!-- </ng-container> -->
-
-            <!-- <ng-container *ngIf="uploadedDocs">
-                <ng-container *ngFor="let file of uploadedDocs">
-                    <mat-divider></mat-divider>
-                    <mat-list-item>
-                        {{ file.orginalFileName}}
-                        <button type="button" (click)="onUploadedRemove(file.id)" mat-icon-button>
-
-                            <mat-icon class="font-size-16">cancel</mat-icon>
-                        </button>
-                    </mat-list-item>
-                </ng-container>
-            </ng-container> -->
         </mat-list>
     </mat-card>
 

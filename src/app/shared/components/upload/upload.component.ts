@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { LoggerService } from '../../services/logger.service';
 // import { CommonService } from '../../services/common.service';
 // import { of } from 'rxjs';
 
@@ -10,13 +11,10 @@ export class UploadComponent implements OnInit {
 
     fileToUpload: FileList;
     deletedDocs: number[] = [];
-    //uploadedDocs: RfqDocument[];
     id: number;
-
-
     @Output('onFileUpdate') onFileUpdate = new EventEmitter<FileList>();
-
     @Input('parentId') parentId;
+    fileExtension: string;
 
     constructor() { }
 
@@ -40,10 +38,19 @@ export class UploadComponent implements OnInit {
             });
         }
         this.fileToUpload = newFiles.files;
+
+        /**
+         * Checked the condition if uplaoded file extension is pdf or any other
+         */
+        // const attachFiles = Object.values(this.fileToUpload);
+        // attachFiles.filter(doc => {
+        //     const [fileName, fileExt] = doc.name.split(".");
+        //     this.fileExtension = fileExt;
+        //     LoggerService.debug(this.fileExtension);
+        // })
+
         this.onFileUpdate.emit(this.fileToUpload);
     }
-
-
 
     /**
      * This function is used to remove document from a particular item of RFQ
@@ -60,33 +67,6 @@ export class UploadComponent implements OnInit {
         this.onFileUpdate.emit(this.fileToUpload);
     }
 
-    // uploadDocs(fileUploadType: string, fileLIst: FileList) {
-
-    //     return this.commonService.getUniqueId().then(response => {
-
-    //         if (fileLIst && fileLIst.length) {
-
-    //             const data = new FormData();
-
-    //             const fileArr: File[] = [];
-
-    //             for (let key in Object.keys(fileLIst)) {
-    //                 fileArr.push(fileLIst[ key ]);
-    //                 data.append(`files[${key}]`, fileLIst[ key ]);
-    //             }
-    //             // data.append(`files`, fileArr);
-    //             data.append('fileUploadType', fileUploadType);
-    //             data.append('parentId', response.id);
-    //             return this.commonService.docUpload(data).then(res => {
-    //                 return res;
-    //             });
-    //         } else {
-    //             return of().toPromise();
-    //         }
-
-    //     });
-    // }
-
     viewFile(file){
         var win = window.open(file, '_blank');
         win.focus();
@@ -96,4 +76,7 @@ export class UploadComponent implements OnInit {
         this.fileToUpload = (new DataTransfer()).files;
     }
 
+    fileChange(name, index){
+        LoggerService.debug(name + " , " + index);
+    }
 }
