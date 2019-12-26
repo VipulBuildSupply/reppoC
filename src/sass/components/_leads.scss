@@ -157,7 +157,7 @@
         padding: 20px 28px;
     }
 
-    &__delivery-title, &__note-title, &__attachment-title{
+    &__delivery-title, &__note-title, &__attachment-title, &__qty-breakup-title{
         color: rgba(0,0,0,0.6);
         font-family: "Open Sans", sans-serif;
         font-size: 12px;
@@ -316,6 +316,26 @@
             line-height: 24px;
             width: 78%;
             margin: auto;
+        }
+    }
+
+    &__qty-breakup{
+        width: 65%;
+    }
+
+    &__table{
+        th, td {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 19px;
+        }
+        th{
+            background-color: #0E3C55;
+            color: #fff;
+        }
+        td {
+            background-color: #FAFAFA;
+            border: 1px solid #ECECEC;
         }
     }
 }
@@ -594,4 +614,12 @@
         bottom: 0;
         background-color: rgba(255, 255, 255, 0.31);
     }
+}
+
+.nonEditable .focus-visible{
+    display: none;
+}
+
+.fileExtImg{
+    width: 20px;
 }

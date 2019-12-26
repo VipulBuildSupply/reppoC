@@ -34,14 +34,25 @@
                         <span>City</span>
                     </div>
                 </div>
+
+                <div class="view-lead__qty-breakup" *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length && message == 'ActedLeads'">
+                    <span class="view-lead__qty-breakup-title">Quantity Breakup: </span>
+                    <table class="table table-bordered view-lead__table">
+                        <tr>
+                            <th>Dia</th>
+                            <th>Required Quantity</th>
+                        </tr>
+                        <tr *ngFor="let qty of showLeadObjDetails.data.warehouseList[0].specs">
+                            <td>{{ qty.specName }}</td>
+                            <td>{{ qty.requestQty }}</td>
+                        </tr>
+                    </table>
+                </div>
         
                 <div class="view-lead__delivery-address" *ngIf="showLeadObjDetails.data.request.deliveryAddress && showLeadObjDetails.data.request.deliveryAddress.length">
                     <h6 class="d-flex just-content-between align-items-start">
                         <span class="view-lead__delivery-title">Delivery Address: </span> 
                         <span class="view-lead__delivery-details" [innerHTML]="showLeadObjDetails.data.request.deliveryAddress">
-                            <!-- <span>Lloyd Knight</span>
-                            <span>9785842558</span> 
-                            <span>98 Taylor Walks Suite 585, Bangalore, Karnataka 120342</span> -->
                         </span>
                     </h6>
                 </div>
@@ -60,7 +71,8 @@
                     <p class="view-lead__attachment-title">BuildSupply Attachment:</p>
                     <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.opsAttachments">
                         <div class="view-lead__attachment-left">
-                            <img src="assets/img/file.png" alt="pdf file">
+                            <img src="assets/img/file.png" alt="uplaoded file">
+                            <!-- <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="pdf file" class="fileExtImg"> -->
                             <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
                         </div>
                         <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
@@ -115,7 +127,7 @@
                         <ng-template #noteInput>
                             <mat-form-field appearance="outline" class="view-lead-note">
                                 <mat-label>Note (Optional)</mat-label>
-                                <input matInput placeholder="type here...." (input)="OnInput($event.target)">
+                                <textarea matInput placeholder="type here...." (input)="OnInput($event.target)"></textarea>
                             </mat-form-field>
                         </ng-template>
 
@@ -125,7 +137,8 @@
                         <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
                         <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
                             <div class="view-lead__attachment-left">
-                                <img src="assets/img/file.png" alt="pdf file">
+                                <img src="assets/img/file.png" alt="uplaoded file">
+                                <!-- <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="pdf file" class="fileExtImg"> -->
                                 <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
                             </div>
                             <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
@@ -139,7 +152,7 @@
                 <div class="view-lead__pricing-info">
                     <h3>Pricing Information</h3>
                     <div class="form-check pl-0">
-                        <div *ngIf="showLeadObjDetails" class="form-check pl-0 mt-3">
+                        <div *ngIf="showLeadObjDetails.data.warehouseList.length > 1" class="form-check pl-0 mt-3">
                             <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
                                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
                                     [checked]="showLeadObjDetails.data.request.samePriceAllWarehouse">
@@ -162,7 +175,7 @@
                                                 <div class="specs-row d-flex justify-content-between" *ngIf="i === 0">
                                                     <span class="specs-column">Dia</span>
                                                     <span class="specs-column">Quantity Range (Bags)</span>
-                                                    <span class="specs-column">Price Per Bag (₹)</span>
+                                                    <span class="specs-column">Price Per {{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bag' }} (₹)</span>
                                                 </div>
 
                                                 <div class="specs-row d-flex justify-content-between align-items-center">
@@ -172,6 +185,10 @@
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput formControlName="specMinQty" type="number"
                                                             (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
+                                                                
+                                                            <!-- <mat-error *ngIf="outsideQtyRangeError">
+                                                                Min Quantity Should include requested qty
+                                                            </mat-error> -->
                                                         </mat-form-field>
 
                                                         <mat-form-field class="quantity-mat-form">
@@ -372,7 +389,7 @@
                                 </div>
                             </ng-container>
                 
-                            <ng-container *ngIf="!showLeadObjDetails.data.warehouseList[0].specs.length">
+                            <!--ng-container *ngIf="!showLeadObjDetails.data.warehouseList[0].specs.length">
                                 <div class="row qty-range-label">
                                     <div class="col-md-12">
                                         <div class="form-check pl-0">
@@ -384,8 +401,8 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="!isEditBtnClicked">
                                                     For qty more than
-                                                    <!-- {{pricingForms[(pricingForms.length)-1].controls.minPrice.value}} -->
-                                                    <!-- {{warehouseData[0].pricingForms[0].controls.minPrice.value}} -->
+                                                    {{pricingForms[(pricingForms.length)-1].controls.minPrice.value}}
+                                                    {{warehouseData[0].pricingForms[0].controls.minPrice.value}}
                                                     use above price
                                                 </ng-container>
                                                 <input type="checkbox" id="check1" (change)="addPriceForRemainingQty($event)">
@@ -394,7 +411,7 @@
                                         </div>
                                     </div>            
                                 </div>
-                            </ng-container>
+                            </ng-container-->
                 
                         </div>
                 
@@ -427,7 +444,7 @@
                                                 <mat-form-field>
                                                     <mat-label>Payment terms</mat-label>
                                                     <mat-select formControlName="PaymentTerm"
-                                                        (selectionChange)="paymentTermsSelect($event)">
+                                                        (selectionChange)="paymentTermsSelect($event)" required>
                                                         <mat-option *ngFor="let paymentterm of paymentterms" [value]="paymentterm.code">
                                                             {{paymentterm.displayName}}
                                                         </mat-option>
@@ -451,7 +468,7 @@
                                         {{ minMaxValidValue }}
                                         {{ checkPriceValidate }} -->
                                         <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                            [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate">Submit</button>
+                                            [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || (!leadPaymentForm.valid)">Submit</button>
                                     </div>
                 
                                 </div>
@@ -495,7 +512,7 @@
                                                 <div class="specs-row d-flex justify-content-between" *ngIf="i === 0">
                                                     <span class="specs-column">Dia</span>
                                                     <span class="specs-column">Quantity Range (Bags)</span>
-                                                    <span class="specs-column">Price Per Bag (₹)</span>
+                                                    <span class="specs-column">Price Per {{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bag' }} (₹)</span>
                                                 </div>
 
                                                 <div class="specs-row d-flex justify-content-between align-items-center">
@@ -506,6 +523,11 @@
                                                             <input matInput formControlName="specMinQty" type="number" 
                                                             (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
                                                         </mat-form-field>
+
+                                                        <!-- <mat-error *ngIf="outsideQtyRangeError">
+                                                            Min Quantity Should include requested qty
+                                                        </mat-error> -->
+
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput formControlName="specMaxQty" type="number" 
                                                             (input)="compareMinMaxSpecs(i, addPriceToAllWareHouseCheckBox)" required>
@@ -601,14 +623,14 @@
                                         </form>
                                     </div>
                                     
-                                    <ng-container *ngIf="(!showLeadObjDetails.data.warehouseList[0].specs.length)">
+                                    <!--ng-container *ngIf="(!showLeadObjDetails.data.warehouseList[0].specs.length)">
                                         <div *ngIf="(showLeadObjDetails.data.warehouseList[0].warehousePriceList && showLeadObjDetails.data.warehouseList[0].warehousePriceList.length == 0) || isEditBtnClicked"
                                             class="row qty-range-label">
                                             <div class="col-md-12">
                                                 <div class="form-check pl-0">
                                                     <label class="container addRemainingPriceCheckBox">For qty more than
-                                                        <!-- {{warehouse.pricingForms[(warehouse.pricingForms.length)-1].controls.minPrice.value}} -->
-                                                        <!-- {{warehouse.pricingForms[0].controls.minPrice.value }} -->
+                                                        {{warehouse.pricingForms[(warehouse.pricingForms.length)-1].controls.minPrice.value}}
+                                                        {{warehouse.pricingForms[0].controls.minPrice.value }}
                                                         use above price
                                                         <input type="checkbox" id="check1"
                                                             (change)="addPriceForRemainingQtyIndividualWarehouse($event,warehouse.pricingForms,indx)">
@@ -617,7 +639,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </ng-container>
+                                    </ng-container-->
                                 </div>
 
                             </ng-container>
@@ -652,7 +674,7 @@
                                 {{ minMaxValidValue }}
                                 {{ checkPriceValidate }} -->
                                 <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                    [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms">Submit</button>
+                                    [disabled]="editMinMaxIsFalse || minMaxValidValue ||  checkPriceValidate || AllIndividualForms || (!leadPaymentForm.valid)">Submit</button>
                             </div>
                         </div>
 
