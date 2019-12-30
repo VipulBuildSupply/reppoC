@@ -156,71 +156,6 @@
                             </div>
                         </div>
 
-
-                        <!-- <ng-container *ngIf="orders.purchaseOrder.poAddress; else stringAddress">
-
-                            <div class="addresses po-address"
-                                *ngIf="orders.purchaseOrder.poAddress.sellerAddress || orders.purchaseOrder.poAddress.deliveryAddress || orders.purchaseOrder.poAddress.billingAddress">
-                                <h5 class="addresses__title">All Addresses</h5>
-                                <div class="addresses__inner">
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.sellerAddress">
-                                        <h4>Supplier Billing Address</h4>
-                                        <div class="address">
-                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.sellerAddress.name }}</span></p>
-                                            <p>{{ orders.purchaseOrder.poAddress.sellerAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.sellerAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.sellerAddress.state }}, {{ orders.purchaseOrder.poAddress.sellerAddress.pincode }}</p>
-                                            <p>{{ orders.purchaseOrder.poAddress.sellerAddress.phoneNo }}</p>
-                                            <p>GSTIN: {{ orders.purchaseOrder.poAddress.sellerAddress.gstin }}</p>
-                                        </div>
-                                    </div>
-    
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.deliveryAddress">
-                                        <h4>Delivery Address</h4>
-                                        <div class="address">
-                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.deliveryAddress.name }}</span></p>
-                                            <p>{{ orders.purchaseOrder.poAddress.deliveryAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.state }}, {{ orders.purchaseOrder.poAddress.deliveryAddress.pincode }}</p>
-                                            <p>{{ orders.purchaseOrder.poAddress.deliveryAddress.phoneNo }}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.poAddress.billingAddress">
-                                        <h4>Buyer Billing Address</h4>
-                                        <div class="address">
-                                            <p><span class="font600">{{ orders.purchaseOrder.poAddress.billingAddress.name }}</span></p>
-                                            <p>{{ orders.purchaseOrder.poAddress.billingAddress.addressLine1 }}, {{ orders.purchaseOrder.poAddress.billingAddress.addressLine2 }}, {{ orders.purchaseOrder.poAddress.billingAddress.state }}, {{ orders.purchaseOrder.poAddress.billingAddress.pincode }}</p>
-                                            <p>{{ orders.purchaseOrder.poAddress.billingAddress.phoneNo }}</p>
-                                            <p>GSTIN: {{ orders.purchaseOrder.poAddress.billingAddress.gstin }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container> -->
-
-
-                        <!-- <ng-template #stringAddress>
-                            <div class="addresses" *ngIf="orders.purchaseOrder.sellerAddress || orders.purchaseOrder.deliveryAddress || orders.purchaseOrder.buyerAddress">
-                                <h5 class="addresses__title">All Addresses</h5>
-                                <div class="addresses__inner">
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.sellerAddress">
-                                        <h4>Supplier Billing Address</h4>
-                                        <div class="address" [innerHTML]="orders.purchaseOrder.sellerAddress">
-                                        </div>
-                                    </div>
-    
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.deliveryAddress">
-                                        <h4>Delivery Address</h4>
-                                        <div class="address" [innerHTML]="orders.purchaseOrder.deliveryAddress">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="addresses__column" *ngIf="orders.purchaseOrder.buyerAddress">
-                                        <h4>Buyer Billing Address</h4>
-                                        <div class="address" [innerHTML]="orders.purchaseOrder.buyerAddress">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template> -->
-
                         <div class="additional-info">
                             <h5 class="additional-info__title">Additional Information</h5>
                             <div class="additional-info__details">
@@ -260,30 +195,6 @@
                                     <span>Total Amount</span>
                                     <span>{{ orders.purchaseOrder.totalAmount }}</span>
                                 </p>
-                                <!-- <p>
-                                    <span>Material Amount</span>
-                                    <span>123456</span>
-                                </p>
-                                <p>
-                                    <span>Shipping Charges</span>
-                                    <span>123456</span>
-                                </p>
-                                <p>
-                                    <span>IGST</span>
-                                    <span>123456</span>
-                                </p>
-                                <p>
-                                    <span>CGST</span>
-                                    <span>123456</span>
-                                </p>
-                                <p>
-                                    <span>SGST</span>
-                                    <span>123456</span>
-                                </p>
-                                <p class="total-amount">
-                                    <span>Total Amount</span>
-                                    <span>₹123456</span>
-                                </p> -->
                             </div>
                         </div>
 
@@ -298,10 +209,38 @@
 
                     </mat-card-content>
 
-                    <mat-card-actions class="text-right">
+                    <!-- <mat-card-actions class="text-right">
                         <button mat-button class="orangebttn" (click)="downloadPO(po.signedUrl)">Download PO</button>
-                    </mat-card-actions>
+                    </mat-card-actions> -->
                 </mat-card>
+
+                <div class="need-help">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="javascript:void(0)" [matMenuTriggerFor]="helpMenu" class="toggle-angle"> <i
+                                    class="fa fa-question-circle"></i> Need Help</a> <span>In case of any concern feel free to contact us.</span>
+                            <mat-menu class="user-dd-menu" #helpMenu="matMenu">
+                                <button [routerLink]="['/orders/details']" mat-menu-item>View Previous
+                                    Tickets</button>
+                                <button (click)="raiseTicket()" [routerLink]="['/orders/details']"
+                                    mat-menu-item>Raise New Ticket</button>
+                            </mat-menu>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <div class="invoice-method text-right">
+                                <label class="myLabel">
+                                    <img src="../../../../../assets/img/svg-img/ic_download.svg" class="download-img"/>
+                                    
+                                    <span (click)="downloadPO(po.signedUrl)">Download PO</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+        
+                </div>
+
+                
             </div>
         </div>
     </div>

@@ -572,17 +572,27 @@ export class NewLeadComponent implements OnInit {
   }
 
   checkPriceIndvidual(currentFormIndex, Index) {
-    if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value < this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value) {
+
+    const minQty = this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value;
+    const maxQty = this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value;
+    const price = this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value;
+    const requestedQty = this.showLeadObjDetails.data.request.requestedQty;
+
+
+    if (minQty == null || minQty > maxQty || minQty == "" || minQty > requestedQty || maxQty < requestedQty) {
+      this.minMaxValidValue = true;
+    } else {
       this.minMaxValidValue = false;
     }
 
+    // if (minQty < maxQty) {
+    //   this.minMaxValidValue = false;
+    // }
 
-    if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value == null) {
-
+    if (price == null) {
       this.checkPriceValidate = true;
 
-    } else if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value == "") {
-
+    } else if (price == "") {
       this.checkPriceValidate = true;
     }
     else {
@@ -933,12 +943,20 @@ export class NewLeadComponent implements OnInit {
       /**
        * condition to check if requested quantity is in the range of min and max or not
        */
-      if (minQty > prevMinQty || maxQty < prevMinQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
+      if (minQty > prevMinQty || maxQty < prevMinQty || minQty > maxQty) {
         this.minMaxValidValue = true;
-        // this.outsideQtyRangeError = true;
+        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ outsideQtyRangeError: true });
       } else {
         this.minMaxValidValue = false;
-        // this.outsideQtyRangeError = false;
+        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ outsideQtyRangeError: false });
+      }
+
+      if(minQty == null || minQty == "" || maxQty == null || maxQty == ""){
+        this.minMaxValidValue = true;
+        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ isMinMaxInValid: true });
+      }else{
+        this.minMaxValidValue = false;
+        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ isMinMaxInValid: false });
       }
 
       this.checkPriceSpecs(Index, checked);
