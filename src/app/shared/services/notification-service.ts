@@ -37,8 +37,6 @@ export class NotificationService {
         });
     }
 
-
-
     clearAllNotifications() {
         this.snotifyService.clear();
     }
