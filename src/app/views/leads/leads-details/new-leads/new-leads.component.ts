@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
@@ -13,6 +13,8 @@ interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
 }
+
+
 
 @Component({
   selector: 'app-new-leads',
@@ -65,6 +67,9 @@ export class NewLeadComponent implements OnInit {
   @ViewChild('upload', { static: false }) upload: UploadComponent;
   outsideQtyRangeError: boolean;
   fileExtension: string;
+  isSpecsQtyInRange: true;
+  isSpecsMinMaxValid: true;
+  messageErr: string;
 
   constructor(private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -232,29 +237,48 @@ export class NewLeadComponent implements OnInit {
     this.leadPaymentForm.get('PaymentInput').setValue(this.paymentTermCode);
   }
 
-
   createWarehouseData(warehouselist) {
 
-    warehouselist.forEach(warehouse => {
+    warehouselist.forEach((warehouse) => {
 
-      const forms = [];
+      const forms: FormGroup[] = [];
 
       if (warehouse.specs && warehouse.specs.length) {
 
         if (warehouse.warehousePriceList.length === 0) {
           warehouse.specs.forEach(spec => {
-            forms.push(
-              this._formBuilder.group({
-                diameter: [spec.specName],
-                specMinQty: [spec.minQty, Validators.required],
-                specMaxQty: [spec.maxQty],
-                specPrice: [spec.price, Validators.required],
-                check: [''],
-                specCode: [spec.specCd],
-                specId: [spec.specId],
-                specRelId: [spec.id]
+
+            const form: FormGroup = this._formBuilder.group({
+              diameter: [spec.specName],
+              specMinQty: [spec.minQty, {
+                validators:
+                  [
+                    Validators.required,
+                    Validators.max(spec.minQty)
+                  ]
+              }],
+              specMaxQty: [spec.maxQty, {
+                validators:
+                  [
+                    Validators.required,
+                    Validators.min(spec.maxQty)
+                  ]
+              }],
+              specPrice: [spec.price, Validators.required],
+              check: [''],
+              specCode: [spec.specCd],
+              specId: [spec.specId],
+              specRelId: [spec.id]
+            })
+
+            this.subscriptions.push(
+              form.get('specMinQty').valueChanges.subscribe(val => {
+                form.get('specMaxQty').setValidators([Validators.required, Validators.min(val)]);
+                form.get('specMaxQty').updateValueAndValidity();
               })
-            );
+            )
+
+            forms.push(form);
           });
         } else {
           warehouse.warehousePriceList.forEach(spec => {
@@ -275,30 +299,60 @@ export class NewLeadComponent implements OnInit {
       }
 
       else {
+
         if (warehouse.warehousePriceList.length) {
           warehouse.warehousePriceList.forEach(pricesItem => {
-            forms.push(
-              this._formBuilder.group({
-                minPrice: [pricesItem.minQty, Validators.required],
-                maxPrice: [pricesItem.maxQty],
-                price: [pricesItem.price, Validators.required],
-                check: ['']
-              }, { validators: this.isMinMaxInValid })
-            );
+
+            const form1 = this._formBuilder.group({
+              minPrice: [pricesItem.minQty, {
+                validators: [
+                  Validators.required,
+                  Validators.max(this.showLeadObjDetails.data.request.requestQty)
+                ]
+              }],
+              maxPrice: [pricesItem.maxQty, {
+                validators: [
+                  Validators.required,
+                  Validators.min(this.showLeadObjDetails.data.request.requestQty)
+                ]
+              }],
+              price: [pricesItem.price, Validators.required],
+              check: ['']
+            })
+
+            this.subscriptions.push(
+              form1.get('minPrice').valueChanges.subscribe(val => {
+                form1.get('maxPrice').setValidators([Validators.required, Validators.min(val)]);
+                form1.get('maxPrice').updateValueAndValidity();
+              })
+            )
+
+            forms.push(form1);
           });
 
         } else {
           // if no data in price List set on default price form
-          forms.push(
-            this._formBuilder.group({
-              minPrice: [this.showLeadObjDetails.data.request.minQty, Validators.required],
-              maxPrice: [this.showLeadObjDetails.data.request.maxQty],
-              price: ['', Validators.required],
-              check: ['']
-            }, { validators: this.isMinMaxInValid })
-          );
+          const form = this._formBuilder.group({
+            minPrice: [this.showLeadObjDetails.data.request.minQty, {
+              validators: [
+                Validators.required,
+                Validators.max(this.showLeadObjDetails.data.request.requestQty)
+              ]
+            }],
+            maxPrice: [this.showLeadObjDetails.data.request.maxQty, {
+              validators: [
+                Validators.required,
+                Validators.min(this.showLeadObjDetails.data.request.requestQty)
+              ]
+            }],
+            price: ['', Validators.required],
+            check: ['']
+          })
+
+          forms.push(form);
         }
       }
+
 
       this.warehouseData.push({
         address: warehouse.warehouseAddress,
@@ -306,7 +360,7 @@ export class NewLeadComponent implements OnInit {
       });
     });
 
-    // LoggerService.debug(this.warehouseData);
+    LoggerService.debug(this.warehouseData);
   }
 
   deletePicingAllWarehouse(index) {
@@ -531,6 +585,7 @@ export class NewLeadComponent implements OnInit {
       form.controls.minPrice.setErrors({ isMinMaxInValid: false });
       form.controls.maxPrice.setErrors({ isMinMaxInValid: false });
       form.controls.check.setErrors(null);
+
     } else if (min != "" && max != "" && (Number(min) < Number(max))) {
       form.controls.minPrice.setErrors(null);
       form.controls.maxPrice.setErrors(null);
@@ -584,10 +639,6 @@ export class NewLeadComponent implements OnInit {
     } else {
       this.minMaxValidValue = false;
     }
-
-    // if (minQty < maxQty) {
-    //   this.minMaxValidValue = false;
-    // }
 
     if (price == null) {
       this.checkPriceValidate = true;
@@ -932,85 +983,6 @@ export class NewLeadComponent implements OnInit {
     }
   }
 
-  compareMinMaxSpecs(Index, checked) {
-
-    if (!checked) {
-
-      const prevMinQty = this.showLeadObjDetails.data.warehouseList[0].specs[Index].minQty;
-      const minQty = this.warehouseData[0].pricingForms[Index].controls.specMinQty.value;
-      const maxQty = this.warehouseData[0].pricingForms[Index].controls.specMaxQty.value;
-
-      /**
-       * condition to check if requested quantity is in the range of min and max or not
-       */
-      if (minQty > prevMinQty || maxQty < prevMinQty || minQty > maxQty) {
-        this.minMaxValidValue = true;
-        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ outsideQtyRangeError: true });
-      } else {
-        this.minMaxValidValue = false;
-        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ outsideQtyRangeError: false });
-      }
-
-      if(minQty == null || minQty == "" || maxQty == null || maxQty == ""){
-        this.minMaxValidValue = true;
-        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ isMinMaxInValid: true });
-      }else{
-        this.minMaxValidValue = false;
-        this.warehouseData[0].pricingForms[Index].controls.specMinQty.setErrors({ isMinMaxInValid: false });
-      }
-
-      this.checkPriceSpecs(Index, checked);
-
-    } else {
-      const prevMinQty = this.showLeadObjDetails.data.warehouseList[0].specs[0].minQty;
-      const minQty = this.warehouseData[0].pricingForms[0].controls.specMinQty.value;
-      const maxQty = this.warehouseData[0].pricingForms[0].controls.specMaxQty.value;
-
-      /**
-       * condition to check if requested quantity is in the range of min and max or not
-       */
-      if (minQty > prevMinQty || maxQty < prevMinQty || minQty == null || minQty == "" || maxQty == null || maxQty == "") {
-        this.minMaxValidValue = true;
-        // this.outsideQtyRangeError = true;
-      } else {
-        this.minMaxValidValue = false;
-        // this.outsideQtyRangeError = false;
-      }
-
-      this.checkPriceSpecs(Index, checked);
-    }
-  }
-
-  checkPriceSpecs(index, checked) {
-
-    const minQty = this.warehouseData[0].pricingForms[index].controls.specMinQty.value;
-    const maxQty = this.warehouseData[0].pricingForms[index].controls.specMaxQty.value;
-    const price = this.warehouseData[0].pricingForms[index].controls.specPrice.value;
-
-    if (!checked) {
-      
-      const requestedQty = this.showLeadObjDetails.data.warehouseList[0].specs[index].minQty;
-
-      if (minQty == null || minQty > maxQty || price == null || price == "" || minQty == "" || minQty > requestedQty || maxQty < requestedQty) {
-        this.minMaxValidValue = true;
-        // this.outsideQtyRangeError = true;
-      } else {
-        this.minMaxValidValue = false;
-        // this.outsideQtyRangeError = false;
-      }
-
-    } else {
-        const requestedQty = this.showLeadObjDetails.data.warehouseList[0].specs[0].minQty;
-        if (minQty == null || minQty > maxQty || price == null || price == "" || minQty == "" || minQty > requestedQty || maxQty < requestedQty) {
-          this.minMaxValidValue = true;
-          // this.outsideQtyRangeError = true;
-        } else {
-          this.minMaxValidValue = false;
-          // this.outsideQtyRangeError = false;
-        }
-    }
-  }
-
   OnInput(event) {
     this.notes = event.value;
   }
@@ -1238,4 +1210,20 @@ export class NewLeadComponent implements OnInit {
     win.focus();
   }
 
+
+  get isAllFormValidation() {
+
+    if (this.addPriceToAllWareHouseCheckBox) {
+      const warehouseValid = this.warehouseData[0].pricingForms;
+      if (warehouseValid.length > 1) {
+        return warehouseValid.every(priceForm => priceForm.valid)
+      } else {
+        return this.warehouseData[0].pricingForms[0].valid
+      }
+    } else {
+      return this.warehouseData.every(warehouseForm => {
+        return warehouseForm.pricingForms.every(priceForm => priceForm.valid)
+      });
+    }
+  }
 }

@@ -222,8 +222,9 @@
                             <mat-menu class="user-dd-menu" #helpMenu="matMenu">
                                 <button [routerLink]="['/orders/details']" mat-menu-item>View Previous
                                     Tickets</button>
-                                <button (click)="raiseTicket()" [routerLink]="['/orders/details']"
+                                <button [routerLink]="['/orders/details']"
                                     mat-menu-item>Raise New Ticket</button>
+                                    <!-- (click)="raiseTicket()" -->
                             </mat-menu>
                         </div>
         

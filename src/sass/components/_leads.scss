@@ -584,15 +584,19 @@
     border-top: none;
 }
 
-.individual-spec, .specs-row span,
-.individual-spec .mat-form-field {
-    max-width: 33.33%;
-    flex: 0 0 33.33%;
-}
+// .individual-spec, .specs-row span,
+// .individual-spec .mat-form-field {
+//     max-width: 33.33%;
+//     flex: 0 0 33.33%;
+// }
 
-.specs-row span:first-child {
-    max-width: 15%;
-    flex: 0 0 15%;
+// .specs-row span:first-child {
+//     max-width: 15%;
+//     flex: 0 0 15%;
+// }
+
+.individual-spec{
+    width: 100%;
 }
 
 .specs-row span.specs-column {
