@@ -788,7 +788,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .profile-card.mat-card {
     box-shadow: none;
-    padding: 4px 15px;
+    padding: 4px 10px;
     background-color: transparent;
     height: 50px;
     .mat-card-header .mat-card-title.non-login {
@@ -812,9 +812,9 @@ input[type=number]::-webkit-outer-spin-button {
     }
     .mat-card-header-text{
         margin: 0 0 0 10px;
-        max-width: 135px;
+        max-width: 125px;
         padding: 0 0px 0 2px;
-        min-width: 135px;
+        min-width: 125px;
     }
     .mat-card-subtitle{
         margin-bottom: 0px;

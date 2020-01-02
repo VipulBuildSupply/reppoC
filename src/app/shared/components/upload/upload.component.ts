@@ -40,20 +40,16 @@ export class UploadComponent implements OnInit {
         this.fileToUpload = newFiles.files;
 
         /**
-         * Checked the condition if uplaoded file extension is pdf or any other
+         * Checked the condition if uploaded file extension is pdf or any other
          */
-        // const attachFiles = Object.values(this.fileToUpload);
-        // attachFiles.filter(doc => {
-        //     const [fileName, fileExt] = doc.name.split(".");
-        //     this.fileExtension = fileExt;
-        //     LoggerService.debug(this.fileExtension);
-        // })
-
+        const [filename, fileExt] = files[0].name.split(".");
+        this.fileExtension = fileExt;
+        
         this.onFileUpdate.emit(this.fileToUpload);
     }
 
     /**
-     * This function is used to remove document from a particular item of RFQ
+     * This function is used to remove document
      * @param i index of the document
      */
     removeFile(i) {

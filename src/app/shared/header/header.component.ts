@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @Input('menu') menu: MatSidenav;
   private routerParamsSubs: Subscription;
+  notificationsList: NotificationsList[];
+  notiCount: number;
 
   constructor(private userService: UserService,
     private signinService: SigninSignupService,
@@ -40,13 +42,7 @@ export class HeaderComponent implements OnInit {
   getProfileDropdown() {
 
     this.profileDropdown = [
-      { name: 'Profile', link: '/user/profile/personal' },
-      // { name: 'My Orders', link: '' },
-      // { name: 'My RFQ', link: '' },
-      // { name: 'My Wishlist', link: '' },
-      // { name: 'Approval Requests', link: '' },
-      // { name: 'Settings', link: '' },
-      // { name: 'Help Centre', link: '' }
+      { name: 'Profile', link: '/user/profile/personal' }
     ]
   }
 
@@ -57,6 +53,7 @@ export class HeaderComponent implements OnInit {
     }
     this.getProfileDropdown();
     this.headerNavBar = HEADER_NAV;
+    this.userNotifications();
   }
 
   startSubscriptions() {
@@ -91,6 +88,13 @@ export class HeaderComponent implements OnInit {
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
         subscription.unsubscribe();
+    });
+  }
+
+  userNotifications(){
+    this.userService.getUserNotifications().then(res => {
+      this.notificationsList = res.data;
+      this.notiCount = this.notificationsList.filter(msg => msg.read === false).length;
     });
   }
 }

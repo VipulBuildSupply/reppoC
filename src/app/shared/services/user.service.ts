@@ -311,4 +311,8 @@ export class UserService {
     docUpload(data) {
         return this.dataService.sendPostRequest(API.UPLOAD_DOC, data).then(res => res)
     }
+
+    getUserNotifications() {
+        return this.dataService.getRequest(API.GET_USER_NOTIFICATIONS).then(res => res);
+    }
 }

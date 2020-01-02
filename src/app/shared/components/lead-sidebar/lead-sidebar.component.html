@@ -110,7 +110,8 @@
             <div class="breakLine"></div>
 
             <mat-card-actions class="d-flex align-items-center justify-content-between">
-                <div class="required-date">Required by {{newlead.requiredEndDt | gmtToLocal }}</div>
+                <div class="required-date">Required by {{ newlead.requiredEndDt }}</div>
+                <!-- {{newlead.requiredEndDt | gmtToLocal }} -->
 
                 <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
                         

@@ -11,6 +11,7 @@ import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
+import { NotificationsComponent } from './views/notifications/notifications.component';
 
 export const routes: Routes = [
   {
@@ -97,11 +98,15 @@ export const routes: Routes = [
               }
 
             ]
+          },
+
+          {
+            path: 'user/notifications',
+            component: NotificationsComponent,
+            data: { title: 'Notifications' }
           }
         ]
       },
-
-
 
       {
         path: '',
@@ -115,6 +120,7 @@ export const routes: Routes = [
           }
         ]
       },
+
       {
         path: '',
         component: ProfileLayoutComponent,
@@ -127,6 +133,7 @@ export const routes: Routes = [
           }
         ]
       },
+
       {
         path: '',
         component: DefaultLayoutComponent,

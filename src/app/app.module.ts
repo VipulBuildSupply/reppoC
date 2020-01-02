@@ -29,6 +29,7 @@ import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lea
 import { LeadsService } from './shared/services/leads.service';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { PurchaseOrdersService } from './shared/services/purchase-orders.service';
+import { NotificationsComponent } from './views/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PurchaseOrdersService } from './shared/services/purchase-orders.service
     PrivacyPolicyComponent,
     LeadLayoutComponent,
     MainLayoutComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,
