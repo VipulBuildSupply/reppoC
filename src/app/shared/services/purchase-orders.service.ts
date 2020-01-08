@@ -11,6 +11,10 @@ export class PurchaseOrdersService {
         return this._dataService.getRequest(API.GET_PO_LIST).then((res: any) => res);
     }
 
+    getSellerPOListByStatus() {
+        return this._dataService.getRequest(API.GET_PO_LIST_BY_STATUS).then((res: any) => res);
+    }
+
     getPORequest(reqId) {
         return this._dataService.getRequest(API.GET_PO_REQUEST(reqId)).then((res: any) => res);
     }

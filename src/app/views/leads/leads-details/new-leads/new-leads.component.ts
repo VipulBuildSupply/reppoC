@@ -14,8 +14,6 @@ interface Warehouse {
   pricingForms: FormGroup[]
 }
 
-
-
 @Component({
   selector: 'app-new-leads',
   templateUrl: './new-leads.component.html'

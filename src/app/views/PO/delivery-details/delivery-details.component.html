@@ -1,0 +1,257 @@
+<div class="po po__delivery-details">
+    <div class="container">
+        <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+
+            <h3>
+                <i aria-hidden="true" class="fa fa-angle-left"></i>
+                <!-- [routerLink]="['/orders/details/'+activeTab+'/8']" -->
+                Delivery Details
+            </h3>
+
+        </div>
+
+
+        <div class="po__orders-list">
+            <div class="po__order mb-3">
+                <mat-card class="po__card">
+
+                    <div class="po__title-section">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="po__title-left">
+                                <h4 class="mb-1">Order Id : 243138</h4>
+                            </div>
+
+                            <!-- Accept/Reject PO Functionality -->
+                            <div class="po__title-right d-flex align-items-center">
+                                <p class="datetime mb-0">18 Dec 2019 at 20:40 pm</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <ng-container *ngIf="orders && orders.orderItemList && orders.orderItemList.length">
+                        <ng-container *ngFor="let item of orders.orderItemList">
+                            <app-item-list [itemList]="item" [selectedTab]="'awarded'" [deliveryDetails]="true"></app-item-list>
+                            <div class="line-br"></div>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <mat-card-content class="w-75">
+                        <div class="attachment-details">
+                            <div class="attachment-row d-flex justify-content-between align-items-center">
+                                <div class="attachment-col">
+                                    <h3>Invoice:</h3>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <p class="mb-0">12345</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <!-- <span class="date-time">23:09:2019</span> -->
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <div class="attachment-img">
+                                        <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                    </div>
+                                    <p class="attachment-filename mb-0">Invoice_1.pdf</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="link-view">View</span>
+                                </div>
+                            </div>
+
+                            <div class="attachment-row d-flex justify-content-between align-items-center">
+                                <div class="attachment-col">
+                                    <h3>Eway Bill:</h3>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <p class="mb-0">12345</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="date-time">23:09:2019</span>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <div class="attachment-img">
+                                        <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                    </div>
+                                    <p class="attachment-filename mb-0">Eway_1.pdf</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="link-view">View</span>
+                                </div>
+                            </div>
+
+                            <div class="attachment-row d-flex justify-content-between align-items-center">
+                                <div class="attachment-col">
+                                    <h3>Delivery Challan:</h3>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <p class="mb-0">12345</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="date-time">23:09:2019</span>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <div class="attachment-img">
+                                        <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                    </div>
+                                    <p class="attachment-filename mb-0">Challan_1.pdf</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="link-view">View</span>
+                                </div>
+                            </div>
+
+                            <div class="attachment-row d-flex justify-content-between align-items-center">
+                                <div class="attachment-col">
+                                    <h3>Material Test Certificate:</h3>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <p class="mb-0">12345</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="date-time">23:09:2019</span>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <div class="attachment-img">
+                                        <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                    </div>
+                                    <p class="attachment-filename mb-0">MTC_1.pdf</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="link-view">View</span>
+                                </div>
+                            </div>
+
+                            <div class="attachment-row d-flex justify-content-between align-items-center">
+                                <div class="attachment-col">
+                                    <h3>Attachments:</h3>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <!-- <p class="mb-0">12345</p> -->
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <!-- <span class="date-time">23:09:2019</span> -->
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <div class="attachment-img">
+                                        <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                    </div>
+                                    <p class="attachment-filename mb-0">MTC_1.pdf</p>
+                                </div>
+
+                                <div class="attachment-col text-center">
+                                    <span class="link-view">View</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-details pb-4">
+                            <div class="vehicle-heading">Vehicle Details</div>
+
+                            <div class="vehicle-others">
+
+                                <div class="vehicle-row d-flex align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>Transporter Name:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">Ravi Transport</p>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-row d-flex align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>Mode of Transport:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">Truck</p>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-row d-flex align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>Vehicle Number:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">UP 1680 3245</p>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-row d-flex align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>Driver Name:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">Rahul Kumar</p>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-row d-flex align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>Driver Contact No.:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">9785842558</p>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-row d-flex justify-content-between align-items-center">
+                                    <div class="vehicle-col">
+                                        <h3>LR No:</h3>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <p class="mb-0">12345</p>
+                                    </div>
+    
+                                    <div class="vehicle-col">
+                                        <span class="date-time">23:09:2019</span>
+                                    </div>
+    
+                                    <div class="vehicle-col text-center">
+                                        <div class="attachment-img">
+                                            <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                        </div>
+                                        <p class="attachment-filename mb-0">LR_1.pdf</p>
+                                    </div>
+    
+                                    <div class="vehicle-col text-center">
+                                        <span class="link-view">View</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                </mat-card>
+            </div>
+        </div>
+
+    </div>
+</div>

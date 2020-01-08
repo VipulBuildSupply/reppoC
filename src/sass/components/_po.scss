@@ -76,7 +76,6 @@
         line-height: 14px;
         color: #E8B00C;
         padding: 5px 8px;
-        letter-spacing: 1px;
         font-family: "Open Sans", sans-serif;
         text-transform: uppercase;
     }
@@ -96,7 +95,6 @@
 
     .mat-button{
         height: 40px;
-        width: 164px;
         border: 1px solid #F47721;
         border-radius: 24px;
         background-color: #F47721;
@@ -105,6 +103,8 @@
         font-weight: 600;
         font-family: 'Open Sans', sans-serif;
         font-size: 16px;
+        padding: 9px 28px;
+        line-height: 20px;
     }
 
     .mat-button.btnAccept{
@@ -177,6 +177,154 @@
             cursor: auto;
         }
     }
+
+    .active-delivery-title{
+        border-bottom: 1px solid #ececec;
+    }
+
+    &__active-delivery{
+        .view-more-link{
+            color: #1896BA;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        ul{
+            flex: 0 0 28%;
+        }
+    }
+
+    &__requested-delivery{
+        flex: 0 0 35%;
+        h4{
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 22px;
+            color: #212121;
+        }
+        .req-delivery-details {
+            border: 1px solid #ececec !important;
+            padding: 15px 15px;
+            h5{
+                font-size: 14px;
+                text-transform: uppercase;
+                font-weight: 600;
+                line-height: 22px;
+                font-family: 'Open Sans', sans-serif;
+            }
+        }
+    }
+
+    &__panel-header{
+        .mat-expansion-indicator{
+            position: absolute;
+            right: 20px;
+            top: 103px;
+        }
+    }
+
+    .po__panel-header.mat-expanded .po__view-po-details{
+        position: absolute;
+        right: 40px;
+        top: 103px;
+    }
+
+    &__tab-list {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        list-style: none;
+        li{
+            text-transform: uppercase;
+            color: #95989A;
+            font-family: "Open Sans", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 28px;
+            margin-right: 30px;
+            &:focus{
+                outline: 0;
+            }
+        }
+
+        li.active{
+            color: #1896BA;
+            border-bottom: 3px solid #1896BA;
+        }
+    }
+
+    &__delivery-details{
+        .mat-card-content{
+            display: block;
+        }
+
+        .attachment-details, .vehicle-details{
+            padding: 13px 15px;
+            border-bottom: 1px solid #ececec;
+
+            .attachment-row, .vehicle-row{
+                height: 55px;
+
+                .attachment-col, .vehicle-col{
+                    font-family: "Open Sans", sans-serif;
+                    font-size: 14px;
+                    
+                    &:not(:first-child){
+                        flex: 0 0 18%;
+                    }
+        
+                    &:first-child{
+                        flex: 0 0 25%;
+                    }
+        
+                    h3{
+                        color: #4A4A4A;
+                        font-weight: 600;
+                        line-height: 19px;
+                        font-size: 14px;
+                    }
+        
+                    p, .date-time{
+                        opacity: 0.5;
+                        color: #000000;
+                        line-height: 16px;
+                    }
+        
+                    .attachment-filename{
+                        font-size: 8px;
+                        font-weight: 600;
+                        color: #565656;
+                    }
+        
+                    .link-view{
+                        color: #00A6B2;
+                        font-size: 12px;
+                        font-weight: 600;
+                        line-height: 17px;
+                        text-transform: uppercase;
+                    }
+        
+                    .attachment-img{
+                        text-align: center;
+                    }
+                }
+            }
+
+            .vehicle-row{
+                height: 35px;
+            }
+
+            .vehicle-heading {
+                color: #505050;
+                line-height: 19px;
+                font-size: 16px;
+                font-weight: 600;
+                padding: 10px 0 20px;
+                font-family: "Open Sans", sans-serif;
+            }
+                        
+        }
+    }
 }
 
 .font600{
@@ -189,6 +337,14 @@
     }
 }
 
+.border-right{
+    border-right: 1px solid #ececec;
+}
+
+.addresses, .delivery-details{
+    border-top: 1px solid #ECECEC;
+}
+
 .addresses, .additional-info, .pickup-history {
     padding: 13px 15px;
     &__inner{
@@ -199,7 +355,7 @@
         border: 1px solid rgba(151, 151, 151, 0.5);
         padding: 14px 12px;
         font-family: "Open Sans", sans-serif;
-        width: 31.33%;
+        -webkit-box-flex: 0;
         flex: 0 0 31.33%;
     }
 
@@ -221,7 +377,7 @@
         padding: 15px 15px;
         font-family: "Open Sans", sans-serif;
         p{
-            font-size: 16px;
+            font-size: 14px;
             line-height: 22px;
             margin-bottom: 10px;
         }
@@ -243,7 +399,14 @@
             //     margin-right: 5px;
             // }
         }
+        br:first-child {
+            display: none;
+        }
     }
+}
+
+.lh-22{
+    line-height: 22px;
 }
 
 .additional-info{
@@ -270,9 +433,9 @@
         width: 35%;
         p, .total-amount{
             margin-bottom: 0;
-            line-height: 36px;
+            line-height: 32px;
             display: flex;
-            font-size: 16px;
+            font-size: 14px;
             justify-content: space-between;
             span:last-child{
                 font-weight: 600;
@@ -296,10 +459,10 @@
     line-height: 22px;
 }
 
-span.mat-expansion-indicator{
-    position: absolute;
-    left: 18%;
-}
+// span.mat-expansion-indicator{
+//     position: absolute;
+//     left: 18%;
+// }
 
 .mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]), 
 .mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]), 
@@ -316,6 +479,14 @@ span.mat-expansion-indicator{
         line-height: 20px;
         margin: 0 0 10px;
         font-weight: 500;
+    }
+
+    .mat-expansion-panel-header{
+        padding: 0 15px;
+    }
+
+    .mat-content{
+        flex: 0 0 20%;
     }
 }
 
@@ -455,4 +626,194 @@ span.mat-expansion-indicator{
     border-right: 5px solid transparent;
     border-bottom: 0;
     border-left: 5px solid transparent;
+}
+
+.awarded-po {
+    span{
+        &:not(:last-child):after {
+            content: '|';
+            margin: 0 15px;
+        }
+        &:last-child {
+            color: #03B10F;
+        }
+    }
+}
+
+.seller-price-gst {
+    .item-qty span:nth-child(2){
+        color: #9B9B9B;
+        font-family: "Open Sans", sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 14px;
+    }
+
+    .sub-total{
+        color: rgba(0,0,0,0.9);
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 22px;
+        text-transform: uppercase;
+    }
+}
+
+.po-awarded{
+    .po__header-left, .mat-card__title{
+        width: 100%;
+    }
+}
+
+.awarded{
+    
+    &__delivery-details{
+
+        .mat-expansion-panel-header-description{
+            position: relative;
+        }
+
+        .mat-expansion-panel-header-title{
+            flex-grow: 7;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 22px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .mat-expansion-panel-header{
+            padding: 10px 15px 15px 15px;
+        }
+
+        .mat-content{
+            align-items: center;
+        }
+    }
+
+    &__view-po-details {
+        position: absolute;
+        right: -5px;
+        top: 27.15%;
+        p {
+            color: #1896BA;
+            font-family: "Open Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 20px;
+            text-transform: capitalize;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.mat-expanded .awarded__view-po-details {
+    top: 20%;
+}
+
+.delivery-btn{
+    height: 40px;
+    border: 2px solid #F47721;
+    border-radius: 24px;
+    background-color: #fff;
+    color: #F47721;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    padding: 9px 28px;
+    line-height: 18px;
+    &:hover{
+        background-color: #F47721;
+        color: #fff;
+    }
+}
+
+.active-delivery, .past-delivery, .dispatch-schedules {
+    &__details{
+        border: 1px solid #03B10F;
+        padding: 15px 15px;
+        flex: 0 0 42%;
+        margin-right: 30px;
+
+        .vehicle-number, .vehicle-items{
+            span{
+                color: #000000;
+                font-family: "Open Sans", sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 19px;
+            }
+            span:last-child{
+                opacity: 0.8;
+            }
+        }
+
+        .vehicle-number{
+            span:last-child{
+                color: #1896BA;
+            }
+        }
+    }
+
+    &__title{
+        h6{
+            color: #212121;
+            font-family: "Open Sans", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 19px;
+        }
+    }
+}
+
+.past-delivery, .dispatch-schedules{
+    &__details{
+        border-color: #ECECEC;
+    }
+}
+
+.dispatch-schedules{
+    &__lists{
+        width: 45%;
+        margin-bottom: 20px;
+    }
+}
+
+.past-deliveries{
+    &__view-link{
+        position: absolute;
+        right: 0;
+        bottom: -12px;
+        p {
+            color: #1896BA;
+            font-family: "Open Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 20px;
+            text-transform: capitalize;
+            margin-bottom: 0;
+        }
+    }
+
+    .mat-expanded .past-deliveries__view-link{
+        bottom: -7px;
+    }
+
+    .mat-expansion-panel-body{
+        padding: 0 0px 16px;
+    }
+
+    .mat-expansion-panel-header{
+        padding: 10px 0 15px;
+    }
+}
+
+.delivery-details {
+    padding: 13px 15px;
+    &__heading h4{
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
 }

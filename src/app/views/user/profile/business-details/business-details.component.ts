@@ -212,7 +212,19 @@ export class BusinessDetailsComponent implements OnInit {
 
             categoryIds: [this.businessDetails.categoryIds],
 
-            customCategories: [this.businessDetails.customCategories]
+            customCategories: [this.businessDetails.customCategories],
+
+            gstCertificate: [''],
+
+            balanceSheetYear1: [''],
+            balanceSheetYear2: [''],
+            balanceSheetYear3: [''],
+
+            bankStatement: [''],
+            frightTerms: [''],
+
+            transporterName: [''],
+            transporterPhone: ['']
         });        
     }
 

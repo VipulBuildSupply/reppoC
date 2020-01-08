@@ -1,29 +1,48 @@
 import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from '@angular/core';
-import { OrdersComponent } from './orders/orders.component';
-import { OrdersListComponent } from './orders-list/orders-list.component';
-import { MarkInTransitComponent } from './mark-in-transit/mark-in-transit.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { PoComponent } from './po.component';
+import { InitiateDeliveryComponent } from './initiate-delivery/initiate-delivery.component';
+import { DeliveryDetailsComponent } from './delivery-details/delivery-details.component';
 
 export const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'orders/details',
-        component: OrdersComponent,
-        data: { title: 'Orders Details' }
+        path: 'orders/list/pending',
+        component: PoComponent,
+        data: { title: 'Pending Orders List' }
       },
 
       {
-        path: 'orders/list/:id',
-        component: OrdersListComponent,
-        data: { title: 'Orders List' }
+        path: 'orders/list/awarded',
+        component: PoComponent,
+        data: { title: 'Awarded Orders List' }
       },
 
       {
-        path: 'orders/list/:id/mark-in-transit',
-        component: MarkInTransitComponent,
-        data: { title: 'Mark In Transit' }
+        path: 'orders/details/pending/:id',
+        component: OrderDetailsComponent,
+        data: { title: 'Pending Orders List' }
+      },
+
+      {
+        path: 'orders/details/awarded/:id',
+        component: OrderDetailsComponent,
+        data: { title: 'Awarded Orders List' }
+      },
+
+      {
+        path: 'orders/details/awarded/:id/initiate-delivery',
+        component: InitiateDeliveryComponent,
+        data: { title: 'Initiate Delivery' }
+      },
+
+      {
+        path: 'orders/details/awarded/:id/delivery-details',
+        component: DeliveryDetailsComponent,
+        data: { title: 'Delivery Details' }
       }
     ]    
   }

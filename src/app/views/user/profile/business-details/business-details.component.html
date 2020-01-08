@@ -124,8 +124,45 @@
                     class="businessInput">
                 </mat-form-field>
             </div>
+        
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="mb-4">Operational Details</h4>
+                </div>
+            </div>
 
             <div class="col-md-6">
+                <mat-form-field class="business-name">
+                    <input matInput placeholder="PAN" type="text" class="businessInput" 
+                    formControlName="panNo">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group lableup form-control">
+                    <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
+                            <input type="file" name="panphoto" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload PAN Document</span>
+                        </label>
+                        <span style="font-size: 12px;color:#716767;">{{ panPhotoImage }}</span>
+                    </div>
+
+                    <div *ngIf="businessDetails.panPhoto" class="pdf" [class.remove_pointer]="!_isEdit">
+                        <a *ngIf="_isEdit" class="ml-0" (click)="delete()">x</a>
+                        <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.panPhoto)">Download</a>
+                        <img src="assets/img/svg-img/ic_download.svg" alt="">
+                        <span>Pan Proof</span>
+                    </div>
+
+                    <label class="form-control-placeholder">PAN Proof</label>
+                </div>
+            </div>
+
+            <div class="col-md-12">
                 <div class="form-group lableup form-control">
                     <div class="browser-method" *ngIf="businessDetails.address.addressProofFile == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
@@ -152,8 +189,9 @@
                     <label class="form-control-placeholder" for="buisness">Address Proof</label>
                 </div>
             </div>
+            
 
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
                 <mat-form-field class="full-width">
                     <input matInput formControlName="gstin" (input)="validateGstin($event)"
                         (paste)="onPaste($event)" type="text" placeholder="GSTIN" required>
@@ -169,37 +207,117 @@
             </div>
 
             <div class="col-md-6">
-                <mat-form-field class="business-name">
-                    <input matInput placeholder="PAN" type="text" class="businessInput" 
-                    formControlName="panNo">
-                </mat-form-field>
+                <div class="form-group lableup form-control">
+                    <div class="browser-method">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
+                            <input type="file" name="gstCertificate" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload GST Certificate</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="mt-3 mb-2">Audit Balance Sheet</h4>
+                </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group lableup form-control">
-                    <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
+                    <div class="browser-method">
                         <img src="assets/img/upload.png" class="download-img" alt="">
                         <label class="myLabel" [class.remove_pointer]="!_isEdit">
-                            <input type="file" name="panphoto" 
+                            <input type="file" name="balanceSheetYear1" 
                                 accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
                                 (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
-                            <span>Upload PAN Document</span>
+                            <span>Upload Balance Sheet Year 1</span>
                         </label>
-                        <a href="#" *ngIf="!panPhotoImage">
-                            <img src="assets/img/svg-img/ic_information.svg" alt="">
-                        </a>
-                        <span style="font-size: 12px;color:#716767;">{{ panPhotoImage }}</span>
                     </div>
-
-                    <div *ngIf="businessDetails.panPhoto" class="pdf" [class.remove_pointer]="!_isEdit">
-                        <a *ngIf="_isEdit" class="ml-0" (click)="delete()">x</a>
-                        <a href="javascript:void(0)" (click)="downloadpanProof(businessDetails.panPhoto)">Download</a>
-                        <img src="assets/img/svg-img/ic_download.svg" alt="">
-                        <span>Pan Proof</span>
-                    </div>
-
-                    <label class="form-control-placeholder">PAN Proof</label>
                 </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group lableup form-control">
+                    <div class="browser-method">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
+                            <input type="file" name="balanceSheetYear2" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload Balance Sheet Year 2</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group lableup form-control">
+                    <div class="browser-method">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
+                            <input type="file" name="balanceSheetYear3" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload Balance Sheet Year 3</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="mt-4 mb-2">6 Month Bank Statement</h4>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group lableup form-control">
+                    <div class="browser-method">
+                        <img src="assets/img/upload.png" class="download-img" alt="">
+                        <label class="myLabel" [class.remove_pointer]="!_isEdit">
+                            <input type="file" name="bankStatement" 
+                                accept="image/x-png,image/gif,image/jpeg,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,.txt"
+                                (change)="onPhotoSelected($event)" style="display: none;" class="inputLableUp">
+                            <span>Upload 6 Month Bank Statement</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-4">
+                <h4 class="font16">Fright Terms</h4>
+                <mat-form-field>
+                    <mat-label>Select</mat-label>
+                    <mat-select formControlName="frightTerms">
+                        <mat-option>
+                            Select
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="my-3">Preferred Transporter</h4>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name" >
+                    <input matInput placeholder="Name" type="text" class="businessInput"
+                    formControlName="transporterName" required>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name" >
+                    <input matInput placeholder="Phone No." type="text" class="businessInput"
+                    formControlName="transporterPhone" required>
+                </mat-form-field>
             </div>
 
             <div class="col-md-12 save-orange" *ngIf="_isEdit">

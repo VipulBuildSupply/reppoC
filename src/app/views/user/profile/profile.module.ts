@@ -22,6 +22,7 @@ import { AddBankDetailsComponent } from './bank-details/add-bank-details/add-ban
 import { BankDetailsResolver } from './bank-details/resolver/bank-details.resolver';
 import { MultiSelectChipComponent } from './shared/multi-select/multi-select.component';
 import { BusinessDetailsResolver } from './business-details/resolver/business-details.resolver';
+import { ReferenceComponent } from './reference/reference.component';
 @NgModule({
   declarations: [
     PersonalProfileComponent,
@@ -36,6 +37,7 @@ import { BusinessDetailsResolver } from './business-details/resolver/business-de
     AddBankDetailsComponent,
     AddAddressComponent,
     MultiSelectChipComponent,
+    ReferenceComponent
   ],
   imports: [
     CommonModule,
