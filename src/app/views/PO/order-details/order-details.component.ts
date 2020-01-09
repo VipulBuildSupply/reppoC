@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
 import { DownloadPo, PoOrders } from 'src/app/shared/models/purchase-orders';
 import { ActivatedRoute } from '@angular/router';
 import { LoggerService } from 'src/app/shared/services/logger.service';
 
 @Component({
-  selector: 'app-orders-list',
-  templateUrl: './orders-list.component.html'
+  selector: 'app-order-details',
+  templateUrl: './order-details.component.html'
 })
-export class OrdersListComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit {
 
   orders: PoOrders;
   po: DownloadPo;
+  @Input() collapsedHeight: string;
+  @Input() expandedHeight: string;
 
   addressTypes = {
     'Supplier Billing Address': 'sellerAddress',
@@ -20,20 +22,30 @@ export class OrdersListComponent implements OnInit {
   }
   acceptPOStatus: string;
   rejectPOStatus: string;
+  activeTab: string;
 
   constructor(private _purchaseOrdersService: PurchaseOrdersService,
     private _activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     const reqId = this._activatedRoute.snapshot.params;
-    this.getPurcahseOrdersList(parseInt(reqId.id));
+    this.getPurchaseOrdersList(parseInt(reqId.id));
     this.downloadPOPdf(parseInt(reqId.id));
+
+    this.activeTab =  this._activatedRoute.snapshot.url[2].path;
+ 
+    /**
+     * @description Checked the selected url
+     */
+    this._activatedRoute.url.subscribe(url => {
+      this.activeTab =  url[2].path;
+    });
   }
 
   /**
    * Get all orders list for specific PO id
    */
-  getPurcahseOrdersList(orderId: number){
+  getPurchaseOrdersList(orderId: number){
     this._purchaseOrdersService.getPORequest(orderId).then(res => this.orders = res.data);
   }
 
@@ -56,12 +68,13 @@ export class OrdersListComponent implements OnInit {
     if(btnStatus === 'CONFIRM'){
       this._purchaseOrdersService.acceptRejectPO(pid, 'CONFIRM').then(res => {
         this.acceptPOStatus = res.data.success;
-        this.getPurcahseOrdersList(pid);
+        this.getPurchaseOrdersList(pid);
       });
     }else{
       this._purchaseOrdersService.acceptRejectPO(pid, 'REJECT').then(res => {
         this.rejectPOStatus = res.data.success;
-        this.getPurcahseOrdersList(pid);
+        this.getPurchaseOrdersList(pid);
+        
       });
     }
   }

@@ -1,0 +1,347 @@
+<div class="po orders-list">
+    <div class="container">
+        <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+
+            <h3>
+                <i aria-hidden="true" class="fa fa-angle-left" tabindex="0"
+                    [routerLink]="['/orders/list/'+activeTab]"></i>
+                Purchase Order Details</h3>
+            <!-- <div class="leads-srch-box flex-sb-m">
+                    <div class=" leads-srch">
+                        <div class="form-group has-search mb-0"><span class="form-control-feedback"><img alt=""
+                                    src="assets/img/search-icon.png"></span>
+                            <input class="form-control" placeholder="Search" type="text">
+                        </div>
+                        <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);"><img alt="" src="assets/img/svg-img/ic_filter.svg">
+                            Filters </a>
+                    </div>
+                </div> -->
+        </div>
+
+
+        <div class="po__orders-list">
+            <div class="po__order mb-3">
+                <mat-card class="po__card">
+
+                    <div class="po__title-section">
+                        <div class="d-flex justify-content-between align-items-center"
+                            *ngIf="orders && orders.purchaseOrder">
+                            <div class="po__title-left">
+                                <h4 class="mb-1">Purchase Order Id : {{ orders.purchaseOrder.orderNo }}</h4>
+                                <p class="datetime mb-0">{{ orders.purchaseOrder.createDt }}</p>
+                            </div>
+
+                            <!-- Accept/Reject PO Functionality -->
+                            <div class="po__title-right d-flex align-items-center"
+                                *ngIf="orders.purchaseOrder.statusCd == 'sellerpo.ops.sent' && activeTab === 'pending'">
+                                <button mat-button class="brdbttn mr-2"
+                                    (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">Reject</button>
+                                <button mat-button class="btnAccept"
+                                    (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
+                            </div>
+
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm'">
+                                <div class="order-accept-reject">
+                                    <span>PO Accepted</span>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.reject'">
+                                <div class="order-accept-reject">
+                                    <span>PO Rejected</span>
+                                </div>
+                            </ng-container>
+
+                            <!-- Initiate Delivery Button If Awarded PO Selected-->
+                            <div class="po__title-right" *ngIf="activeTab === 'awarded'">
+                                <button mat-button class="btn-mark-in-transit ml-2"
+                                    [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/initiate-delivery']">
+                                    Initiate Delivery</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <ng-container *ngIf="orders && orders.orderItemList && orders.orderItemList.length">
+                        <ng-container *ngFor="let item of orders.orderItemList">
+                            <app-item-list [itemList]="item" [selectedTab]="activeTab"></app-item-list>
+                            <div class="line-br"></div>
+                        </ng-container>
+                    </ng-container>
+
+
+                    <mat-card-content>
+                        <div class="awarded__delivery-details">
+
+                            <!-- Payment Terms -->
+                            <ng-container *ngIf="orders && orders.purchaseOrder">
+                                <mat-expansion-panel class="payment-terms" *ngIf="orders.purchaseOrder.paymentTerm">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Payment Terms
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <p [innerHTML]="orders.purchaseOrder.paymentTerm"></p>
+                                </mat-expansion-panel>
+                            </ng-container>
+
+
+                            <!-- Delivery Details Section -->
+                            <ng-container *ngIf="activeTab === 'awarded'">
+                                <div class="delivery-details pt-4">
+                                    <div class="delivery-details__heading">
+                                        <h4>Delivery Details</h4>
+                                    </div>
+    
+                                    <!-- Active Delivery Section (Added condition if orders.purchaseOrder exists then this section will work)-->
+                                    <div class="active-delivery py-3" *ngIf="orders && orders.purchaseOrder">
+                                        <div class="active-delivery__title">
+                                            <h6>Active Delivery</h6>
+                                        </div>
+        
+                                        <div class="active-delivery__lists 
+                                            d-flex align-items-center">
+                                            <div class="active-delivery__details">
+                                                <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                    <span>Vehicle No. 322321 (Ph-9785842558)</span>
+                                                    <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/delivery-details']">View Details</span>
+                                                </p>
+                                                <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                    <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                    <span>100 bags</span>
+                                                </p>
+                                                <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
+                                                    <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                    <span>100 bags</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <!-- Past Delivery Details -->
+                                    <mat-expansion-panel class="past-deliveries py-2">
+                                        <mat-expansion-panel-header [collapsedHeight]="'auto'"
+                                            [expandedHeight]="'auto'">
+                                            <mat-panel-title>
+                                                Past Delivery
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                <div class="past-deliveries__view-link">
+                                                    <p>View More Details</p>
+                                                </div>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        
+                                        <div class="past-delivery pt-2">
+                                            <!-- <div class="past-delivery__title">
+                                                <h6>Past Delivery</h6>
+                                            </div> -->
+    
+                                            <div class="past-delivery__lists 
+                                                d-flex align-items-center">
+                                                <div class="past-delivery__details">
+                                                    <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                        <span>Vehicle No. 322321 (Ph-9785842558)</span>
+                                                        <span>View Details</span>
+                                                    </p>
+                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-expansion-panel>
+    
+                                    <!-- Dispatch Schedules Section -->
+                                    <mat-expansion-panel class="past-deliveries">
+                                        <mat-expansion-panel-header [collapsedHeight]="'auto'"
+                                            [expandedHeight]="'auto'">
+                                            <mat-panel-title>
+                                                Dispatch Schedules
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                <div class="past-deliveries__view-link">
+                                                    <p>View More Details</p>
+                                                </div>
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        
+                                        <div class="dispatch-schedules pt-2">
+                                            <!-- <div class="dispatch-schedules__title mb-3">
+                                                <h6>Dispatch Schedules</h6>
+                                            </div> -->
+    
+                                            <div class="dispatch-schedules__lists">
+                                                <p>Dispatch Schedule 1 - 22 December 2018</p>
+                                                <div class="dispatch-schedules__details">
+                                                    <p class="dispatch-title d-flex align-items-center justify-content-between">
+                                                        <span>Item</span>
+                                                        <span>Quantity Required</span>
+                                                    </p>
+                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+    
+                                            <div class="dispatch-schedules__lists">
+                                                <p>Dispatch Schedule 2 - 24 December 2018</p>
+                                                <div class="dispatch-schedules__details">
+                                                    <p class="dispatch-title d-flex align-items-center justify-content-between">
+                                                        <span>Item</span>
+                                                        <span>Quantity Required</span>
+                                                    </p>
+                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
+                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
+                                                        <span>100 bags</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </div>
+                            </ng-container>
+                            
+                        </div>
+
+
+                        <ng-container *ngIf="orders && orders.purchaseOrder">
+
+                            <!-- All PO Addresses Lists -->
+                            <div class="addresses po-address pt-4">
+                                <h5 class="addresses__title pb-2">All Addresses</h5>
+                                <div class="addresses__inner">
+                                    <div class="addresses__column" *ngFor="let addr of orders.purchaseOrder.addresses">
+    
+                                        <h4>{{ addr.displayName }}</h4>
+    
+                                        <ng-container *ngIf="!addr.rawText; else showStringAddr">
+                                            <div class="address">
+                                                <p><span class="font600">{{ addr.address.name }}</span></p>
+                                                <p>{{ addr.address.addressLine1 }}, {{ addr.address.addressLine2 }},
+                                                    {{ addr.address.state }}, {{ addr.address.pincode }}</p>
+                                                <p>{{ addr.address.phoneNo }}</p>
+                                                <p *ngIf="addr.displayName != 'Delivery Address'">GSTIN:
+                                                    {{ addr.address.gstin }}</p>
+                                            </div>
+                                        </ng-container>
+    
+                                        <ng-template #showStringAddr>
+                                            <div class="address" *ngIf="addr.addressString"
+                                                [innerHTML]="addr.addressString">
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="additional-info">
+                                <h5 class="additional-info__title">Additional Information</h5>
+                                <div class="additional-info__details">
+                                    <p>Date of delivery: {{ orders.purchaseOrder.deliveryDt }}</p>
+                                    <p>Number of credits days available: {{ orders.purchaseOrder.creditDay }} days</p>
+                                    <p>Transport Terms: <span
+                                            [innerHTML]="orders.purchaseOrder.transporterTermCondition"></span></p>
+                                    <p class="mb-0">Remarks: <span [innerHTML]="orders.purchaseOrder.remark"></span></p>
+                                </div>
+                            </div>
+    
+                            <div class="payment-details">
+                                <h5 class="payment-details__title">Payment Details (₹)</h5>
+                                <div class="payment-details__data">
+                                    <p *ngIf="orders.purchaseOrder.totalItemAmount">
+                                        <span>Material Cost</span>
+                                        <span>{{ orders.purchaseOrder.totalItemAmount }}</span>
+                                    </p>
+                                    <p>
+                                        <span *ngIf="orders.purchaseOrder.shippingCost">Shipping Charges</span>
+                                        <span>{{ orders.purchaseOrder.shippingCost }}</span>
+                                    </p>
+                                    <p *ngIf="orders.purchaseOrder.igstAmount">
+                                        <span>IGST</span>
+                                        <span>{{ orders.purchaseOrder.igstAmount }}</span>
+                                    </p>
+                                    <p *ngIf="orders.purchaseOrder.cgstAmount">
+                                        <span>CGST</span>
+                                        <span>{{ orders.purchaseOrder.cgstAmount }}</span>
+                                    </p>
+                                    <p *ngIf="orders.purchaseOrder.sgstAmount">
+                                        <span>SGST</span>
+                                        <span>{{ orders.purchaseOrder.sgstAmount }}</span>
+                                    </p>
+                                    <p class="total-amount" *ngIf="orders.purchaseOrder.totalAmount">
+                                        <span>Total Amount</span>
+                                        <span>{{ orders.purchaseOrder.totalAmount }}</span>
+                                    </p>
+                                </div>
+                            </div>
+    
+                            <mat-expansion-panel class="terms-conditions pb-3" 
+                                *ngIf="orders.purchaseOrder.termCondition">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Terms & Conditions
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <p [innerHTML]="orders.purchaseOrder.termCondition"></p>
+                            </mat-expansion-panel>
+    
+                        </ng-container>
+                    </mat-card-content>
+                </mat-card>
+
+                <div class="need-help">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- <ng-container *ngIf="activeTab === 'awarded'">
+                                <a href="javascript:void(0)" [matMenuTriggerFor]="helpMenu" class="toggle-angle"> <i
+                                    class="fa fa-question-circle"></i> Need Help</a> <span>In case of any concern feel
+                                    free to contact us.</span>
+                                <mat-menu class="user-dd-menu" #helpMenu="matMenu">
+                                    <button [routerLink]="['/orders/details']" mat-menu-item>View Previous
+                                        Tickets</button>
+                                    <button [routerLink]="['/orders/details']" mat-menu-item>Raise New Ticket</button>
+                                </mat-menu>
+                            </ng-container> -->
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="invoice-method text-right">
+                                <label class="myLabel">
+                                    <img src="../../../../../assets/img/svg-img/ic_download.svg" class="download-img" />
+                                    <span (click)="downloadPO(po.signedUrl)">Download PO</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

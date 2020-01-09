@@ -16,6 +16,7 @@ import { SharedDirectivesModule } from '../directive/shared-directives.module';
 import { SideNavigationComponent } from './side-navigation/side-navigation.component';
 import { SubFilterComponent } from './sub-filter/sub-filter.component';
 import { UploadComponent } from './upload/upload.component';
+import { ItemListComponent } from './item-list/item-list.component';
 
 
 const components = [
@@ -30,7 +31,8 @@ const components = [
   LeadSidebarComponent,
   SideNavigationComponent,
   SubFilterComponent,
-  UploadComponent
+  UploadComponent,
+  ItemListComponent
 ]
 
 @NgModule({

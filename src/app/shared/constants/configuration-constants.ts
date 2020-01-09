@@ -80,6 +80,7 @@ export const API = {
     UPLOAD_DOC: 'product/api/upload',
 
     GET_PO_LIST: 'product/api/po/list',
+    GET_PO_LIST_BY_STATUS: 'product/api/po/v1/status/list',
     GET_PO_REQUEST: (id: number) => `product/api/po/${id}/obj`,
     GET_PO_PDF_DOWNLOAD: (pid: number) => `product/api/pdf/seller/purchaseorder/${pid}`,
     PO_ACCEPT_REJECT: (pid: number, status: string) => `product/api/po/${pid}/status/${status}`,
@@ -91,5 +92,5 @@ export const HEADER_NAV: HeaderNavigaton[] = [
     { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
     // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
     { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
-    { name: 'PO', link: '/orders/details', imgUrl: 'assets/img/po.png' },
+    { name: 'PO', link: '/orders/list/pending', imgUrl: 'assets/img/po.png' },
 ]

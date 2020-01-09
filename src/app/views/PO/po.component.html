@@ -1,0 +1,46 @@
+<div class="po">
+    <div class="container">
+        <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+
+            <h3>Purchase Order</h3>
+
+            <div class="leads-srch-box flex-sb-m">
+                <div class=" leads-srch">
+                    <div class="form-group has-search mb-0">
+                        <span class="form-control-feedback">
+                            <img alt="" src="assets/img/search-icon.png">
+                        </span>
+                        <input class="form-control" placeholder="Search" type="text">
+                    </div>
+                    <a href="javascript:void(0)" role="button" style="color:rgba(125,125,125,0.95);">
+                        <img alt="" src="assets/img/svg-img/ic_filter.svg">
+                        Filters 
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="po__orders-list">
+
+            <div class="po__tabs">
+                <ul class="po__tab-list">
+                    <li [class.active]="activeTab === 'pending'" [routerLink]="['/orders/list/pending']">Pending</li>
+                    <li [class.active]="activeTab === 'awarded'" [routerLink]="['/orders/list/awarded']">Awarded</li>
+                </ul>
+
+                <ng-container *ngIf="pendingOrderItemsList && activeTab === 'pending'">
+                    <div *ngFor="let order of pendingOrderItemsList">
+                        <app-order [orderItems]="order" [selectedTab]="'pending'"></app-order>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="awardedOrderItemsList && activeTab === 'awarded'">
+                    <div *ngFor="let order of awardedOrderItemsList">
+                        <app-order [orderItems]="order" [selectedTab]="'awarded'"></app-order>
+                    </div>
+                </ng-container>
+                
+            </div>
+        </div>
+    </div>
+</div>

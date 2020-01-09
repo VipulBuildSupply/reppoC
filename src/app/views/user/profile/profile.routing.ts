@@ -12,6 +12,7 @@ import { StateResolver } from './address-profile/add-address/resolver/states.res
 import { AddBankDetailsComponent } from './bank-details/add-bank-details/add-bank-details.component';
 import { BankDetailsResolver } from './bank-details/resolver/bank-details.resolver';
 import { BusinessDetailsResolver } from './business-details/resolver/business-details.resolver';
+import { ReferenceComponent } from './reference/reference.component';
 
 export const ProfileRoutes: Routes = [
     {
@@ -57,11 +58,7 @@ export const ProfileRoutes: Routes = [
                 path: 'bank-details/edit',
                 component: AddBankDetailsComponent
             },
-            // {
-            //     path: "warehouse-address",
-            //     component: WarehouseAddressComponent,
-            //     data: { title: "warehouse-address" }
-            // },
+            
             {
                 path: 'address/:type',
                 component: AddressProfileComponent,
@@ -80,6 +77,12 @@ export const ProfileRoutes: Routes = [
                 component: ResetPasswordComponent,
                 resolve:{resetPass:ResetPasswordResolver},
                 data: { title: "Reset Password" }
+            },
+
+            {
+                path: "reference",
+                component: ReferenceComponent,
+                data: { title: "Reference" }
             },
         ]
     }

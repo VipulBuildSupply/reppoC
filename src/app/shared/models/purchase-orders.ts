@@ -1,3 +1,8 @@
+export class PoCategory{
+    awarded?: PoOrders[];
+    pending?: PoOrders[];
+}
+
 export class PoOrders{
     purchaseOrder: PurchaseOrders;
     orderItemList: OrderItemsList[];
