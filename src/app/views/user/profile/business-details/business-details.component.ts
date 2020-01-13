@@ -56,9 +56,9 @@ export class BusinessDetailsComponent implements OnInit {
          * @description get selected category lists
          */
         this._categoryService.getCatalogueCategories().then(res => {
-            
+
             this.selectedCategoryList = res.data;
-            
+
             this.selectedCategoryList.forEach(cat => {
                 cat.categoryId = cat.categoryId ? cat.categoryId : cat.id;
                 cat.name = cat.name ? cat.name : cat.categoryName;
@@ -67,14 +67,14 @@ export class BusinessDetailsComponent implements OnInit {
 
             this.getAllCategoriesList(this.selectedCategoryList);
         });
-        
+
         if (this._router.url != '/user/profile/business-details/edit') {
             this._userService.isEdit = false;
             this.formInit();
         }
-        
+
         this._isEdit = this._userService.isEdit;
-    
+
         if (this._router.url === '/user/profile/business-details/edit' && !this._isEdit) {
             this._router.navigate(['/user/profile/business-details']);
         }
@@ -85,7 +85,7 @@ export class BusinessDetailsComponent implements OnInit {
          * @description to check if business details form submitted or not 
          * (by checking the condition - gstin exists or not)
          */
-        if(this.businessDetails.gstin){
+        if (this.businessDetails.gstin) {
             this._userService.enableProfile$.next(true);
         }
 
@@ -97,7 +97,7 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description Function to get all annual turnover data
      */
-    getAnnualTurnover(){
+    getAnnualTurnover() {
         this._userService.annualTurnovers().then((res: any) => {
             this.turnovers = res;
         }, (err: any) => { });
@@ -106,7 +106,7 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function to get all seller business types data
      */
-    getBusinessType(){
+    getBusinessType() {
         this._userService.businessType().then((res: any) => {
             this.businessType = res;
         });
@@ -122,29 +122,29 @@ export class BusinessDetailsComponent implements OnInit {
             sellerBusinessType: [{
                 value: this.businessDetails.sellerBusinessType ? this.businessDetails.sellerBusinessType.code : '',
                 disabled: !(this._isEdit)
-            },{
-                validators: [ Validators.required ]
+            }, {
+                validators: [Validators.required]
             }],
 
             companyName: [{
                 value: this.businessDetails.companyName,
                 disabled: !(this._isEdit)
             }, {
-                validators: [ Validators.required ]
+                validators: [Validators.required]
             }],
 
             minAnnualTurnover: [{
                 value: this.businessDetails.minAnnualTurnover ? this.businessDetails.minAnnualTurnover.code : '',
                 disabled: !(this._isEdit)
-            },{
-                validators: [ Validators.required ]
+            }, {
+                validators: [Validators.required]
             }],
 
             addressLine1: [{
                 value: this.businessDetails.address ? this.businessDetails.address.addressLine1 : '',
                 disabled: !(this._isEdit)
             }, {
-                validators: [ Validators.required ]
+                validators: [Validators.required]
             }],
 
             addressLine2: [{
@@ -153,11 +153,11 @@ export class BusinessDetailsComponent implements OnInit {
             }],
 
             cityId: [this.businessDetails.address.city ? this.businessDetails.address.city.id : null,
-                Validators.required
+            Validators.required
             ],
 
             stateId: [this.businessDetails.address.state ? this.businessDetails.address.state.id : null,
-                Validators.required
+            Validators.required
             ],
 
             phoneNo: [{
@@ -199,7 +199,7 @@ export class BusinessDetailsComponent implements OnInit {
             ],
 
             panPhoto: [this.businessDetails.panPhoto ? this.businessDetails.panPhoto : ''],
-            
+
             panNo: [{
                 value: this.businessDetails.panNo,
                 disabled: !(this._isEdit)
@@ -225,7 +225,7 @@ export class BusinessDetailsComponent implements OnInit {
 
             transporterName: [''],
             transporterPhone: ['']
-        });        
+        });
     }
 
     /**
@@ -245,20 +245,20 @@ export class BusinessDetailsComponent implements OnInit {
 
             selectedCatList.forEach(selectedCat => {
 
-                const existingCatIndex =  list.findIndex(cat => cat.id == selectedCat.categoryId);
+                const existingCatIndex = list.findIndex(cat => cat.id == selectedCat.categoryId);
 
-                if(existingCatIndex >= 0){
+                if (existingCatIndex >= 0) {
                     list[existingCatIndex].isSelected = true;
                 }
-                if(selectedCat.id == selectedCat.categoryId){
-                        // only custom category
-                        list.push(selectedCat);
+                if (selectedCat.id == selectedCat.categoryId) {
+                    // only custom category
+                    list.push(selectedCat);
                 }
 
             });
 
             this.allCategoriesList = list;
-            this.allCategoriesList.push({id: 0, name: 'Others', categoryId: 0, categoryName: 'Others'});
+            this.allCategoriesList.push({ id: 0, name: 'Others', categoryId: 0, categoryName: 'Others' });
             this.updateCatIds(this.allCategoriesList.filter(cat => cat.isSelected));
             return this.allCategoriesList;
         });
@@ -268,19 +268,19 @@ export class BusinessDetailsComponent implements OnInit {
      * @description function to update multiple categories and set these id's
      */
 
-    updateCatIds(items){
+    updateCatIds(items) {
         const selectedIds = items.filter(selectedCat => selectedCat.id != selectedCat.categoryId && selectedCat.id != 0).map(cat => cat.id);
         const selectedCustomCat = items.filter(selectedCat => selectedCat.id == selectedCat.categoryId && selectedCat.id != 0).map(cat => cat.categoryName);
 
         this.othersInput = items.some(otherCat => otherCat.id == 0);
 
-        if(this.othersInput){
+        if (this.othersInput) {
             this.businessDetailsForm.addControl('othersCategoryName', new FormControl('', Validators.required));
-        }else{
+        } else {
             this.businessDetailsForm.removeControl('othersCategoryName');
         }
 
-        this.businessDetailsForm.get('categoryIds').setValue(selectedIds); 
+        this.businessDetailsForm.get('categoryIds').setValue(selectedIds);
         this.businessDetailsForm.get('customCategories').setValue(selectedCustomCat);
     }
 
@@ -297,7 +297,7 @@ export class BusinessDetailsComponent implements OnInit {
     validatePincode(e) {
         if (e.target.value.length == 6) {
             this._userService.getPincode(e.target.value).then(res => {
-                if(res.data) {
+                if (res.data) {
                     this.businessDetailsForm.get('cityId').setValue(res.data.cityId);
                     this.businessDetailsForm.get('stateId').setValue(res.data.stateId);
                     this.businessDetails.address.state.name = res.data.state;
@@ -306,7 +306,7 @@ export class BusinessDetailsComponent implements OnInit {
             })
         }
         else {
-            if(!this.businessDetails.address.state == undefined && !this.businessDetails.address.city == undefined){    
+            if (!this.businessDetails.address.state == undefined && !this.businessDetails.address.city == undefined) {
                 this.businessDetails.address.state.name = "";
                 this.businessDetails.address.city.name = "";
             }
@@ -370,7 +370,7 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function is used to remove existed address proof document
      */
-    delete(){
+    delete() {
         this.businessDetails.panPhoto = '';
         this.businessDetailsForm.value.panPhoto = '';
     }
@@ -379,9 +379,9 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function is used to delete existed pan proof photo from api
      */
-    deleteAddressProof(id: number): void{
+    deleteAddressProof(id: number): void {
         this._userService.deleteAddressProof(id).then(res => {
-            this.businessDetails.address.addressProofFile = '';            
+            this.businessDetails.address.addressProofFile = '';
         });
     }
 
@@ -390,8 +390,8 @@ export class BusinessDetailsComponent implements OnInit {
      */
     submit(e) {
         e.preventDefault();
-        if (this.businessDetailsForm.valid) {            
-            const address = new Address(this.businessDetailsForm.value as any);            
+        if (this.businessDetailsForm.valid) {
+            const address = new Address(this.businessDetailsForm.value as any);
             const data = this.businessDetailsForm.value;
             delete data.addressLine1;
             delete data.addressLine2;
@@ -403,11 +403,11 @@ export class BusinessDetailsComponent implements OnInit {
             delete data.userType;
             delete address.city;
             delete address.state;
-            if(data.othersCategoryName){
+            if (data.othersCategoryName) {
                 data.customCategories.push(data.othersCategoryName);
                 delete data.othersCategoryName;
             }
-            
+
             data.address = address;
             this.submitBusinessAddress(data);
         }
@@ -420,7 +420,7 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function to submit and update business details data
      */
-    submitBusinessAddress(data){
+    submitBusinessAddress(data) {
         this._userService.updateBusinessDetails(data).then(res => {
             if (res.status == 1001) {
                 this._userService.getUserPercentage().then(res => this._userService.updatePercentage$.next(res));
@@ -432,7 +432,7 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function to download attached documents (address proof as well as pan photo)
      */
-    downloadpanProof(proofImage){
+    downloadpanProof(proofImage) {
         var win = window.open(proofImage, '_blank');
         win.focus();
     }

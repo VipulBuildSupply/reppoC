@@ -50,19 +50,27 @@ export class PurchaseOrders extends PoList{
 }
 
 export class OrderItemsList extends PoList{ 
-    deliveryList: any[];
+    modifyDt: string;
+    orderId: number;
+    skuId: number;
+    name: string;
+    skuName?: string;
+    imageUrl: string;
+    requestQty: number;
+    balanceQty: number;
+    enqueuedQty: number;
     gstTax: number;
     hsn: string;
-    imageUrl: string;
     interstate: string;
-    modifyDt: string;
-    name: string;
-    orderId: number;
-    requestQty: number;
     sellerPrice: number;
-    skuId: number;
-    skuName?: string;
     unit: string;
+    deliveryList: DeliveryList[];
+    brandIconImageUrl: string;
+    deliverySummary: DeliverySummary;
+    totalGst: number;
+    totalCost: number;
+
+    checked?:boolean;
 }
 
 export class DownloadPo{
@@ -103,4 +111,31 @@ export class Address{
     stateId: number;
     userId: number;
     gstin?: string;
+}
+
+export class DeliveryList{
+    id: number;
+    modifyDt: string;
+    createDt: string;
+    pid: number;
+    itemId: number;
+    seqNo: number;
+    requestQty: number;
+    requiredByDt: string;
+    requestDt: string;
+    acceptQty: number;
+    deliverQty: number;
+    acceptDt: string;
+    status: string;
+    statusCd: string;
+    remark: string;
+}
+
+export class DeliverySummary{
+    orderRequestQty: number;
+    totalRequestQty: number;
+    totalAcceptQty: number;
+    totalEnqueueQty: number;
+    maxRaiseAllowQty: number;
+    totalRejectedQty: number;
 }

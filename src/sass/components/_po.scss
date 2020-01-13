@@ -817,3 +817,11 @@
     }
 
 }
+
+.item-details{
+    .item-quantity span:not(:last-child):after {
+        content: '';
+        border-right: 1px solid #7b7b7b;
+        margin: 0 15px;
+    }
+}

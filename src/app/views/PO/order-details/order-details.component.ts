@@ -31,6 +31,7 @@ export class OrderDetailsComponent implements OnInit {
     const reqId = this._activatedRoute.snapshot.params;
     this.getPurchaseOrdersList(parseInt(reqId.id));
     this.downloadPOPdf(parseInt(reqId.id));
+    this.getAllDeliveryDetails(parseInt(reqId.id));
 
     this.activeTab =  this._activatedRoute.snapshot.url[2].path;
  
@@ -77,5 +78,12 @@ export class OrderDetailsComponent implements OnInit {
         
       });
     }
+  }
+
+
+  getAllDeliveryDetails(orderId){
+    this._purchaseOrdersService.getDeliveryDetails(orderId).then(res => {
+      LoggerService.debug(res);
+    });
   }
 }

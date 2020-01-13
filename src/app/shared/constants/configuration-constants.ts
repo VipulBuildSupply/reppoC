@@ -78,12 +78,16 @@ export const API = {
     GET_UPDATED_SKUS_LIST: 'product/api/quoterequest/list',
     UNIQUE_ID: 'product/api/system/upload/seqno',
     UPLOAD_DOC: 'product/api/upload',
+    DOWNLOAD_DOC: (attachId) => `product/api/upload/files/${attachId}`,
 
     GET_PO_LIST: 'product/api/po/list',
     GET_PO_LIST_BY_STATUS: 'product/api/po/v1/status/list',
-    GET_PO_REQUEST: (id: number) => `product/api/po/${id}/obj`,
+    GET_PO_REQUEST: (id: number) => `product/api/po/seller/v1/${id}/obj`,
     GET_PO_PDF_DOWNLOAD: (pid: number) => `product/api/pdf/seller/purchaseorder/${pid}`,
     PO_ACCEPT_REJECT: (pid: number, status: string) => `product/api/po/${pid}/status/${status}`,
+    GET_PO_ITEMS_LIST: (oid: number) => `product/api/po/seller/v1/${oid}/items`,
+    INITIATE_DELIVERY_REQUEST: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
+    // GET_DELIVERY_DETAILS: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
 
     GET_USER_NOTIFICATIONS: 'product/api/user/notification/list'
 }

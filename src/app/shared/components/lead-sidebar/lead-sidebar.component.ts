@@ -42,7 +42,12 @@ export class LeadSidebarComponent implements OnInit {
     if (this.submitQuoteMsg === "SUBMIT") {
 
       this.userService.getNewLeads().then(res => {
-        if (res) {
+
+        this.new_leads = res.data;
+        this.new_leadsTemp = res.data;
+        this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
+        
+        /*if (res) {
           if (res.data.length > 0) {
             this.new_leads = res.data;
             this.new_leadsTemp = res.data;
@@ -56,7 +61,7 @@ export class LeadSidebarComponent implements OnInit {
         }
         else {
           this.data.changeMessage("ActedLeads");
-        }
+        }*/
 
       });
     }
@@ -94,7 +99,12 @@ export class LeadSidebarComponent implements OnInit {
     if (this.submitQuoteMsg === "SUBMIT") {
       if (this.message === "NewLeads") {
         this.userService.getNewLeads().then(res => {
-          if (res) {
+
+          this.new_leads = res.data;
+          this.new_leadsTemp = res.data;
+          // this._router.navigate([`/lead`]);
+
+          /*if (res) {
             if (res.data.length > 0) {
               this.new_leads = res.data;
               this.new_leadsTemp = res.data;
@@ -106,7 +116,7 @@ export class LeadSidebarComponent implements OnInit {
           }
           else {
             this.data.changeMessage("ActedLeads");
-          }
+          }*/
 
         });
         this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
@@ -114,7 +124,12 @@ export class LeadSidebarComponent implements OnInit {
       }
       if (this.message == "ActedLeads") {
         this.userService.getActedLeads().then(res => {
-          if (res) {
+
+          this.new_leads = res.data;
+          this.new_leadsTemp = res.data;
+          // this._router.navigate([`/lead`]);
+
+          /*if (res) {
             if (res.data.length > 0) {
               this.new_leads = res.data;
               this.new_leadsTemp = res.data;
@@ -126,7 +141,7 @@ export class LeadSidebarComponent implements OnInit {
           }
           else {
             this.data.changeMessage("NewLeads");
-          }
+          }*/
 
         });
         this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
@@ -135,7 +150,14 @@ export class LeadSidebarComponent implements OnInit {
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
         this.userService.getNewLeads().then(res => {
-          if (res) {
+
+          this.new_leads = res.data;
+          this.new_leadsTemp = res.data;
+          this.bookmarkClicked = [];
+          // this._router.navigate([`/lead`]);
+          // debugger
+
+          /*if (res) {
             if (res.data.length > 0) {
               this.new_leads = res.data;
               this.new_leadsTemp = res.data;
@@ -148,13 +170,24 @@ export class LeadSidebarComponent implements OnInit {
           }
           else {
             this.data.changeMessage("ActedLeads");
-          }
+          }*/
 
         });
       }
       else if (this.message === "ActedLeads") {
         this.userService.getActedLeads().then(res => {
-          if (res) {
+
+          this.new_leads = res.data;
+          this.new_leadsTemp = res.data;
+          this.bookmarkClicked = [];
+          for (let i = 0; i < this.new_leads.length; i++) {
+            if (this.new_leads[i].statusCd == "quote.request.sts.seller.add") {
+              this.bookmarkClicked[i] = true;
+            }
+          }
+          // this._router.navigate([`/lead`]);
+          
+          /*if (res) {
             if (res.data.length > 0) {
               this.new_leads = res.data;
               this.new_leadsTemp = res.data;
@@ -164,7 +197,6 @@ export class LeadSidebarComponent implements OnInit {
                   this.bookmarkClicked[i] = true;
                 }
               }
-
               this._router.navigate([`/lead`]);
             }
             else {
@@ -173,7 +205,7 @@ export class LeadSidebarComponent implements OnInit {
           }
           else {
             this.data.changeMessage("NewLeads");
-          }
+          }*/
 
         });
         this.startSubscriptions();

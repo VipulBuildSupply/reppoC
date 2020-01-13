@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import * as $ from 'jquery';
 import { SigninStepper } from '../models/signin-stepper';
+import { API } from '../constants';
 
 @Injectable()
 export class CommonService {
@@ -69,5 +70,17 @@ export class CommonService {
 
     parseInt(value): number {
         return parseInt(value, 10);
+    }
+
+    getUniqueId() {
+        return this.dataService.getRequest(API.UNIQUE_ID).then(res => res.data);
+    }
+
+    docUpload(data) {
+        return this.dataService.sendPostRequest(API.UPLOAD_DOC, data).then(res => res);
+    }
+
+    docDownload(id: number) {
+        return this.dataService.getRequest(API.DOWNLOAD_DOC(id)).then(res => res.data);
     }
 }

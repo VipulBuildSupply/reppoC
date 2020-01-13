@@ -40,13 +40,13 @@
                                     (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
                             </div>
 
-                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm'">
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm' && activeTab === 'pending'">
                                 <div class="order-accept-reject">
                                     <span>PO Accepted</span>
                                 </div>
                             </ng-container>
 
-                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.reject'">
+                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.reject' && activeTab === 'pending'">
                                 <div class="order-accept-reject">
                                     <span>PO Rejected</span>
                                 </div>
@@ -65,7 +65,7 @@
 
                     <ng-container *ngIf="orders && orders.orderItemList && orders.orderItemList.length">
                         <ng-container *ngFor="let item of orders.orderItemList">
-                            <app-item-list [itemList]="item" [selectedTab]="activeTab"></app-item-list>
+                            <app-item-list [itemList]="item" [selectedTab]="activeTab" [orderDetails]="'order-details'"></app-item-list>
                             <div class="line-br"></div>
                         </ng-container>
                     </ng-container>

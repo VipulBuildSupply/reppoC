@@ -8,7 +8,7 @@ export const environment = {
     production: false,
     debug_mode: true,
     apiURL: 'https://api.yeho.ga'
-    // apiURL: 'http://192.168.1.67'
+    // apiURL: 'http://192.168.1.87'
 };
 
 /*

@@ -357,8 +357,6 @@ export class NewLeadComponent implements OnInit {
         pricingForms: forms
       });
     });
-
-    LoggerService.debug(this.warehouseData);
   }
 
   deletePicingAllWarehouse(index) {

@@ -1,4 +1,4 @@
-<mat-card-header class="po__header-section" [class.po-awarded]="activeTab === 'awarded'">
+<!-- <mat-card-header class="po__header-section" [class.po-awarded]="activeTab === 'awarded'">
     <div class="po__header-left">
         <div mat-card-avatar class="po__header-image">
             <img [src]="items.imageUrl ? items.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
@@ -8,7 +8,7 @@
             <mat-card-title>{{ items.name }}</mat-card-title>
             <mat-card-subtitle class="pb-2" *ngIf="activeTab === 'pending'">Quantity: {{ items.requestQty }} {{ items.unit }}</mat-card-subtitle>
 
-            <mat-card-subtitle class="awarded-po pb-2" *ngIf="activeTab === 'awarded' && (!deliveryDetails)">
+            <mat-card-subtitle class="awarded-po pb-2" *ngIf="activeTab === 'awarded' && (!deliveryDetails) && orderDetails === 'order-details'">
                 <span>Quantity: {{ items.requestQty }} {{ items.unit }}</span>
                 <span>Balance Quantity: {{ items.balanceQty }} {{ items.unit }}</span>
                 <span>Enqueued Quantity: {{ items.enqueuedQty }} {{ items.unit }}</span>
@@ -20,6 +20,37 @@
                     <span *ngIf="activeTab === 'awarded' && (!deliveryDetails)">(Excl. GST @15%)</span>
                 </span>
                 <span class="sub-total" *ngIf="activeTab === 'awarded' && (!deliveryDetails)">Sub Total: ₹28,092.00</span>
+            </mat-card-subtitle>
+
+            <mat-card-subtitle class="pb-2" *ngIf="activeTab === 'awarded' && deliveryDetails">Delivery Quantity: {{ items.requestQty }} {{ items.unit }}</mat-card-subtitle>
+        </div>
+    </div>
+</mat-card-header> -->
+
+
+
+<mat-card-header class="po__header-section" [class.po-awarded]="activeTab === 'awarded'">
+    <div class="po__header-left">
+        <div mat-card-avatar class="po__header-image">
+            <img [src]="items.imageUrl ? items.imageUrl : 'assets/img/bricks.png'" alt="" class="img-fluid">
+        </div>
+
+        <div class="mat-card-header-text mat-card__title">
+            <mat-card-title>{{ items.name }}</mat-card-title>
+            <mat-card-subtitle class="pb-2" *ngIf="!(orderDetails === 'order-details' && activeTab === 'awarded')">Quantity: {{ items.requestQty }} {{ items.unit }}</mat-card-subtitle>
+
+            <mat-card-subtitle class="awarded-po pb-2" *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
+                <span>Quantity: {{ items.requestQty }} {{ items.unit }}</span>
+                <span>Balance Quantity: {{ items.balanceQty }} {{ items.unit }}</span>
+                <span>Enqueued Quantity: {{ items.enqueuedQty }} {{ items.unit }}</span>
+            </mat-card-subtitle>
+
+            <mat-card-subtitle class="pt-2 seller-price-gst d-flex align-items-center justify-content-between">
+                <span class="item-qty">
+                    <span class="mr-1" *ngIf="!deliveryDetails">₹{{ items.sellerPrice }}</span>
+                    <span *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">(Excl. GST @{{ items.gstTax }}%)</span>
+                </span>
+                <span class="sub-total" *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">Sub Total: ₹28,092.00</span>
             </mat-card-subtitle>
 
             <mat-card-subtitle class="pb-2" *ngIf="activeTab === 'awarded' && deliveryDetails">Delivery Quantity: {{ items.requestQty }} {{ items.unit }}</mat-card-subtitle>

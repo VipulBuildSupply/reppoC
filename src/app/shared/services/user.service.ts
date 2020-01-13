@@ -308,6 +308,7 @@ export class UserService {
     getSequenceId() {
         return this.dataService.getRequest(API.UNIQUE_ID).then(res => res.data);
     }
+    
     docUpload(data) {
         return this.dataService.sendPostRequest(API.UPLOAD_DOC, data).then(res => res)
     }

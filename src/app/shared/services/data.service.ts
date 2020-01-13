@@ -101,7 +101,6 @@ export class DataService {
 
 
     sendPutRequest(url: string, params: any, reqOptions: DataServiceOptions = null): Promise<any> {
-        // LoggerService.debug(url, params);
         let headers = new HttpHeaders();
         if (reqOptions) {
             if (reqOptions.skipLoader) {
@@ -116,7 +115,6 @@ export class DataService {
     }
 
     sendDeleteRequest(url: string, params: any, reqOptions: DataServiceOptions = null): Promise<any> {
-        // LoggerService.debug(url, params);
         let headers = new HttpHeaders();
         if (reqOptions) {
             if (reqOptions.skipLoader) {

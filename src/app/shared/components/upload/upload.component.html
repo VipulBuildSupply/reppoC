@@ -25,9 +25,9 @@
         </mat-list>
     </mat-card>
 
-    <label [for]="id" class="bs-btn bs-btn__link cursor_pointer before-none">
+    <label [for]="label" class="bs-btn bs-btn__link cursor_pointer before-none">
         <i class="fa fa-upload fa-lg mr-1"></i>
         Upload Attachment
     </label>
-    <input (change)="uploadFiles($event.target.files)" [hidden]="true" id="{{id}}" multiple type="file" />
+    <input (change)="uploadFiles($event.target.files)" [hidden]="true" [id]="label" multiple type="file" />
 </div>
