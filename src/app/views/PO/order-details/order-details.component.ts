@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
-import { DownloadPo, PoOrders } from 'src/app/shared/models/purchase-orders';
+import { DownloadPo, PoOrders, AllDeliveries, ActivePastDelivery, DispatchSchedules } from 'src/app/shared/models/purchase-orders';
 import { ActivatedRoute } from '@angular/router';
 import { LoggerService } from 'src/app/shared/services/logger.service';
 
@@ -12,6 +12,14 @@ export class OrderDetailsComponent implements OnInit {
 
   orders: PoOrders;
   po: DownloadPo;
+  acceptPOStatus: string;
+  rejectPOStatus: string;
+  activeTab: string;
+  // activeDeliveries: ActivePastDelivery[];
+  // pastDeliveries: ActivePastDelivery[];
+  // dispatchSchedules: DispatchSchedules[];
+  allDeliveries: AllDeliveries;
+
   @Input() collapsedHeight: string;
   @Input() expandedHeight: string;
 
@@ -20,9 +28,6 @@ export class OrderDetailsComponent implements OnInit {
     'Delivery Address': 'deliveryAddress',
     'Buyer Billing Address': 'buyerAddress'
   }
-  acceptPOStatus: string;
-  rejectPOStatus: string;
-  activeTab: string;
 
   constructor(private _purchaseOrdersService: PurchaseOrdersService,
     private _activatedRoute: ActivatedRoute) { }
@@ -31,6 +36,7 @@ export class OrderDetailsComponent implements OnInit {
     const reqId = this._activatedRoute.snapshot.params;
     this.getPurchaseOrdersList(parseInt(reqId.id));
     this.downloadPOPdf(parseInt(reqId.id));
+    this.getAllDeliveryDetails(parseInt(reqId.id));
 
     this.activeTab =  this._activatedRoute.snapshot.url[2].path;
  
@@ -77,5 +83,16 @@ export class OrderDetailsComponent implements OnInit {
         
       });
     }
+  }
+
+
+  getAllDeliveryDetails(orderId){
+    this._purchaseOrdersService.getAllTypeDeliveries(orderId).then(res => {
+      this.allDeliveries = res.data;
+      // this.activeDeliveries = res.data.activeDeliveries;
+      // this.pastDeliveries = res.data.pastDeliveries;
+      // this.dispatchSchedules = res.data.dispatchSchedules;
+      LoggerService.debug(res.data);
+    });
   }
 }

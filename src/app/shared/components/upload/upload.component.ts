@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { LoggerService } from '../../services/logger.service';
+import { DocumentModel } from '../../models/delivery-request';
+import { CommonService } from '../../services/common.service';
 // import { CommonService } from '../../services/common.service';
 // import { of } from 'rxjs';
 
@@ -11,12 +13,13 @@ export class UploadComponent implements OnInit {
 
     fileToUpload: FileList;
     deletedDocs: number[] = [];
+    uploadedDocs: DocumentModel[];
     id: number;
     @Output('onFileUpdate') onFileUpdate = new EventEmitter<FileList>();
-    @Input('parentId') parentId;
+    @Input() label;
     fileExtension: string;
 
-    constructor() { }
+    constructor(private _commonService: CommonService) { }
 
     ngOnInit(): void {
         this.id = Math.round(Math.random() * 10);
@@ -42,9 +45,9 @@ export class UploadComponent implements OnInit {
         /**
          * Checked the condition if uploaded file extension is pdf or any other
          */
-        const [filename, fileExt] = files[0].name.split(".");
-        this.fileExtension = fileExt;
-        
+        // const [filename, fileExt] = files[0].name.split(".");
+        // this.fileExtension = fileExt;
+
         this.onFileUpdate.emit(this.fileToUpload);
     }
 
@@ -63,16 +66,45 @@ export class UploadComponent implements OnInit {
         this.onFileUpdate.emit(this.fileToUpload);
     }
 
-    viewFile(file){
+    uploadDocs(fileUploadType: string = null, fileLIst: FileList = this.fileToUpload): Promise<any> {
+
+        return this._commonService.getUniqueId().then(response => {
+
+            if (fileLIst && fileLIst.length) {
+
+                const data = new FormData();
+
+                const fileArr: File[] = [];
+
+                for (let key in Object.keys(fileLIst)) {
+                    fileArr.push(fileLIst[key]);
+                    data.append(`files[${key}]`, fileLIst[key]);
+                }
+                // data.append(`files`, fileArr);
+                if (fileUploadType) {
+                    data.append('fileUploadType', fileUploadType);
+                }
+                data.append('parentId', response.id);
+                return this._commonService.docUpload(data).then(res => {
+                    return response.id;
+                });
+            } else {
+                return Promise.resolve();
+            }
+
+        });
+    }
+
+    viewFile(file) {
         var win = window.open(file, '_blank');
         win.focus();
     }
 
-    blankFiles(){
+    blankFiles() {
         this.fileToUpload = (new DataTransfer()).files;
     }
 
-    fileChange(name, index){
+    fileChange(name, index) {
         LoggerService.debug(name + " , " + index);
     }
 }

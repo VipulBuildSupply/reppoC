@@ -8,6 +8,8 @@ import { OrderComponent } from './order/order.component';
 import { SharedComponentsModule } from 'src/app/shared/components/shared-components.module';
 import { InitiateDeliveryComponent } from './initiate-delivery/initiate-delivery.component';
 import { DeliveryDetailsComponent } from './delivery-details/delivery-details.component';
+import { MultiItemCheckboxComponent } from './initiate-delivery/multi-item-checkbox/multi-item-checkbox.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,13 +17,16 @@ import { DeliveryDetailsComponent } from './delivery-details/delivery-details.co
     OrderComponent,
     OrderDetailsComponent,
     InitiateDeliveryComponent,
-    DeliveryDetailsComponent
+    DeliveryDetailsComponent,
+    MultiItemCheckboxComponent
   ],
   imports: [
     CommonModule,
     PORouting,
     SharedMaterialModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [],
   providers: [],

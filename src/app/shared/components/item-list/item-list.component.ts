@@ -10,12 +10,12 @@ export class ItemListComponent implements OnInit {
     @Input('itemList') items: any;
     @Input('selectedTab') activeTab: string;
     @Input('deliveryDetails') deliveryDetails: boolean;
+    @Input('orderDetails') orderDetails: string;
 
     constructor() { }
 
     ngOnInit() {
-        // LoggerService.debug(this.activeTab);
-
+        LoggerService.debug(this.items);
     }
 
 }
