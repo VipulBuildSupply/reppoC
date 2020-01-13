@@ -52,7 +52,10 @@ export class OrderDetailsComponent implements OnInit {
    * Get all orders list for specific PO id
    */
   getPurchaseOrdersList(orderId: number){
-    this._purchaseOrdersService.getPORequest(orderId).then(res => this.orders = res.data);
+    this._purchaseOrdersService.getPORequest(orderId).then(res => {
+      this.orders = res.data;
+      LoggerService.debug(this.orders);
+    });
   }
 
   /**
@@ -89,9 +92,6 @@ export class OrderDetailsComponent implements OnInit {
   getAllDeliveryDetails(orderId){
     this._purchaseOrdersService.getAllTypeDeliveries(orderId).then(res => {
       this.allDeliveries = res.data;
-      // this.activeDeliveries = res.data.activeDeliveries;
-      // this.pastDeliveries = res.data.pastDeliveries;
-      // this.dispatchSchedules = res.data.dispatchSchedules;
       LoggerService.debug(res.data);
     });
   }

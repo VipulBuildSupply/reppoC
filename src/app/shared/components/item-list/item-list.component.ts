@@ -15,7 +15,6 @@ export class ItemListComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        LoggerService.debug(this.items);
     }
 
 }
