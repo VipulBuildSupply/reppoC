@@ -734,7 +734,11 @@
         border: 1px solid #03B10F;
         padding: 15px 15px;
         flex: 0 0 42%;
-        margin-right: 30px;
+        margin: 0 30px 30px 0;
+
+        &:last-child, p:last-child {
+            margin-bottom: 0;
+        }
 
         .vehicle-number, .vehicle-items{
             span{

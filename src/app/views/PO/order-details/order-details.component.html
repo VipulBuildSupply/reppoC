@@ -88,34 +88,36 @@
 
 
                             <!-- Delivery Details Section -->
-                            <ng-container *ngIf="activeTab === 'awarded'">
+                            <ng-container *ngIf="activeTab === 'awarded' && allDeliveries">
                                 <div class="delivery-details pt-4">
                                     <div class="delivery-details__heading">
                                         <h4>Delivery Details</h4>
                                     </div>
     
                                     <!-- Active Delivery Section (Added condition if orders.purchaseOrder exists then this section will work)-->
-                                    <div class="active-delivery py-3" *ngIf="orders && orders.purchaseOrder">
+                                    <div class="active-delivery py-3" *ngIf="allDeliveries.activeDeliveries && allDeliveries.activeDeliveries.length">
                                         <div class="active-delivery__title">
                                             <h6>Active Delivery</h6>
                                         </div>
         
-                                        <div class="active-delivery__lists 
-                                            d-flex align-items-center">
-                                            <div class="active-delivery__details">
-                                                <p class="vehicle-number d-flex align-items-center justify-content-between">
-                                                    <span>Vehicle No. 322321 (Ph-9785842558)</span>
-                                                    <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/delivery-details']">View Details</span>
-                                                </p>
-                                                <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                    <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                    <span>100 bags</span>
-                                                </p>
-                                                <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
-                                                    <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                    <span>100 bags</span>
-                                                </p>
-                                            </div>
+                                        <div class="active-delivery__lists d-flex flex-wrap">
+                                            <ng-container *ngFor="let activeDelivery of allDeliveries.activeDeliveries">
+                                                <div class="active-delivery__details" 
+                                                    *ngIf="activeDelivery.items && activeDelivery.items.length">
+                                                    <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                        <span>Vehicle No. {{ activeDelivery.vehicleNo }} (Ph-{{ activeDelivery.driverPhone }})</span>
+                                                        <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/active-delivery-details/'+activeDelivery.id]">View Details</span>
+                                                    </p>
+
+                                                    <ng-container *ngFor="let item of activeDelivery.items">
+                                                        <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                            <span>{{ item.name }}</span>
+                                                            <span>{{ item.itemQty }} {{ item.unit }}</span>
+                                                        </p>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                            
                                         </div>
                                     </div>
     
@@ -133,27 +135,27 @@
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
                                         
-                                        <div class="past-delivery pt-2">
+                                        <div class="past-delivery pt-2" *ngIf="allDeliveries.pastDeliveries && allDeliveries.pastDeliveries.length">
                                             <!-- <div class="past-delivery__title">
                                                 <h6>Past Delivery</h6>
                                             </div> -->
     
-                                            <div class="past-delivery__lists 
-                                                d-flex align-items-center">
-                                                <div class="past-delivery__details">
-                                                    <p class="vehicle-number d-flex align-items-center justify-content-between">
-                                                        <span>Vehicle No. 322321 (Ph-9785842558)</span>
-                                                        <span>View Details</span>
-                                                    </p>
-                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                </div>
+                                            <div class="past-delivery__lists d-flex">
+                                                <ng-container *ngFor="let pastDelivery of allDeliveries.pastDeliveries">
+                                                    <div class="past-delivery__details"
+                                                        *ngIf="pastDelivery.items && pastDelivery.items.length">
+                                                        <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                            <span>Vehicle No. {{ pastDelivery.vehicleNo }} (Ph-{{ pastDelivery.vehicleNo }})</span>
+                                                            <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/past-delivery-details/'+pastDelivery.id]">View Details</span>
+                                                        </p>
+                                                        <ng-container *ngFor="let item of pastDelivery.items">
+                                                            <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                                <span>{{ item.name }}</span>
+                                                                <span>{{ item.itemQty }} {{ item.unit }}</span>
+                                                            </p>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
                                             </div>
                                         </div>
                                     </mat-expansion-panel>
@@ -172,54 +174,30 @@
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
                                         
-                                        <div class="dispatch-schedules pt-2">
+                                        <div class="dispatch-schedules pt-2" *ngIf="allDeliveries.dispatchSchedules && allDeliveries.dispatchSchedules.length">
                                             <!-- <div class="dispatch-schedules__title mb-3">
                                                 <h6>Dispatch Schedules</h6>
                                             </div> -->
     
-                                            <div class="dispatch-schedules__lists">
-                                                <p>Dispatch Schedule 1 - 22 December 2018</p>
-                                                <div class="dispatch-schedules__details">
-                                                    <p class="dispatch-title d-flex align-items-center justify-content-between">
-                                                        <span>Item</span>
-                                                        <span>Quantity Required</span>
-                                                    </p>
-                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                </div>
+                                            <div class="dispatch-schedules__lists" *ngFor="let dispatchSchedules of allDeliveries.dispatchSchedules">
+                                                <ng-container *ngIf="dispatchSchedules.items && dispatchSchedules.items.length">
+                                                    <p>Dispatch Schedule 1 - {{ dispatchSchedules.requiredByDate }}</p>
+                                                    <div class="dispatch-schedules__details">
+                                                        <p class="dispatch-title d-flex align-items-center justify-content-between">
+                                                            <span>Item</span>
+                                                            <span>Quantity Required</span>
+                                                        </p>
+                                                        <ng-container *ngFor="let item of dispatchSchedules.items">
+                                                            <p class="vehicle-items d-flex align-items-center justify-content-between" *ngIf="item.name">
+                                                                <span>{{ item.name }}</span>
+                                                                <span>{{ item.requestQty }} {{ item.unit }}</span>
+                                                            </p>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                                
                                             </div>
-    
-                                            <div class="dispatch-schedules__lists">
-                                                <p>Dispatch Schedule 2 - 24 December 2018</p>
-                                                <div class="dispatch-schedules__details">
-                                                    <p class="dispatch-title d-flex align-items-center justify-content-between">
-                                                        <span>Item</span>
-                                                        <span>Quantity Required</span>
-                                                    </p>
-                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                    <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                    <p class="vehicle-items mb-1 d-flex align-items-center justify-content-between">
-                                                        <span>Ambuja Powercem OPC 43 Cement 50 kg Bag</span>
-                                                        <span>100 bags</span>
-                                                    </p>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </mat-expansion-panel>
                                 </div>

@@ -139,3 +139,98 @@ export class DeliverySummary{
     maxRaiseAllowQty: number;
     totalRejectedQty: number;
 }
+
+export class AllDeliveries{
+    activeDeliveries: ActivePastDelivery[];
+    pastDeliveries: ActivePastDelivery[];
+    dispatchSchedules: DispatchSchedules[];
+}
+
+export class ActivePastDelivery{
+    id: number;
+    modifyDt: string;
+    createDt: string;
+    orderId: number;
+    orderNo: string;
+    invoice: string;
+    invoiceDt: string;
+    invoiceDtRaw: string;
+    challanNo: string;
+    challanDate: string;
+    challanDateRaw: string;
+    challanAttachId: number;
+    materialTestAttachId: number;
+    materialTestDt: string;
+    materialTestDtRaw: string;
+    materialTestNo: string;
+    transporterName: string;
+    transportModeCd: string;
+    transportModeName: string;
+    lorryReceiptNo: string;
+    lorryReceiptAttachId: number;
+    vehicleNo: string;
+    driverName: string;
+    driverPhone: string;
+    statusCd: string;
+    status: string;
+    transportDt: string;
+    transportDtRaw: string;
+    invoiceAttachId: number;
+    items: DeliveryItems[];
+    ewayBillNo: string;
+    ewayBillDate: string;
+    ewayBillDateRaw: string;
+    ewayBillAttachId: number;
+
+    invoiceDocName?: string;
+    eWayDocName?: string;
+    challanDocName?: string;
+    materialTestDocName?: string;
+    lorryReceiptDocName?: string;
+    
+    invoiceSignedUrl?: string;
+    eWaySignedUrl?: string;
+    challanSignedUrl?: string;
+    materialTestSignedUrl?: string;
+    lorryReceiptSignedUrl?: string;
+}
+
+export class DispatchSchedules{
+    id: number;
+    pid: number;
+    orderId: number;
+    requiredByDate: string;
+    requiredByDateRaw: string;
+    statusCd: string;
+    status: string;
+    items: DispatchItems[];
+}
+
+export class DispatchItems{
+    id: number;
+    pid: number;
+    deliveryPlanId: number;
+    itemId: number;
+    requestQty: number;
+    requiredByDate: string;
+    unit: string;
+    imageUrl: string;
+    name: string;
+}
+
+export class DeliveryItems{
+    id: number;
+    createDt: string;
+    deliveryInvoiceId: number;
+    itemId: number;
+    itemQty: number;
+    acceptQty: number;
+    rejectQty: number;
+    acceptDt: string;
+    acceptDtRaw: string;
+    deliverQty: number;
+    unit: string;
+    imageUrl: string;
+    name: string;
+    seqNo: number;
+}

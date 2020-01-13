@@ -35,7 +35,7 @@ export class PurchaseOrdersService {
         return this._dataService.sendPostRequest(API.INITIATE_DELIVERY_REQUEST(orderId), data).then((res: any) => res);
     }
 
-    getDeliveryDetails(orderId){
+    getAllTypeDeliveries(orderId){
         return this._dataService.getRequest(API.INITIATE_DELIVERY_REQUEST(orderId)).then((res: any) => res);
     }
 }

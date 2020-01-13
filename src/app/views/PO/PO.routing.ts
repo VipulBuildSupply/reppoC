@@ -40,7 +40,12 @@ export const routes: Routes = [
       },
 
       {
-        path: 'orders/details/awarded/:id/delivery-details',
+        path: 'orders/details/awarded/:orderId/active-delivery-details/:itemId',
+        component: DeliveryDetailsComponent,
+        data: { title: 'Delivery Details' }
+      },
+      {
+        path: 'orders/details/awarded/:orderId/past-delivery-details/:itemId',
         component: DeliveryDetailsComponent,
         data: { title: 'Delivery Details' }
       }
