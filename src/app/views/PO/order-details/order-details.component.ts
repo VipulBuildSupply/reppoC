@@ -15,9 +15,6 @@ export class OrderDetailsComponent implements OnInit {
   acceptPOStatus: string;
   rejectPOStatus: string;
   activeTab: string;
-  // activeDeliveries: ActivePastDelivery[];
-  // pastDeliveries: ActivePastDelivery[];
-  // dispatchSchedules: DispatchSchedules[];
   allDeliveries: AllDeliveries;
 
   @Input() collapsedHeight: string;
@@ -80,7 +77,6 @@ export class OrderDetailsComponent implements OnInit {
       this._purchaseOrdersService.acceptRejectPO(pid, 'REJECT').then(res => {
         this.rejectPOStatus = res.data.success;
         this.getPurchaseOrdersList(pid);
-        
       });
     }
   }
@@ -89,10 +85,6 @@ export class OrderDetailsComponent implements OnInit {
   getAllDeliveryDetails(orderId){
     this._purchaseOrdersService.getAllTypeDeliveries(orderId).then(res => {
       this.allDeliveries = res.data;
-      // this.activeDeliveries = res.data.activeDeliveries;
-      // this.pastDeliveries = res.data.pastDeliveries;
-      // this.dispatchSchedules = res.data.dispatchSchedules;
-      LoggerService.debug(res.data);
     });
   }
 }
