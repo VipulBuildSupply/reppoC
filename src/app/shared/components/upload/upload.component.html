@@ -12,7 +12,10 @@
                         </div>
                         
                         <div class="file-actions">
-                            <span class="attachment-name blue-link-color" (click)="viewFile(file.name)">View</span>
+                            <ng-container *ngIf="isViewShow">
+                                <span class="attachment-name blue-link-color" (click)="viewFile(file.name)">View</span>
+                            </ng-container>
+
                             <button type="button" (click)="removeFile(i)" mat-icon-button>
                                 <mat-icon class="font-size-16">cancel</mat-icon>
                             </button>
