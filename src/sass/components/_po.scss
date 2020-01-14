@@ -308,6 +308,47 @@
                         text-align: center;
                     }
                 }
+
+                .attachment-outer-col{
+                    flex: 0 0 36%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                    .attachment-inner-col{
+                        font-family: "Open Sans", sans-serif;
+                        font-size: 14px;
+                        h3{
+                            color: #4A4A4A;
+                            font-weight: 600;
+                            line-height: 19px;
+                            font-size: 14px;
+                        }
+            
+                        p, .date-time{
+                            opacity: 0.5;
+                            color: #000000;
+                            line-height: 16px;
+                        }
+            
+                        .attachment-filename{
+                            font-size: 8px;
+                            font-weight: 600;
+                            color: #565656;
+                        }
+            
+                        .link-view{
+                            color: #00A6B2;
+                            font-size: 12px;
+                            font-weight: 600;
+                            line-height: 17px;
+                            text-transform: uppercase;
+                        }
+            
+                        .attachment-img{
+                            text-align: center;
+                        }
+                    }
+                }
             }
 
             .vehicle-row{

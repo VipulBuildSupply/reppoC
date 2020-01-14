@@ -40,10 +40,14 @@
                                     (click)="acceptRejectPO(orders.purchaseOrder.id, 'CONFIRM')">Accept</button>
                             </div>
 
-                            <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm' && activeTab === 'pending'">
-                                <div class="order-accept-reject">
+                            <ng-container class="po__title-right" 
+                                *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm' && activeTab === 'pending'">
+                                <!-- <div class="order-accept-reject">
                                     <span>PO Accepted</span>
-                                </div>
+                                </div> -->
+                                <button mat-button class="btn-mark-in-transit ml-2"
+                                    [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/initiate-delivery']">
+                                    Initiate Delivery</button>
                             </ng-container>
 
                             <ng-container *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.reject' && activeTab === 'pending'">
@@ -122,8 +126,7 @@
                                     </div>
     
                                     <!-- Past Delivery Details -->
-                                    <mat-expansion-panel class="past-deliveries py-2"
-                                        *ngIf="allDeliveries.pastDeliveries && allDeliveries.pastDeliveries.length">
+                                    <mat-expansion-panel class="past-deliveries py-2">
                                         <mat-expansion-panel-header [collapsedHeight]="'auto'"
                                             [expandedHeight]="'auto'">
                                             <mat-panel-title>
@@ -136,7 +139,7 @@
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
                                         
-                                        <div class="past-delivery pt-2">
+                                        <div class="past-delivery pt-2" *ngIf="allDeliveries.pastDeliveries && allDeliveries.pastDeliveries.length">
                                             <!-- <div class="past-delivery__title">
                                                 <h6>Past Delivery</h6>
                                             </div> -->
@@ -162,8 +165,7 @@
                                     </mat-expansion-panel>
     
                                     <!-- Dispatch Schedules Section -->
-                                    <mat-expansion-panel class="past-deliveries"
-                                        *ngIf="allDeliveries.dispatchSchedules && allDeliveries.dispatchSchedules.length">
+                                    <mat-expansion-panel class="past-deliveries">
                                         <mat-expansion-panel-header [collapsedHeight]="'auto'"
                                             [expandedHeight]="'auto'">
                                             <mat-panel-title>
@@ -176,7 +178,7 @@
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
                                         
-                                        <div class="dispatch-schedules pt-2">
+                                        <div class="dispatch-schedules pt-2" *ngIf="allDeliveries.dispatchSchedules && allDeliveries.dispatchSchedules.length">
                                             <!-- <div class="dispatch-schedules__title mb-3">
                                                 <h6>Dispatch Schedules</h6>
                                             </div> -->
