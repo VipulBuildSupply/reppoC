@@ -870,3 +870,20 @@
         margin: 0 15px;
     }
 }
+
+.form-outer{
+    .form-control{
+        height: auto;
+    }
+}
+
+.file-details{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+}
+
+.form-placeholder {
+    line-height: 30px;
+}

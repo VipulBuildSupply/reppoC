@@ -18,6 +18,7 @@ export class UploadComponent implements OnInit {
     @Output('onFileUpdate') onFileUpdate = new EventEmitter<FileList>();
     @Input() label;
     fileExtension: string;
+    @Input('isViewShow') isViewShow: boolean;
 
     constructor(private _commonService: CommonService) { }
 

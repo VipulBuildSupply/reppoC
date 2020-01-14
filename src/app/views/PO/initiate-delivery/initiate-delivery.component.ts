@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FieldRegExConst } from 'src/app/shared/constants';
@@ -23,11 +23,14 @@ export class InitiateDeliveryComponent implements OnInit {
   inputFieldName: any;
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
+  invoiceDocs: FileList;
+  lorryDocs: FileList;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _purchaseOrdersService: PurchaseOrdersService,
     private _formBuilder: FormBuilder,
-    private _notify: NotificationService) { }
+    private _notify: NotificationService,
+    private _router: Router) { }
 
   ngOnInit() {
     const poId = this._activatedRoute.snapshot.params;
@@ -67,6 +70,8 @@ export class InitiateDeliveryComponent implements OnInit {
       transportDate: [''],
       lorryReceiptAttachId: ['', Validators.required]
     });
+
+    LoggerService.debug(this.deliveryRequestForm);
   }
 
   submit() {
@@ -75,19 +80,19 @@ export class InitiateDeliveryComponent implements OnInit {
 
     Promise.all(this.uploadItems.map(comp => comp.uploadDocs('SELLER_PO_DELIVERY'))).then(res => {
       // upload all docs
-      data.challanAttachId = res[0];
+      data.invoiceAttachId = res[0];
       data.ewayBillAttachId = res[1];
-      data.invoiceAttachId = res[2];
-      data.lorryReceiptAttachId = res[3];
-      data.materialTestAttachId = res[4];
+      data.challanAttachId = res[2];
+      data.materialTestAttachId = res[3];
+      data.lorryReceiptAttachId = res[4];
 
       data.eWayBillDate = data.eWayBillDate ? this.datePicker(this.deliveryRequestForm.value.eWayBillDate) : '';
       data.challanDate = data.challanDate ? this.datePicker(this.deliveryRequestForm.value.challanDate) : '';
       data.transportDate = data.transportDate ? this.datePicker(this.deliveryRequestForm.value.transportDate) : '';
       data.orderId = this.purchaseId;
-  
+
       data.orderItemList = [];
-  
+
       this.multiItems.map(opt => {
         if (opt.item.checked) {
           data.orderItemList.push({
@@ -97,6 +102,9 @@ export class InitiateDeliveryComponent implements OnInit {
         }
       });
 
+      /**
+       * @description When form is valid then submit function will execute
+       */
       this.submitDeliveryRequest(data);
     });
   }
@@ -105,13 +113,35 @@ export class InitiateDeliveryComponent implements OnInit {
     return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`;
   }
 
+  /**
+   * 
+   * @param data all form data related to delivery request form
+   * @description function will submit the delivery request details and redirect to purchase details page
+   */
   submitDeliveryRequest(data) {
     this._purchaseOrdersService.sendDeliveryRequest(this.purchaseId, data).then(res => {
       if (res.status == 1001) {
-          this._notify.snack('Delivery Request Submitted Successfully!');
-          // this.submitForm(res.status);
-          // this.deliveryRequestForm.reset();
+        this._router.navigate(['/orders/details/awarded/'+this.purchaseId]);
       }
     })
+  }
+
+  formatDate(d: any, to?: string): string {
+    if (!d) {
+        return 'DD/MM/YYYY';
+    }
+    let date: Date = new Date(d);
+    if (to) {
+        date = new Date(date + to);
+    }
+    return `${('0' + date.getDate()).slice(-2)}/${('0' + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear()}`;
+  }
+
+  invoiceDocUpdate(files: FileList) {
+    this.invoiceDocs = files;
+  }
+
+  lorryDocUpdate(files: FileList){
+    this.lorryDocs = files;
   }
 }

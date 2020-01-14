@@ -16,6 +16,9 @@ export class OrderDetailsComponent implements OnInit {
   rejectPOStatus: string;
   activeTab: string;
   allDeliveries: AllDeliveries;
+  activeDelivery: ActivePastDelivery[];
+  pastDelivery: ActivePastDelivery[];
+  dispatchSchedules: DispatchSchedules[];
 
   @Input() collapsedHeight: string;
   @Input() expandedHeight: string;
@@ -85,6 +88,9 @@ export class OrderDetailsComponent implements OnInit {
   getAllDeliveryDetails(orderId){
     this._purchaseOrdersService.getAllTypeDeliveries(orderId).then(res => {
       this.allDeliveries = res.data;
+      this.activeDelivery = res.data.activeDeliveries;
+      this.pastDelivery = res.data.pastDeliveries;
+      this.dispatchSchedules = res.data.dispatchSchedules;
     });
   }
 }
