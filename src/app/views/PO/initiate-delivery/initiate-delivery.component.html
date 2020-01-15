@@ -42,13 +42,16 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <app-upload label="invoiceAttachId" [isViewShow]="false" #uploadRef (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
+                                        <app-upload label="invoiceAttachId" [isViewShow]="false" 
+                                            #uploadRef (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
 
-                                        <ng-container *ngIf="deliveryRequestForm.controls['invoiceAttachId'].errors && (deliveryRequestForm.controls['invoiceAttachId'].dirty || deliveryRequestForm.controls['invoiceAttachId'].touched)">
-                                            <mat-error *ngIf="deliveryRequestForm.controls['invoiceAttachId'].hasError('required') || (!invoiceDocs.length)">
-                                                Please upload Invoice Doc
-                                            </mat-error>
-                                        </ng-container>
+                                        <mat-error *ngIf="invoiceDocs && invoiceDocs.length == 0">
+                                            Please Upload Invoice Docs
+                                        </mat-error>
+
+                                        <mat-error *ngIf="deliveryRequestForm.controls['invoiceAttachId'].value === undefined">
+                                            Please upload Invoice Docs
+                                        </mat-error>
 
                                     </div>
                                 </div>
@@ -129,8 +132,20 @@
                                         </div>
                                         
                                         <div class="col-md-4">
-                                            <mat-form-field class="invoice-input mr-5 w-75">
+                                            <!-- <mat-form-field class="invoice-input mr-5 w-75">
                                                 <input matInput type="text" placeholder="Mode of Transport" formControlName="transportModeCd">
+                                            </mat-form-field> -->
+
+                                            <mat-form-field class="invoice-input mr-5 w-75">
+                                                <mat-select formControlName="transportModeCd"
+                                                    (selectionChange)="modeOfTransport($event)" required>
+                                                    <mat-option value="TRUCK">TRUCK</mat-option>
+                                                </mat-select>
+
+                                                <mat-error *ngIf="!deliveryRequestForm.controls['transportModeCd'].value">
+                                                    Please enter Mode of transport 
+                                                </mat-error>
+                                                
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -176,11 +191,13 @@
                                         <div class="col-md-4">
                                             <app-upload label="lorryReceiptAttachId" [isViewShow]="false" #uploadRef (onFileUpdate)="lorryDocUpdate($event)"></app-upload>
 
-                                            <ng-container *ngIf="deliveryRequestForm.controls['lorryReceiptAttachId'].errors && (deliveryRequestForm.controls['lorryReceiptAttachId'].dirty || deliveryRequestForm.controls['lorryReceiptAttachId'].touched)">
-                                                    <mat-error *ngIf="deliveryRequestForm.controls['lorryReceiptAttachId'].hasError('required') || (!lorryDocs.length)">
-                                                        Please upload Invoice Doc
-                                                    </mat-error>
-                                            </ng-container>
+                                            <mat-error *ngIf="lorryDocs && lorryDocs.length == 0">
+                                                Please Upload Lorry Receipt
+                                            </mat-error>
+
+                                            <mat-error *ngIf="deliveryRequestForm.controls['lorryReceiptAttachId'].value === undefined">
+                                                Please upload Invoice Docs
+                                            </mat-error>
                                         </div>
                                         
                                     </div>
@@ -188,10 +205,8 @@
                             </div>
 
                             <div class="btn-groups mt-3">
-                                <button mat-button class="btn brdbttn mr-2">Cancel</button>
+                                <button mat-button class="btn brdbttn mr-2" (click)="goBack()">Cancel</button>
                                 <button mat-button class="btn text-white">Submit</button>
-                                <!-- [disabled]="!deliveryRequestForm.valid" -->
-                                <!-- [routerLink]="['/orders/details/awarded/'+purchaseId]" -->
                             </div>
 
                         </div>

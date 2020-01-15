@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { OrderItemsList } from 'src/app/shared/models/purchase-orders';
 import { LoggerService } from 'src/app/shared/services/logger.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FieldRegExConst } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-multi-item-checkbox',
@@ -20,7 +21,12 @@ export class MultiItemCheckboxComponent implements OnInit {
 
   formInit(){
     this.multiItemForm = this._fb.group({
-      deliveryQty: ['', Validators.required],
+      deliveryQty: ['', {
+        validators: [
+          Validators.required,
+          Validators.pattern(FieldRegExConst.QUANTITY_VALIDATION)
+        ]
+      }],
       poItemId: [this.item.id]
     });
   }

@@ -14,7 +14,17 @@
                 
                 <mat-form-field class="item-enter-qty"> 
                     <input matInput type="number" formControlName="deliveryQty"
-                    placeholder="Enter delivery quantity" />
+                    placeholder="Enter delivery quantity" required/>
+                    <mat-error *ngIf="multiItemForm.controls['deliveryQty'].errors && 
+                    (multiItemForm.controls['deliveryQty'].dirty || multiItemForm.controls['deliveryQty'].touched)">
+                        <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('required')">
+                            Delivery Quantity is required
+                        </mat-error>
+
+                        <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('pattern')">
+                            Invalid Delivery Quantity
+                        </mat-error>
+                    </mat-error>
                 </mat-form-field>
             </div>
         </div>
