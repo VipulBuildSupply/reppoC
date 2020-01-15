@@ -169,11 +169,12 @@ export class NewLeadComponent implements OnInit {
       /**
        * Checked the condition if uplaoded file extension is pdf or any other
        */
-      /*const attachedDocs = res.data.request.documents;
+      const attachedDocs = res.data.request.documents;
       attachedDocs.map(doc => {
         const [fileName, fileExt] = doc.orginalFileName.split(".");
         this.fileExtension = fileExt;
-      })*/
+        LoggerService.debug(this.fileExtension);
+      })
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
         const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);

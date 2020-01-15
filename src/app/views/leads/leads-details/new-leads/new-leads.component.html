@@ -71,8 +71,9 @@
                     <p class="view-lead__attachment-title">BuildSupply Attachment:</p>
                     <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.opsAttachments">
                         <div class="view-lead__attachment-left">
-                            <img src="assets/img/file.png" alt="uplaoded file">
-                            <!-- <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="pdf file" class="fileExtImg"> -->
+                            <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
+                            <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
+                                alt="pdf file" class="fileExtImg">
                             <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
                         </div>
                         <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
@@ -138,8 +139,9 @@
                         <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
                         <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
                             <div class="view-lead__attachment-left">
-                                <img src="assets/img/file.png" alt="uplaoded file">
-                                <!-- <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="pdf file" class="fileExtImg"> -->
+                                <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
+                                <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
+                                    alt="pdf file" class="fileExtImg">
                                 <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
                             </div>
                             <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
