@@ -7,9 +7,9 @@
             <div class="item-desc">
                 <h4>{{ item.name }}</h4>
                 <div class="item-quantity d-flex">
-                    <span>Balance Quantity: {{ item.balanceQty }} {{ item.unit }}</span>
+                    <span>Balance Quantity: {{ item.deliverySummary.maxRaiseAllowQty }} {{ item.unit }}</span>
                     <span>Requested Quantity: {{ item.requestQty }} {{ item.unit }}</span>
-                    <span class="green">Enqueued Quantity: {{ item.enqueuedQty }} {{ item.unit }}</span>
+                    <span class="green">Enqueued Quantity: {{ item.deliverySummary.totalEnqueueQty }} {{ item.unit }}</span>
                 </div>
                 
                 <mat-form-field class="item-enter-qty"> 

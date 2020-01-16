@@ -18,8 +18,8 @@
             <mat-card-subtitle class="awarded-po pb-2" 
                 *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
                 <span>Quantity: {{ items.requestQty }} {{ items.unit }}</span>
-                <span>Balance Quantity: {{ items.balanceQty }} {{ items.unit }}</span>
-                <span>Enqueued Quantity: {{ items.enqueuedQty }} {{ items.unit }}</span>
+                <span>Balance Quantity: {{ items.deliverySummary.maxRaiseAllowQty }} {{ items.unit }}</span>
+                <span>Enqueued Quantity: {{ items.deliverySummary.totalEnqueueQty }} {{ items.unit }}</span>
             </mat-card-subtitle>
 
             <mat-card-subtitle class="pt-2 seller-price-gst d-flex align-items-center 
