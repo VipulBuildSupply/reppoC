@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/services/user.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
@@ -173,8 +173,7 @@ export class NewLeadComponent implements OnInit {
       attachedDocs.map(doc => {
         const [fileName, fileExt] = doc.orginalFileName.split(".");
         this.fileExtension = fileExt;
-        LoggerService.debug(this.fileExtension);
-      })
+      });
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
         const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
@@ -1091,6 +1090,8 @@ export class NewLeadComponent implements OnInit {
       this.uploadDocs()
       this.sendPricingToAllArray = [];
 
+      debugger
+
       if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
         for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
           if ((this.warehouseData[0].pricingForms[i].controls.specMinQty.value >= 0) && (this.warehouseData[0].pricingForms[i].controls.specMinQty.value != "")) {
@@ -1113,20 +1114,18 @@ export class NewLeadComponent implements OnInit {
           }
         }
       } else {
-        for (var i = 0; i < this.pricingForms.length; i++) {
           const object = {
             "id": this.leadId,
             "attachId": this.sequenceId,
             "validEndDt": this.datePickerValueLeads,
-            "maxQty": this.pricingForms[i].controls.maxPrice.value,
-            "minQty": this.pricingForms[i].controls.minPrice.value,
-            "price": this.pricingForms[i].controls.price.value,
+            "maxQty": this.warehouseData[0].pricingForms[0].controls.maxPrice.value,
+            "minQty": this.warehouseData[0].pricingForms[0].controls.minPrice.value,
+            "price": this.warehouseData[0].pricingForms[0].controls.price.value,
             "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
             "paymentTerm": this.paymentTermCode,
             "note": this.notes,
           }
           this.sendPricingToAllArray.push(object);
-        }
       }
 
       this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {

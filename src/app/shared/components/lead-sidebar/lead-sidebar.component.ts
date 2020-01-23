@@ -127,6 +127,7 @@ export class LeadSidebarComponent implements OnInit {
 
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
+          debugger
           // this._router.navigate([`/lead`]);
 
           /*if (res) {

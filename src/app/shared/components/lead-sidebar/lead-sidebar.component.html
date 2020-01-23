@@ -1,4 +1,4 @@
-<ng-container *ngIf="new_leads; else noLeads">
+<ng-container *ngIf="new_leads">
     <ng-container *ngFor="let newlead of new_leads; let i = index">
         <mat-card class="leads-card" 
             [ngClass]="[activeLeads[i] ? 'required-box active-leads' : 'required-box', 
@@ -167,7 +167,7 @@
     </ng-container>
 </ng-container>
 
-<ng-template #noLeads>
+<!-- <ng-template #noLeads>
     <div class="row">
         <div class="col-md-12">
             <div class="profile-verification__img">
@@ -176,4 +176,4 @@
             <h3 class="profile-verification__heading">No Leads Available!</h3>
         </div>
     </div>
-</ng-template>
+</ng-template> -->
