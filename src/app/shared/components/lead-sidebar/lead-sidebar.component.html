@@ -9,7 +9,17 @@
                 </div>
                 <mat-card-title>
                     <div class="row align-items-start">
-                        <div class="col-md-9 pr-1 mgtn4 lead-title">{{newlead.skuName}}</div>
+
+                        {{ newlead.skuSlugUrl }}
+
+                        <ng-container *ngIf="newlead.skuSlugUrl; else noUrlLink">
+                            <a class="col-md-9 pr-1 mgtn4 lead-title" target="_blank" 
+                                [routerLink]="['/'+newlead.skuSlugUrl]">{{newlead.skuName}}</a>
+                        </ng-container>
+
+                        <ng-template #noUrlLink>
+                            <div class="col-md-9 pr-1 mgtn4 lead-title">{{newlead.skuName}}</div>
+                        </ng-template>
 
                         <div class="col-md-3 pr-0 text-right d-flex justify-content-end align-items-center mgn12">
                             <ng-container *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
