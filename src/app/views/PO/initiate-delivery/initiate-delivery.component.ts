@@ -95,24 +95,24 @@ export class InitiateDeliveryComponent implements OnInit {
       this.deliveryRequestForm.get('materialTestAttachId').setValue(res[3]);
       this.deliveryRequestForm.get('lorryReceiptAttachId').setValue(res[4]);
 
-      if (data.eWayBillDate) {
-        this.deliveryRequestForm.get('eWayBillDate').setValue(this.datePicker(data.eWayBillDate));
-      }
-
-      if (data.challanDate) {
-        this.deliveryRequestForm.get('challanDate').setValue(this.datePicker(data.challanDate));
-      }
-
-      if (data.transportDate) {
-        this.deliveryRequestForm.get('transportDate').setValue(this.datePicker(data.transportDate));
-      }
-
       if (this.deliveryRequestForm.valid) {
 
         const deliveryObj: DeliveryRequest = this.deliveryRequestForm.value;
         deliveryObj.orderId = this.purchaseId;
         deliveryObj.transportModeCd = this.transportMode;
         deliveryObj.orderItemList = [];
+
+        if (deliveryObj.eWayBillDate) {
+          deliveryObj.eWayBillDate = this.datePicker(deliveryObj.eWayBillDate);
+        }
+
+        if (deliveryObj.challanDate) {
+          deliveryObj.challanDate = this.datePicker(deliveryObj.challanDate);
+        }
+
+        if (deliveryObj.transportDate) {
+          deliveryObj.transportDate = this.datePicker(deliveryObj.transportDate);
+        }
 
         this.multiItems.map(opt => {
           if (opt.item.checked && opt.multiItemForm.value.deliveryQty != '' && opt.multiItemForm.value.deliveryQty != 0) {

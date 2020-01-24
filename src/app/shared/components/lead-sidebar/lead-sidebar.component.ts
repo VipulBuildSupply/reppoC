@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
+import { LeadsService } from '../../services/leads.service';
 
 @Component({
   selector: 'app-lead-sidebar',
@@ -24,11 +23,9 @@ export class LeadSidebarComponent implements OnInit {
   activeLeads: boolean[];
   subscriptions: Subscription[] = [];
 
-  constructor(private userService: UserService,
-    private customdate: CustomDatePipe,
-    private data: DataService,
-    private _router: Router,
-    private _categoryService: CategoryService) { }
+  constructor(private data: DataService,
+    private _categoryService: CategoryService,
+    private _leadService: LeadsService) { }
 
   ngOnInit() {
     this.loadComponent();
@@ -41,7 +38,7 @@ export class LeadSidebarComponent implements OnInit {
 
     if (this.submitQuoteMsg === "SUBMIT") {
 
-      this.userService.getNewLeads().then(res => {
+      this._leadService.getNewLeads().then(res => {
 
         this.new_leads = res.data;
         this.new_leadsTemp = res.data;
@@ -98,7 +95,7 @@ export class LeadSidebarComponent implements OnInit {
   getNewLeads() {
     if (this.submitQuoteMsg === "SUBMIT") {
       if (this.message === "NewLeads") {
-        this.userService.getNewLeads().then(res => {
+        this._leadService.getNewLeads().then(res => {
 
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
@@ -123,10 +120,11 @@ export class LeadSidebarComponent implements OnInit {
 
       }
       if (this.message == "ActedLeads") {
-        this.userService.getActedLeads().then(res => {
+        this._leadService.getActedLeads().then(res => {
 
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
+          debugger
           // this._router.navigate([`/lead`]);
 
           /*if (res) {
@@ -149,7 +147,7 @@ export class LeadSidebarComponent implements OnInit {
     }
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
-        this.userService.getNewLeads().then(res => {
+        this._leadService.getNewLeads().then(res => {
 
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
@@ -175,7 +173,7 @@ export class LeadSidebarComponent implements OnInit {
         });
       }
       else if (this.message === "ActedLeads") {
-        this.userService.getActedLeads().then(res => {
+        this._leadService.getActedLeads().then(res => {
 
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
@@ -221,20 +219,20 @@ export class LeadSidebarComponent implements OnInit {
   bookmarkToggle(index, skuId) {
     if (this.bookmarkClicked[index]) {
       this.bookmarkClicked[index] = false;
-      this.userService.saveLeadAsBookmark(skuId, "OPEN").then(res => {
+      this._leadService.saveLeadAsBookmark(skuId, "OPEN").then(res => {
         this.getNewLeads();
       });;
     }
     else {
       this.bookmarkClicked[index] = true;
-      this.userService.saveLeadAsBookmark(skuId, "ADD").then(res => {
+      this._leadService.saveLeadAsBookmark(skuId, "ADD").then(res => {
         this.getNewLeads();
       });;
     }
   }
 
   DismissBtnClicked(skuId) {
-    this.userService.DismissLead(skuId, "DISMISS").then(res => {
+    this._leadService.DismissLead(skuId, "DISMISS").then(res => {
       this.getNewLeads();
     });
   }

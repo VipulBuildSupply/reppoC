@@ -6,7 +6,7 @@
           <h4>Leads</h4>
 
           <div class="leads-srch-box flex-sb-m">
-            
+
             <div class="leads-tap">
               <a href="javascript:void(0)" [class]="new_tab" (click)="toggleNewLeads()">New Leads</a>
               <a href="javascript:void(0)" [class]="acted_tab" (click)="toggleActedLeads()">Acted Leads</a>
@@ -34,8 +34,30 @@
       </div>
     </div>
 
-    <div class="row">
+    <!-- If No Leads available in New Leads Section-->
+    <ng-container *ngIf="hasLeads === false && new_tab === 'active-tab'">
+      <div class="no-new-leads">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="profile-verification__img">
+              <img src="assets/img/no-leads.png" alt="" class="img-fluid">
+            </div>
+            <h3 class="mt-4">Currently NO New Leads Available!</h3>
+            <p>Our team is working on the RFQ requirements best suited for your business. You will be notified as soon as
+              RFQ relevant to your profile is available. Inbetween, updating your catalogue will help in reeciving more
+              leads.</p>
+  
+            <div class="mt-3 pb-5">
+              <a class="btn orangeBttn" href="javascript:void(0)" [routerLink]="'/catalogue/add-catalogue'">Update
+                Catalogue</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
 
+    <!-- If Leads are available in New Leads Section-->
+    <div class="row">
       <div class="col-lg-5" *ngIf="new_tab == 'active-tab'">
         <app-lead-sidebar #leadSideBar></app-lead-sidebar>
       </div>
@@ -50,5 +72,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>

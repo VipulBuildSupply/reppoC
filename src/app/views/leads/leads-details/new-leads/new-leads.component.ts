@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserService } from 'src/app/shared/services/user.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
 import { DataService } from 'src/app/shared/services/data.service';
 import { of } from 'rxjs';
 import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
-import { LoggerService } from 'src/app/shared/services/logger.service';
+import { LeadsService } from 'src/app/shared/services/leads.service';
 interface Warehouse {
   address: any;
   pricingForms: FormGroup[]
@@ -74,7 +73,7 @@ export class NewLeadComponent implements OnInit {
     private _router: Router,
     private _dialog: MatDialog,
     private data: DataService,
-    private Userservice: UserService) {
+    private _leadService: LeadsService) {
   }
 
   ngOnInit() {
@@ -93,7 +92,7 @@ export class NewLeadComponent implements OnInit {
         this.pricingForms = [];
         this.editPricingAllForms = [];
 
-        this.Userservice.showPaymentTerms().then(res => {
+        this._leadService.showPaymentTerms().then(res => {
           this.paymentterms = res.data;
         });
 
@@ -139,14 +138,14 @@ export class NewLeadComponent implements OnInit {
     this.sendPricingToIndividualArrayAdd = [];
     this.addAnotherRange();
 
-    this.Userservice.getLeadObj(leadId).then(res => {
+    this._leadService.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
       this.showLeadObjDetailsTemp = res;
       this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
       this.warehouseData = [];
 
       if (this.showLeadObjDetails.data.request.sellerPaymentTerm) {
-        this.Userservice.showPaymentTerms().then(res => {
+        this._leadService.showPaymentTerms().then(res => {
           this.paymentterms = res.data;
           const terms = this.showLeadObjDetails.data.request.sellerPaymentTerm;
           for (let i = 0; i < this.paymentterms.length; i++) {
@@ -173,8 +172,7 @@ export class NewLeadComponent implements OnInit {
       attachedDocs.map(doc => {
         const [fileName, fileExt] = doc.orginalFileName.split(".");
         this.fileExtension = fileExt;
-        LoggerService.debug(this.fileExtension);
-      })
+      });
 
       if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
         const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
@@ -201,7 +199,7 @@ export class NewLeadComponent implements OnInit {
           }
         }
       }
-      this.Userservice.getSequenceId().then(res => {
+      this._leadService.getSequenceId().then(res => {
         if (res) {
           this.sequenceId = res.id;
         }
@@ -1035,7 +1033,7 @@ export class NewLeadComponent implements OnInit {
       }
     }
 
-    this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
+    this._leadService.sendQuoteToAllWarehouse(this.sendPricingToIndividualArrayAdd, this.leadId).then(res => {
       if (res) {
         this.getLeadObj(this.leadId);
         this.data.changeSubmitQuoteMessage("SUBMIT");
@@ -1071,7 +1069,7 @@ export class NewLeadComponent implements OnInit {
         this.sendPricingToAllArrayEdit.push(object);
       }
 
-      this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
+      this._leadService.sendQuoteToAllWarehouse(this.sendPricingToAllArrayEdit, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
           this.data.changeSubmitQuoteMessage("SUBMIT");
@@ -1090,6 +1088,8 @@ export class NewLeadComponent implements OnInit {
     else if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
       this.uploadDocs()
       this.sendPricingToAllArray = [];
+
+      debugger
 
       if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
         for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
@@ -1113,23 +1113,21 @@ export class NewLeadComponent implements OnInit {
           }
         }
       } else {
-        for (var i = 0; i < this.pricingForms.length; i++) {
           const object = {
             "id": this.leadId,
             "attachId": this.sequenceId,
             "validEndDt": this.datePickerValueLeads,
-            "maxQty": this.pricingForms[i].controls.maxPrice.value,
-            "minQty": this.pricingForms[i].controls.minPrice.value,
-            "price": this.pricingForms[i].controls.price.value,
+            "maxQty": this.warehouseData[0].pricingForms[0].controls.maxPrice.value,
+            "minQty": this.warehouseData[0].pricingForms[0].controls.minPrice.value,
+            "price": this.warehouseData[0].pricingForms[0].controls.price.value,
             "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
             "paymentTerm": this.paymentTermCode,
             "note": this.notes,
           }
           this.sendPricingToAllArray.push(object);
-        }
       }
 
-      this.Userservice.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
+      this._leadService.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
         if (res) {
           this.getLeadObj(this.leadId);
           this.data.changeSubmitQuoteMessage("SUBMIT");
@@ -1193,7 +1191,7 @@ export class NewLeadComponent implements OnInit {
       }
       data.append('fileUploadType', 'SELLER_LEAD_RESPONSE');
       data.append('parentId', this.sequenceId);
-      return this.Userservice.docUpload(data).then(res => {
+      return this._leadService.docUpload(data).then(res => {
         return res;
       });
     } else {

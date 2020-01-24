@@ -170,7 +170,6 @@
     }
 
     &__delivery-details{
-        display: flex;
         list-style: none;
         span{
             color: #212121;
@@ -183,6 +182,13 @@
                 margin: 0 10px;
             }
         }
+        
+        li{
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            display: inline;
+        }
 
         li:not(:last-child):after {
             content: ',';
@@ -192,7 +198,8 @@
 
     &__delivery-title {
         width: auto;
-        margin-right: 10px;
+        margin-right: 2px;
+        flex: 0 0 17%;
     }
 
     &__note-content{
@@ -570,30 +577,11 @@
     }
 }
 
-// .nonEditable{
-//     opacity: 0.9;
-//     pointer-events: none;
-//     position: absolute;
-//     z-index: 0;
-//     background-color: #ffffff;
-// }
-
 .otherPaymentCat.mat-form-field-appearance-legacy .mat-form-field-infix{
     height: 48px;
     padding: 0;
     border-top: none;
 }
-
-// .individual-spec, .specs-row span,
-// .individual-spec .mat-form-field {
-//     max-width: 33.33%;
-//     flex: 0 0 33.33%;
-// }
-
-// .specs-row span:first-child {
-//     max-width: 15%;
-//     flex: 0 0 15%;
-// }
 
 .individual-spec{
     width: 100%;
@@ -616,7 +604,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(255, 255, 255, 0.31);
+        background-color: rgba(255, 255, 255, 0.40);
+        z-index: 1;
     }
 }
 
@@ -626,4 +615,37 @@
 
 .fileExtImg{
     width: 20px;
+}
+
+.no-new-leads{
+    padding: 50px 328px;
+    border: 1px solid #F0F0F0;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    h3{
+        opacity: 0.9;
+        color: #282828;
+        font-family: "Open Sans", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    p{
+        opacity: 0.9;
+        color: #000000;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .btn{
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12);
+        color: #FFFFFF;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 13px 80px;
+        height: 48px;
+        border-radius: 100px;
+        line-height: 22px;
+    }
 }

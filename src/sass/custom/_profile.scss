@@ -5,9 +5,9 @@
 }
 
 .user-photo {
-    height: 100px;
-    min-width: 100px;
-    width: 100px;
+    height: 90px;
+    min-width: 90px;
+    width: 90px;
     border: $border;
     border-radius: $border-radius-4;
     background-color: $bg-color-gray;
@@ -52,7 +52,7 @@
 
 .unverfied {
     color: $text-color-orange;
-    padding-left: $pd-lft-10;
+    padding-left: $pd-lft-4;
 }
 
 .progress {
