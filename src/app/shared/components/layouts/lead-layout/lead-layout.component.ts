@@ -5,16 +5,15 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { LocationsLists, CategoriesLists } from 'src/app/shared/models/leads';
+import { LocationsLists, CategoriesLists, Leads } from 'src/app/shared/models/leads';
 import { LeadSidebarComponent } from '../../lead-sidebar/lead-sidebar.component';
+import { LeadsService } from 'src/app/shared/services/leads.service';
 
 @Component({
   selector: 'app-lead-layout',
   templateUrl: './lead-layout.component.html'
 })
 export class LeadLayoutComponent implements OnInit {
-  // new_tab = "inactive";
-  // acted_tab = "inactive";
   new_tab: string;
   acted_tab: string;
   message: string;
@@ -26,11 +25,14 @@ export class LeadLayoutComponent implements OnInit {
   currentmessage: Subscription;
   submitQuote: Subscription;
   @ViewChild('leadSideBar', { static: false }) leadSideBar: LeadSidebarComponent;
-  // isnewLeadActive = true;
+  hasLeads: boolean;
+
+  subscriptions: Subscription[] = [];
 
   constructor(private data: DataService,
     private _dialog: MatDialog,
-    private _userService: UserService) { }
+    private _userService: UserService,
+    private _leadService: LeadsService) { }
 
   ngDoCheck() {
     this.data.currentMessage.subscribe(message => this.message = message);
@@ -58,19 +60,15 @@ export class LeadLayoutComponent implements OnInit {
 
     });
 
-    this._userService.getNewLeads().then(res => {
-      if (res) {
-        if (res.data.length > 0) {
-          this.toggleNewLeads();
-        }
-        else {
-          this.toggleActedLeads();
-        }
-      }
-      else {
-        this.toggleActedLeads();
-      }
-    });
+    this.startSubscriptions();
+  }
+
+  startSubscriptions(){
+    this.subscriptions.push(
+      this._leadService.hasNewLeads$.subscribe(value => {
+        this.hasLeads = value;
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -86,14 +84,12 @@ export class LeadLayoutComponent implements OnInit {
     this.acted_tab = "inactive-tab";
     this.new_tab = "active-tab";
     this.data.changeMessage("NewLeads");
-    // this.data.activeTab$.next("NewLeads");
   }
 
   toggleActedLeads() {
     this.acted_tab = "active-tab";
     this.new_tab = "inactive-tab";
     this.data.changeMessage("ActedLeads");
-    // this.data.activeTab$.next("ActedLeads");
   }
 
   filters() {

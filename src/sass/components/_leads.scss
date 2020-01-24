@@ -616,3 +616,36 @@
 .fileExtImg{
     width: 20px;
 }
+
+.no-new-leads{
+    padding: 50px 328px;
+    border: 1px solid #F0F0F0;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    h3{
+        opacity: 0.9;
+        color: #282828;
+        font-family: "Open Sans", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    p{
+        opacity: 0.9;
+        color: #000000;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .btn{
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12);
+        color: #FFFFFF;
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 13px 80px;
+        height: 48px;
+        border-radius: 100px;
+        line-height: 22px;
+    }
+}
