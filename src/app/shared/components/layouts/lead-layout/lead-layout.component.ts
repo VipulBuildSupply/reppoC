@@ -31,7 +31,6 @@ export class LeadLayoutComponent implements OnInit {
 
   constructor(private data: DataService,
     private _dialog: MatDialog,
-    private _userService: UserService,
     private _leadService: LeadsService) { }
 
   ngDoCheck() {
