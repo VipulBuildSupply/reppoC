@@ -13,7 +13,7 @@
                     <div class="mark-in-transit__title-section">
                         <div class="mark-in-transit__title-left">
                             <h4 class="mb-1">Purchase Order Id : {{ itemsList.orderNo }}</h4>
-                            <p class="datetime mb-0">{{ itemsList.orderDate }}</p>
+                            <p class="datetime mb-0">{{ itemsList.orderDate | IsoDatePipe }}</p>
                         </div>
                     </div>
 
@@ -137,6 +137,7 @@
                                             </mat-form-field> -->
 
                                             <mat-form-field class="invoice-input mr-5 w-75">
+                                                <mat-label>Mode of transport</mat-label>
                                                 <mat-select formControlName="transportModeCd"
                                                     (selectionChange)="modeOfTransport($event)" required>
                                                     <mat-option value="TRUCK">TRUCK</mat-option>

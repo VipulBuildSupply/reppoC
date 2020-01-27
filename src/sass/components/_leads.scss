@@ -84,6 +84,8 @@
     .lead-title{
         line-height: 20px;
         margin-bottom: 14px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.9);
     }
 
     .quote-section .quote-price{
@@ -276,6 +278,7 @@
             font-weight: 600;
             padding-left: 30px;
             margin-bottom: 0;
+            max-width: 100% !important;
         }
 
         .checkmark{

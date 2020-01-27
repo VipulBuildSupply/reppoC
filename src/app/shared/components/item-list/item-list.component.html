@@ -6,7 +6,14 @@
         </div>
 
         <div class="mat-card-header-text mat-card__title">
-            <mat-card-title>{{ items.name }}</mat-card-title>
+
+            <ng-container *ngIf="items.skuSlugUrl; else noUrlLink">
+                <a [attr.href]="items.skuSlugUrl" target="_blank" class="po-item-title">{{ items.name }}</a>
+            </ng-container>
+
+            <ng-template #noUrlLink>
+                <mat-card-title>{{ items.name }}</mat-card-title>
+            </ng-template>
 
             <ng-container *ngIf="!deliveryDetails">
                 <mat-card-subtitle class="pb-2" 
@@ -38,7 +45,7 @@
 
             <mat-card-subtitle class="pb-2" 
                 *ngIf="activeTab === 'awarded' && deliveryDetails">
-                Delivery Quantity: {{ items.deliverQty }} {{ items.unit }}
+                Delivery Quantity: {{ items.itemQty }} {{ items.unit }}
             </mat-card-subtitle>
 
         </div>

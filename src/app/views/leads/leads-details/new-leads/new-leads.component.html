@@ -94,61 +94,65 @@
                 <div class="Pricing-Information border-b quote-details-section">
                     <p class="top-tital mt-2">Your Quote Details</p>
 
-                    <div class="quote-date">
-                        <div class="form-group lableup my-0">
-                            <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
-                                <mat-form-field class="quote-till-date">
-                                    <input matInput #ref class="form-control inputLableUp" [min]="minDate"
-                                        [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                        (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
-                                        [formControl]="datePickerValue" required>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </ng-container>
+                    <form *ngIf="quoteDetailsForm" [formGroup]="quoteDetailsForm">
 
-                            <ng-container *ngIf="message == 'NewLeads'">
-                                <mat-form-field>
-                                    <input matInput #ref class="form-control inputLableUp" [min]="minDate"
-                                        [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                        (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </ng-container>
-                        </div>
-                    </div>
+                        <div class="quote-date">
+                            <div class="form-group lableup my-0">
+                                <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
+                                    <mat-form-field class="quote-till-date">
+                                        <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                            [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                            (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
+                                            [formControl]="datePickerValue" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </ng-container>
 
-                    <div class="optional-note">
-                        <ng-container *ngIf="showLeadObjDetails.data.request.sellerNote; else noteInput">
-                            <p class="view-lead__note-title w-100">Seller Note:</p>
-                            <p [innerHTML]="showLeadObjDetails.data.request.sellerNote"></p>
-                        </ng-container>
-
-                        <ng-template #noteInput>
-                            <mat-form-field appearance="outline" class="view-lead-note">
-                                <mat-label>Note (Optional)</mat-label>
-                                <textarea matInput placeholder="type here...." (input)="OnInput($event.target)"></textarea>
-                            </mat-form-field>
-                        </ng-template>
-
-                    </div>
-
-                    <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
-                        <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
-                        <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
-                            <div class="view-lead__attachment-left">
-                                <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
-                                <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
-                                    alt="pdf file" class="fileExtImg">
-                                <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
+                                <ng-container *ngIf="message == 'NewLeads'">
+                                    <mat-form-field>
+                                        <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                            [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                            formControlName="quoteValidDate"
+                                            (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </ng-container>
                             </div>
-                            <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
                         </div>
-                    </div>
 
-                    <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                        <div class="optional-note">
+                            <ng-container *ngIf="showLeadObjDetails.data.request.sellerNote; else noteInput">
+                                <p class="view-lead__note-title w-100">Seller Note:</p>
+                                <p [innerHTML]="showLeadObjDetails.data.request.sellerNote"></p>
+                            </ng-container>
 
+                            <ng-template #noteInput>
+                                <mat-form-field appearance="outline" class="view-lead-note">
+                                    <mat-label>Note (Optional)</mat-label>
+                                    <textarea matInput placeholder="type here...." (input)="OnInput($event.target)"
+                                        formControlName="quoteNote"></textarea>
+                                </mat-form-field>
+                            </ng-template>
+
+                        </div>
+
+                        <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
+                            <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
+                            <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
+                                <div class="view-lead__attachment-left">
+                                    <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
+                                    <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
+                                        alt="pdf file" class="fileExtImg">
+                                    <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
+                                </div>
+                                <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
+                            </div>
+                        </div>
+
+                        <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                    </form>
                 </div>
 
                 <div class="view-lead__pricing-info">
@@ -175,7 +179,7 @@
                                         <form [formGroup]="pricingForm">
                                             <ng-container *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length > 0; else noSpecsBlock">
                                                 <div class="specs-row d-flex justify-content-between" *ngIf="i === 0">
-                                                    <span class="specs-column">Dia</span>
+                                                    <span class="specs-column">Diameter</span>
                                                     <span class="specs-column">Quantity Range ({{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bags' }} )</span>
                                                     <span class="specs-column">Price Per {{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bag' }} (₹)</span>
                                                 </div>
@@ -280,94 +284,6 @@
                                 </div>
                             </ng-container>
                 
-                            <ng-container>
-                                <div *ngIf="isEditBtnClicked">
-                                    <div *ngFor="let editPricingAllForm of editPricingAllForms; let i=index">
-                                        <form [formGroup]="editPricingAllForm">
-                                            <h6 class="qty-title">Quantity Range ({{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bags' }})</h6>
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <div class="Quantity-Range mat-input-styling">
-                                                        <div class="form-group mb-1">
-                
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <mat-form-field class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)" type="number"
-                                                                            class="form-control" formControlName="minPrice"
-                                                                            placeholder="start" required>
-                                                                        <mat-error
-                                                                            *ngIf="editPricingAllForm.controls.minPrice.errors && (!editPricingAllForm.controls.minPrice.errors.isMinMaxInValid)">
-                                                                            Invalid</mat-error>
-                                                                        <mat-error
-                                                                            *ngIf="editPricingAllForm.controls.minPrice.errors && editPricingAllForm.controls.minPrice.hasError('required')">
-                                                                            Min is Required</mat-error>
-                                                                    </mat-form-field>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <mat-form-field *ngIf="i<editPricingAllForms.length-1"
-                                                                        class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)" type="number"
-                                                                            class="form-control" formControlName="maxPrice"
-                                                                            placeholder="end">
-                
-                                                                        <mat-error
-                                                                            *ngIf="editPricingAllForm.controls.maxPrice.errors && (!editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                            Invalid</mat-error>
-                                                                    </mat-form-field>
-                
-                                                                    <input matInput class="form-control" formControlName="check" hidden
-                                                                        placeholder="end">
-                
-                                                                    <mat-error style="font-size: 12px"
-                                                                        *ngIf="editPricingAllForm.controls.check.errors && (!editPricingAllForm.controls.check.errors.isMinMaxInValid)">
-                                                                        Start - End Invalid</mat-error>
-                
-                                                                    <mat-form-field *ngIf="i == editPricingAllForms.length-1"
-                                                                        class="quantity-mat-form inputFieldOfPrice"
-                                                                        [hidden]="addPriceForRemainingQuantity">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)" type="number"
-                                                                            class="form-control" formControlName="maxPrice"
-                                                                            placeholder="end">
-                
-                                                                        <mat-error
-                                                                            *ngIf="editPricingAllForm.controls.maxPrice.errors && (!editPricingAllForm.controls.maxPrice.errors.isMinMaxInValid)">
-                                                                            Invalid</mat-error>
-                                                                    </mat-form-field>
-                
-                                                                    <mat-form-field *ngIf="i == editPricingAllForms.length-1"
-                                                                        class="quantity-mat-form inputFieldOfPrice"
-                                                                        [hidden]="!addPriceForRemainingQuantity">
-                                                                        <input matInput class="form-control" placeholder="end" value="∞"
-                                                                            disabled>
-                
-                                                                    </mat-form-field>
-                                                                </div>
-                                                            </div>
-                
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4 ml-3">
-                                                    <div class="form-group lableup mb-0 mat-input-styling">
-                                                        <mat-form-field class="quantity-mat-form">
-                                                            <input matInput type="number" id="mobile" (input)="checkPriceEdit(i)"
-                                                                formControlName="price" placeholder="Price Per Unit (₹)"
-                                                                class="form-control inputLableUp" required>
-                                                            <mat-error
-                                                                *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
-                                                                Price is Required</mat-error>
-                                                        </mat-form-field>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </ng-container>
-                
                         </div>
                 
                         <div class="col-md-12 px-0">
@@ -422,7 +338,7 @@
                                             <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                             
                                             <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                                [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid)">Submit</button>
+                                                [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                         </div>
                                     </ng-container>
                                         
@@ -456,7 +372,7 @@
 
                                         <ng-container *ngIf="showLeadObjDetails.data.warehouseList[0].specs.length > 0; else noSpecsBlock">
                                             <div class="row specs-row justify-content-between" *ngIf="i === 0">
-                                                <span class="col-md-2 specs-column">Dia</span>
+                                                <span class="col-md-2 specs-column">Diameter</span>
                                                 <span class="col-md-6 specs-column">Quantity Range ({{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bags' }})</span>
                                                 <span class="col-md-3 specs-column">Price Per {{ showLeadObjDetails.data.request.unit ? showLeadObjDetails.data.request.unit : 'Bag' }} (₹)</span>
                                             </div>
@@ -590,7 +506,7 @@
                                 <div class="save-orange mt-2">
                                     <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                     <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                        [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid)">Submit</button>
+                                        [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                 </div>
                             </ng-container>
                         </div>

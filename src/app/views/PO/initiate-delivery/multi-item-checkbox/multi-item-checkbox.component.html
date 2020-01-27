@@ -12,7 +12,15 @@
         </mat-checkbox>
 
         <div class="item-desc">
-            <h4>{{ item.name }}</h4>
+
+            <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
+                <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1">{{ item.name }}</a>
+            </ng-container>
+
+            <ng-template #noUrlLink>
+                <h4>{{ item.name }}</h4>
+            </ng-template>
+
             <div class="item-quantity d-flex">
                 <span>Balance Quantity: {{ item.deliverySummary.maxRaiseAllowQty }} {{ item.unit }}</span>
                 <span>Requested Quantity: {{ item.requestQty }} {{ item.unit }}</span>

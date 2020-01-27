@@ -10,6 +10,7 @@ import { InitiateDeliveryComponent } from './initiate-delivery/initiate-delivery
 import { DeliveryDetailsComponent } from './delivery-details/delivery-details.component';
 import { MultiItemCheckboxComponent } from './initiate-delivery/multi-item-checkbox/multi-item-checkbox.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppSharedModule } from 'src/app/shared/app-shared.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedMaterialModule,
     SharedComponentsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppSharedModule
   ],
   exports: [],
   providers: [],

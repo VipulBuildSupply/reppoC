@@ -1,7 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'gmtToLocal' })
+
 export class CustomDatePipe implements PipeTransform {
+    
   transform(str: any): string {
 
     const isTime = str.indexOf(":") != -1;

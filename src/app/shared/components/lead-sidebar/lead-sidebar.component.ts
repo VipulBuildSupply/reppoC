@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
 import { LeadsService } from '../../services/leads.service';
+import { CustomDatePipe } from '../../pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-lead-sidebar',
@@ -37,29 +37,10 @@ export class LeadSidebarComponent implements OnInit {
     this.startSubscriptions();
 
     if (this.submitQuoteMsg === "SUBMIT") {
-
       this._leadService.getNewLeads().then(res => {
-
         this.new_leads = res.data;
         this.new_leadsTemp = res.data;
         this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
-        
-        /*if (res) {
-          if (res.data.length > 0) {
-            this.new_leads = res.data;
-            this.new_leadsTemp = res.data;
-            this._router.navigate([`/lead`]);
-          }
-          else {
-            this.data.changeMessage("ActedLeads");
-          }
-
-          this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
-        }
-        else {
-          this.data.changeMessage("ActedLeads");
-        }*/
-
       });
     }
 
@@ -96,51 +77,16 @@ export class LeadSidebarComponent implements OnInit {
     if (this.submitQuoteMsg === "SUBMIT") {
       if (this.message === "NewLeads") {
         this._leadService.getNewLeads().then(res => {
-
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
-          // this._router.navigate([`/lead`]);
-
-          /*if (res) {
-            if (res.data.length > 0) {
-              this.new_leads = res.data;
-              this.new_leadsTemp = res.data;
-              this._router.navigate([`/lead`]);
-            }
-            else {
-              this.data.changeMessage("ActedLeads");
-            }
-          }
-          else {
-            this.data.changeMessage("ActedLeads");
-          }*/
-
         });
         this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
 
       }
       if (this.message == "ActedLeads") {
         this._leadService.getActedLeads().then(res => {
-
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
-          debugger
-          // this._router.navigate([`/lead`]);
-
-          /*if (res) {
-            if (res.data.length > 0) {
-              this.new_leads = res.data;
-              this.new_leadsTemp = res.data;
-              this._router.navigate([`/lead`]);
-            }
-            else {
-              this.data.changeMessage("NewLeads");
-            }
-          }
-          else {
-            this.data.changeMessage("NewLeads");
-          }*/
-
         });
         this.data.changeSubmitQuoteMessage('NOTSUBMITTED');
       }
@@ -148,33 +94,13 @@ export class LeadSidebarComponent implements OnInit {
     if (this.message != undefined) {
       if (this.message === "NewLeads") {
         this._leadService.getNewLeads().then(res => {
-
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
           this.bookmarkClicked = [];
-          // this._router.navigate([`/lead`]);
-          // debugger
-
-          /*if (res) {
-            if (res.data.length > 0) {
-              this.new_leads = res.data;
-              this.new_leadsTemp = res.data;
-              this.bookmarkClicked = [];
-              this._router.navigate([`/lead`]);
-            }
-            else {
-              this.data.changeMessage("ActedLeads");
-            }
-          }
-          else {
-            this.data.changeMessage("ActedLeads");
-          }*/
-
         });
       }
       else if (this.message === "ActedLeads") {
         this._leadService.getActedLeads().then(res => {
-
           this.new_leads = res.data;
           this.new_leadsTemp = res.data;
           this.bookmarkClicked = [];
@@ -183,28 +109,6 @@ export class LeadSidebarComponent implements OnInit {
               this.bookmarkClicked[i] = true;
             }
           }
-          // this._router.navigate([`/lead`]);
-          
-          /*if (res) {
-            if (res.data.length > 0) {
-              this.new_leads = res.data;
-              this.new_leadsTemp = res.data;
-              this.bookmarkClicked = [];
-              for (let i = 0; i < this.new_leads.length; i++) {
-                if (this.new_leads[i].statusCd == "quote.request.sts.seller.add") {
-                  this.bookmarkClicked[i] = true;
-                }
-              }
-              this._router.navigate([`/lead`]);
-            }
-            else {
-              this.data.changeMessage("NewLeads");
-            }
-          }
-          else {
-            this.data.changeMessage("NewLeads");
-          }*/
-
         });
         this.startSubscriptions();
       }

@@ -9,7 +9,14 @@
                 </div>
                 <mat-card-title>
                     <div class="row align-items-start">
-                        <div class="col-md-9 pr-1 mgtn4 lead-title">{{newlead.skuName}}</div>
+                        <ng-container *ngIf="newlead.skuSlugUrl; else noUrlLink">
+                            <a class="col-md-9 pr-1 mgtn4 lead-title" target="_blank" 
+                                [attr.href]="newlead.skuSlugUrl">{{newlead.skuName}}</a>
+                        </ng-container>
+
+                        <ng-template #noUrlLink>
+                            <div class="col-md-9 pr-1 mgtn4 lead-title">{{newlead.skuName}}</div>
+                        </ng-template>
 
                         <div class="col-md-3 pr-0 text-right d-flex justify-content-end align-items-center mgn12">
                             <ng-container *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''">
@@ -80,7 +87,8 @@
                 </mat-card-subtitle>
             </mat-card-header>
 
-            <ng-container *ngIf="newlead.minPrice || newlead.quotePrice">
+            <!---------- This code will use later ------------>
+            <!-- <ng-container *ngIf="newlead.minPrice || newlead.quotePrice">
                 <div class="breakLine"></div>
 
                 <mat-card-header class="mt10">
@@ -104,7 +112,7 @@
                         </div>
                     </mat-card-subtitle>
                 </mat-card-header>
-            </ng-container>
+            </ng-container> -->
             
             <div class="breakLine"></div>
 
@@ -131,7 +139,7 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngIf="newlead.status != 'Submit' || newlead.statusCd != 'quote.request.sts.seller.submit'">
+                <ng-container *ngIf="newlead.status != 'Submit' && newlead.statusCd != 'quote.request.sts.seller.submit'">
                     <div *ngIf="message === 'NewLeads' || message === 'ActedLeads'">
                         
                         <!--------- Condition if submit quote, Acted & New Lead and not expired ------>
@@ -151,17 +159,6 @@
                 </ng-container>
             
             </mat-card-actions>
-
-            <!-- <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
-                <div class="breakLine mb-3 mt-2"></div>
-
-                <div class="quote-section">
-                    <div class="quote-price">
-                        <span>Submitted</span> 
-                        <img alt="" src="assets/img/green-check.png">
-                    </div>
-                </div>
-            </ng-container> -->
 
         </mat-card>
     </ng-container>
