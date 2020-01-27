@@ -69,7 +69,7 @@ export class OrderItemsList extends PoList{
     deliverySummary: DeliverySummary;
     totalGst: number;
     totalCost: number;
-
+    skuSlugUrl?: string; 
     checked?:boolean;
 }
 

@@ -729,6 +729,7 @@
 
         .mat-content{
             align-items: center;
+            flex: none;
         }
     }
 
@@ -899,4 +900,8 @@
 .font14{
     font-size: 14px;
     line-height: 0px;
+}
+
+.cursor-link{
+    cursor: pointer;
 }

@@ -93,153 +93,156 @@
 
                             <!-- Delivery Details Section -->
                             <ng-container *ngIf="(activeTab === 'awarded' && allDeliveries) || (orders && orders.purchaseOrder && orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm')">
-                                <div class="delivery-details pt-4">
-                                    <div class="delivery-details__heading">
-                                        <h4>Delivery Details</h4>
+                                <ng-container *ngIf="allDeliveries && (allDeliveries.activeDeliveries.length || 
+                                        allDeliveries.pastDeliveries.length || allDeliveries.dispatchSchedules.length)">
+                                    <div class="delivery-details pt-4">
+                                        <div class="delivery-details__heading">
+                                            <h4>Delivery Details</h4>
+                                        </div>
+                                    
+                                        <!-- Active Delivery Section (Added condition if orders.purchaseOrder exists then this section will work)-->
+                                        <ng-container *ngIf="activeDelivery && activeDelivery.length">
+                                            <div class="active-delivery py-3">
+                                                <div class="active-delivery__title">
+                                                    <h6>Active Delivery</h6>
+                                                </div>
+                
+                                                <div class="active-delivery__lists d-flex flex-wrap">
+                                                    <ng-container *ngFor="let activeDel of activeDelivery">
+                                                        <div class="active-delivery__details" 
+                                                            *ngIf="activeDel.items && activeDel.items.length">
+                                                            <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                                <span>Vehicle No. {{ activeDel.vehicleNo }} (Ph-{{ activeDel.driverPhone }})</span>
+                                                                
+                                                                <ng-container *ngIf="orders && orders.purchaseOrder">
+                                                                    <span class="cursor-link" [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/active-delivery-details/'+activeDel.id]">View Details</span>
+                                                                </ng-container>
+                                                            </p>
+        
+                                                            <ng-container *ngFor="let item of activeDel.items">
+                                                                <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                                    
+                                                                    <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
+                                                                        <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
+                                                                    </ng-container>
+                                                        
+                                                                    <ng-template #noUrlLink>
+                                                                        <span>{{ item.name }}</span>
+                                                                    </ng-template>
+
+                                                                    
+                                                                    <span>{{ item.itemQty }} {{ item.unit }}</span>
+                                                                </p>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                    
+                                                </div>
+                                            </div>
+                                        </ng-container>
+        
+                                        <!-- Past Delivery Details -->
+                                        <mat-expansion-panel class="past-deliveries py-2">
+                                            <mat-expansion-panel-header [collapsedHeight]="'auto'"
+                                                [expandedHeight]="'auto'"
+                                                *ngIf="pastDelivery && pastDelivery.length">
+                                                <mat-panel-title>
+                                                    Past Delivery
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    <div class="past-deliveries__view-link">
+                                                        <!-- <p>View More Details</p> -->
+                                                    </div>
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            
+                                            <div class="past-delivery pt-2">
+                                                <!-- <div class="past-delivery__title">
+                                                    <h6>Past Delivery</h6>
+                                                </div> -->
+        
+                                                <div class="past-delivery__lists d-flex">
+                                                    <ng-container *ngFor="let past of pastDelivery">
+                                                        <div class="past-delivery__details"
+                                                            *ngIf="past.items && past.items.length">
+                                                            <p class="vehicle-number d-flex align-items-center justify-content-between">
+                                                                <span>Vehicle No. {{ past.vehicleNo }} (Ph-{{ past.vehicleNo }})</span>
+
+                                                                <ng-container *ngIf="orders && orders.purchaseOrder">
+                                                                    <span class="cursor-link" [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/past-delivery-details/'+past.id]">View Details</span>
+                                                                </ng-container>
+                                                            </p>
+                                                            <ng-container *ngFor="let item of past.items">
+                                                                <p class="vehicle-items d-flex align-items-center justify-content-between">
+                                                                    
+                                                                    <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
+                                                                        <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
+                                                                    </ng-container>
+                                                        
+                                                                    <ng-template #noUrlLink>
+                                                                        <span>{{ item.name }}</span>
+                                                                    </ng-template>
+                                                                
+                                                                    <span>{{ item.itemQty }} {{ item.unit }}</span>
+                                                                </p>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+        
+                                        <!-- Dispatch Schedules Section -->
+                                        <mat-expansion-panel class="past-deliveries">
+                                            <mat-expansion-panel-header [collapsedHeight]="'auto'"
+                                                [expandedHeight]="'auto'"
+                                                *ngIf="dispatchSchedules && dispatchSchedules.length">
+                                                <mat-panel-title>
+                                                    Dispatch Schedules
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    <div class="past-deliveries__view-link">
+                                                        <!-- <p>View More Details</p> -->
+                                                    </div>
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            
+                                            <div class="dispatch-schedules pt-2">
+                                                <!-- <div class="dispatch-schedules__title mb-3">
+                                                    <h6>Dispatch Schedules</h6>
+                                                </div> -->
+        
+                                                <div class="dispatch-schedules__lists" *ngFor="let dispatch of dispatchSchedules">
+                                                    <ng-container *ngIf="dispatch.items && dispatch.items.length">
+                                                        <p>Dispatch Schedule 1 - {{ dispatch.requiredByDate }}</p>
+                                                        <div class="dispatch-schedules__details">
+                                                            <p class="dispatch-title d-flex align-items-center justify-content-between">
+                                                                <span>Item</span>
+                                                                <span>Quantity Required</span>
+                                                            </p>
+                                                            <ng-container *ngFor="let item of dispatch.items">
+                                                                <p class="vehicle-items d-flex align-items-center justify-content-between" *ngIf="item.name">
+
+                                                                    <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
+                                                                        <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
+                                                                    </ng-container>
+                                                        
+                                                                    <ng-template #noUrlLink>
+                                                                        <span>{{ item.name }}</span>
+                                                                    </ng-template>
+                                                                    
+                                                                    <span>{{ item.requestQty }} {{ item.unit }}</span>
+                                                                </p>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                    
+                                                </div>
+
+                                            </div>
+                                        </mat-expansion-panel>
                                     </div>
-    
-                                    <!-- Active Delivery Section (Added condition if orders.purchaseOrder exists then this section will work)-->
-                                    <ng-container *ngIf="activeDelivery && activeDelivery.length">
-                                        <div class="active-delivery py-3">
-                                            <div class="active-delivery__title">
-                                                <h6>Active Delivery</h6>
-                                            </div>
-            
-                                            <div class="active-delivery__lists d-flex flex-wrap">
-                                                <ng-container *ngFor="let activeDel of activeDelivery">
-                                                    <div class="active-delivery__details" 
-                                                        *ngIf="activeDel.items && activeDel.items.length">
-                                                        <p class="vehicle-number d-flex align-items-center justify-content-between">
-                                                            <span>Vehicle No. {{ activeDel.vehicleNo }} (Ph-{{ activeDel.driverPhone }})</span>
-                                                            
-                                                            <ng-container *ngIf="orders && orders.purchaseOrder">
-                                                                <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/active-delivery-details/'+activeDel.id]">View Details</span>
-                                                            </ng-container>
-                                                        </p>
-    
-                                                        <ng-container *ngFor="let item of activeDel.items">
-                                                            <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                                
-                                                                <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
-                                                                    <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
-                                                                </ng-container>
-                                                    
-                                                                <ng-template #noUrlLink>
-                                                                    <span>{{ item.name }}</span>
-                                                                </ng-template>
-
-                                                                
-                                                                <span>{{ item.itemQty }} {{ item.unit }}</span>
-                                                            </p>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                                
-                                            </div>
-                                        </div>
-                                    </ng-container>
-    
-                                    <!-- Past Delivery Details -->
-                                    <mat-expansion-panel class="past-deliveries py-2">
-                                        <mat-expansion-panel-header [collapsedHeight]="'auto'"
-                                            [expandedHeight]="'auto'"
-                                            *ngIf="pastDelivery && pastDelivery.length">
-                                            <mat-panel-title>
-                                                Past Delivery
-                                            </mat-panel-title>
-                                            <mat-panel-description>
-                                                <div class="past-deliveries__view-link">
-                                                    <p>View More Details</p>
-                                                </div>
-                                            </mat-panel-description>
-                                        </mat-expansion-panel-header>
-                                        
-                                        <div class="past-delivery pt-2">
-                                            <!-- <div class="past-delivery__title">
-                                                <h6>Past Delivery</h6>
-                                            </div> -->
-    
-                                            <div class="past-delivery__lists d-flex">
-                                                <ng-container *ngFor="let past of pastDelivery">
-                                                    <div class="past-delivery__details"
-                                                        *ngIf="past.items && past.items.length">
-                                                        <p class="vehicle-number d-flex align-items-center justify-content-between">
-                                                            <span>Vehicle No. {{ past.vehicleNo }} (Ph-{{ past.vehicleNo }})</span>
-
-                                                            <ng-container *ngIf="orders && orders.purchaseOrder">
-                                                                <span [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/past-delivery-details/'+past.id]">View Details</span>
-                                                            </ng-container>
-                                                        </p>
-                                                        <ng-container *ngFor="let item of past.items">
-                                                            <p class="vehicle-items d-flex align-items-center justify-content-between">
-                                                                
-                                                                <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
-                                                                    <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
-                                                                </ng-container>
-                                                    
-                                                                <ng-template #noUrlLink>
-                                                                    <span>{{ item.name }}</span>
-                                                                </ng-template>
-                                                            
-                                                                <span>{{ item.itemQty }} {{ item.unit }}</span>
-                                                            </p>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                    </mat-expansion-panel>
-    
-                                    <!-- Dispatch Schedules Section -->
-                                    <mat-expansion-panel class="past-deliveries">
-                                        <mat-expansion-panel-header [collapsedHeight]="'auto'"
-                                            [expandedHeight]="'auto'"
-                                            *ngIf="dispatchSchedules && dispatchSchedules.length">
-                                            <mat-panel-title>
-                                                Dispatch Schedules
-                                            </mat-panel-title>
-                                            <mat-panel-description>
-                                                <div class="past-deliveries__view-link">
-                                                    <p>View More Details</p>
-                                                </div>
-                                            </mat-panel-description>
-                                        </mat-expansion-panel-header>
-                                        
-                                        <div class="dispatch-schedules pt-2">
-                                            <!-- <div class="dispatch-schedules__title mb-3">
-                                                <h6>Dispatch Schedules</h6>
-                                            </div> -->
-    
-                                            <div class="dispatch-schedules__lists" *ngFor="let dispatch of dispatchSchedules">
-                                                <ng-container *ngIf="dispatch.items && dispatch.items.length">
-                                                    <p>Dispatch Schedule 1 - {{ dispatch.requiredByDate }}</p>
-                                                    <div class="dispatch-schedules__details">
-                                                        <p class="dispatch-title d-flex align-items-center justify-content-between">
-                                                            <span>Item</span>
-                                                            <span>Quantity Required</span>
-                                                        </p>
-                                                        <ng-container *ngFor="let item of dispatch.items">
-                                                            <p class="vehicle-items d-flex align-items-center justify-content-between" *ngIf="item.name">
-
-                                                                <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
-                                                                    <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1 font14">{{ item.name }}</a>
-                                                                </ng-container>
-                                                    
-                                                                <ng-template #noUrlLink>
-                                                                    <span>{{ item.name }}</span>
-                                                                </ng-template>
-                                                                
-                                                                <span>{{ item.requestQty }} {{ item.unit }}</span>
-                                                            </p>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                                
-                                            </div>
-
-                                        </div>
-                                    </mat-expansion-panel>
-                                </div>
+                                </ng-container>
                             </ng-container>
                             
                         </div>
