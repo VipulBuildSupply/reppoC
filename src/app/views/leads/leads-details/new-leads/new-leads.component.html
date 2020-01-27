@@ -94,62 +94,65 @@
                 <div class="Pricing-Information border-b quote-details-section">
                     <p class="top-tital mt-2">Your Quote Details</p>
 
-                    <div class="quote-date">
-                        <div class="form-group lableup my-0">
-                            <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
-                                <mat-form-field class="quote-till-date">
-                                    <input matInput #ref class="form-control inputLableUp" [min]="minDate"
-                                        [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                        (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
-                                        [formControl]="datePickerValue" required>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </ng-container>
+                    <form *ngIf="quoteDetailsForm" [formGroup]="quoteDetailsForm">
 
-                            <ng-container *ngIf="message == 'NewLeads'">
-                                <mat-form-field>
-                                    <input matInput #ref class="form-control inputLableUp" [min]="minDate"
-                                        [matDatepicker]="picker" placeholder="Quote Valid Till"
-                                        formControlName="quoteValidDate"
-                                        (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </ng-container>
-                        </div>
-                    </div>
+                        <div class="quote-date">
+                            <div class="form-group lableup my-0">
+                                <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
+                                    <mat-form-field class="quote-till-date">
+                                        <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                            [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                            (dateChange)="datePicker(ref.value)" (focus)="picker.open()"
+                                            [formControl]="datePickerValue" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </ng-container>
 
-                    <div class="optional-note">
-                        <ng-container *ngIf="showLeadObjDetails.data.request.sellerNote; else noteInput">
-                            <p class="view-lead__note-title w-100">Seller Note:</p>
-                            <p [innerHTML]="showLeadObjDetails.data.request.sellerNote"></p>
-                        </ng-container>
-
-                        <ng-template #noteInput>
-                            <mat-form-field appearance="outline" class="view-lead-note">
-                                <mat-label>Note (Optional)</mat-label>
-                                <textarea matInput placeholder="type here...." (input)="OnInput($event.target)"></textarea>
-                            </mat-form-field>
-                        </ng-template>
-
-                    </div>
-
-                    <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
-                        <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
-                        <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
-                            <div class="view-lead__attachment-left">
-                                <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
-                                <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
-                                    alt="pdf file" class="fileExtImg">
-                                <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
+                                <ng-container *ngIf="message == 'NewLeads'">
+                                    <mat-form-field>
+                                        <input matInput #ref class="form-control inputLableUp" [min]="minDate"
+                                            [matDatepicker]="picker" placeholder="Quote Valid Till"
+                                            formControlName="quoteValidDate"
+                                            (dateChange)="datePicker(ref.value)" (focus)="picker.open()" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </ng-container>
                             </div>
-                            <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
                         </div>
-                    </div>
 
-                    <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                        <div class="optional-note">
+                            <ng-container *ngIf="showLeadObjDetails.data.request.sellerNote; else noteInput">
+                                <p class="view-lead__note-title w-100">Seller Note:</p>
+                                <p [innerHTML]="showLeadObjDetails.data.request.sellerNote"></p>
+                            </ng-container>
 
+                            <ng-template #noteInput>
+                                <mat-form-field appearance="outline" class="view-lead-note">
+                                    <mat-label>Note (Optional)</mat-label>
+                                    <textarea matInput placeholder="type here...." (input)="OnInput($event.target)"
+                                        formControlName="quoteNote"></textarea>
+                                </mat-form-field>
+                            </ng-template>
+
+                        </div>
+
+                        <div class="view-lead__attachment" *ngIf="showLeadObjDetails.data.request.documents && showLeadObjDetails.data.request.documents.length">
+                            <p class="view-lead__attachment-title mt-2">Attachment (Optional):</p>
+                            <div class="view-lead__attachment-img mb-2" *ngFor="let document of showLeadObjDetails.data.request.documents">
+                                <div class="view-lead__attachment-left">
+                                    <!-- <img src="assets/img/file.png" alt="uplaoded file"> -->
+                                    <img [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" 
+                                        alt="pdf file" class="fileExtImg">
+                                    <span class="view-lead__attachment-name">{{ document.orginalFileName }}</span>
+                                </div>
+                                <span class="view-lead__attachment-name blue-link-color" (click)="downloadDoc(document.signedUrl)">View</span>
+                            </div>
+                        </div>
+
+                        <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                    </form>
                 </div>
 
                 <div class="view-lead__pricing-info">
@@ -335,7 +338,7 @@
                                             <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                             
                                             <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                                [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid)">Submit</button>
+                                                [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                         </div>
                                     </ng-container>
                                         
@@ -503,7 +506,7 @@
                                 <div class="save-orange mt-2">
                                     <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                     <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
-                                        [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid)">Submit</button>
+                                        [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                 </div>
                             </ng-container>
                         </div>

@@ -66,6 +66,7 @@ export class NewLeadComponent implements OnInit {
   isSpecsQtyInRange: true;
   isSpecsMinMaxValid: true;
   messageErr: string;
+  quoteDetailsForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -96,6 +97,7 @@ export class NewLeadComponent implements OnInit {
 
         this.getLeadObj(this.leadId);
         this.paymentForm();
+        this.quoteDetails();
       }),
     );
   }
@@ -109,7 +111,14 @@ export class NewLeadComponent implements OnInit {
   paymentForm() {
     this.leadPaymentForm = this._formBuilder.group({
       PaymentTerm: new FormControl('', Validators.required),
-      PaymentInput: new FormControl()
+      PaymentInput: new FormControl(),
+    });
+  }
+
+  quoteDetails(){
+    this.quoteDetailsForm = this._formBuilder.group({
+      quoteValidDate: ['', Validators.required],
+      quoteNote: ['']
     });
   }
 
@@ -330,11 +339,9 @@ export class NewLeadComponent implements OnInit {
             price: ['', Validators.required],
             check: ['']
           })
-
           forms.push(form);
         }
       }
-
 
       this.warehouseData.push({
         address: warehouse.warehouseAddress,
@@ -589,6 +596,7 @@ export class NewLeadComponent implements OnInit {
   addPricingIndividualWarehouseAddress() {
 
     this.uploadDocs();
+    this.quoteDetailsForm.get('quoteValidDate').setValue(this.datePickerValueLeads);
     this.sendPricingToIndividualArrayAdd = [];
 
     if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
@@ -598,7 +606,7 @@ export class NewLeadComponent implements OnInit {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
-              "validEndDt": this.datePickerValueLeads,
+              "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
               "maxQty": this.warehouseData[i].pricingForms[j].controls.specMaxQty.value,
               "minQty": this.warehouseData[i].pricingForms[j].controls.specMinQty.value,
               "price": this.warehouseData[i].pricingForms[j].controls.specPrice.value,
@@ -622,7 +630,7 @@ export class NewLeadComponent implements OnInit {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
-              "validEndDt": this.datePickerValueLeads,
+              "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
               "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
               "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
               "price": this.warehouseData[i].pricingForms[j].controls.price.value,
@@ -655,10 +663,9 @@ export class NewLeadComponent implements OnInit {
   addPricingAllWarehouseAddress() {
 
     if (!this.isEditBtnClicked && this.addPriceToAllWareHouseCheckBox) {
-      this.uploadDocs()
+      this.uploadDocs();
+      this.quoteDetailsForm.get('quoteValidDate').setValue(this.datePickerValueLeads);
       this.sendPricingToAllArray = [];
-
-      debugger
 
       if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
         for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
@@ -666,7 +673,7 @@ export class NewLeadComponent implements OnInit {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
-              "validEndDt": this.datePickerValueLeads,
+              "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
               "maxQty": this.warehouseData[0].pricingForms[i].controls.specMaxQty.value,
               "minQty": this.warehouseData[0].pricingForms[i].controls.specMinQty.value,
               "price": this.warehouseData[0].pricingForms[i].controls.specPrice.value,
@@ -685,7 +692,7 @@ export class NewLeadComponent implements OnInit {
           const object = {
             "id": this.leadId,
             "attachId": this.sequenceId,
-            "validEndDt": this.datePickerValueLeads,
+            "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
             "maxQty": this.warehouseData[0].pricingForms[0].controls.maxPrice.value,
             "minQty": this.warehouseData[0].pricingForms[0].controls.minPrice.value,
             "price": this.warehouseData[0].pricingForms[0].controls.price.value,
@@ -740,10 +747,6 @@ export class NewLeadComponent implements OnInit {
     this.selectedFilters = filters;
   }
 
-  addWareHouseAddressBtnClicked() {
-    this._router.navigate([`/user/profile/address/warehouse/add`]);
-  }
-
   fileUpdate(files: FileList) {
     this.docs = files;
   }
@@ -776,7 +779,6 @@ export class NewLeadComponent implements OnInit {
 
 
   get isAllFormValidation() {
-
     if (this.addPriceToAllWareHouseCheckBox) {
       const warehouseValid = this.warehouseData[0].pricingForms;
       if (warehouseValid.length > 1) {
