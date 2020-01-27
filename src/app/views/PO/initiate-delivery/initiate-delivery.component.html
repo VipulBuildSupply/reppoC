@@ -13,7 +13,7 @@
                     <div class="mark-in-transit__title-section">
                         <div class="mark-in-transit__title-left">
                             <h4 class="mb-1">Purchase Order Id : {{ itemsList.orderNo }}</h4>
-                            <p class="datetime mb-0">{{ itemsList.orderDate }}</p>
+                            <p class="datetime mb-0">{{ itemsList.orderDate | IsoDatePipe }}</p>
                         </div>
                     </div>
 

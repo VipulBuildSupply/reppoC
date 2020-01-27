@@ -9,6 +9,8 @@ import { SharedDirectivesModule } from './directive/shared-directives.module';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IndianCurrency } from './pipes/indianCurrency.pipe';
+import { CustomDatePipe } from './pipes/custom-date.pipe';
+import { NewDatePipe } from './pipes/new-date.pipe';
 
 @NgModule({
   imports: [
@@ -24,7 +26,9 @@ import { IndianCurrency } from './pipes/indianCurrency.pipe';
   declarations: [
     ...SharedDialogs,
     OtpDirective,
-    IndianCurrency
+    IndianCurrency,
+    CustomDatePipe,
+    NewDatePipe
   ],
   exports: [
     ...SharedDialogs,
@@ -33,7 +37,9 @@ import { IndianCurrency } from './pipes/indianCurrency.pipe';
     OtpDirective,
     SharedDirectivesModule,
     SlickCarouselModule,
-    IndianCurrency
+    IndianCurrency,
+    CustomDatePipe,
+    NewDatePipe
   ],
   entryComponents: [
     ...SharedDialogs,

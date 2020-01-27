@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CustomDatePipe } from '../../directive/custom-date.pipe';
 import { DataService } from '../../services/data.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
 import { LeadsService } from '../../services/leads.service';
+import { CustomDatePipe } from '../../pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-lead-sidebar',

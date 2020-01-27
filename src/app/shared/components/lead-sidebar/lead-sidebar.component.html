@@ -9,12 +9,9 @@
                 </div>
                 <mat-card-title>
                     <div class="row align-items-start">
-
-                        {{ newlead.skuSlugUrl }}
-
                         <ng-container *ngIf="newlead.skuSlugUrl; else noUrlLink">
                             <a class="col-md-9 pr-1 mgtn4 lead-title" target="_blank" 
-                                [routerLink]="['/'+newlead.skuSlugUrl]">{{newlead.skuName}}</a>
+                                [attr.href]="newlead.skuSlugUrl">{{newlead.skuName}}</a>
                         </ng-container>
 
                         <ng-template #noUrlLink>
