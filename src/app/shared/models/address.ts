@@ -21,6 +21,7 @@ export class Address {
     addressProof?: string;
     cityId?: number;
     stateId?: number;
+    addressProofAttachId?: number;
 
     constructor({
         addressCategory = 'COMPANY_REGISTERED',
@@ -34,7 +35,8 @@ export class Address {
         cityId = null,
         userType = 'SELLER',
         addressProofFile = '',
-        addressId = null
+        addressId = null,
+        addressProofAttachId = 0
     }) {
         this.addressCategory = addressCategory;
         this.addressLine1 = addressLine1;
@@ -48,6 +50,7 @@ export class Address {
         this.userType = userType;
         this.addressProofFile = addressProofFile;
         this.addressId = addressId;
+        this.addressProofAttachId = addressProofAttachId;
     }
 }
 
@@ -124,20 +127,43 @@ export class BusinessDetails {
     categoryIds: catalogueCategories;
     addressProof: string;
     customCategories: string[];
-    // othersCategoryName?: string;
+    balanceSheets: BalanceSheets[];
+    bankStatementAttachId: number;
+    bankStatement?: string;
+    frightTermCd: string;
+    frightTermDisplayName?: string;
+    gstCertificateAttachId: number;
+    gstCertificate?: string;
+    panPhotoAttachId: number;
+    preferredTransporterName: string;
+    preferredTransporterPhone: string;
+    verificationStatus?: string;
+    verificationStatusDisplayNameBuyer?: string;
+
 
     constructor({
         address,
-        sellerBusinessType,
-        minAnnualTurnover,
         companyName = '',
         gstin = '',
+        minAnnualTurnover,
         panNo = '',
         panPhoto = '',
+        sellerBusinessType,
         catagoryIds,
         addressProof = '',
         customCategories,
-        // othersCategoryName
+        balanceSheets,
+        bankStatementAttachId = 0,
+        bankStatement = '',
+        frightTermCd = '',
+        frightTermDisplayName = '',
+        gstCertificateAttachId = 0,
+        gstCertificate = '',
+        panPhotoAttachId = 0,
+        preferredTransporterName = '',
+        preferredTransporterPhone = '',
+        verificationStatus = '',
+        verificationStatusDisplayNameBuyer = ''
     }) {
         this.address = new Address(address || {});
         this.sellerBusinessType = sellerBusinessType || {};
@@ -149,7 +175,18 @@ export class BusinessDetails {
         this.categoryIds = new catalogueCategories;
         this.addressProof = addressProof;
         this.customCategories = this.customCategories;
-        // this.othersCategoryName = othersCategoryName;
+        this.balanceSheets = balanceSheets.map(sheet => new BalanceSheets(sheet));
+        this.bankStatementAttachId = bankStatementAttachId;
+        this.bankStatement = bankStatement;
+        this.frightTermCd = frightTermCd;
+        this.frightTermDisplayName = frightTermDisplayName;
+        this.gstCertificateAttachId = gstCertificateAttachId;
+        this.gstCertificate = gstCertificate;
+        this.panPhotoAttachId = panPhotoAttachId;
+        this.preferredTransporterName = preferredTransporterName;
+        this.preferredTransporterPhone = preferredTransporterPhone;
+        this.verificationStatus = verificationStatus;
+        this.verificationStatusDisplayNameBuyer = verificationStatusDisplayNameBuyer;
     }
 }
 
@@ -165,4 +202,35 @@ export class BusinessType {
 export class BankName {
     code: string;
     name: string;
+}
+
+export class BalanceSheets{
+    attachId: number;
+    attachUrl: string;
+    createDt: string;
+    id: number;
+    modifyDt: string;
+    note: string;
+    pid: number;
+    year: string;
+
+    constructor({
+        attachId = 0,
+        attachUrl = '',
+        createDt = '',
+        id = 0,
+        modifyDt = '',
+        note = '',
+        pid = 0,
+        year = ''
+    }){
+        this.attachId = attachId;
+        this.attachUrl = attachUrl;
+        this.createDt = createDt;
+        this.id = id;
+        this.modifyDt = modifyDt;
+        this.note = note;
+        this.pid = pid;
+        this.year = year;
+    }
 }

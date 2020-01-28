@@ -45,7 +45,7 @@ export class ProfileSidebarComponent implements OnInit, OnDestroy {
       { name: 'Bank Details', link: '/user/profile/bank-details' },
       { name: 'Billing Addresses', link: '/user/profile/address/billing' },
       { name: 'Warehouse Addresses', link: '/user/profile/address/warehouse' },
-      // { name: 'Reference', link: '/user/profile/reference' },
+      { name: 'Reference', link: '/user/profile/reference' },
       { name: 'Change Password', link: '/user/profile/reset-password' }
     ];
 

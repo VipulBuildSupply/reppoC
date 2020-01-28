@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { Category, SelectedCategoryIds } from 'src/app/shared/models/category';
 import { BusinessDetails, Address } from 'src/app/shared/models/address';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { Turnovers, BusinessType } from 'src/app/shared/models/profile';
+import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
 
 @Component({
     selector: 'app-business-details',
@@ -32,13 +33,22 @@ export class BusinessDetailsComponent implements OnInit {
     data: any;
     _isEdit: boolean = false;
     userVerified: string;
+    othersInput: boolean;
+    balanceSheets: FormArray;
+    firstYear: string;
+    secondYear: string;
+    thirdYear: string;
+    frightTerms: string;
     updatedCategories: any = {
         "itemList": [],
         "customCategories": []
     }
-    othersInput: boolean;
-    // selectedName: any[] = [];
-    // selectValue: string;
+    @ViewChild('uploadAddressProof', { static: false }) uploadAddressProof: UploadComponent;
+    @ViewChild('uploadPanProof', { static: false }) uploadPanProof: UploadComponent;
+    @ViewChild('uploadGstCertificate', { static: false }) uploadGstCertificate: UploadComponent;
+    @ViewChild('uploadbankAttachId', { static: false }) uploadbankStatement: UploadComponent;
+    @ViewChildren('uploadBalanceSheets') uploadBalanceSheets: QueryList<UploadComponent>;
+    addressProofDocs: FileList;
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -49,8 +59,11 @@ export class BusinessDetailsComponent implements OnInit {
     ngOnInit() {
 
         this.businessDetails = new BusinessDetails(this._activatedRoute.snapshot.data.business);
+        debugger
         this.getAnnualTurnover();
         this.getBusinessType();
+        this.getBalanceSheetYear();
+        this.getFrightTerms();
 
         /**
          * @description get selected category lists
@@ -94,6 +107,22 @@ export class BusinessDetailsComponent implements OnInit {
         });
     }
 
+    getBalanceSheetYear() {
+        const d = new Date();
+        const month = d.getMonth() + 1;
+        const year = d.getFullYear();
+
+        if (month > 3) {
+            this.firstYear = (year - 1) + '-' + year;
+            this.secondYear = (year - 2) + '-' + (year - 1);
+            this.thirdYear = (year - 3) + '-' + (year - 2);
+        } else {
+            this.firstYear = (year - 2) + '-' + (year - 1);
+            this.secondYear = (year - 3) + '-' + (year - 2);
+            this.thirdYear = (year - 4) + '-' + (year - 3);
+        }
+    }
+
     /**
      * @description Function to get all annual turnover data
      */
@@ -109,6 +138,15 @@ export class BusinessDetailsComponent implements OnInit {
     getBusinessType() {
         this._userService.businessType().then((res: any) => {
             this.businessType = res;
+        });
+    }
+
+    /**
+     * @description function to get all fright terms data
+     */
+    getFrightTerms(){
+        this._userService.frightTerms().then((res: any) => {
+            this.frightTerms = res;
         });
     }
 
@@ -194,11 +232,9 @@ export class BusinessDetailsComponent implements OnInit {
                 ]
             }],
 
-            addressProof: [
-                this.businessDetails.addressProof ? this.businessDetails.addressProof : '',
-            ],
+            addressProofAttachId: [],
 
-            panPhoto: [this.businessDetails.panPhoto ? this.businessDetails.panPhoto : ''],
+            panPhotoAttachId: [],
 
             panNo: [{
                 value: this.businessDetails.panNo,
@@ -214,17 +250,45 @@ export class BusinessDetailsComponent implements OnInit {
 
             customCategories: [this.businessDetails.customCategories],
 
-            gstCertificate: [''],
+            gstCertificateAttachId: [''],
 
-            balanceSheetYear1: [''],
-            balanceSheetYear2: [''],
-            balanceSheetYear3: [''],
+            bankStatementAttachId: [''],
 
-            bankStatement: [''],
-            frightTerms: [''],
+            frightTermCd: [{
+                value: this.businessDetails.frightTermCd ? this.businessDetails.frightTermCd : '',
+                disabled: !(this._isEdit)
+            }, {
+                validators: [Validators.required]
+            }],
 
-            transporterName: [''],
-            transporterPhone: ['']
+            preferredTransporterName: [{
+                value: this.businessDetails.preferredTransporterName,
+                disabled: !(this._isEdit)
+            }, {
+                validators: [Validators.required]
+            }],
+
+            preferredTransporterPhone: [{
+                value: this.businessDetails.preferredTransporterPhone,
+                disabled: !(this._isEdit)
+            }, {
+                validators: [
+                    Validators.pattern(FieldRegExConst.PHONE),
+                    Validators.maxLength(10),
+                    Validators.minLength(10),
+                    Validators.required
+                ]
+            }],
+
+            balanceSheets: this._formBuilder.array([this.balanceSheetItem(this.firstYear),
+            this.balanceSheetItem(this.secondYear), this.balanceSheetItem(this.thirdYear)])
+        });
+    }
+
+    balanceSheetItem(y): FormGroup {
+        return this._formBuilder.group({
+            attachId: null,
+            year: y
         });
     }
 
@@ -348,41 +412,53 @@ export class BusinessDetailsComponent implements OnInit {
     /**
      * @description function works for address proof file upolad
      */
-    onFileSelected(event) {
+    /*onFileSelected(event) {
         if (event.target.files.length > 0) {
             this.addressProofFiles = event.target.files[0].name;
             const file = event.target.files[0];
             this.businessDetailsForm.get('addressProof').setValue(file);
         }
-    }
+    }*/
 
     /**
      * @description function works for pan proof file upload
      */
-    onPhotoSelected(event) {
+    /*onPhotoSelected(event) {
         if (event.target.files.length > 0) {
             this.panPhotoImage = event.target.files[0].name;
             const file = event.target.files[0];
             this.businessDetailsForm.get('panPhoto').setValue(file);
         }
-    }
+    }*/
 
     /**
      * @description function is used to remove existed address proof document
      */
-    delete() {
+    /*delete() {
         this.businessDetails.panPhoto = '';
         this.businessDetailsForm.value.panPhoto = '';
-    }
+    }*/
 
 
     /**
      * @description function is used to delete existed pan proof photo from api
      */
-    deleteAddressProof(id: number): void {
+    /*deleteAddressProof(id: number): void {
         this._userService.deleteAddressProof(id).then(res => {
             this.businessDetails.address.addressProofFile = '';
         });
+    }*/
+
+    /**
+     * @description function will get uploaded document's attach Id
+     */
+    getAttachIds(): Promise<any> {
+        const docs: Promise<any>[] = [this.uploadAddressProof.uploadDocs('ADDRESS_PROOF'),
+        this.uploadPanProof.uploadDocs('PAN_PHOTO'),
+        this.uploadGstCertificate.uploadDocs('GST_CERTIFICATE'),
+        this.uploadbankStatement.uploadDocs('BANK_STATEMENT'),
+        ...this.uploadBalanceSheets.map(comp => comp.uploadDocs('BALANCE_SHEET'))];
+        return Promise.all(docs);
     }
 
     /**
@@ -390,30 +466,41 @@ export class BusinessDetailsComponent implements OnInit {
      */
     submit(e) {
         e.preventDefault();
-        if (this.businessDetailsForm.valid) {
-            const address = new Address(this.businessDetailsForm.value as any);
-            const data = this.businessDetailsForm.value;
-            delete data.addressLine1;
-            delete data.addressLine2;
-            delete data.cityId;
-            delete data.stateId;
-            delete data.phoneNo;
-            delete data.pincode;
-            delete data.addressCategory;
-            delete data.userType;
-            delete address.city;
-            delete address.state;
-            if (data.othersCategoryName) {
-                data.customCategories.push(data.othersCategoryName);
-                delete data.othersCategoryName;
-            }
 
-            data.address = address;
-            this.submitBusinessAddress(data);
-        }
-        else {
-            FormHelper.validateAllFormFields(this.businessDetailsForm);
-        }
+        this.getAttachIds().then(ids => {
+            if (this.businessDetailsForm.valid) {
+                const address = new Address(this.businessDetailsForm.value as any);
+                let data = this.businessDetailsForm.value;
+                delete data.addressLine1;
+                delete data.addressLine2;
+                delete data.cityId;
+                delete data.stateId;
+                delete data.phoneNo;
+                delete data.pincode;
+                delete data.addressCategory;
+                delete data.userType;
+                delete address.city;
+                delete address.state;
+                if (data.othersCategoryName) {
+                    data.customCategories.push(data.othersCategoryName);
+                    delete data.othersCategoryName;
+                }
+
+                data.address = address;
+                data.address.addressProofAttachId = ids[0];
+                data.panPhotoAttachId = ids[1];
+                data.gstCertificateAttachId = ids[2];
+                data.bankStatementAttachId = ids[3];                
+                data.balanceSheets[0].attachId = ids[4];
+                data.balanceSheets[1].attachId = ids[5];
+                data.balanceSheets[2].attachId = ids[6];
+                
+                this.submitBusinessAddress(data);
+            }
+            else {
+                FormHelper.validateAllFormFields(this.businessDetailsForm);
+            }
+        });
     }
 
 
@@ -430,11 +517,16 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function to download attached documents (address proof as well as pan photo)
+     * @description function to download attached documents
      */
-    downloadpanProof(proofImage) {
-        var win = window.open(proofImage, '_blank');
+    downloadpanProof(docLink) {
+        var win = window.open(docLink, '_blank');
         win.focus();
+    }
+
+    addressProofUpdate(files: FileList) {
+        this.addressProofDocs = files;
+        debugger
     }
 
     /**

@@ -88,7 +88,8 @@ export const API = {
     GET_PO_ITEMS_LIST: (oid: number) => `product/api/po/seller/v1/${oid}/items`,
     INITIATE_DELIVERY_REQUEST: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
     
-    GET_USER_NOTIFICATIONS: 'product/api/user/notification/list'
+    GET_USER_NOTIFICATIONS: 'product/api/user/notification/list',
+    GET_FRIGHT_TERMS: 'account/api/seller/profile/frightTerms'
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [
