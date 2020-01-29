@@ -49,6 +49,10 @@ export class BusinessDetailsComponent implements OnInit {
     @ViewChild('uploadbankAttachId', { static: false }) uploadbankStatement: UploadComponent;
     @ViewChildren('uploadBalanceSheets') uploadBalanceSheets: QueryList<UploadComponent>;
     addressProofDocs: FileList;
+    panDocs: FileList;
+    years: string[];
+    gstDocs: FileList;
+    bankDocs: FileList;
 
     constructor(private _userService: UserService,
         private _categoryService: CategoryService,
@@ -59,7 +63,6 @@ export class BusinessDetailsComponent implements OnInit {
     ngOnInit() {
 
         this.businessDetails = new BusinessDetails(this._activatedRoute.snapshot.data.business);
-        debugger
         this.getAnnualTurnover();
         this.getBusinessType();
         this.getBalanceSheetYear();
@@ -121,6 +124,8 @@ export class BusinessDetailsComponent implements OnInit {
             this.secondYear = (year - 3) + '-' + (year - 2);
             this.thirdYear = (year - 4) + '-' + (year - 3);
         }
+
+        this.years = [this.firstYear, this.secondYear, this.thirdYear];
     }
 
     /**
@@ -524,9 +529,20 @@ export class BusinessDetailsComponent implements OnInit {
         win.focus();
     }
 
-    addressProofUpdate(files: FileList) {
+    addressUploadDocs(files: FileList) {
         this.addressProofDocs = files;
-        debugger
+    }
+
+    panUploadDocs(files: FileList) {
+        this.panDocs = files;
+    }
+
+    gstUploadDocs(files: FileList) {
+        this.gstDocs = files;
+    }
+
+    bankUploadDocs(files: FileList) {
+        this.bankDocs = files;
     }
 
     /**

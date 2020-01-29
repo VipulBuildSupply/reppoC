@@ -1,48 +1,10 @@
-<form>
-    <!-- *ngIf="referenceForm" [formGroup]="referenceForm" (ngSubmit)="submit()"  -->
+<h4 class="mb-3">Reference</h4>
 
-    <!-- <a href="javascript:void(0)" class="edit" (click)="edit()" *ngIf="!_isEdit">
-        <img src="assets/img/edit-icon.png" alt="">Edit
-    </a> -->
-
-    <h4 class="mb-3">Reference</h4>
-
-    <div class="row reference align-items-center py-3">
-
-        <div class="col-md-1">
-            <div class="reference__number">
-                <span>1</span>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <mat-form-field class="reference__input">
-                <input matInput placeholder="Name" type="text">
-            </mat-form-field>
-        </div>
-
-        <div class="col-md-5"></div>
-
-        <div class="col-md-6 offset-md-1">
-            <mat-form-field class="reference__input">
-                <input matInput placeholder="Company Name" type="text">
-            </mat-form-field>
-        </div>
-
-        <div class="col-md-5"></div>
-
-        <div class="col-md-6 offset-md-1">
-            <mat-form-field class="reference__input">
-                <input matInput placeholder="Mobile Number" type="text">
-            </mat-form-field>
-        </div>
+<div [routerLink]="['add']" class="add-text">
+    <div class="add-address">
+        <p>+ Add References</p>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12 save-orange">
-            <button type="button" class="btn orangeBttn brdbttn">Cancel</button>
-            <button class="btn orangeBttn">SAVE</button>
-        </div>
-    </div>
-
-</form>
+<app-reference-show (afterDelete)="deleteReferences(refer.id)" 
+    *ngFor="let refer of userReferences" [refer]="refer" ></app-reference-show>

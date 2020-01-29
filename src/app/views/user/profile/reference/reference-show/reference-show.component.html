@@ -1,0 +1,20 @@
+<div class="address-box mb-3" [ngClass]="isOptions ? '' : 'no-bdr m-0 p-0'">
+    <div class="bot-box">
+        <button *ngIf="isOptions" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button (click)="edit()" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button (click)="delete(refer.id)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+        </mat-menu>
+    </div>
+    <span>{{ refer.name }} </span>
+    <p>{{ refer.companyName }}</p>
+    <p>{{ refer.phone }}</p>
+</div>
