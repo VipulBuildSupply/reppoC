@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { TokenService } from './token.service';
 import { Address, BankDetails } from '../models/address';
 import { API } from '../constants';
+import { UserReferences } from '../models/reference';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,8 @@ export class UserService {
     updatePercentage$ = new Subject();
     private _user: UserModel;
     enableProfile$ = new Subject<boolean>();
+    editReference$ = new Subject<UserReferences>();
+    referencesToEdit: UserReferences;
     
     get user(): UserModel {
         return localStorage.getItem('user') ? new UserModel(JSON.parse(localStorage.getItem('user'))) : null;
@@ -283,5 +286,21 @@ export class UserService {
 
     frightTerms() {
         return this.dataService.getRequest(API.GET_FRIGHT_TERMS).then(res => res.data);
+    }
+
+    addReferences(data){
+        return this.dataService.sendPostRequest(API.PROFILE_REFERENCES, data).then((res: any) => res.data);
+    }
+
+    getReferences(){
+        return this.dataService.getRequest(API.PROFILE_REFERENCES).then((res: any) => res);
+    }
+
+    editReferences(referenceId, data){
+        return this.dataService.sendPutRequest(API.UPDATE_DELETE_USER_REFERENCE(referenceId), data).then(res => res.data);
+    }
+
+    deleteReferences(referenceId: number) {
+        return this.dataService.sendDeleteRequest(API.UPDATE_DELETE_USER_REFERENCE(referenceId), {}).then(res => res);
     }
 }

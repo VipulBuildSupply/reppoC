@@ -9,6 +9,7 @@ import { LeadFiltersComponent } from './lead-filters/lead-filters.component';
 import { DeleteBankDetailsComponent } from './delete-bank-details/delete-bank-details.component';
 import { DeleteWarehouseAddressComponent } from './delete-warehouse-address/delete-warehouse-address.component';
 import { OtherCategoryComponent } from './other-category/other-category.component';
+import { DeleteReferenceComponent } from './delete-reference/delete-reference.component';
 // import {PromoContentDialogComponent} from './promo-content-dialog/promo-content-dialog.component';
 
 export const SharedDialogs = [
@@ -23,5 +24,6 @@ export const SharedDialogs = [
     LeadFiltersComponent,
     DeleteBankDetailsComponent,
     DeleteWarehouseAddressComponent,
-    OtherCategoryComponent
+    OtherCategoryComponent,
+    DeleteReferenceComponent
 ];

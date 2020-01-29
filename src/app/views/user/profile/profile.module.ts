@@ -23,6 +23,9 @@ import { BankDetailsResolver } from './bank-details/resolver/bank-details.resolv
 import { MultiSelectChipComponent } from './shared/multi-select/multi-select.component';
 import { BusinessDetailsResolver } from './business-details/resolver/business-details.resolver';
 import { ReferenceComponent } from './reference/reference.component';
+import { AddReferenceComponent } from './reference/add-reference/add-reference.component';
+import { ReferenceShowComponent } from './reference/reference-show/reference-show.component';
+import { ReferenceResolver } from './reference/resolver/reference.resolver';
 @NgModule({
   declarations: [
     PersonalProfileComponent,
@@ -37,7 +40,9 @@ import { ReferenceComponent } from './reference/reference.component';
     AddBankDetailsComponent,
     AddAddressComponent,
     MultiSelectChipComponent,
-    ReferenceComponent
+    ReferenceComponent,
+    AddReferenceComponent,
+    ReferenceShowComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +58,8 @@ import { ReferenceComponent } from './reference/reference.component';
     StateResolver,
     BankDetailsResolver,
     ReactiveFormsModule,
-    BusinessDetailsResolver
+    BusinessDetailsResolver,
+    ReferenceResolver
   ],
   entryComponents : []
 })

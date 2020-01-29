@@ -59,7 +59,6 @@ export class BusinessDetailsComponent implements OnInit {
     ngOnInit() {
 
         this.businessDetails = new BusinessDetails(this._activatedRoute.snapshot.data.business);
-        debugger
         this.getAnnualTurnover();
         this.getBusinessType();
         this.getBalanceSheetYear();

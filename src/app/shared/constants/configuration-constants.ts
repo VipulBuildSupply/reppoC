@@ -89,7 +89,9 @@ export const API = {
     INITIATE_DELIVERY_REQUEST: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
     
     GET_USER_NOTIFICATIONS: 'product/api/user/notification/list',
-    GET_FRIGHT_TERMS: 'account/api/seller/profile/frightTerms'
+    GET_FRIGHT_TERMS: 'account/api/seller/profile/frightTerms',
+    PROFILE_REFERENCES: 'account/api/profile/reference',
+    UPDATE_DELETE_USER_REFERENCE: (referenceId: number) => `account/api/profile/reference/${referenceId}`,
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

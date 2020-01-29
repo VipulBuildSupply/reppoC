@@ -13,6 +13,8 @@ import { AddBankDetailsComponent } from './bank-details/add-bank-details/add-ban
 import { BankDetailsResolver } from './bank-details/resolver/bank-details.resolver';
 import { BusinessDetailsResolver } from './business-details/resolver/business-details.resolver';
 import { ReferenceComponent } from './reference/reference.component';
+import { AddReferenceComponent } from './reference/add-reference/add-reference.component';
+import { ReferenceResolver } from './reference/resolver/reference.resolver';
 
 export const ProfileRoutes: Routes = [
     {
@@ -82,7 +84,18 @@ export const ProfileRoutes: Routes = [
             {
                 path: "reference",
                 component: ReferenceComponent,
-                data: { title: "Reference" }
+                data: { title: "Reference" },
+                resolve: { reference: ReferenceResolver }
+            },
+
+            {
+                path: 'reference/add',
+                component: AddReferenceComponent
+            },
+
+            {
+                path: 'reference/edit',
+                component: AddReferenceComponent
             },
         ]
     }
