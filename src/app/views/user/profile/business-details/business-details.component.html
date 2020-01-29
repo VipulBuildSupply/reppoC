@@ -6,7 +6,7 @@
     </a>
 
     <h4 class="mb-4">Buisness Details</h4>
-    <div class="business-field-area">
+    <div class="business-field-area" [class.non-edit]="!_isEdit">
         <div class="row">
             
             <div class="col-md-6">
@@ -124,6 +124,26 @@
                     class="businessInput">
                 </mat-form-field>
             </div>
+
+            <div class="col-md-12">
+                <mat-label class="label-class">Address Proof</mat-label>
+
+                <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.address.addressProofFile)">
+                    <app-upload label="addressProofAttachId" [fieldName]="'Address Proof'" 
+                        (onFileUpdate)="addressProofUpdate($event)" #uploadAddressProof></app-upload>
+                </ng-container>
+
+                <div class="attachment-img mb-4" *ngIf="businessDetails.address.addressProofFile">
+                    <div class="attachment-left">
+                        <img alt="pdf file" class="fileExtImg" src="assets/img/icon-image.png">
+                        <span class="attachment-name">{{ businessDetails.address.addressProofFile }}</span>
+                    </div>
+                    <span class="attachment-name blue-link-color" 
+                        (click)="downloadpanProof(businessDetails.address.addressProofFile)">View</span>
+                </div>
+            </div>
+
+            <div class="col-md-6"></div>
         
             <div class="col-md-12">
                 <div class="form-group">
@@ -139,6 +159,145 @@
             </div>
 
             <div class="col-md-6">
+                <mat-label class="label-class">PAN Proof</mat-label>
+
+                <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.panPhoto)">
+                    <app-upload label="panPhotoAttachId" [fieldName]="'PAN Proof'" 
+                        #uploadPanProof></app-upload>
+                </ng-container>
+
+                <div class="attachment-img" *ngIf="businessDetails.panPhoto">
+                    <div class="attachment-left">
+                        <img alt="pdf file" class="fileExtImg" src="assets/img/icon-image.png">
+                        <span class="attachment-name">{{ businessDetails.panPhoto }}</span>
+                    </div>
+                    <span class="attachment-name blue-link-color" 
+                        (click)="downloadpanProof(businessDetails.panPhoto)">View</span>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="gstin" (input)="validateGstin($event)"
+                        (paste)="onPaste($event)" type="text" placeholder="GSTIN" required>
+                </mat-form-field>
+
+                <small
+                    *ngIf="businessDetailsForm.controls['gstin'].errors && (businessDetailsForm.controls['gstin'].dirty || businessDetailsForm.controls['gstin'].touched)">
+                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('required')" class="errorMessage marginTop">
+                        GSTIN number is required</p>
+                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('pattern')" class="errorMessage marginTop">
+                        GSTIN number is invalid</p>
+                </small>
+            </div>
+
+            <div class="col-md-6">
+                <mat-label class="label-class">GST Certificate</mat-label>
+
+                <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.gstCertificate)">
+                    <app-upload label="gstCertificateAttachId" [fieldName]="'GST Certificate'" 
+                        #uploadGstCertificate></app-upload>
+                </ng-container>
+
+                <div class="attachment-img" *ngIf="businessDetails.gstCertificate">
+                    <div class="attachment-left">
+                        <img alt="pdf file" class="fileExtImg" src="assets/img/icon-image.png">
+                        <span class="attachment-name">{{ businessDetails.gstCertificate }}</span>
+                    </div>
+                    <!-- <span class="attachment-name blue-link-color" (click)="removeFile(value)">Remove</span> -->
+                    <span class="attachment-name blue-link-color" 
+                        (click)="downloadpanProof(businessDetails.gstCertificate)">View</span>
+                </div>
+            </div>
+
+            <!------------- Audit Balance Sheet ----------------->
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="mt-3 mb-2">Audit Balance Sheet</h4>
+                </div>
+            </div>
+
+            <div class="col-md-12" formArrayName="balanceSheets">
+                <ng-container *ngFor="let sheet of businessDetailsForm['controls']['balanceSheets']['controls']; let i = index">
+                    <div [formGroupName]="i">
+                        <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.balanceSheets 
+                            && businessDetails.balanceSheets.length === 0)">
+                            <app-upload label="{{i}}" [fieldName]="'Balance Sheet Year ' +i" #uploadBalanceSheets></app-upload>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="businessDetails.balanceSheets">
+                    <div class="attachment-img mb-2" *ngFor="let sheet of businessDetails.balanceSheets">
+                        <div class="attachment-left">
+                            <img alt="pdf file" class="fileExtImg" src="assets/img/icon-image.png">
+                            <span class="attachment-name">{{ sheet.attachUrl }}</span>
+                            <!-- <span class="attachment-year">{{ sheet.year }}</span> -->
+                        </div>
+                        <span class="attachment-name blue-link-color" 
+                            (click)="downloadpanProof(sheet.attachUrl)">View</span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!------------- 6 Month Bank Statement ----------------->
+            <div class="col-md-12 border-top">
+                <div class="form-group">
+                    <h4 class="mt-4 mb-2">6 Month Bank Statement</h4>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <mat-label class="label-class">6 Month Bank Statement</mat-label>
+
+                <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.bankStatement)">
+                    <app-upload label="bankStatementAttachId" [fieldName]="'6 Month Bank Statement'" 
+                        #uploadbankAttachId></app-upload>
+                </ng-container>
+
+                <div class="attachment-img mb-2" *ngIf="businessDetails.bankStatement">
+                    <div class="attachment-left">
+                        <img alt="pdf file" class="fileExtImg" src="assets/img/icon-image.png">
+                        <span class="attachment-name">{{ businessDetails.bankStatement }}</span>
+                    </div>
+                    <span class="attachment-name blue-link-color" 
+                        (click)="downloadpanProof(businessDetails.bankStatement)">View</span>
+                </div>
+            </div>
+
+            <!------------- Fright Terms ----------------->
+            <div class="col-md-6 mt-4">
+                <h4 class="font16">Fright Terms</h4>
+                <mat-form-field>
+                    <mat-select formControlName="frightTermCd" name="frightTerms">
+                        <mat-option *ngFor="let fright of frightTerms" [value]="fright.code">
+                            {{fright.displayName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="my-3">Preferred Transporter</h4>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name" >
+                    <input matInput placeholder="Name" type="text" class="businessInput"
+                    formControlName="preferredTransporterName" required>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field class="business-name" >
+                    <input matInput placeholder="Phone No." type="text" class="businessInput"
+                    formControlName="preferredTransporterPhone" required>
+                </mat-form-field>
+            </div>
+
+            <!-- <div class="col-md-6">
                 <div class="form-group lableup form-control">
                     <div class="browser-method" *ngIf="businessDetails.panPhoto == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
@@ -160,9 +319,13 @@
 
                     <label class="form-control-placeholder">PAN Proof</label>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-md-12">
+            
+
+            
+
+            <!-- <div class="col-md-12">
                 <div class="form-group lableup form-control">
                     <div class="browser-method" *ngIf="businessDetails.address.addressProofFile == ''">
                         <img src="assets/img/upload.png" class="download-img" alt="">
@@ -188,23 +351,9 @@
 
                     <label class="form-control-placeholder" for="buisness">Address Proof</label>
                 </div>
-            </div>
+            </div> -->
             
 
-            <div class="col-md-6 mt-3">
-                <mat-form-field class="full-width">
-                    <input matInput formControlName="gstin" (input)="validateGstin($event)"
-                        (paste)="onPaste($event)" type="text" placeholder="GSTIN" required>
-                </mat-form-field>
-
-                <small
-                    *ngIf="businessDetailsForm.controls['gstin'].errors && (businessDetailsForm.controls['gstin'].dirty || businessDetailsForm.controls['gstin'].touched)">
-                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('required')" class="errorMessage marginTop">
-                        GSTIN number is required</p>
-                    <p *ngIf="businessDetailsForm.controls['gstin'].hasError('pattern')" class="errorMessage marginTop">
-                        GSTIN number is invalid</p>
-                </small>
-            </div>
 
             <!-- <div class="col-md-6">
                 <div class="form-group lableup form-control">
@@ -220,11 +369,7 @@
                 </div>
             </div> -->
 
-            <!-- <div class="col-md-12">
-                <div class="form-group">
-                    <h4 class="mt-3 mb-2">Audit Balance Sheet</h4>
-                </div>
-            </div>
+            <!-- 
 
             <div class="col-md-6">
                 <div class="form-group lableup form-control">
@@ -268,11 +413,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <div class="form-group">
-                    <h4 class="mt-4 mb-2">6 Month Bank Statement</h4>
-                </div>
-            </div>
+            
 
             <div class="col-md-12">
                 <div class="form-group lableup form-control">
@@ -286,38 +427,6 @@
                         </label>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-6 mt-4">
-                <h4 class="font16">Fright Terms</h4>
-                <mat-form-field>
-                    <mat-label>Select</mat-label>
-                    <mat-select formControlName="frightTerms">
-                        <mat-option>
-                            Select
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-12">
-                <div class="form-group">
-                    <h4 class="my-3">Preferred Transporter</h4>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <mat-form-field class="business-name" >
-                    <input matInput placeholder="Name" type="text" class="businessInput"
-                    formControlName="transporterName" required>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-6">
-                <mat-form-field class="business-name" >
-                    <input matInput placeholder="Phone No." type="text" class="businessInput"
-                    formControlName="transporterPhone" required>
-                </mat-form-field>
             </div> -->
 
             <div class="col-md-12 save-orange" *ngIf="_isEdit">

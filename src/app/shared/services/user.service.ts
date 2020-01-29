@@ -223,26 +223,25 @@ export class UserService {
     }
 
     updateBusinessDetails(data) {
-        const fData = new FormData();
+        // const fData = new FormData();
 
-        Object.keys(data).map(key => {
-            if (key == 'address') {
-                data = data.address;
-                Object.keys(data).map(key => {
-                    if (data[key]) {
-                        fData.append('address.'.concat(key), data[key]);
-                    }
-                })
-            } else if (key == "panPhoto") {
-                if (data[key].name) {
-                    fData.append(key, data[key]);
-                }
-            } else {
-                fData.append(key, data[key]);
-            }
-        });
-
-        return this.dataService.sendPutRequest(API.BUSINESS_DETAILS, fData).then(res => res);
+        // Object.keys(data).map(key => {
+        //     if (key == 'address') {
+        //         data = data.address;
+        //         Object.keys(data).map(key => {
+        //             if (data[key]) {
+        //                 fData.append('address.'.concat(key), data[key]);
+        //             }
+        //         })
+        //     } else if (key == "panPhoto") {
+        //         if (data[key].name) {
+        //             fData.append(key, data[key]);
+        //         }
+        //     } else {
+        //         fData.append(key, data[key]);
+        //     }
+        // });
+        return this.dataService.sendPostRequest(API.BUSINESS_DETAILS, data).then(res => res);
     }
 
     getBusinessDetails() {
@@ -280,5 +279,9 @@ export class UserService {
 
     getUserNotifications() {
         return this.dataService.getRequest(API.GET_USER_NOTIFICATIONS).then(res => res);
+    }
+
+    frightTerms() {
+        return this.dataService.getRequest(API.GET_FRIGHT_TERMS).then(res => res.data);
     }
 }

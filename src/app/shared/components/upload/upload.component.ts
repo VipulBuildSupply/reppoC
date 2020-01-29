@@ -2,8 +2,6 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { LoggerService } from '../../services/logger.service';
 import { DocumentModel } from '../../models/delivery-request';
 import { CommonService } from '../../services/common.service';
-// import { CommonService } from '../../services/common.service';
-// import { of } from 'rxjs';
 
 @Component({
     selector: 'app-upload',
@@ -19,6 +17,8 @@ export class UploadComponent implements OnInit {
     @Input() label;
     fileExtension: string;
     @Input('isViewShow') isViewShow: boolean;
+    @Input('fieldName') fieldName: string;
+    // @Input('value') value: string;
 
     constructor(private _commonService: CommonService) { }
 
@@ -108,4 +108,8 @@ export class UploadComponent implements OnInit {
     fileChange(name, index) {
         LoggerService.debug(name + " , " + index);
     }
+
+    // remove(file){
+    //     // file = '';
+    // }
 }
