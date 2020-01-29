@@ -910,3 +910,16 @@ input[type=number]::-webkit-outer-spin-button {
     color: #868686;
     line-height: 22px;
 }
+
+.add-text{
+    color: #1896BA;
+    cursor: pointer;
+}
+
+.add-text:focus{
+    outline: 0;
+}
+
+.mat-error{
+    font-size: 12px;
+}

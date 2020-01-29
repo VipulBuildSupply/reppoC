@@ -1,4 +1,4 @@
-<div class="address-box mb-3" [class.no-bdr]="!isOptions" [class.m-0]="!isOptions" [class.p-0]="!isOptions" >
+<div class="address-box mb-3" [ngClass]="isOptions ? '' : 'no-bdr m-0 p-0'">
     <div class="bot-box">
         <button *ngIf="isOptions" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>

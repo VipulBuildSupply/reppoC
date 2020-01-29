@@ -1,10 +1,10 @@
 <h4 class="mb-3">Reference</h4>
 
-<a [routerLink]="['add']" href="javascript:void(0)">
+<div [routerLink]="['add']" class="add-text">
     <div class="add-address">
         <p>+ Add References</p>
     </div>
-</a>
+</div>
 
-<app-reference-show (onDelete)="deleteReferences(refer.id)" 
+<app-reference-show (afterDelete)="deleteReferences(refer.id)" 
     *ngFor="let refer of userReferences" [refer]="refer" ></app-reference-show>

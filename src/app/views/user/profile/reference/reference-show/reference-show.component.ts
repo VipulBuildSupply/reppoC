@@ -11,7 +11,7 @@ import { LoggerService } from 'src/app/shared/services/logger.service';
 export class ReferenceShowComponent implements OnInit {
 
     @Input('refer') refer: UserReferences;
-    @Output('onDelete') deleteReferences = new EventEmitter<number>();
+    @Output('afterDelete') deleteReferences = new EventEmitter<number>();
     @Input('isOptions') isOptions: boolean;
 
     constructor(private _userService: UserService,

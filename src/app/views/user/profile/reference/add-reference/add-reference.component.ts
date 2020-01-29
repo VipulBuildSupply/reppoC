@@ -18,6 +18,7 @@ export class AddReferenceComponent implements OnInit {
     isEdit: boolean;
     references: UserReferences;
     subscriptions: Subscription[] = [];
+    isAdd: boolean;
 
     constructor(private _formBuilder: FormBuilder,
         private _activatedRoute: ActivatedRoute,
@@ -33,10 +34,13 @@ export class AddReferenceComponent implements OnInit {
         this.subscriptions.push(
             this._activatedRoute.url.subscribe(url => {
                 this.isEdit = url[1].path == 'edit';
-                if (this.isEdit && this._userService.referencesToEdit) {
-                    this.references = this._userService.referencesToEdit;
-                }else{
-                    this._router.navigate(['/user/profile/reference']);
+                this.isAdd = url[1].path == 'add';
+                if (this.isEdit){
+                    if(this._userService.referencesToEdit) {
+                        this.references = this._userService.referencesToEdit;
+                    }else{
+                        this._router.navigate(['/user/profile/reference']);
+                    }
                 }
             })
         );
@@ -73,18 +77,10 @@ export class AddReferenceComponent implements OnInit {
             data.push(this.referenceForm.value);
 
             if (this.isEdit) {
-                this._userService.editReferences(this.references.id, this.referenceForm.value).then(res => {
-                    if (res.success) {
-                        this.goToReferencePage();
-                    }
-                });
+                this.editUserReference(this.references.id, this.referenceForm.value);
 
             } else {
-                    this._userService.addReferences(data).then(res => {
-                    if (res.success) {
-                        this.goToReferencePage();
-                    }
-                });
+                this.addUserReference(data);
             }
         }
         else {
@@ -97,5 +93,31 @@ export class AddReferenceComponent implements OnInit {
     */
     goToReferencePage() {
         this._router.navigate([`/user/profile/reference`]);
+    }
+
+    /**
+     * 
+     * @param value data need to edit
+     * @description Function will execute to Edit Reference
+     */
+    editUserReference(refId, value){
+        this._userService.editReferences(refId, value).then(res => {
+            if (res.success) {
+                this.goToReferencePage();
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param value data need to add
+     * @description Function will execute to add Reference
+     */
+    addUserReference(value){
+        this._userService.addReferences(value).then(res => {
+            if (res.success) {
+                this.goToReferencePage();
+            }
+        });
     }
 }

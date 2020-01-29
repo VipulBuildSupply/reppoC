@@ -13,6 +13,11 @@
         <div class="col-md-6">
             <mat-form-field class="reference__input">
                 <input matInput placeholder="Name" type="text" formControlName="name">
+                <mat-error
+                    *ngIf="referenceForm.controls['name'].errors && (referenceForm.controls['name'].dirty || referenceForm.controls['name'].touched)">
+                    <p *ngIf="referenceForm.controls['name'].hasError('required')" class="errorMessage">
+                        Name is required</p>
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -21,6 +26,11 @@
         <div class="col-md-6 offset-md-1">
             <mat-form-field class="reference__input">
                 <input matInput placeholder="Company Name" type="text" formControlName="companyName">
+                <mat-error
+                    *ngIf="referenceForm.controls['companyName'].errors && (referenceForm.controls['companyName'].dirty || referenceForm.controls['companyName'].touched)">
+                    <p *ngIf="referenceForm.controls['companyName'].hasError('required')" class="errorMessage">
+                        Company Name is required</p>
+                </mat-error>
             </mat-form-field>
         </div>
 
@@ -29,6 +39,14 @@
         <div class="col-md-6 offset-md-1">
             <mat-form-field class="reference__input">
                 <input matInput placeholder="Mobile Number" type="number" formControlName="phone">
+                <mat-error
+                    *ngIf="referenceForm.controls['phone'].errors && (referenceForm.controls['phone'].dirty || referenceForm.controls['phone'].touched)">
+                    <p *ngIf="referenceForm.controls['phone'].hasError('required')" class="errorMessage">
+                        Phone Number is required</p>
+
+                    <p *ngIf="referenceForm.controls['phone'].hasError('pattern')" class="errorMessage">
+                        Phone Number is Invalid</p>
+                </mat-error>
             </mat-form-field>
         </div>
     </div>

@@ -130,7 +130,10 @@
 
                 <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.address.addressProofFile)">
                     <app-upload label="addressProofAttachId" [fieldName]="'Address Proof'" 
-                        (onFileUpdate)="addressProofUpdate($event)" #uploadAddressProof></app-upload>
+                        (onFileUpdate)="addressUploadDocs($event)" #uploadAddressProof></app-upload>
+                    <mat-error *ngIf="addressProofDocs && addressProofDocs.length == 0">
+                        Please Upload Address Proof
+                    </mat-error>
                 </ng-container>
 
                 <div class="attachment-img mb-4" *ngIf="businessDetails.address.addressProofFile">
@@ -163,7 +166,10 @@
 
                 <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.panPhoto)">
                     <app-upload label="panPhotoAttachId" [fieldName]="'PAN Proof'" 
-                        #uploadPanProof></app-upload>
+                        (onFileUpdate)="panUploadDocs($event)" #uploadPanProof></app-upload>
+                    <mat-error *ngIf="panDocs && panDocs.length == 0">
+                        Please Upload PAN Proof
+                    </mat-error>
                 </ng-container>
 
                 <div class="attachment-img" *ngIf="businessDetails.panPhoto">
@@ -196,7 +202,10 @@
 
                 <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.gstCertificate)">
                     <app-upload label="gstCertificateAttachId" [fieldName]="'GST Certificate'" 
-                        #uploadGstCertificate></app-upload>
+                        (onFileUpdate)="gstUploadDocs($event)" #uploadGstCertificate></app-upload>
+                    <mat-error *ngIf="gstDocs && gstDocs.length == 0">
+                        Please Upload GST Certificates
+                    </mat-error>
                 </ng-container>
 
                 <div class="attachment-img" *ngIf="businessDetails.gstCertificate">
@@ -218,7 +227,7 @@
             </div>
 
             <div class="col-md-12" formArrayName="balanceSheets">
-                <ng-container *ngFor="let sheet of businessDetailsForm['controls']['balanceSheets']['controls']; let i = index">
+                <ng-container *ngFor="let sheet of businessDetailsForm['controls']['balanceSheets']['controls']; let i = index;">
                     <div [formGroupName]="i">
                         <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.balanceSheets 
                             && businessDetails.balanceSheets.length === 0)">
@@ -252,7 +261,10 @@
 
                 <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.bankStatement)">
                     <app-upload label="bankStatementAttachId" [fieldName]="'6 Month Bank Statement'" 
-                        #uploadbankAttachId></app-upload>
+                        (onFileUpdate)="bankUploadDocs($event)" #uploadbankAttachId></app-upload>
+                    <mat-error *ngIf="bankDocs && bankDocs.length == 0">
+                        Please Upload 6 Month Bank Statement
+                    </mat-error>
                 </ng-container>
 
                 <div class="attachment-img mb-2" *ngIf="businessDetails.bankStatement">
@@ -265,9 +277,9 @@
                 </div>
             </div>
 
-            <!------------- Fright Terms ----------------->
+            <!------------- Freight Terms ----------------->
             <div class="col-md-6 mt-4">
-                <h4 class="font16">Fright Terms</h4>
+                <h4 class="font16">Freight Terms</h4>
                 <mat-form-field>
                     <mat-select formControlName="frightTermCd" name="frightTerms">
                         <mat-option *ngFor="let fright of frightTerms" [value]="fright.code">
