@@ -130,8 +130,8 @@ export class BusinessDetails {
     balanceSheets: BalanceSheets[];
     bankStatementAttachId: number;
     bankStatement?: string;
-    frightTermCd: string;
-    frightTermDisplayName?: string;
+    freightTermCd: string;
+    freightTermDisplayName?: string;
     gstCertificateAttachId: number;
     gstCertificate?: string;
     panPhotoAttachId: number;
@@ -155,8 +155,8 @@ export class BusinessDetails {
         balanceSheets,
         bankStatementAttachId = 0,
         bankStatement = '',
-        frightTermCd = '',
-        frightTermDisplayName = '',
+        freightTermCd = '',
+        freightTermDisplayName = '',
         gstCertificateAttachId = 0,
         gstCertificate = '',
         panPhotoAttachId = 0,
@@ -178,8 +178,8 @@ export class BusinessDetails {
         this.balanceSheets = balanceSheets.map(sheet => new BalanceSheets(sheet));
         this.bankStatementAttachId = bankStatementAttachId;
         this.bankStatement = bankStatement;
-        this.frightTermCd = frightTermCd;
-        this.frightTermDisplayName = frightTermDisplayName;
+        this.freightTermCd = freightTermCd;
+        this.freightTermDisplayName = freightTermDisplayName;
         this.gstCertificateAttachId = gstCertificateAttachId;
         this.gstCertificate = gstCertificate;
         this.panPhotoAttachId = panPhotoAttachId;

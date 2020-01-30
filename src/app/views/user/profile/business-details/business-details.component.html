@@ -231,7 +231,7 @@
                     <div [formGroupName]="i">
                         <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.balanceSheets 
                             && businessDetails.balanceSheets.length === 0)">
-                            <app-upload label="{{i}}" [fieldName]="'Balance Sheet Year ' +i" #uploadBalanceSheets></app-upload>
+                            <app-upload label="{{i}}" [fieldName]="'Balance Sheet Year (' +sheet.value.year + ')'" #uploadBalanceSheets></app-upload>
                         </ng-container>
                     </div>
                 </ng-container>
@@ -281,9 +281,9 @@
             <div class="col-md-6 mt-4">
                 <h4 class="font16">Freight Terms</h4>
                 <mat-form-field>
-                    <mat-select formControlName="frightTermCd" name="frightTerms">
-                        <mat-option *ngFor="let fright of frightTerms" [value]="fright.code">
-                            {{fright.displayName}}
+                    <mat-select formControlName="freightTermCd" name="freightTerms">
+                        <mat-option *ngFor="let freight of freightTerms" [value]="freight.code">
+                            {{freight.displayName}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

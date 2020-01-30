@@ -28,7 +28,7 @@
                             *ngIf="orders && orders.purchaseOrder">
                             <div class="po__title-left">
                                 <h4 class="mb-1">Purchase Order Id : {{ orders.purchaseOrder.orderNo }}</h4>
-                                <p class="datetime mb-0">{{ orders.purchaseOrder.createDt }}</p>
+                                <p class="datetime mb-0">{{ orders.purchaseOrder.createDt | gmtToLocal }}</p>
                             </div>
 
                             <!-- Accept/Reject PO Functionality -->

@@ -186,7 +186,7 @@ export class PersonalProfileComponent implements OnInit {
     verifyEmail() {
         if(this.user.sellerPersonalProfile.email){
             this.userService.emailVerify(this.user).then(res => {
-                this._notify.snack('a verification mail sent to your email address');
+                this._notify.snack('A verification e-mail has been sent to your email id');
             });
         }else{
             this._notify.snack('Please enter a valid email address');

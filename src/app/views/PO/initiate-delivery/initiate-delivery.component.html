@@ -13,7 +13,7 @@
                     <div class="mark-in-transit__title-section">
                         <div class="mark-in-transit__title-left">
                             <h4 class="mb-1">Purchase Order Id : {{ itemsList.orderNo }}</h4>
-                            <p class="datetime mb-0">{{ itemsList.orderDate | IsoDatePipe }}</p>
+                            <p class="datetime mb-0">{{ itemsList.orderDate | IsoDatePipe | gmtToLocal }}</p>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
 
                                     <div class="col-md-4">
                                         <app-upload label="invoiceAttachId" [isViewShow]="false" 
-                                            #uploadRef (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
+                                            [fieldName]="'Invoice'" #uploadRef (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
 
                                         <mat-error *ngIf="invoiceDocs && invoiceDocs.length == 0">
                                             Please Upload Invoice Docs
@@ -80,7 +80,7 @@
                                     </div>
                                     
                                     <div class="col-md-4">
-                                        <app-upload label="ewayBillAttachId" [isViewShow]="false" #uploadRef></app-upload>
+                                        <app-upload label="ewayBillAttachId" [fieldName]="'Eway Bill'" [isViewShow]="false" #uploadRef></app-upload>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                     </div>
                                     
                                     <div class="col-md-4">
-                                        <app-upload label="challanAttachId" [isViewShow]="false" #uploadRef></app-upload>
+                                        <app-upload label="challanAttachId" [fieldName]="'Delivery Challan'" [isViewShow]="false" #uploadRef></app-upload>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                 <h3 class="mt-4 mb-3">Material Test Certificate</h3>
 
                                 <div class="form-group lableup form-control">
-                                    <app-upload label="materialTestAttachId" [isViewShow]="false" #uploadRef></app-upload>
+                                    <app-upload label="materialTestAttachId" [fieldName]="'MTC'" [isViewShow]="false" #uploadRef></app-upload>
                                 </div>
                             </div>
 
@@ -190,7 +190,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <app-upload label="lorryReceiptAttachId" [isViewShow]="false" #uploadRef (onFileUpdate)="lorryDocUpdate($event)"></app-upload>
+                                            <app-upload label="lorryReceiptAttachId" [fieldName]="'Lorry Receipt'" [isViewShow]="false" #uploadRef (onFileUpdate)="lorryDocUpdate($event)"></app-upload>
 
                                             <mat-error *ngIf="lorryDocs && lorryDocs.length == 0">
                                                 Please Upload Lorry Receipt
