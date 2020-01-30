@@ -284,8 +284,8 @@ export class UserService {
         return this.dataService.getRequest(API.GET_USER_NOTIFICATIONS).then(res => res);
     }
 
-    frightTerms() {
-        return this.dataService.getRequest(API.GET_FRIGHT_TERMS).then(res => res.data);
+    freightTerms() {
+        return this.dataService.getRequest(API.GET_FREIGHT_TERMS).then(res => res.data);
     }
 
     addReferences(data){

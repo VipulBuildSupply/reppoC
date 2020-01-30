@@ -10,6 +10,7 @@ import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { UserModel } from 'src/app/shared/models/user.model';
 import { Turnovers, BusinessType } from 'src/app/shared/models/profile';
 import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
+import { LoggerService } from 'src/app/shared/services/logger.service';
 
 @Component({
     selector: 'app-business-details',
@@ -38,7 +39,7 @@ export class BusinessDetailsComponent implements OnInit {
     firstYear: string;
     secondYear: string;
     thirdYear: string;
-    frightTerms: string;
+    freightTerms: string;
     updatedCategories: any = {
         "itemList": [],
         "customCategories": []
@@ -66,7 +67,7 @@ export class BusinessDetailsComponent implements OnInit {
         this.getAnnualTurnover();
         this.getBusinessType();
         this.getBalanceSheetYear();
-        this.getFrightTerms();
+        this.getFreightTerms();
 
         /**
          * @description get selected category lists
@@ -96,6 +97,8 @@ export class BusinessDetailsComponent implements OnInit {
         }
 
         this.formInit();
+        LoggerService.debug(this.businessDetailsForm['controls']['balanceSheets']['controls']);
+        debugger
 
         /**
          * @description to check if business details form submitted or not 
@@ -147,11 +150,11 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function to get all fright terms data
+     * @description function to get all freight terms data
      */
-    getFrightTerms(){
-        this._userService.frightTerms().then((res: any) => {
-            this.frightTerms = res;
+    getFreightTerms() {
+        this._userService.freightTerms().then((res: any) => {
+            this.freightTerms = res;
         });
     }
 
@@ -259,8 +262,8 @@ export class BusinessDetailsComponent implements OnInit {
 
             bankStatementAttachId: [''],
 
-            frightTermCd: [{
-                value: this.businessDetails.frightTermCd ? this.businessDetails.frightTermCd : '',
+            freightTermCd: [{
+                value: this.businessDetails.freightTermCd ? this.businessDetails.freightTermCd : '',
                 disabled: !(this._isEdit)
             }, {
                 validators: [Validators.required]
@@ -415,46 +418,6 @@ export class BusinessDetailsComponent implements OnInit {
     }
 
     /**
-     * @description function works for address proof file upolad
-     */
-    /*onFileSelected(event) {
-        if (event.target.files.length > 0) {
-            this.addressProofFiles = event.target.files[0].name;
-            const file = event.target.files[0];
-            this.businessDetailsForm.get('addressProof').setValue(file);
-        }
-    }*/
-
-    /**
-     * @description function works for pan proof file upload
-     */
-    /*onPhotoSelected(event) {
-        if (event.target.files.length > 0) {
-            this.panPhotoImage = event.target.files[0].name;
-            const file = event.target.files[0];
-            this.businessDetailsForm.get('panPhoto').setValue(file);
-        }
-    }*/
-
-    /**
-     * @description function is used to remove existed address proof document
-     */
-    /*delete() {
-        this.businessDetails.panPhoto = '';
-        this.businessDetailsForm.value.panPhoto = '';
-    }*/
-
-
-    /**
-     * @description function is used to delete existed pan proof photo from api
-     */
-    /*deleteAddressProof(id: number): void {
-        this._userService.deleteAddressProof(id).then(res => {
-            this.businessDetails.address.addressProofFile = '';
-        });
-    }*/
-
-    /**
      * @description function will get uploaded document's attach Id
      */
     getAttachIds(): Promise<any> {
@@ -495,11 +458,11 @@ export class BusinessDetailsComponent implements OnInit {
                 data.address.addressProofAttachId = ids[0];
                 data.panPhotoAttachId = ids[1];
                 data.gstCertificateAttachId = ids[2];
-                data.bankStatementAttachId = ids[3];                
+                data.bankStatementAttachId = ids[3];
                 data.balanceSheets[0].attachId = ids[4];
                 data.balanceSheets[1].attachId = ids[5];
                 data.balanceSheets[2].attachId = ids[6];
-                
+
                 this.submitBusinessAddress(data);
             }
             else {

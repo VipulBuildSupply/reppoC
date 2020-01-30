@@ -11,7 +11,7 @@
                                 <span>Awarded</span>
                             </div>
                         </div>
-                        <p class="datetime mb-0 mt-1">{{ ordersItems.purchaseOrder.createDt }}</p>
+                        <p class="datetime mb-0 mt-1">{{ ordersItems.purchaseOrder.createDt | gmtToLocal }}</p>
                     </div>
 
                     <div class="po__title-right d-flex align-items-center">
