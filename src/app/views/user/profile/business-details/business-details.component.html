@@ -229,7 +229,7 @@
             <div class="col-md-12" formArrayName="balanceSheets">
                 <ng-container *ngFor="let sheet of businessDetailsForm['controls']['balanceSheets']['controls']; let i = index;">
                     <div [formGroupName]="i">
-                        <ng-container *ngIf="_isEdit || (!_isEdit && !businessDetails.balanceSheets 
+                        <ng-container *ngIf="_isEdit || (!_isEdit
                             && businessDetails.balanceSheets.length === 0)">
                             <app-upload label="{{i}}" [fieldName]="'Balance Sheet Year (' +sheet.value.year + ')'" #uploadBalanceSheets></app-upload>
                         </ng-container>

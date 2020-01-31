@@ -97,8 +97,6 @@ export class BusinessDetailsComponent implements OnInit {
         }
 
         this.formInit();
-        LoggerService.debug(this.businessDetailsForm['controls']['balanceSheets']['controls']);
-        debugger
 
         /**
          * @description to check if business details form submitted or not 

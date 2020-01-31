@@ -151,7 +151,9 @@
                             </div>
                         </div>
 
-                        <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                        <ng-container *ngIf="showLeadObjDetails.data.request.statusCd !== 'quote.request.sts.seller.submit'">
+                            <app-upload (onFileUpdate)="fileUpdate($event)" #upload></app-upload>
+                        </ng-container>
                     </form>
                 </div>
 
