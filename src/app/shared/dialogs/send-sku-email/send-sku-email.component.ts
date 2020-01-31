@@ -26,9 +26,7 @@ export class SendSkuEmailComponent implements OnInit {
     this.success = false;
     
     if (this.data.catalogueEmail == 'catalogueEmail') {
-
       this.isCatalogue = 'catalogueEmail';
-      debugger
     }
   }
 
