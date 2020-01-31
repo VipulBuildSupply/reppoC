@@ -144,6 +144,7 @@ export class NewLeadComponent implements OnInit {
 
     this._leadService.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
+      debugger
       this.showLeadObjDetailsTemp = res;
       this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
       this.warehouseData = [];
