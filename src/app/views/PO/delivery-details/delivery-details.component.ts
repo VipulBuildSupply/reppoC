@@ -57,7 +57,6 @@ export class DeliveryDetailsComponent implements OnInit {
       if(this.deliveryType === 'past-delivery-details'){
         this.deliveryDetails = res.data.pastDeliveries.filter(item => item.id === this.itemId);
         this.documentAttachIds(this.deliveryDetails[0]);
-        // LoggerService.debug(this.deliveryDetails);
       }
 
     });

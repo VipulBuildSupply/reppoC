@@ -144,7 +144,6 @@ export class NewLeadComponent implements OnInit {
 
     this._leadService.getLeadObj(leadId).then(res => {
       this.showLeadObjDetails = res;
-      debugger
       this.showLeadObjDetailsTemp = res;
       this.activeLeadStatus = this.activeLeadId === this.showLeadObjDetails.data.request.id ? this.showLeadObjDetails.data.request.expired : false;
       this.warehouseData = [];
@@ -231,124 +230,126 @@ export class NewLeadComponent implements OnInit {
 
   createWarehouseData(warehouselist) {
 
-    warehouselist.forEach((warehouse) => {
+    if(warehouselist && warehouselist.length){
+      warehouselist.forEach((warehouse) => {
 
-      const forms: FormGroup[] = [];
+        const forms: FormGroup[] = [];
 
-      if (warehouse.specs && warehouse.specs.length) {
+        if (warehouse.specs && warehouse.specs.length) {
 
-        if (warehouse.warehousePriceList.length === 0) {
-          warehouse.specs.forEach(spec => {
+          if (warehouse.warehousePriceList.length === 0) {
+            warehouse.specs.forEach(spec => {
 
-            const form: FormGroup = this._formBuilder.group({
-              diameter: [spec.specName],
-              specMinQty: [spec.minQty, {
-                validators:
-                  [
-                    Validators.required,
-                    Validators.max(spec.minQty)
-                  ]
-              }],
-              specMaxQty: [spec.maxQty, {
-                validators:
-                  [
-                    Validators.required,
-                    Validators.min(spec.maxQty)
-                  ]
-              }],
-              specPrice: [spec.price, Validators.required],
-              check: [''],
-              specCode: [spec.specCd],
-              specId: [spec.specId],
-              specRelId: [spec.id]
-            })
-
-            this.subscriptions.push(
-              form.get('specMinQty').valueChanges.subscribe(val => {
-                form.get('specMaxQty').setValidators([Validators.required, Validators.min(val)]);
-                form.get('specMaxQty').updateValueAndValidity();
-              })
-            )
-
-            forms.push(form);
-          });
-        } else {
-          warehouse.warehousePriceList.forEach(spec => {
-            forms.push(
-              this._formBuilder.group({
+              const form: FormGroup = this._formBuilder.group({
                 diameter: [spec.specName],
-                specMinQty: [spec.minQty, Validators.required],
-                specMaxQty: [spec.maxQty],
+                specMinQty: [spec.minQty, {
+                  validators:
+                    [
+                      Validators.required,
+                      Validators.max(spec.minQty)
+                    ]
+                }],
+                specMaxQty: [spec.maxQty, {
+                  validators:
+                    [
+                      Validators.required,
+                      Validators.min(spec.maxQty)
+                    ]
+                }],
                 specPrice: [spec.price, Validators.required],
                 check: [''],
                 specCode: [spec.specCd],
                 specId: [spec.specId],
                 specRelId: [spec.id]
               })
-            );
-          })
+
+              this.subscriptions.push(
+                form.get('specMinQty').valueChanges.subscribe(val => {
+                  form.get('specMaxQty').setValidators([Validators.required, Validators.min(val)]);
+                  form.get('specMaxQty').updateValueAndValidity();
+                })
+              )
+
+              forms.push(form);
+            });
+          } else {
+            warehouse.warehousePriceList.forEach(spec => {
+              forms.push(
+                this._formBuilder.group({
+                  diameter: [spec.specName],
+                  specMinQty: [spec.minQty, Validators.required],
+                  specMaxQty: [spec.maxQty],
+                  specPrice: [spec.price, Validators.required],
+                  check: [''],
+                  specCode: [spec.specCd],
+                  specId: [spec.specId],
+                  specRelId: [spec.id]
+                })
+              );
+            })
+          }
         }
-      }
 
-      else {
+        else {
 
-        if (warehouse.warehousePriceList.length) {
-          warehouse.warehousePriceList.forEach(pricesItem => {
+          if (warehouse.warehousePriceList.length) {
+            warehouse.warehousePriceList.forEach(pricesItem => {
 
-            const form1 = this._formBuilder.group({
-              minPrice: [pricesItem.minQty, {
+              const form1 = this._formBuilder.group({
+                minPrice: [pricesItem.minQty, {
+                  validators: [
+                    Validators.required,
+                    Validators.max(this.showLeadObjDetails.data.request.requestQty)
+                  ]
+                }],
+                maxPrice: [pricesItem.maxQty, {
+                  validators: [
+                    Validators.required,
+                    Validators.min(this.showLeadObjDetails.data.request.requestQty)
+                  ]
+                }],
+                price: [pricesItem.price, Validators.required],
+                check: ['']
+              })
+
+              this.subscriptions.push(
+                form1.get('minPrice').valueChanges.subscribe(val => {
+                  form1.get('maxPrice').setValidators([Validators.required, Validators.min(val)]);
+                  form1.get('maxPrice').updateValueAndValidity();
+                })
+              )
+
+              forms.push(form1);
+            });
+
+          } else {
+            // if no data in price List set on default price form
+            const form = this._formBuilder.group({
+              minPrice: [this.showLeadObjDetails.data.request.minQty, {
                 validators: [
                   Validators.required,
                   Validators.max(this.showLeadObjDetails.data.request.requestQty)
                 ]
               }],
-              maxPrice: [pricesItem.maxQty, {
+              maxPrice: [this.showLeadObjDetails.data.request.maxQty, {
                 validators: [
                   Validators.required,
                   Validators.min(this.showLeadObjDetails.data.request.requestQty)
                 ]
               }],
-              price: [pricesItem.price, Validators.required],
+              price: ['', Validators.required],
               check: ['']
             })
-
-            this.subscriptions.push(
-              form1.get('minPrice').valueChanges.subscribe(val => {
-                form1.get('maxPrice').setValidators([Validators.required, Validators.min(val)]);
-                form1.get('maxPrice').updateValueAndValidity();
-              })
-            )
-
-            forms.push(form1);
-          });
-
-        } else {
-          // if no data in price List set on default price form
-          const form = this._formBuilder.group({
-            minPrice: [this.showLeadObjDetails.data.request.minQty, {
-              validators: [
-                Validators.required,
-                Validators.max(this.showLeadObjDetails.data.request.requestQty)
-              ]
-            }],
-            maxPrice: [this.showLeadObjDetails.data.request.maxQty, {
-              validators: [
-                Validators.required,
-                Validators.min(this.showLeadObjDetails.data.request.requestQty)
-              ]
-            }],
-            price: ['', Validators.required],
-            check: ['']
-          })
-          forms.push(form);
+            forms.push(form);
+          }
         }
-      }
 
-      this.warehouseData.push({
-        address: warehouse.warehouseAddress,
-        pricingForms: forms
+        this.warehouseData.push({
+          address: warehouse.warehouseAddress,
+          pricingForms: forms
+        });
       });
-    });
+    }
   }
 
   isMinMaxInValid(form: FormGroup) {
