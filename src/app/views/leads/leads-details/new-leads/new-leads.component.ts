@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -67,6 +67,7 @@ export class NewLeadComponent implements OnInit {
   isSpecsMinMaxValid: true;
   messageErr: string;
   quoteDetailsForm: FormGroup;
+  @Input('currentActiveTab') currentActiveTab: string;
 
   constructor(private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -82,8 +83,21 @@ export class NewLeadComponent implements OnInit {
 
   startSubscriptions() {
     this.subscriptions.push(
-      this.data.currentMessage.subscribe(message => this.message = message),
+
+      /**
+       * Call if selected path is new lead or acted lead
+       */
+      this.route.url.subscribe(url => {
+        if (url[0].path === "new-lead") {
+          this.currentActiveTab = "NewLeads";
+        } else {
+          this.currentActiveTab = "ActedLeads";
+        }
+      }),
+
+      // this.data.currentMessage.subscribe(message => this.message = message),
       this.data.submitQuoteMsg.subscribe(message => this.submitQuoteMsg = message),
+
       this.route.params.subscribe(params => {
 
         this.activeLeadId = parseInt(params.id);
@@ -95,7 +109,7 @@ export class NewLeadComponent implements OnInit {
           this.paymentterms = res.data;
         });
 
-        this.getLeadObj(this.leadId);
+        this.leadId ? this.getLeadObj(this.leadId) : '';
         this.paymentForm();
         this.quoteDetails();
       }),
@@ -651,13 +665,15 @@ export class NewLeadComponent implements OnInit {
       if (res) {
         this.getLeadObj(this.leadId);
         this.data.changeSubmitQuoteMessage("SUBMIT");
-        if (this.message == "ActedLeads") {
-          this.data.changeMessage("ActedLeads");
+        if (this.currentActiveTab == "ActedLeads") {
+          this._router.navigate([`/lead/acted-lead`]);
+          // this.data.changeMessage("ActedLeads");
         }
-        else if (this.message == "NewLeads") {
-          this.data.changeMessage("NewLeads");
+        else if (this.currentActiveTab == "NewLeads") {
+          this._router.navigate([`/lead/new-lead`]);
+          // this.data.changeMessage("NewLeads");
         }
-        this._router.navigate([`/lead`]);
+        // this._router.navigate([`/lead`]);
       }
     });
   }

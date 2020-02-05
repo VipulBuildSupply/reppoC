@@ -1,13 +1,13 @@
-<div [class.nonEditable]="message == 'ActedLeads'">
+<div [class.nonEditable]="(currentActiveTab == 'ActedLeads') && (showLeadObjDetails?.data?.request.statusCd === 'quote.request.sts.seller.submit')">
     <ng-container *ngIf="showLeadObjDetails" class="view-lead">
     
-        <ng-container *ngIf="(message == 'NewLeads') && (activeLeadStatus === true)">
+        <ng-container *ngIf="(currentActiveTab == 'NewLeads') && (activeLeadStatus === true)">
             <div class="view-lead__error-msg">
                 <p>No response sent from your end for this particular lead.</p>
             </div>
         </ng-container>
 
-        <ng-container *ngIf="(message == 'ActedLeads') && (activeLeadStatus === true)">
+        <ng-container *ngIf="(currentActiveTab == 'ActedLeads') && (activeLeadStatus === true)">
             <div class="view-lead__error-msg">
                 <p>This particular lead got expired. BuildSupply have not awarded PO for this lead.</p>
             </div>
@@ -83,7 +83,7 @@
                 <!-- {{showLeadObjDetails.data.request.requiredEndDt | gmtToLocal}} -->
             </div>
 
-            <ng-container *ngIf="(message == 'NewLeads') && (activeLeadStatus === true); else leadDetailsBlock">
+            <ng-container *ngIf="(currentActiveTab == 'NewLeads') && (activeLeadStatus === true); else leadDetailsBlock">
                 <div class="view-lead__lead-expired">
                     <h4>Lead Expired!</h4>
                     <p>You have not responded for this particular lead on time. We recommend you to respond leads as early as possible to receive PO.</p>
@@ -98,7 +98,7 @@
 
                         <div class="quote-date">
                             <div class="form-group lableup my-0">
-                                <ng-container *ngIf="message == 'ActedLeads' && datePickerValue">
+                                <ng-container *ngIf="currentActiveTab == 'ActedLeads' && datePickerValue">
                                     <mat-form-field class="quote-till-date">
                                         <input matInput #ref class="form-control inputLableUp" [min]="minDate"
                                             [matDatepicker]="picker" placeholder="Quote Valid Till"
@@ -109,7 +109,7 @@
                                     </mat-form-field>
                                 </ng-container>
 
-                                <ng-container *ngIf="message == 'NewLeads'">
+                                <ng-container *ngIf="currentActiveTab == 'NewLeads'">
                                     <mat-form-field>
                                         <input matInput #ref class="form-control inputLableUp" [min]="minDate"
                                             [matDatepicker]="picker" placeholder="Quote Valid Till"
@@ -335,7 +335,7 @@
                                         </div>
                                     </ng-container>                
                 
-                                    <ng-container *ngIf="!(message === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
+                                    <ng-container *ngIf="!(currentActiveTab === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
                                         <div class="save-orange mt-2">
                                             <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                             
@@ -504,7 +504,7 @@
                                 </div>
                             </ng-container>
                             
-                            <ng-container *ngIf="!(message === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
+                            <ng-container *ngIf="!(currentActiveTab === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
                                 <div class="save-orange mt-2">
                                     <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
                                     <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"

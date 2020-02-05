@@ -1,19 +1,19 @@
 
 import { OnInit, Component, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/shared/services/user.service';
 import { DataService } from 'src/app/shared/services/data.service';
 import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { LocationsLists, CategoriesLists, Leads } from 'src/app/shared/models/leads';
-import { LeadSidebarComponent } from '../../lead-sidebar/lead-sidebar.component';
+import { LocationsLists, CategoriesLists } from 'src/app/shared/models/leads';
 import { LeadsService } from 'src/app/shared/services/leads.service';
+import { LeadSidebarComponent } from './lead-sidebar/lead-sidebar.component';
+import { LoggerService } from 'src/app/shared/services/logger.service';
 
 @Component({
-  selector: 'app-lead-layout',
-  templateUrl: './lead-layout.component.html'
+  selector: 'app-lead-details',
+  templateUrl: './lead-details.component.html'
 })
-export class LeadLayoutComponent implements OnInit {
+export class LeadDetailsComponent implements OnInit {
   new_tab: string;
   acted_tab: string;
   message: string;
@@ -26,7 +26,6 @@ export class LeadLayoutComponent implements OnInit {
   submitQuote: Subscription;
   @ViewChild('leadSideBar', { static: false }) leadSideBar: LeadSidebarComponent;
   hasLeads: boolean;
-
   subscriptions: Subscription[] = [];
 
   constructor(private data: DataService,
@@ -45,7 +44,6 @@ export class LeadLayoutComponent implements OnInit {
     }
   }
   
-  
   ngOnInit() {
     this.new_tab = "active-tab";
     this.acted_tab = "inactive-tab";
@@ -56,27 +54,35 @@ export class LeadLayoutComponent implements OnInit {
       if (this.submitQuoteMsg == 'SUBMIT') {
         this.leadSideBar.loadComponent();
       }
-
     });
 
+    // this.getNewLeads();
     this.startSubscriptions();
   }
+
+  // getNewLeads(){
+  //   this._leadService.getNewLeads().then(res => {
+  //     if (res) {
+  //       if (res.data.length > 0) {
+  //         this.toggleNewLeads();
+  //       }
+  //       else {
+  //         this.toggleActedLeads();
+  //       }
+  //     }
+  //     else {
+  //       this.toggleActedLeads();
+  //     }
+  //   });
+  // }
 
   startSubscriptions(){
     this.subscriptions.push(
       this._leadService.hasNewLeads$.subscribe(value => {
         this.hasLeads = value;
+        // debugger
       })
     );
-  }
-
-  ngOnDestroy() {
-    if (this.currentmessage) {
-      this.currentmessage.unsubscribe();
-    }
-    if (this.submitQuote) {
-      this.submitQuote.unsubscribe();
-    }
   }
 
   toggleNewLeads() {
@@ -119,7 +125,6 @@ export class LeadLayoutComponent implements OnInit {
     }
   }
 
-
   /**
    * Get all active filters Numbers
    */
@@ -128,5 +133,16 @@ export class LeadLayoutComponent implements OnInit {
       this.count = this.tabName != this.message ? 0 : this.count;
       this.selectedFilters = this.tabName != this.message ? [] : this.selectedFilters;
     }
+  }
+
+  ngOnDestroy() {
+    if (this.currentmessage) {
+      this.currentmessage.unsubscribe();
+    }
+    if (this.submitQuote) {
+      this.submitQuote.unsubscribe();
+    }
+
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
 }

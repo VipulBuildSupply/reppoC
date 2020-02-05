@@ -9,7 +9,6 @@ import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
-import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { NotificationsComponent } from './views/notifications/notifications.component';
 
@@ -109,13 +108,19 @@ export const routes: Routes = [
       },
 
       {
+        path: 'lead',
+        redirectTo: 'lead/new-lead',
+        pathMatch: 'full'
+      },
+
+      {
         path: '',
-        component: LeadLayoutComponent,
+        component: DefaultLayoutComponent,
         canActivate: [AuthGuardService, CatalogueGuardService],
         children: [
           {
             path: 'lead',
-            loadChildren: () => import('./views/leads/lead.module').then(m => m.LeadModule),
+            loadChildren: () => import('./views/leads/leads.module').then(m => m.LeadsModule),
             data: { title: 'Lead' }
           }
         ]

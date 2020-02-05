@@ -28,8 +28,8 @@
             </div>
             
             <mat-form-field class="item-enter-qty"> 
-                <input matInput type="number" formControlName="deliveryQty"
-                placeholder="Enter delivery quantity" required/>
+                <input matInput formControlName="deliveryQty"
+                placeholder="Enter delivery quantity" DecimalNumber="true" required/>
                 <mat-error *ngIf="multiItemForm.controls['deliveryQty'].errors && 
                 (multiItemForm.controls['deliveryQty'].dirty || multiItemForm.controls['deliveryQty'].touched)">
                     <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('required')">

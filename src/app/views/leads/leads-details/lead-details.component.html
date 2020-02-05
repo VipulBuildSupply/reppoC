@@ -8,14 +8,14 @@
           <div class="leads-srch-box flex-sb-m">
 
             <div class="leads-tap">
-              <a href="javascript:void(0)" [class]="new_tab" (click)="toggleNewLeads()">New Leads</a>
-              <a href="javascript:void(0)" [class]="acted_tab" (click)="toggleActedLeads()">Acted Leads</a>
+              <a href="javascript:void(0)" routerLinkActive="active-tab" [routerLink]="['/lead/new-lead']" (click)="toggleNewLeads()">New Leads</a>
+                <a href="javascript:void(0)" routerLinkActive="active-tab" [routerLink]="['/lead/acted-lead']" (click)="toggleActedLeads()">Acted Leads</a>
 
               <!-- <a href="javascript:void(0)" [ngClass]="isnewLeadActive ? 'active-tab' : 'inactive-tab'" (click)="isnewLeadActive = true">New Leads</a>
               <a href="javascript:void(0)" [ngClass]="!isnewLeadActive ? 'active-tab' : 'inactive-tab'"  (click)="isnewLeadActive = false">Acted Leads</a> -->
             </div>
 
-            <div class=" leads-srch">
+            <div class="leads-srch">
               <div class="form-group has-search mb-0">
                 <span class="form-control-feedback"><img src="assets/img/search-icon.png" alt=""></span>
                 <input type="text" class="form-control" (keyup)="applySearchFilter($event.target.value)"
@@ -35,7 +35,7 @@
     </div>
 
     <!-- If No Leads available in New Leads Section-->
-    <ng-container *ngIf="hasLeads === false && new_tab === 'active-tab'">
+    <ng-container *ngIf="(!hasLeads) && (new_tab === 'active-tab')">
       <div class="no-new-leads">
         <div class="row">
           <div class="col-md-12 text-center">
@@ -58,19 +58,21 @@
 
     <!-- If Leads are available in New Leads Section-->
     <div class="row">
-      <div class="col-lg-5" *ngIf="new_tab == 'active-tab'">
-        <app-lead-sidebar #leadSideBar></app-lead-sidebar>
-      </div>
 
-      <div class="col-lg-5" *ngIf="new_tab != 'active-tab'">
-        <app-lead-sidebar #leadSideBar></app-lead-sidebar>
+      <div class="col-lg-5">
+          <app-lead-sidebar #leadSideBar></app-lead-sidebar>
       </div>
-
+      
       <div class="col-lg-7">
-        <div class="lead-right-panel">
-          <router-outlet></router-outlet>
+        <div class="lead-right-panel" *ngIf="new_tab == 'active-tab'">
+          <app-new-leads [currentActiveTab]="'NewLeads'"></app-new-leads>
+        </div>
+
+        <div class="lead-right-panel" *ngIf="new_tab != 'active-tab'">
+          <app-new-leads [currentActiveTab]="'ActedLeads'"></app-new-leads>
         </div>
       </div>
+
     </div>
 
   </div>

@@ -25,7 +25,6 @@ import { OpenTileModule } from './views/open-tile/open-tile.module';
 import { CategoryService } from './shared/services/category.service';
 import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
-import { LeadLayoutComponent } from './shared/components/layouts/lead-layout/lead-layout.component';
 import { LeadsService } from './shared/services/leads.service';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { PurchaseOrdersService } from './shared/services/purchase-orders.service';
@@ -41,7 +40,7 @@ import { NotificationsComponent } from './views/notifications/notifications.comp
     NotFoundComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
-    LeadLayoutComponent,
+    // LeadLayoutComponent,
     MainLayoutComponent,
     NotificationsComponent
   ],
