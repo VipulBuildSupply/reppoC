@@ -20,7 +20,7 @@
 
                         <div class="col-md-3 pr-0 text-right d-flex justify-content-end align-items-center mgn12">
                             <!-- <ng-container *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''"> -->
-                            <ng-container *ngIf="message === 'NewLeads' && newlead.statusCd !== 'quote.request.sts.seller.submit'">
+                            <ng-container *ngIf="currentActiveTab === 'NewLeads' && newlead.statusCd !== 'quote.request.sts.seller.submit'">
                                 <div *ngIf="!bookmarkClicked[i]">
                                     <span class="bookmark-img">
                                         <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""
@@ -123,37 +123,53 @@
 
                 <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
                         
-                    <div *ngIf="message === 'ActedLeads'">
+                    <div *ngIf="currentActiveTab === 'ActedLeads'">
                         <!--------- Condition if submit quote, Acted Lead and not expired ------>
                         <ng-container *ngIf="!newlead.expired; else expiredLeadActed">
                             <button mat-button class="orangeBttn brdbttn mr-0"
                                 (click)="viewQuote(i)"
-                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]">View Quote</button>
+                                [routerLink]="['/lead/acted-lead',newlead.id]">View Quote</button>
                         </ng-container>
 
                         <!--------- Condition if submit quote, Acted Lead and expired ------>
                         <ng-template #expiredLeadActed>
                             <button (click)="viewQuote(i)"
-                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
+                                [routerLink]="['/lead/acted-lead',newlead.id]"
                                 class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
                         </ng-template>
                     </div>
                 </ng-container>
 
                 <ng-container *ngIf="newlead.status != 'Submit' && newlead.statusCd != 'quote.request.sts.seller.submit'">
-                    <div *ngIf="message === 'NewLeads' || message === 'ActedLeads'">
+                    <div *ngIf="currentActiveTab === 'NewLeads'">
                         
                         <!--------- Condition if submit quote, Acted & New Lead and not expired ------>
                         <ng-container *ngIf="!newlead.expired; else expiredLeadBoth">
                             <button mat-button class="orangeBttn brdbttn mr-0"
                                 (click)="viewQuote(i)" 
-                                [routerLink]="['/lead/leads-details/new-lead',newlead.id]">View Lead</button>
+                                [routerLink]="['/lead/new-lead',newlead.id]">View Lead</button>
                         </ng-container>
 
                         <!--------- Condition if submit quote, Acted & New Lead and expired ------>
                         <ng-template #expiredLeadBoth>
                             <button (click)="viewQuote(i)"
-                                [routerLink]="['/lead/leads-details/acted-lead',newlead.id]"
+                                [routerLink]="['/lead/new-lead',newlead.id]"
+                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                        </ng-template>
+                    </div>
+
+                    <div *ngIf="currentActiveTab === 'ActedLeads'">
+                        <!--------- Condition if submit quote, Acted Lead and not expired ------>
+                        <ng-container *ngIf="!newlead.expired; else expiredLeadBoth">
+                            <button mat-button class="orangeBttn brdbttn mr-0"
+                                (click)="viewQuote(i)" 
+                                [routerLink]="['/lead/acted-lead/'+newlead.id]">View Lead</button>
+                        </ng-container>
+
+                        <!--------- Condition if submit quote, Acted Lead and expired ------>
+                        <ng-template #expiredLeadBoth>
+                            <button (click)="viewQuote(i)"
+                                [routerLink]="['/lead/acted-lead/'+newlead.id]"
                                 class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
                         </ng-template>
                     </div>

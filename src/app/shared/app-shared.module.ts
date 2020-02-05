@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IndianCurrency } from './pipes/indianCurrency.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { NewDatePipe } from './pipes/new-date.pipe';
+import { DecimalNumberDirective } from './directive/decimal-numbers.directive';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { NewDatePipe } from './pipes/new-date.pipe';
     OtpDirective,
     IndianCurrency,
     CustomDatePipe,
-    NewDatePipe
+    NewDatePipe,
+    DecimalNumberDirective
   ],
   exports: [
     ...SharedDialogs,
@@ -39,7 +41,8 @@ import { NewDatePipe } from './pipes/new-date.pipe';
     SlickCarouselModule,
     IndianCurrency,
     CustomDatePipe,
-    NewDatePipe
+    NewDatePipe,
+    DecimalNumberDirective
   ],
   entryComponents: [
     ...SharedDialogs,

@@ -24,7 +24,7 @@ export class MultiItemCheckboxComponent implements OnInit {
       deliveryQty: ['', {
         validators: [
           Validators.required,
-          Validators.pattern(FieldRegExConst.QUANTITY_VALIDATION)
+          Validators.pattern(FieldRegExConst.DECIMAL_NUMBERS)
         ]
       }],
       poItemId: [this.item.id]

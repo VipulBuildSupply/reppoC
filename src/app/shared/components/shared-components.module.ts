@@ -11,7 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AddressComponent } from './address/address.component';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { BankDetailsShowComponent } from './bank-details-show/bank-details-show.component';
-import { LeadSidebarComponent } from './lead-sidebar/lead-sidebar.component';
+import { LeadSidebarComponent } from '../../views/leads/leads-details/lead-sidebar/lead-sidebar.component';
 import { SharedDirectivesModule } from '../directive/shared-directives.module';
 import { SideNavigationComponent } from './side-navigation/side-navigation.component';
 import { SubFilterComponent } from './sub-filter/sub-filter.component';
@@ -28,7 +28,7 @@ const components = [
   ProfileSidebarComponent,
   SnackComponent,
   ProfileVerifyComponent,
-  LeadSidebarComponent,
+  // LeadSidebarComponent,
   SideNavigationComponent,
   SubFilterComponent,
   UploadComponent,
