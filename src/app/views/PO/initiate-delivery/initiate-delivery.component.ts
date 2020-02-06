@@ -21,7 +21,7 @@ export class InitiateDeliveryComponent implements OnInit {
   minDate = new Date();
   inputFieldName: any;
   invoiceDocs: FileList;
-  lorryDocs: FileList;
+  eWayBillDocs: FileList;
   transportMode: any;
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
@@ -45,35 +45,34 @@ export class InitiateDeliveryComponent implements OnInit {
 
   formInit() {
     this.deliveryRequestForm = this._formBuilder.group({
-      invoiceNo: [''],
+      invoiceNo: ['', Validators.required],
       invoiceAttachId: ['', {
         validators: [
           Validators.required,
           Validators.minLength(1)
         ]
       }],
-      ewayBillNo: [''],
+      ewayBillNo: ['', Validators.required],
       eWayBillDate: [''],
-      ewayBillAttachId: [''],
+      ewayBillAttachId: ['', Validators.required],
       challanNo: [''],
       challanDate: [''],
       challanAttachId: [''],
       materialTestAttachId: [''],
       transporterName: ['', Validators.required],
-      transportModeCd: ['', Validators.required],
+      transportModeCd: [''],
       vehicleNo: ['', Validators.required],
-      driverName: ['', Validators.required],
+      driverName: [''],
       driverPhone: ['', {
         validators: [
-          Validators.required,
           Validators.maxLength(10),
           Validators.minLength(10),
           Validators.pattern(FieldRegExConst.PHONE)
         ]
       }],
-      lorryReceiptNo: [''],
+      lorryReceiptNo: ['', Validators.required],
       transportDate: [''],
-      lorryReceiptAttachId: ['', Validators.required]
+      lorryReceiptAttachId: ['']
     });
   }
 
@@ -170,8 +169,8 @@ export class InitiateDeliveryComponent implements OnInit {
     this.invoiceDocs = files;
   }
 
-  lorryDocUpdate(files: FileList) {
-    this.lorryDocs = files;
+  ewayBillDocUpdate(files: FileList) {
+    this.eWayBillDocs = files;
   }
 
   goBack() {

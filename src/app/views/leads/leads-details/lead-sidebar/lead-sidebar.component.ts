@@ -104,11 +104,11 @@ export class LeadSidebarComponent implements OnInit {
           }
           else {
             // this._leadService.hasNewLeads$.next(false);
-            this._dataService.changeMessage("ActedLeads");
+            // this._dataService.changeMessage("ActedLeads");
           }
         }
         else {
-          this._dataService.changeMessage("ActedLeads");
+          // this._dataService.changeMessage("ActedLeads");
         }
 
       });
@@ -124,12 +124,12 @@ export class LeadSidebarComponent implements OnInit {
             this.bookmarkClicked = [];
           }
           else {
-            this._dataService.changeMessage("ActedLeads");
+            // this._dataService.changeMessage("ActedLeads");
             // this._leadService.hasNewLeads$.next(false);
           }
         }
         else {
-          this._dataService.changeMessage("ActedLeads");
+          // this._dataService.changeMessage("ActedLeads");
         }
       });
     }

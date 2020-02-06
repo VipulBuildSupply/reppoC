@@ -43,18 +43,18 @@ export const routes: Routes = [
             path: 'home',
             component: HomeComponent,
             pathMatch: 'full'
-          },
-
-          {
-            path: 'privacy-policy',
-            component: PrivacyPolicyComponent
-          },
-
-          {
-            path: 'terms-and-conditions',
-            component: TermsAndConditionsComponent
           }
         ]
+      },
+
+      {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent
+      },
+
+      {
+        path: 'terms-and-conditions',
+        component: TermsAndConditionsComponent
       },
 
       {

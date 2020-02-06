@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
-import { PoOrders, AllDeliveries, ActivePastDelivery } from 'src/app/shared/models/purchase-orders';
-import { LoggerService } from 'src/app/shared/services/logger.service';
+import { PoOrders, ActivePastDelivery } from 'src/app/shared/models/purchase-orders';
 import { CommonService } from 'src/app/shared/services/common.service';
 
 @Component({
@@ -17,6 +16,11 @@ export class DeliveryDetailsComponent implements OnInit {
   deliveryDetails: ActivePastDelivery[];
   itemId: number;
   orderId: number;
+  invoiceFileExt: string;
+  challanFileExt: string;
+  eWayFileExt: string;
+  MtcFileExt: string;
+  LrFileExt: string;
 
   constructor(private _purchaseOrdersService: PurchaseOrdersService,
     private _activatedRoute: ActivatedRoute,
@@ -72,32 +76,60 @@ export class DeliveryDetailsComponent implements OnInit {
           case 'Invoice':
             this.deliveryDetails[0].invoiceDocName = res[0].orginalFileName;
             this.deliveryDetails[0].invoiceSignedUrl = res[0].signedUrl;
+            this.getFileExtension(res[0].orginalFileName, 'Invoice');
             break;
 
           case 'EwayBill':
             this.deliveryDetails[0].eWayDocName = res[0].orginalFileName;
             this.deliveryDetails[0].eWaySignedUrl = res[0].signedUrl;
+            this.getFileExtension(res[0].orginalFileName, 'EwayBill');
             break;
 
           case 'Challan':
             this.deliveryDetails[0].challanDocName = res[0].orginalFileName;
             this.deliveryDetails[0].challanSignedUrl = res[0].signedUrl;
+            this.getFileExtension(res[0].orginalFileName, 'Challan');
             break;
 
           case 'MTC':
             this.deliveryDetails[0].materialTestDocName = res[0].orginalFileName;
             this.deliveryDetails[0].materialTestSignedUrl = res[0].signedUrl;
+            this.getFileExtension(res[0].orginalFileName, 'MTC');
             break;
 
           case 'LR':
             this.deliveryDetails[0].lorryReceiptDocName = res[0].orginalFileName;
             this.deliveryDetails[0].lorryReceiptSignedUrl = res[0].signedUrl;
+            this.getFileExtension(res[0].orginalFileName, 'LR');
             break;
         
           default:
             break;
         }
       })
+    }
+  }
+
+  getFileExtension(name, type){
+    const [fileName, fileExt] = name.split(".");
+    switch(type){
+      case 'Invoice':
+        this.invoiceFileExt = fileExt;
+        break;
+      case 'EwayBill':
+        this.eWayFileExt = fileExt;
+        break;
+      case 'Challan':
+        this.challanFileExt = fileExt;
+        break;
+      case 'MTC':
+        this.MtcFileExt = fileExt;
+        break;
+      case 'LR':
+        this.LrFileExt = fileExt;
+        break;
+      default:
+        break;
     }
   }
 

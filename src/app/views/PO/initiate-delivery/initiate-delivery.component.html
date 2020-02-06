@@ -37,7 +37,7 @@
                                 <div class="row invoice d-flex align-items-center">
                                     <div class="col-md-4">
                                         <mat-form-field class="invoice-input mr-5 w-75">
-                                            <input matInput type="text" placeholder="Invoice Number" formControlName="invoiceNo">
+                                            <input matInput type="text" placeholder="Invoice Number" formControlName="invoiceNo" required>
                                         </mat-form-field>
                                     </div>
 
@@ -65,7 +65,7 @@
                                 <div class="row invoice d-flex align-items-center">
                                     <div class="col-md-4">
                                         <mat-form-field class="invoice-input mr-5 w-75">
-                                            <input matInput type="text" placeholder="Eway Bill Number" formControlName="ewayBillNo">
+                                            <input matInput type="text" placeholder="Eway Bill Number" formControlName="ewayBillNo" required>
                                         </mat-form-field>
                                     </div>
 
@@ -80,7 +80,16 @@
                                     </div>
                                     
                                     <div class="col-md-4">
-                                        <app-upload label="ewayBillAttachId" [fieldName]="'Eway Bill'" [isViewShow]="false" #uploadRef></app-upload>
+                                        <app-upload label="ewayBillAttachId" [fieldName]="'Eway Bill'" 
+                                            [isViewShow]="false" #uploadRef (onFileUpdate)="ewayBillDocUpdate($event)"></app-upload>
+                                    
+                                        <mat-error *ngIf="eWayBillDocs && eWayBillDocs.length == 0">
+                                            Please Upload eWay Bill Docs
+                                        </mat-error>
+
+                                        <mat-error *ngIf="deliveryRequestForm.controls['ewayBillAttachId'].value === undefined">
+                                            Please upload eWay Bill Docs
+                                        </mat-error>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +136,7 @@
                                     <div class="row invoice d-flex align-items-center">
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="Transporter Name" formControlName="transporterName">
+                                                <input matInput type="text" placeholder="Transporter Name" formControlName="transporterName" required>
                                             </mat-form-field>
                                         </div>
                                         
@@ -139,13 +148,13 @@
                                             <mat-form-field class="invoice-input mr-5 w-75">
                                                 <mat-label>Mode of transport</mat-label>
                                                 <mat-select formControlName="transportModeCd"
-                                                    (selectionChange)="modeOfTransport($event)" required>
+                                                    (selectionChange)="modeOfTransport($event)">
                                                     <mat-option value="TRUCK">TRUCK</mat-option>
                                                 </mat-select>
 
-                                                <mat-error *ngIf="!deliveryRequestForm.controls['transportModeCd'].value">
+                                                <!-- <mat-error *ngIf="!deliveryRequestForm.controls['transportModeCd'].value">
                                                     Please enter Mode of transport 
-                                                </mat-error>
+                                                </mat-error> -->
                                                 
                                             </mat-form-field>
                                         </div>
@@ -154,7 +163,7 @@
                                     <div class="row invoice d-flex align-items-center">
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="Vehicle No." formControlName="vehicleNo">
+                                                <input matInput type="text" placeholder="Vehicle No." formControlName="vehicleNo" required>
                                             </mat-form-field>
                                         </div>
                                         
@@ -175,7 +184,7 @@
 
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="LR No." formControlName="lorryReceiptNo">
+                                                <input matInput type="text" placeholder="LR No." formControlName="lorryReceiptNo" required>
                                             </mat-form-field>
                                         </div>
                                         
@@ -190,15 +199,15 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <app-upload label="lorryReceiptAttachId" [fieldName]="'Lorry Receipt'" [isViewShow]="false" #uploadRef (onFileUpdate)="lorryDocUpdate($event)"></app-upload>
-
-                                            <mat-error *ngIf="lorryDocs && lorryDocs.length == 0">
+                                            <app-upload label="lorryReceiptAttachId" [fieldName]="'Lorry Receipt'" [isViewShow]="false" #uploadRef></app-upload>
+                                            <!-- (onFileUpdate)="lorryDocUpdate($event)" -->
+                                            <!-- <mat-error *ngIf="lorryDocs && lorryDocs.length == 0">
                                                 Please Upload Lorry Receipt
                                             </mat-error>
 
                                             <mat-error *ngIf="deliveryRequestForm.controls['lorryReceiptAttachId'].value === undefined">
                                                 Please upload Lorry Receipt Docs
-                                            </mat-error>
+                                            </mat-error> -->
                                         </div>
                                         
                                     </div>
