@@ -344,9 +344,7 @@
                                     <ng-container *ngIf="!(currentActiveTab === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
                                         <div class="save-orange mt-2">
                                             <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
-                                            {{ isAllFormValidation }}
-                                            {{ leadPaymentForm.valid }}
-                                            {{ quoteDetailsForm.valid }}
+                                            
                                             <button type="submit" (click)="addPricingAllWarehouseAddress()" class="btn orangeBttn m-md-0"
                                                 [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                         </div>
@@ -514,12 +512,7 @@
                             
                             <ng-container *ngIf="!(currentActiveTab === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
                                 <div class="save-orange mt-2">
-                                    <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
-
-                                    {{ isAllFormValidation }}
-                                    {{ leadPaymentForm.valid }}
-                                    {{ quoteDetailsForm.valid }}
-                                    
+                                    <button class="btn orangeBttn brdbttn" type="button">Cancel</button>                                    
                                     <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
                                         [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                 </div>
