@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
 
   profileDropdown: ProfileSideBarMenus[];
   headerNavBar: HeaderNavigaton[];
-  // selectedProfile: any;
   user: UserModel;
   private subscriptions: Subscription[] = [];
   @Input('menu') menu: MatSidenav;
@@ -53,7 +52,7 @@ export class HeaderComponent implements OnInit {
     }
     this.getProfileDropdown();
     this.headerNavBar = HEADER_NAV;
-    this.userNotifications();
+    this.user ? this.userNotifications() : '';
   }
 
   startSubscriptions() {

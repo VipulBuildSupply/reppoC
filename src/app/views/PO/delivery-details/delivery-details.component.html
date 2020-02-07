@@ -57,14 +57,15 @@
 
                                 <div class="attachment-outer-col">
                                     <ng-container *ngIf="deliveryDetails[0].invoiceAttachId">
-                                        <div class="attachment-col text-center">
+                                        <div class="attachment-inner-col flex50 text-center">
                                             <div class="attachment-img">
-                                                <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                                <!-- [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" -->
+                                                <img [src]="invoiceFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-32" />
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].invoiceDocName}}</p>
                                         </div>
         
-                                        <div class="attachment-col text-center">
+                                        <div class="attachment-inner-col text-center">
                                             <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].invoiceSignedUrl)">View</span>
                                         </div>
                                     </ng-container>
@@ -90,7 +91,7 @@
                                     <ng-container *ngIf="deliveryDetails[0].ewayBillAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                                <img [src]="eWayFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].eWayDocName}}</p>
                                         </div>
@@ -121,7 +122,7 @@
                                     <ng-container *ngIf="deliveryDetails[0].challanAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                                <img [src]="challanFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].challanDocName}}</p>
                                         </div>
@@ -152,7 +153,7 @@
                                     <ng-container *ngIf="deliveryDetails[0].materialTestAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                                <img [src]="MtcFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].materialTestDocName}}</p>
                                         </div>
@@ -264,7 +265,7 @@
                                     <ng-container *ngIf="deliveryDetails[0].lorryReceiptAttachId">
                                         <div class="vehicle-col text-center">
                                             <div class="attachment-img">
-                                                <img src="assets/img/file.png" alt="" class="img-fluid" />
+                                                <img [src]="LrFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
                                             </div>
                                             <p class="attachment-filename mb-0">{{ deliveryDetails[0].lorryReceiptDocName }}</p>
                                         </div>

@@ -265,6 +265,7 @@
 
             .attachment-row, .vehicle-row{
                 height: 55px;
+                margin-bottom: 20px;
 
                 .attachment-col, .vehicle-col{
                     font-family: "Open Sans", sans-serif;
@@ -430,6 +431,7 @@
         li{
             font-size: 14px;
             line-height: 26px;
+            word-break: break-all;
             &:first-child {
                 font-weight: 600;
             }
@@ -905,4 +907,20 @@
 
 .cursor-link{
     cursor: pointer;
+}
+
+.w-25{
+    width: 25px;
+    margin: auto;
+    display: block;
+}
+
+.w-32{
+    width: 32px;
+    margin: auto;
+    display: block;
+}
+
+.flex50{
+    flex: 0 0 50%;
 }

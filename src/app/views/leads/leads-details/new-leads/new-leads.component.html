@@ -98,7 +98,9 @@
 
                         <div class="quote-date">
                             <div class="form-group lableup my-0">
-                                <ng-container *ngIf="currentActiveTab == 'ActedLeads' && datePickerValue">
+                                <ng-container *ngIf="currentActiveTab == 'ActedLeads' && datePickerValue && 
+                                    showLeadObjDetails.data.request.statusCd != 'quote.request.sts.seller.add'; 
+                                    else quoteDate">
                                     <mat-form-field class="quote-till-date">
                                         <input matInput #ref class="form-control inputLableUp" [min]="minDate"
                                             [matDatepicker]="picker" placeholder="Quote Valid Till"
@@ -109,7 +111,7 @@
                                     </mat-form-field>
                                 </ng-container>
 
-                                <ng-container *ngIf="currentActiveTab == 'NewLeads'">
+                                <ng-template #quoteDate>
                                     <mat-form-field>
                                         <input matInput #ref class="form-control inputLableUp" [min]="minDate"
                                             [matDatepicker]="picker" placeholder="Quote Valid Till"
@@ -118,7 +120,11 @@
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
-                                </ng-container>
+                                </ng-template>
+
+                                <!-- <ng-container *ngIf="currentActiveTab == 'NewLeads' && currentActiveTab === 'ActedLeads'">
+                                    
+                                </ng-container> -->
                             </div>
                         </div>
 
@@ -506,7 +512,7 @@
                             
                             <ng-container *ngIf="!(currentActiveTab === 'ActedLeads' && showLeadObjDetails.data.request.statusCd === 'quote.request.sts.seller.submit')">
                                 <div class="save-orange mt-2">
-                                    <button class="btn orangeBttn brdbttn" type="button">Cancel</button>
+                                    <button class="btn orangeBttn brdbttn" type="button">Cancel</button>                                    
                                     <button type="submit" (click)="addPricingIndividualWarehouseAddress()" class="btn orangeBttn m-md-0"
                                         [disabled]="(!isAllFormValidation) || (!leadPaymentForm.valid) || (!quoteDetailsForm.valid)">Submit</button>
                                 </div>

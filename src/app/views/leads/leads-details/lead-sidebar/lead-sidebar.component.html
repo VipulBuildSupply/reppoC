@@ -20,7 +20,7 @@
 
                         <div class="col-md-3 pr-0 text-right d-flex justify-content-end align-items-center mgn12">
                             <!-- <ng-container *ngIf="newlead.status == 'Saved' || newlead.status == null || newlead.status == ''"> -->
-                            <ng-container *ngIf="currentActiveTab === 'NewLeads' && newlead.statusCd !== 'quote.request.sts.seller.submit'">
+                            <ng-container *ngIf="(newlead.statusCd !== 'quote.request.sts.seller.submit') && (!newlead.expired)">
                                 <div *ngIf="!bookmarkClicked[i]">
                                     <span class="bookmark-img">
                                         <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""
