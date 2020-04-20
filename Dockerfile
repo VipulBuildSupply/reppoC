@@ -1,12 +1,53 @@
-# stage 1
-FROM node:latest as node
-WORKDIR /app
-COPY package.json /app
-RUN npm install
-COPY . /app/
-RUN npm run build-prd
+# ============================================================================= 
+#
+# ============================================================================= 
 
-# stage 2
 FROM nginx:alpine
-COPY --from=node /app/dist/prd/ /usr/share/nginx/html/
-COPY --from=node /app/nginx.conf /etc/nginx/conf.d/default.conf
+ 
+MAINTAINER Keshav <keshavt@umbrellainfocare.com> 
+
+# ----------------------------------------------------------------------------- 
+# Create new user and group
+# ------------------------------------------------------------------------------
+
+RUN adduser -D -g 'alpine' alpine
+
+# ----------------------------------------------------------------------------- 
+# Install 
+# ----------------------------------------------------------------------------- 
+  
+# ----------------------------------------------------------------------------- 
+# Copy content 
+# ----------------------------------------------------------------------------- 
+
+COPY dist/prd/ /usr/share/nginx/html/
+COPY buildScripts/nginx.conf /etc/nginx/conf.d/default.conf
+
+# ----------------------------------------------------------------------------- 
+# Change owner and permission 
+# ----------------------------------------------------------------------------- 
+
+RUN chown -R alpine:alpine /usr/share/nginx/html/ 
+RUN chown -R alpine:alpine /etc/nginx/
+RUN chown -R alpine:alpine /var/log/nginx/
+RUN chmod -R 755 /var/log/nginx/
+RUN chown -R alpine:alpine /var/cache/nginx/
+RUN chown -R alpine:alpine /var/run/
+
+# ----------------------------------------------------------------------------- 
+# Switch user
+# ----------------------------------------------------------------------------- 
+
+USER alpine
+WORKDIR /usr/share/nginx/html/
+
+# ----------------------------------------------------------------------------- 
+# Remove extra files 
+# ----------------------------------------------------------------------------- 
+
+# ----------------------------------------------------------------------------- 
+# Set ports 
+# ----------------------------------------------------------------------------- 
+
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+
