@@ -2,62 +2,81 @@
     <div class="container">
         <div class="mark-in-transit__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
             <h3>
-                <i aria-hidden="true" class="fa fa-angle-left mr-2" tabindex="0" [routerLink]="['/orders/details/awarded/'+purchaseId]"></i>
-                Initiate Delivery</h3>
+                <i
+                    aria-hidden="true"
+                    class="fa fa-angle-left mr-2"
+                    tabindex="0"
+                    [routerLink]="['/orders/details/awarded/'+purchaseId]"></i>
+                Initiate Delivery
+            </h3>
         </div>
 
         <div class="mark-in-transit__orders-list">
             <div class="mark-in-transit__order mb-3">
-                <div class="mark-in-transit__card" *ngIf="itemsList">
+                <div
+                    class="mark-in-transit__card"
+                    *ngIf="itemsList">
 
                     <div class="mark-in-transit__title-section">
                         <div class="mark-in-transit__title-left">
-                            <h4 class="mb-1">Purchase Order Id : {{ itemsList.orderNo }}</h4>
-                            <p class="datetime mb-0">{{ itemsList.orderDate | IsoDatePipe | gmtToLocal }}</p>
+                            <h4 class="mb-1">
+                                Purchase Order Id : {{ itemsList.orderNo }}
+                            </h4>
+                            <p class="datetime mb-0">
+                                {{ itemsList.orderDate | IsoDatePipe | gmtToLocal }}
+                            </p>
                         </div>
                     </div>
 
-                    <form [formGroup]="deliveryRequestForm" (ngSubmit)="submit()">
+                    <form
+                        [formGroup]="deliveryRequestForm"
+                        (ngSubmit)="submit()">
                         <div class="mark-in-transit__items">
                             <p class="mb-2">Please Select Items Per Vehicle</p>
-                            <hr class="mt-1"/>
+                            <hr class="mt-1">
                             <ng-container *ngIf="itemsList.orderItemList && itemsList.orderItemList.length">
-                                <div class="mark-in-transit__items-list" *ngFor="let item of itemsList.orderItemList">
+                                <div
+                                    class="mark-in-transit__items-list"
+                                    *ngFor="let item of itemsList.orderItemList">
                                     <app-multi-item-checkbox [items]="item"></app-multi-item-checkbox>
                                 </div>
                             </ng-container>
                         </div>
 
-
                         <div class="mark-in-transit__vehicle-details">
-                        
+
                             <div class="form-outer">
                                 <h3 class="mb-3">Invoice</h3>
 
                                 <div class="row invoice d-flex align-items-center">
                                     <div class="col-md-4">
                                         <mat-form-field class="invoice-input mr-5 w-75">
-                                            <input matInput type="text" placeholder="Invoice Number" formControlName="invoiceNo" required>
+                                            <input
+                                                matInput
+                                                type="text"
+                                                placeholder="Invoice Number"
+                                                formControlName="invoiceNo"
+                                                required>
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <app-upload label="invoiceAttachId" [isViewShow]="false" 
-                                            [fieldName]="'Invoice'" #uploadRef (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
+                                        <app-upload
+                                            label="invoiceAttachId"
+                                            [isViewShow]="false"
+                                            [fieldName]="'Invoice'"
+                                            #uploadRef
+                                            (onFileUpdate)="invoiceDocUpdate($event)"></app-upload>
 
-                                        <mat-error *ngIf="invoiceDocs && invoiceDocs.length == 0">
-                                            Please Upload Invoice Docs
-                                        </mat-error>
+                                        <mat-error *ngIf="invoiceDocs && invoiceDocs.length == 0">Please Upload Invoice Docs</mat-error>
 
-                                        <mat-error *ngIf="deliveryRequestForm.controls['invoiceAttachId'].value === undefined">
-                                            Please upload Invoice Docs
-                                        </mat-error>
+                                        <mat-error *ngIf="deliveryRequestForm.controls['invoiceAttachId'].value === undefined">Please upload Invoice Docs</mat-error>
 
                                     </div>
                                 </div>
                             </div>
-                            
-                            <hr/>
+
+                            <hr>
 
                             <div class="form-outer">
                                 <h3 class="mt-4 mb-3">Eway Bill</h3>
@@ -65,67 +84,100 @@
                                 <div class="row invoice d-flex align-items-center">
                                     <div class="col-md-4">
                                         <mat-form-field class="invoice-input mr-5 w-75">
-                                            <input matInput type="text" placeholder="Eway Bill Number" formControlName="ewayBillNo" required>
+                                            <input
+                                                matInput
+                                                type="text"
+                                                placeholder="Eway Bill Number"
+                                                formControlName="ewayBillNo"
+                                                required>
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-4">
                                         <mat-form-field class="mr-5 w-75">
-                                            <input hidden matInput [matDatepicker]="ewayDate"
-                                                formControlName="eWayBillDate" [min]="minDate">
-                                            <span class="form-placeholder">{{ formatDate(deliveryRequestForm.controls.eWayBillDate.value) }}</span>
-                                            <mat-datepicker-toggle matSuffix [for]="ewayDate"></mat-datepicker-toggle>
+                                            <input
+                                                hidden
+                                                matInput
+                                                [matDatepicker]="ewayDate"
+                                                formControlName="eWayBillDate"
+                                                [min]="minDate">
+                                            <span class="form-placeholder">
+                                                {{ formatDate(deliveryRequestForm.controls.eWayBillDate.value) }}
+                                            </span>
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="ewayDate"></mat-datepicker-toggle>
                                             <mat-datepicker #ewayDate></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    
-                                    <div class="col-md-4">
-                                        <app-upload label="ewayBillAttachId" [fieldName]="'Eway Bill'" 
-                                            [isViewShow]="false" #uploadRef (onFileUpdate)="ewayBillDocUpdate($event)"></app-upload>
-                                    
-                                        <mat-error *ngIf="eWayBillDocs && eWayBillDocs.length == 0">
-                                            Please Upload eWay Bill Docs
-                                        </mat-error>
 
-                                        <mat-error *ngIf="deliveryRequestForm.controls['ewayBillAttachId'].value === undefined">
-                                            Please upload eWay Bill Docs
-                                        </mat-error>
+                                    <div class="col-md-4">
+                                        <app-upload
+                                            label="ewayBillAttachId"
+                                            [fieldName]="'Eway Bill'"
+                                            [isViewShow]="false"
+                                            #uploadRef
+                                            (onFileUpdate)="ewayBillDocUpdate($event)"></app-upload>
+
+                                        <mat-error *ngIf="eWayBillDocs && eWayBillDocs.length == 0">Please Upload eWay Bill Docs</mat-error>
+
+                                        <mat-error *ngIf="deliveryRequestForm.controls['ewayBillAttachId'].value === undefined">Please upload eWay Bill Docs</mat-error>
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr>
 
                             <div class="form-outer">
                                 <h3 class="mt-4 mb-3">Delivery Challan</h3>
                                 <div class="row invoice d-flex align-items-center">
                                     <div class="col-md-4">
                                         <mat-form-field class="invoice-input mr-5 w-75">
-                                            <input matInput type="text" placeholder="Delivery Challan Number" formControlName="challanNo">
+                                            <input
+                                                matInput
+                                                type="text"
+                                                placeholder="Delivery Challan Number"
+                                                formControlName="challanNo">
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-4">
                                         <mat-form-field class="mr-5 w-75">
-                                            <input hidden matInput [matDatepicker]="picker1"
-                                                [min]="minDate" formControlName="challanDate">
-                                                <span class="form-placeholder">{{ formatDate(deliveryRequestForm.controls.challanDate.value) }}</span>
-                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input
+                                                hidden
+                                                matInput
+                                                [matDatepicker]="picker1"
+                                                [min]="minDate"
+                                                formControlName="challanDate">
+                                            <span class="form-placeholder">
+                                                {{ formatDate(deliveryRequestForm.controls.challanDate.value) }}
+                                            </span>
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    
+
                                     <div class="col-md-4">
-                                        <app-upload label="challanAttachId" [fieldName]="'Delivery Challan'" [isViewShow]="false" #uploadRef></app-upload>
+                                        <app-upload
+                                            label="challanAttachId"
+                                            [fieldName]="'Delivery Challan'"
+                                            [isViewShow]="false"
+                                            #uploadRef></app-upload>
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr>
 
                             <div class="form-outer">
                                 <h3 class="mt-4 mb-3">Material Test Certificate</h3>
 
                                 <div class="form-group lableup form-control">
-                                    <app-upload label="materialTestAttachId" [fieldName]="'MTC'" [isViewShow]="false" #uploadRef></app-upload>
+                                    <app-upload
+                                        label="materialTestAttachId"
+                                        [fieldName]="'MTC'"
+                                        [isViewShow]="false"
+                                        #uploadRef></app-upload>
                                 </div>
                             </div>
 
@@ -136,10 +188,15 @@
                                     <div class="row invoice d-flex align-items-center">
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="Transporter Name" formControlName="transporterName" required>
+                                                <input
+                                                    matInput
+                                                    type="text"
+                                                    placeholder="Transporter Name"
+                                                    formControlName="transporterName"
+                                                    required>
                                             </mat-form-field>
                                         </div>
-                                        
+
                                         <div class="col-md-4">
                                             <!-- <mat-form-field class="invoice-input mr-5 w-75">
                                                 <input matInput type="text" placeholder="Mode of Transport" formControlName="transportModeCd">
@@ -147,15 +204,16 @@
 
                                             <mat-form-field class="invoice-input mr-5 w-75">
                                                 <mat-label>Mode of transport</mat-label>
-                                                <mat-select formControlName="transportModeCd"
+                                                <mat-select
+                                                    formControlName="transportModeCd"
                                                     (selectionChange)="modeOfTransport($event)">
-                                                    <mat-option value="TRUCK">TRUCK</mat-option>
+                                                    <mat-option value="transport.mode.road">ROAD</mat-option>
                                                 </mat-select>
 
                                                 <!-- <mat-error *ngIf="!deliveryRequestForm.controls['transportModeCd'].value">
                                                     Please enter Mode of transport 
                                                 </mat-error> -->
-                                                
+
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -163,20 +221,33 @@
                                     <div class="row invoice d-flex align-items-center">
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="Vehicle No." formControlName="vehicleNo" required>
+                                                <input
+                                                    matInput
+                                                    type="text"
+                                                    placeholder="Vehicle No."
+                                                    formControlName="vehicleNo"
+                                                    required>
                                             </mat-form-field>
                                         </div>
-                                        
+
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="Driver Name" formControlName="driverName">
-                                            </mat-form-field>    
+                                                <input
+                                                    matInput
+                                                    type="text"
+                                                    placeholder="Driver Name"
+                                                    formControlName="driverName">
+                                            </mat-form-field>
                                         </div>
-                                        
+
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="number" placeholder="Driver Contact No." formControlName="driverPhone">
-                                            </mat-form-field>    
+                                                <input
+                                                    matInput
+                                                    type="number"
+                                                    placeholder="Driver Contact No."
+                                                    formControlName="driverPhone">
+                                            </mat-form-field>
                                         </div>
                                     </div>
 
@@ -184,22 +255,39 @@
 
                                         <div class="col-md-4">
                                             <mat-form-field class="invoice-input mr-5 w-75">
-                                                <input matInput type="text" placeholder="LR No." formControlName="lorryReceiptNo" required>
+                                                <input
+                                                    matInput
+                                                    type="text"
+                                                    placeholder="LR No."
+                                                    formControlName="lorryReceiptNo"
+                                                    required>
                                             </mat-form-field>
                                         </div>
-                                        
+
                                         <div class="col-md-4">
                                             <mat-form-field class="mr-5 w-75">
-                                                <input hidden matInput [matDatepicker]="lrDate" 
-                                                    [min]="minDate" formControlName="transportDate">
-                                                    <span class="form-placeholder">{{ formatDate(deliveryRequestForm.controls.transportDate.value) }}</span>
-                                                <mat-datepicker-toggle matSuffix [for]="lrDate"></mat-datepicker-toggle>
+                                                <input
+                                                    hidden
+                                                    matInput
+                                                    [matDatepicker]="lrDate"
+                                                    [min]="minDate"
+                                                    formControlName="transportDate">
+                                                <span class="form-placeholder">
+                                                    {{ formatDate(deliveryRequestForm.controls.transportDate.value) }}
+                                                </span>
+                                                <mat-datepicker-toggle
+                                                    matSuffix
+                                                    [for]="lrDate"></mat-datepicker-toggle>
                                                 <mat-datepicker #lrDate></mat-datepicker>
                                             </mat-form-field>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <app-upload label="lorryReceiptAttachId" [fieldName]="'Lorry Receipt'" [isViewShow]="false" #uploadRef></app-upload>
+                                            <app-upload
+                                                label="lorryReceiptAttachId"
+                                                [fieldName]="'Lorry Receipt'"
+                                                [isViewShow]="false"
+                                                #uploadRef></app-upload>
                                             <!-- (onFileUpdate)="lorryDocUpdate($event)" -->
                                             <!-- <mat-error *ngIf="lorryDocs && lorryDocs.length == 0">
                                                 Please Upload Lorry Receipt
@@ -209,14 +297,23 @@
                                                 Please upload Lorry Receipt Docs
                                             </mat-error> -->
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
 
                             <div class="btn-groups mt-3">
-                                <button mat-button class="btn brdbttn mr-2" (click)="goBack()">Cancel</button>
-                                <button mat-button class="btn text-white">Submit</button>
+                                <button
+                                    mat-button
+                                    class="btn brdbttn mr-2"
+                                    (click)="goBack()">
+                                    Cancel
+                                </button>
+                                <button
+                                    mat-button
+                                    class="btn text-white">
+                                    Submit
+                                </button>
                             </div>
 
                         </div>
