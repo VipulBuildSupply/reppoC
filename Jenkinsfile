@@ -1,10 +1,12 @@
-properties([pipelineTriggers([pollSCM('H/2 * * * *')])])
 
 pipeline {
     options {
     buildDiscarder(logRotator(numToKeepStr: '50', artifactNumToKeepStr: '50'))
     }
-    agent any 
+    agent any
+    triggers { 
+        pollSCM('H/2 * * * *') 
+    } 
     stages {
         stage('Build') { 
             steps {
