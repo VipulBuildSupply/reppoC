@@ -1,3 +1,4 @@
+properties([pipelineTriggers([pollSCM('H/2 * * * *')])])
 
 pipeline {
     options {
