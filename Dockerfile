@@ -1,9 +1,18 @@
 # ============================================================================= 
-#
+# Build image
+# ============================================================================= 
+
+FROM node:13.13 as build
+WORKDIR /opt/node/
+COPY . /opt/node/
+RUN npm install
+RUN npm run build-prd
+
+# ============================================================================= 
+# Deploy image
 # ============================================================================= 
 
 FROM nginx:alpine
- 
 MAINTAINER Keshav <keshavt@umbrellainfocare.com> 
 
 # ----------------------------------------------------------------------------- 
@@ -20,7 +29,7 @@ RUN adduser -D -g 'alpine' alpine
 # Copy content 
 # ----------------------------------------------------------------------------- 
 
-COPY dist/prd/ /usr/share/nginx/html/
+COPY --from=build /opt/node/dist/prd/ /usr/share/nginx/html/
 COPY buildScripts/nginx.conf /etc/nginx/conf.d/default.conf
 
 # ----------------------------------------------------------------------------- 
