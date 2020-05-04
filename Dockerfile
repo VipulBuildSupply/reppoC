@@ -14,7 +14,7 @@ RUN npm run build-prd
 # ============================================================================= 
 
 FROM nginx:alpine
-MAINTAINER Keshav <keshavt@umbrellainfocare.com> 
+MAINTAINER Vipul <vipul.sharma@buildsupply.com> 
 
 # ----------------------------------------------------------------------------- 
 # Create new user and group
@@ -51,7 +51,7 @@ RUN chmod +x /usr/share/nginx/html/envsetup.sh
 # ----------------------------------------------------------------------------- 
 
 USER alpine
-# CMD /usr/share/nginx/html/envsetup.sh
+CMD /usr/share/nginx/html/envsetup.sh
 WORKDIR /usr/share/nginx/html/
 
 
