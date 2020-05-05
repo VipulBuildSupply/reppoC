@@ -1,0 +1,46 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "git push to vipul/seller",
+            "type": "shell",
+            "command": "git push https://vipul:vipul%40111@code.buildsupply.com/Vipul/seller.git --all && echo 'Hogya push' | boxes -d dog -a hcvc ",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "git pull from frontend/seller",
+            "type": "shell",
+            "command": "git pull https://vipul:vipul%40111@code.buildsupply.com/commerce/frontend/seller.git && echo 'frontend pull Hogya' | boxes -d boy -a hcvc"
+        },
+        {
+            "label": "miniKube cleanup",
+            "type": "shell",
+            "command": "minikube delete && minikube start --cpus 4 --memory 8192"
+        },
+        {
+            "label": "PUSH build image",
+            "type": "shell",
+            "command": "rm -rf ./dist && rm -rf ./node_modules && skaffold build && echo 'Image Pushed on GC' | boxes -d dog -a hcvc && npm install"
+        },
+        {
+            "label": "REMOVE DOCKER IMAGE",
+            "type": "shell",
+            "command": "minikube stop && minikube delete && minikube start --cpus 4 --memory 8192 && echo 'Docker images removed' | boxes -d cat -a hcvc"
+        },
+        {
+            "type": "npm",
+            "script": "build:shared",
+            "problemMatcher": [
+                "$tsc-watch"
+            ],
+            "group": "build",
+            "isBackground": true
+        }
+    ]
+}
