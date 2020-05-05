@@ -1,58 +1,156 @@
-<form [formGroup]="signupForm" (ngSubmit)="submit()">
+<form
+    [formGroup]="signupForm"
+    (ngSubmit)="submit()">
     <h2>Welcome to BuildSupply</h2>
     <h2>Sign Up</h2>
-    <div class="form-group flag-box">
+    <div class="form-group flag-box mb-2">
         <div class="flag dropdown dropdown-toggle">
-            <button class=" input-bg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false"><img src="assets/img/ind-flag.png" alt="">
+            <button
+                class=" input-bg"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <img
+                    src="assets/img/ind-flag.png"
+                    alt>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a></li>
-                <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a> </li>
-                <li> <a class="dropdown-item" href="#"><img src="assets/img/ind-flag.png" alt=""></a></li>
+            <ul
+                class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a
+                        class="dropdown-item"
+                        href="#">
+                        <img
+                            src="assets/img/ind-flag.png"
+                            alt>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class="dropdown-item"
+                        href="#">
+                        <img
+                            src="assets/img/ind-flag.png"
+                            alt>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class="dropdown-item"
+                        href="#">
+                        <img
+                            src="assets/img/ind-flag.png"
+                            alt>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- <input type="text" id="mobile" class="form-control" value="9899231984"> -->
-        <input type="number" disabled class="form-control" placeholder="Enter mobile number" value="{{mobileNumber}}"
+        <input
+            type="number"
+            disabled
+            class="form-control"
+            formControlName="phone"
+            placeholder="Enter mobile number">
+        <label
+            class="form-control-placeholder"
+            for="mobile">
+            Mobile no.
+        </label>
+    </div>
+
+    <div class="form-group flag-box form-group flag-box inputbox  mb-0">
+
+        <!-- <input type="text" id="mobile" class="form-control" value="9899231984"> -->
+        <input
+            type="email"
+            class="form-control"
+            placeholder="Enter Email"
+            formControlName="email">
+        <label class="form-control-placeholder">Email</label>
+
+    </div>
+    <ng-container *ngIf="signupForm.controls['email'].touched">
+
+        <mat-error *ngIf="signupForm.controls['email'].hasError('required')">Email Required</mat-error>
+        <mat-error *ngIf="signupForm.controls['email'].hasError('pattern')">Email is invalid</mat-error>
+    </ng-container>
+    <div class="form-group flag-box inputbox mb-2 mt-4">
+        <!-- <input type="text" id="mobile" class="form-control" value="***********"> -->
+        <input
+            type="password"
+            class="form-control"
+            name="password"
+            (ngModelChange)="checkPasswords(signupForm)"
+            formControlName="password"
+            placeholder="Enter Your Password"
             required>
-        <label class="form-control-placeholder" for="mobile">Mobile no.</label>
+        <label
+            class="form-control-placeholder"
+            for="buisness">
+            Password
+        </label>
     </div>
-
+    <div *ngIf="signupForm.controls['password'].errors && (signupForm.controls['password'].dirty || signupForm.controls['password'].touched)">
+        <p
+            *ngIf="signupForm.controls['password'].hasError('required')"
+            class="error-validation mb-4">
+            Password is required
+        </p>
+        <p
+            *ngIf="signupForm.controls['password'].hasError('minlength')"
+            class="error-validation mb-4">
+            Password should have minimum 6 characters.
+        </p>
+    </div>
 
     <div class="form-group flag-box inputbox mb-2">
         <!-- <input type="text" id="mobile" class="form-control" value="***********"> -->
-        <input type="password" class="form-control" name="password" (ngModelChange)="checkPasswords(signupForm)"
-            formControlName="password" placeholder="Enter Your Password" required>
-        <label class="form-control-placeholder" for="buisness">Password</label>
-    </div>
-    <div
-        *ngIf="signupForm.controls['password'].errors && (signupForm.controls['password'].dirty || signupForm.controls['password'].touched)">
-        <p *ngIf="signupForm.controls['password'].hasError('required')" class="error-validation mb-4">
-            Password is required</p>
-        <p *ngIf="signupForm.controls['password'].hasError('minlength')" class="error-validation mb-4">
-            Password should have minimum 6 characters.</p>
-    </div>
-
-
-    <div class="form-group flag-box inputbox mb-2">
-        <!-- <input type="text" id="mobile" class="form-control" value="***********"> -->
-        <input type="password" (ngModelChange)="checkPasswords(signupForm)" class="form-control" name="confirmPassword"
-            formControlName="confirmPassword" placeholder="Confirm Your Password" required>
-        <label class="form-control-placeholder" for="buisness">Confirm Password</label>
+        <input
+            type="password"
+            (ngModelChange)="checkPasswords(signupForm)"
+            class="form-control"
+            name="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="Confirm Your Password"
+            required>
+        <label
+            class="form-control-placeholder"
+            for="buisness">
+            Confirm Password
+        </label>
     </div>
     <div *ngIf="signupForm.controls['confirmPassword'].dirty && signupForm.controls['confirmPassword'].touched">
-        <p *ngIf="!isPasswordMatch" class="error-validation mb-4">Passwords do not match.</p>
+        <p
+            *ngIf="!isPasswordMatch"
+            class="error-validation mb-4">
+            Passwords do not match.
+        </p>
     </div>
-
 
     <div class="form-group">
         <div class="byTapping">
-            <mat-checkbox required formControlName="terms"> By tapping Continue , I agree to BuildSupply’s<br><a
-                    href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></mat-checkbox>
+            <mat-checkbox
+                required
+                formControlName="terms">
+                By tapping Continue , I agree to BuildSupply’s
+                <br>
+                <a href="#">Terms of Service</a>
+                and
+                <a href="#">Privacy Policy</a>
+            </mat-checkbox>
         </div>
     </div>
     <div class="save-orange login">
-        <button type="submit" [disabled]="!((signupForm.valid) && isPasswordMatch)" class="btn orangeBttn">Sign
-            Up</button>
+        <button
+            type="submit"
+            [disabled]="!((signupForm.valid) && isPasswordMatch)"
+            class="btn orangeBttn">
+            Sign
+            Up
+        </button>
     </div>
 </form>

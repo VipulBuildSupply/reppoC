@@ -9,12 +9,13 @@ COPY . /opt/node/
 RUN npm install
 RUN npm run build-prd
 
+
 # ============================================================================= 
 # Deploy image
 # ============================================================================= 
 
 FROM nginx:alpine
-MAINTAINER Vipul <vipul.sharma@buildsupply.com> 
+MAINTAINER Keshav <keshavt@umbrellainfocare.com> 
 
 # ----------------------------------------------------------------------------- 
 # Create new user and group
@@ -51,7 +52,7 @@ RUN chmod +x /usr/share/nginx/html/envsetup.sh
 # ----------------------------------------------------------------------------- 
 
 USER alpine
-CMD /usr/share/nginx/html/envsetup.sh
+RUN /usr/share/nginx/html/envsetup.sh
 WORKDIR /usr/share/nginx/html/
 
 

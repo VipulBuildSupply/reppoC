@@ -4,33 +4,53 @@
         <div class="row align-items-center position-relative">
             <div class="col-md-3 col-sm-4 pr-0 logo-section">
                 <div class="logo-main">
-                    <a href="javascript:void(0)"
-                    [routerLink]="['/profile-verification/status']"><img src="/assets/img/logo.svg"></a>
+                    <a
+                        href="javascript:void(0)"
+                        [routerLink]="['/profile-verification/status']">
+                        <img src="/assets/img/logo.svg">
+                    </a>
                 </div>
             </div>
 
             <div class="col-md-2 d-sm-none d-md-block hide-on-mobile"></div>
 
             <div class="col-md-7 col-sm-8 position-abs">
-                
+
                 <div class="d-flex align-items-center justify-content-end">
                     <ul class="header-main__navigation">
-                        <li class="nav-item active" *ngFor="let item of headerNavBar">
-                            <a class="nav-link" [routerLink]="[item.link]" routerLinkActive="active" 
+                        <li
+                            class="nav-item active"
+                            *ngFor="let item of headerNavBar">
+                            <a
+                                class="nav-link"
+                                [routerLink]="[item.link]"
+                                routerLinkActive="active"
                                 href="javascript:void(0)">
-                            <img [src]=[item.imgUrl]> {{item.name}}</a>
+                                <img [src]=[item.imgUrl]>
+                                {{item.name }}
+                            </a>
                         </li>
                         <li class="header-main__notification">
-                            <button mat-button [matMenuTriggerFor]="menu">
+                            <button
+                                mat-button
+                                [matMenuTriggerFor]="menu">
                                 <mat-icon class="mat-notifications">notifications</mat-icon>
                             </button>
-                            <mat-menu #menu="matMenu" class="bell-notifications">
+                            <mat-menu
+                                #menu="matMenu"
+                                class="bell-notifications">
                                 <div class="notifications-lists d-flex justify-content-between align-items-center">
                                     <span>Notifications</span>
-                                    <span class="view-all" [routerLink]="['/user/notifications']">View All</span>
+                                    <span
+                                        class="view-all"
+                                        [routerLink]="['/user/notifications']">
+                                        View All
+                                    </span>
                                 </div>
                                 <div class="notifications-msgs">
-                                    <p class="mb-0">You have {{ notiCount }} unread notification</p>
+                                    <p class="mb-0">
+                                        You have {{ notiCount }} unread notification
+                                    </p>
                                 </div>
                                 <ng-container *ngFor="let list of notificationsList">
                                     <button mat-menu-item>
@@ -41,53 +61,79 @@
                             </mat-menu>
                         </li>
                     </ul>
-        
+
                     <div class="widget-header admin-box">
 
-                        <mat-card matRipple class="profile-card" *ngIf="!user; else userProfile">
+                        <mat-card
+                            matRipple
+                            class="profile-card"
+                            *ngIf="!user; else userProfile">
                             <mat-card-header>
                                 <div mat-card-avatar>
-                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <i
+                                        class="fa fa-user"
+                                        aria-hidden="true"></i>
                                 </div>
-                                <mat-card-title [routerLink]="['/auth/enter-mobile']" class="non-login">Login <span>|</span> Signup</mat-card-title>
+                                <mat-card-title
+                                    [routerLink]="['/auth/enter-mobile']"
+                                    class="non-login">
+                                    Login
+                                    <span>|</span>
+                                    Signup
+                                </mat-card-title>
                             </mat-card-header>
                         </mat-card>
 
                         <ng-template #userProfile>
-                            <mat-card [matMenuTriggerFor]="menu" matRipple class="profile-card">
+                            <mat-card
+                                [matMenuTriggerFor]="menu"
+                                matRipple
+                                class="profile-card">
                                 <mat-card-header>
                                     <div mat-card-avatar>
-                                        <img [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
-                                            (error)="getUserAPI()" class="img-fulid user-profile" alt="">
+                                        <img
+                                            [src]="user.sellerPersonalProfile.profileImageUrl || 'assets/img/default-photo.jpg'"
+                                            (error)="getUserAPI()"
+                                            class="img-fulid user-profile"
+                                            alt>
                                     </div>
-                                    <mat-card-title *ngIf="user.sellerPersonalProfile.firstName; else noName">
-                                        {{ user.sellerPersonalProfile.firstName }}
+                                    <mat-card-title>
+                                        {{ user.sellerPersonalProfile.firstName || user.sellerPersonalProfile.email || '----' }}
                                     </mat-card-title>
-                                    <ng-template #noName>
-                                        <mat-card-title>
-                                            ------
-                                        </mat-card-title>
-                                    </ng-template>
+
                                     <mat-card-subtitle>{{user.phone}}</mat-card-subtitle>
                                     <mat-icon>arrow_drop_down</mat-icon>
                                 </mat-card-header>
-    
+
                             </mat-card>
-    
-                            <mat-menu class="navMenus" #menu="matMenu">
-                                <button *ngFor="let item of profileDropdown" [routerLink]="[ item.link ]"
-                                    mat-menu-item>{{ item.name }}</button>
-                                <button (click)="logout()" mat-menu-item>Logout</button>
+
+                            <mat-menu
+                                class="navMenus"
+                                #menu="matMenu">
+                                <button
+                                    *ngFor="let item of profileDropdown"
+                                    [routerLink]="[ item.link ]"
+                                    mat-menu-item>
+                                    {{ item.name }}
+                                </button>
+                                <button
+                                    (click)="logout()"
+                                    mat-menu-item>
+                                    Logout
+                                </button>
                             </mat-menu>
                         </ng-template>
-        
+
                     </div>
                 </div>
 
-                <button class="hamburger" (click)="openMenu()" mat-icon-button>
+                <button
+                    class="hamburger"
+                    (click)="openMenu()"
+                    mat-icon-button>
                     <mat-icon>menu</mat-icon>
                 </button>
-                
+
             </div>
         </div>
     </div>

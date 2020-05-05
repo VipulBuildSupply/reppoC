@@ -1,5 +1,5 @@
 export class Category {
-    
+
     code?: string;
     id?: number;
     imageUrl?: string;
@@ -9,7 +9,7 @@ export class Category {
     categoryId?: number;
     categoryName?: string;
     isDisable?: boolean;
-
+    categoryList?: SubCategories[];
     /*constructor({
         code = '',
         id = 0,
@@ -25,8 +25,8 @@ export class Category {
     }*/
 }
 
-class SubCategories extends Category{
-    
+class SubCategories extends Category {
+
     pid?: number;
 
     /*constructor(data){
@@ -36,7 +36,7 @@ class SubCategories extends Category{
     }*/
 }
 
-export class SelectedCategoryIds{
+export class SelectedCategoryIds {
     categoryId: number;
     categoryName: string;
     id: number;

@@ -31,28 +31,44 @@ export class SignupComponent implements OnInit {
         this.mobileNumber = this.signinService.userPhone;
 
         if (this.mobileNumber == undefined) {
-            this._router.navigate(['/auth/enter-mobile']);
-        } 1
+            this._router.navigate([ '/auth/enter-mobile' ]);
+        }
 
         this.signupForm = this._formBuilder.group({
 
-            password: [this.password, {
+            phone: [ this.mobileNumber,
+            {
+                validators: [
+                    Validators.required
+
+                ]
+            } ],
+            email: [ '',
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.pattern(FieldRegExConst.EMAIL)
+
+                    ]
+                } ],
+
+            password: [ this.password, {
                 validators: [
                     Validators.required,
                     Validators.minLength(6)
                 ]
-            }],
-            confirmPassword: [this.confirmPassword, {
+            } ],
+            confirmPassword: [ this.confirmPassword, {
                 validators: [
                     Validators.required,
                 ]
-            }],
+            } ],
 
-            terms: [this.terms, {
+            terms: [ this.terms, {
                 validators: [
                     Validators.required
                 ]
-            }]
+            } ]
 
         });
 
@@ -84,15 +100,15 @@ export class SignupComponent implements OnInit {
             const data: any = {};
 
             Object.keys(this.signupForm.value).forEach((field) => {
-                if ((this.signupForm.value[field] !== null) && (this.signupForm.value[field] !== '')) {
-                    data[field] = this.signupForm.value[field];
+                if ((this.signupForm.value[ field ] !== null) && (this.signupForm.value[ field ] !== '')) {
+                    data[ field ] = this.signupForm.value[ field ];
                 }
             });
 
-            data.phone = this.signinService.userPhone;
+            // data.phone = this.signinService.userPhone;
 
             this.signinService.signUp(data).then(res => {
-                this._router.navigate(['/open-tile/list']);
+                this._router.navigate([ '/open-tile/list' ]);
             }, err => {
                 this.passwordError = err.message;
             });

@@ -47,7 +47,7 @@
                   "with": "src/environments/environment.prd.ts"
                 }
               ],
-              "outputPath": "dist/prd",
+              "outputPath": "dist",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -127,6 +127,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "seller"
+    }
+  },
+  "defaultProject": "seller",
+  "cli": {
+    "analytics": false
+  }
 }
