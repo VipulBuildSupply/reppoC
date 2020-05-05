@@ -4,9 +4,9 @@ echo "" > /usr/share/nginx/html/assets/env.js
 echo "(function(window) {window.env = {}; " >> /usr/share/nginx/html/assets/env.js
 if [ $BUILDSUPPLY_COMMERCE_BASE_API_URL ]
 then
-  echo '"window.env.api_url" : "'$BUILDSUPPLY_COMMERCE_BASE_API_URL'",' >> /opt/buyer/dist/browser/assets/env.json
+  echo '"window.env.api_url" = "'$BUILDSUPPLY_COMMERCE_BASE_API_URL'";' >> /opt/buyer/dist/browser/assets/env.json
 else
-echo '"window.env.api_url" : "https://api.yeho.ga/",' >> /opt/buyer/dist/browser/assets/env.json
+echo '"window.env.api_url" = "https://api.yeho.ga/";' >> /opt/buyer/dist/browser/assets/env.json
 fi
 
 
