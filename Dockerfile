@@ -50,7 +50,7 @@ RUN chmod +x /usr/share/nginx/html/envsetup.sh
 # ----------------------------------------------------------------------------- 
 
 USER alpine
-#CMD /usr/share/nginx/html/envsetup.sh
+CMD /usr/share/nginx/html/envsetup.sh
 WORKDIR /usr/share/nginx/html/
 
 
