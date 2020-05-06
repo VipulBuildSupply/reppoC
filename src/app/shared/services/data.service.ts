@@ -21,9 +21,9 @@ export class DataService {
     constructor(private http: HttpClient,
         private notifier: NotificationService,
         private token: TokenService) {
-        this.baseUrl = environment.apiURL + '/';
+        this.baseUrl = (window[ 'env' ] && window[ 'env' ][ 'api_url' ]) || 'https://api.yeho.ga';
     }
-    
+
     private messageSource = new BehaviorSubject("NewLeads");
     currentMessage = this.messageSource.asObservable();
 
@@ -84,7 +84,7 @@ export class DataService {
             if (reqOptions.headers) {
                 const hdrs = reqOptions.headers.split(',');
 
-                headers = headers.append(hdrs[0], hdrs[1]);
+                headers = headers.append(hdrs[ 0 ], hdrs[ 1 ]);
             }
         }
 
