@@ -31,7 +31,6 @@ RUN adduser -D -g 'alpine' alpine
 
 COPY --from=build /opt/node/dist/ /usr/share/nginx/html/
 COPY buildScripts/nginx.conf /etc/nginx/conf.d/default.conf
-COPY buildScripts/envsetup.sh /usr/share/nginx/html/ 
 
 # ----------------------------------------------------------------------------- 
 # Change owner and permission 
@@ -43,16 +42,13 @@ RUN chown -R alpine:alpine /var/log/nginx/
 RUN chmod -R 755 /var/log/nginx/
 RUN chown -R alpine:alpine /var/cache/nginx/
 RUN chown -R alpine:alpine /var/run/
-RUN chmod +x /usr/share/nginx/html/envsetup.sh
 
 # ----------------------------------------------------------------------------- 
 # Switch user
 # ----------------------------------------------------------------------------- 
 
 USER alpine
-ENTRYPOINT ["/usr/share/nginx/html/envsetup.sh"]
-CMD ["nginx" "-g" "daemon off;"]
-
+WORKDIR /usr/share/nginx/html/
 
 # ----------------------------------------------------------------------------- 
 # Remove extra files 
