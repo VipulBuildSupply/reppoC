@@ -50,9 +50,8 @@ RUN chmod +x /usr/share/nginx/html/envsetup.sh
 # ----------------------------------------------------------------------------- 
 
 USER alpine
-CMD /usr/share/nginx/html/envsetup.sh
+ENTRYPOINT ["/usr/share/nginx/html/envsetup.sh"]
 CMD ["nginx" "-g" "daemon off;"]
-WORKDIR /usr/share/nginx/html/
 
 
 # ----------------------------------------------------------------------------- 
