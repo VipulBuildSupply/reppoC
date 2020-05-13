@@ -37,7 +37,7 @@ export class LeadDetailsViewComponent implements OnInit {
     ngOnInit(): void {
         this.isActedLead = this.router.url.indexOf('new') === -1;
         this.details = this.activatedRout.snapshot.data.details;
-        this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).join(', ') : '';
+        this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
         this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
         this.initCommonForm();
         this.getPaymentTerms();
@@ -76,7 +76,7 @@ export class LeadDetailsViewComponent implements OnInit {
 
         if (item.sellerRfqItem.specs.length) {
             const grpArr: FormGroup[] = item.sellerRfqItem.specs.map(spec => {
-                return mainForm(spec.specId);
+                return mainForm(spec.id);
             });
 
             return this.formBuilder.array(grpArr);
