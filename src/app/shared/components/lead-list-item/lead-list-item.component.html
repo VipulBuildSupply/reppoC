@@ -1,0 +1,60 @@
+<mat-card class="po__card">
+
+    <div class="po__title-section">
+        <div
+            *ngIf="rfqDetails"
+            class="d-flex justify-content-between align-items-center">
+            <div class="po__title-left">
+                <div class="mb-0 d-flex align-items-center">
+                    <h4 class="mr-3 mb-0">Lead Id : {{rfqDetails.rfq.id}}</h4>
+                    <div
+                        class="po__header-right"
+                        *ngIf="selectedTab === 'awarded'">
+                        <span>Awarded</span>
+                    </div>
+                </div>
+                <p class="datetime mb-0 mt-1">{{rfqDetails.requiredStartDt}}</p>
+            </div>
+
+            <div class="po__title-right d-flex align-items-center">
+                <h6 class="font600 mb-0">
+                    {{rfqDetails.items.length + moreSku.length}} ITEMS
+                </h6>
+                <h6 class="font600 mb-0">{{allLocations}}</h6>
+                <a
+                    [routerLink]="['/lead/'+leadType+'/details/'+rfqDetails.rfq.id]"
+                    mat-button>
+                    View Lead
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div
+        class="p-3"
+        *ngIf="rfqDetails?.items">
+        <app-sku
+            class="d-block mb-4"
+            *ngFor="let item of rfqDetails.items;"
+            [size]="'SMALL'"
+            [sku]="item"></app-sku>
+
+        <div [@slideInOut]="open">
+            <app-sku
+                class="d-block pb-4"
+                *ngFor="let item of moreSku;"
+                [size]="'SMALL'"
+                [sku]="item"></app-sku>
+        </div>
+
+    </div>
+    <div
+        (click)="toggle()"
+        *ngIf="moreSku.length"
+        class="cursor-link  blue-cl cyan-bg p-2 text-center">
+        {{ open === 'in' ?  'Close' : moreSku.length + ' ITEM'}}{{(moreSku.length > 1 && open !== 'in' ? 'S' : '')}}
+    </div>
+</mat-card>

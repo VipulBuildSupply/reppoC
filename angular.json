@@ -64,6 +64,20 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "hmr": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
@@ -75,6 +89,10 @@
           "configurations": {
             "production": {
               "browserTarget": "seller-web:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "seller-web:build:hmr"
             }
           }
         },

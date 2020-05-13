@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-lead-sidebar',
   templateUrl: './lead-sidebar.component.html',
-  providers: [CustomDatePipe]
+  providers: [ CustomDatePipe ]
 })
 
 export class LeadSidebarComponent implements OnInit {
@@ -80,7 +80,7 @@ export class LeadSidebarComponent implements OnInit {
        * Call if selected path is new lead or acted lead
        */
       this._activatedRoute.url.subscribe(url => {
-        if (url[0].path === "new-lead") {
+        if (url[ 0 ].path === "new-lead") {
           this.getNewLeadsTab();
           this.currentActiveTab = "NewLeads";
         } else {
@@ -166,8 +166,8 @@ export class LeadSidebarComponent implements OnInit {
             this.new_leadsTemp = res.data;
             this.bookmarkClicked = [];
             for (let i = 0; i < this.new_leads.length; i++) {
-              if (this.new_leads[i].statusCd == "quote.request.sts.seller.add") {
-                this.bookmarkClicked[i] = true;
+              if (this.new_leads[ i ].statusCd == "quote.request.sts.seller.add") {
+                this.bookmarkClicked[ i ] = true;
               }
             }
           }
@@ -226,22 +226,22 @@ export class LeadSidebarComponent implements OnInit {
 
   viewQuote(index) {
     this.activeLeads = [];
-    this.activeLeads[index] = true;
+    this.activeLeads[ index ] = true;
   }
 
   bookmarkToggle(index, skuId) {
-    if (this.bookmarkClicked[index]) {
-      this.bookmarkClicked[index] = false;
+    if (this.bookmarkClicked[ index ]) {
+      this.bookmarkClicked[ index ] = false;
       this._leadService.saveLeadAsBookmark(skuId, "OPEN").then(res => {
         // this.getNewLeads();
-        this._router.navigate(['/lead/new-lead']);
+        this._router.navigate([ '/lead/new-lead' ]);
       });;
     }
     else {
-      this.bookmarkClicked[index] = true;
+      this.bookmarkClicked[ index ] = true;
       this._leadService.saveLeadAsBookmark(skuId, "ADD").then(res => {
         // this.getNewLeads();
-        this._router.navigate(['/lead/acted-lead']);
+        this._router.navigate([ '/lead/acted-lead' ]);
       });;
     }
   }

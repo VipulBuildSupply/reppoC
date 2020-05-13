@@ -1,4 +1,5 @@
 import { HeaderNavigaton } from '../models/header';
+import { AddressTypes } from '../models/address';
 
 export const ConfigurationConstants = {
     CUSTOM_POPUP_MAX_WIDTH: '920px',
@@ -87,11 +88,17 @@ export const API = {
     PO_ACCEPT_REJECT: (pid: number, status: string) => `product/api/po/${pid}/status/${status}`,
     GET_PO_ITEMS_LIST: (oid: number) => `product/api/po/seller/v1/${oid}/items`,
     INITIATE_DELIVERY_REQUEST: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
-    
+
     GET_USER_NOTIFICATIONS: 'product/api/user/notification/list',
     GET_FREIGHT_TERMS: 'account/api/seller/profile/freightTerms',
     PROFILE_REFERENCES: 'account/api/profile/reference',
     UPDATE_DELETE_USER_REFERENCE: (referenceId: number) => `account/api/profile/reference/${referenceId}`,
+
+
+    GET_RFQ_LIST: 'product/api/seller/rfq/list',
+    GET_RFQ_DETAIL: (id: number) => `product/api/seller/rfq/${id}/obj`,
+    GET_ADDRESS_LIST: (addrType: AddressTypes) => `account/api/address/${addrType}`,
+    RFQ_SUBMIT: (sellerRfqId: number) => `product/api/seller/rfq/${sellerRfqId}/price`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

@@ -1,0 +1,41 @@
+<div class="d-flex">
+    <div
+        class="align-self-start border"
+        [class.max-w-270px]="size === 'BIG'"
+        [class.max-w-60px]="size === 'SMALL'">
+        <img
+            class="w-100"
+            [src]="sku.sellerRfqItem.imageUrl"
+            alt>
+    </div>
+    <div class="pl-3">
+        <div class="sku__title">{{sku.sellerRfqItem.displayName}}</div>
+        <ul
+            class="spec-list"
+            *ngIf="sku.sellerRfqItem.specs.length">
+            <li *ngFor="let spec of sku.sellerRfqItem.specs">{{spec.specName}}</li>
+        </ul>
+
+        <div class="font-14 ">
+            Required Quantity: {{sku.sellerRfqItem.requestQty}}
+        </div>
+        <div class="font-14 ">
+            Location: {{sku.sellerRfqItem.deliveryLocation}}
+        </div>
+
+        <ng-container *ngIf="size === 'BIG'">
+            <div class="font-14 ">
+                <div>
+                    Required By: {{sku.sellerRfqItem.requiredStartDt}}
+                </div>
+                <div *ngIf="sku.sellerRfqItem.deliveryAddress">
+                    Delivery Address:
+                    <br>
+                    <span [innerHtml]="sku.sellerRfqItem.deliveryAddress"></span>
+                </div>
+            </div>
+
+        </ng-container>
+
+    </div>
+</div>

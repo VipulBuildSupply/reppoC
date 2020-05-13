@@ -10,6 +10,7 @@ import { DeleteBankDetailsComponent } from './delete-bank-details/delete-bank-de
 import { DeleteWarehouseAddressComponent } from './delete-warehouse-address/delete-warehouse-address.component';
 import { OtherCategoryComponent } from './other-category/other-category.component';
 import { DeleteReferenceComponent } from './delete-reference/delete-reference.component';
+import { SkuPromptComponent } from './sku-prompt/sku-prompt.dialog';
 // import {PromoContentDialogComponent} from './promo-content-dialog/promo-content-dialog.component';
 
 export const SharedDialogs = [
@@ -25,5 +26,6 @@ export const SharedDialogs = [
     DeleteBankDetailsComponent,
     DeleteWarehouseAddressComponent,
     OtherCategoryComponent,
-    DeleteReferenceComponent
+    DeleteReferenceComponent,
+    SkuPromptComponent
 ];
