@@ -119,7 +119,7 @@
                                                                     <mat-grid-tile [style.background]="'#ffffff'">{{spec.requestQty}}</mat-grid-tile>
                                                                     <mat-grid-tile [style.background]="'#ffffff'">
 
-                                                                        <ng-container *ngIf="item.sellerRfqItem.quotePrice && isActedLead">{{item.sellerRfqItem.quotePrice}}</ng-container>
+                                                                        <ng-container *ngIf="item.sellerRfqItem.quotePrice && isActedLead">{{spec.price}}</ng-container>
 
                                                                         <mat-form-field
                                                                             *ngIf="!item.sellerRfqItem.quotePrice && !isActedLead"
