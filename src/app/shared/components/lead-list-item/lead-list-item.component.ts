@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { LeadListItemModel } from '../../models/leads';
 import { RfqItem } from '../../models/rfq.models';
 import { trigger, transition, style, animate, state } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-lead-list-item',
@@ -28,10 +29,13 @@ export class LeadListItemComponent implements OnInit {
     open = 'out';
     moreSku: any[];
     allLocations: string;
-    constructor() { }
+
+    leadType: 'new' | 'acted';
+
+    constructor(private router: Router) { }
 
     ngOnInit(): void {
-
+        this.leadType = this.router.url.indexOf('new') !== -1 ? 'new' : 'acted';
 
         this.moreSku = this.rfqDetails ? this.rfqDetails.items.splice(2, this.rfqDetails.items.length) : [];
         this.allLocations = this.rfqDetails ? this.rfqDetails.items.map(sku => sku.sellerRfqItem.deliveryLocation).join(', ') : '';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
 import { ChooseAddressDialogComponent } from 'src/app/shared/dialogs/choose-address/choose-address';
@@ -7,8 +7,10 @@ import { AddressModel } from 'src/app/shared/models/address';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { LeadsService } from 'src/app/shared/services/leads.service';
-import { TermModel, RfqSubmitModel } from 'src/app/shared/models/leads';
+import { TermModel, RfqSubmitModel, PromptItem } from 'src/app/shared/models/leads';
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
+import { item } from 'src/app/shared/models/item';
+import { SkuPromptComponent } from 'src/app/shared/dialogs/sku-prompt/sku-prompt.dialog';
 
 @Component({
     selector: 'app-lead-details',
@@ -23,14 +25,17 @@ export class LeadDetailsViewComponent implements OnInit {
     allPaymentTerms: TermModel[];
     allFright: TermModel[];
     today = new Date();
+    leadType: 'new' | 'acted';
+    isActedLead: boolean;
     constructor(
         private activatedRout: ActivatedRoute,
+        private router: Router,
         private dialog: MatDialog,
         private formBuilder: FormBuilder,
         private leadService: LeadsService) { }
 
     ngOnInit(): void {
-
+        this.isActedLead = this.router.url.indexOf('new') === -1;
         this.details = this.activatedRout.snapshot.data.details;
         this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).join(', ') : '';
         this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
@@ -52,11 +57,11 @@ export class LeadDetailsViewComponent implements OnInit {
     setForm(item: RfqSku): FormGroup | FormArray {
 
         const mainForm = (specId?): FormGroup => {
-
+            // , { validators: [ Validators.required, Validators.pattern(FieldRegExConst.POSITIVE_NUMBERS) ] }
             const form = this.formBuilder.group({
                 minQty: [ item.sellerRfqItem.requestQty ],
                 note: [ '' ],
-                price: [ '', { validators: [ Validators.required, Validators.pattern(FieldRegExConst.POSITIVE_NUMBERS) ] } ],
+                price: [ '' ],
                 sellerRfqItemId: [ item.sellerRfqItem.id ],
                 warehouseId: [ '' ],
             });
@@ -140,6 +145,9 @@ export class LeadDetailsViewComponent implements OnInit {
 
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
+
+
+
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
 
 
@@ -149,14 +157,19 @@ export class LeadDetailsViewComponent implements OnInit {
 
                 const item = Object.assign(itm, this.commonForm.value);
 
-                itm.validEndDt = `${("0" + itm.validEndDt.getDate()).slice(-2)}-${itm.validEndDt.getMonth() + 1}-${itm.validEndDt.getFullYear()}`
+                // tslint:disable-next-line: max-line-length
+                itm.validEndDt = `${('0' + itm.validEndDt.getDate()).slice(-2)}-${itm.validEndDt.getMonth() + 1}-${itm.validEndDt.getFullYear()}`;
 
                 return item;
             });
 
-            this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
-                debugger
-            })
+            const itemsWithoutPrice = items.filter(itm => !itm.price);
+            if (itemsWithoutPrice.length) {
+                this.showPopup(itemsWithoutPrice, items);
+            } else {
+                this.submitData(items);
+            }
+
 
 
         } else {
@@ -175,5 +188,49 @@ export class LeadDetailsViewComponent implements OnInit {
             });
         }
     }
+
+    submitData(items: RfqSubmitModel[]) {
+        this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
+            this.router.navigate([ '/lead/acted/list' ]);
+        })
+    }
+
+    showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
+
+        const promptItem: PromptItem[] = itemsWithoutPrice.map((item) => {
+
+            const orgItm = this.details.items.find(itm => itm.sellerRfqItem.id === item.sellerRfqItemId);
+
+
+            return { ...item, imageUrl: orgItm.sellerRfqItem.imageUrl, displayName: orgItm.sellerRfqItem.displayName };
+
+        }) as PromptItem[];
+
+
+        const popup = this.dialog.open(SkuPromptComponent, {
+            data: {
+                type: 'WAREHOUSE',
+                items: promptItem,
+                title: 'Submit Quote',
+                msg: `<b>You have not mentioned the pricing for the below items in the lead.</b> 
+            <br>
+            Would you like to submit the lead response without filling the price for these items?
+            `
+            },
+            disableClose: true,
+            panelClass: 'custom-popup',
+            maxWidth: '500px'
+        });
+
+        popup.afterClosed().toPromise().then((isSubmit: boolean) => {
+
+            if (isSubmit) {
+                this.submitData(allItems);
+            }
+        });
+
+    }
+
+
 
 }

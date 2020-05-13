@@ -140,3 +140,8 @@ export interface RfqSubmitModel {
     warehouseId: number;
 }
 
+export interface PromptItem extends RfqSubmitModel {
+    imageUrl: string;
+    displayName: string;
+}
+

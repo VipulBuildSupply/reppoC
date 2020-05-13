@@ -88,7 +88,7 @@ export class NewLeadComponent implements OnInit {
        * Call if selected path is new lead or acted lead
        */
       this.route.url.subscribe(url => {
-        if (url[0].path === "new-lead") {
+        if (url[ 0 ].path === "new-lead") {
           this.currentActiveTab = "NewLeads";
         } else {
           this.currentActiveTab = "ActedLeads";
@@ -101,7 +101,7 @@ export class NewLeadComponent implements OnInit {
       this.route.params.subscribe(params => {
 
         this.activeLeadId = parseInt(params.id);
-        this.leadId = params['id'];
+        this.leadId = params[ 'id' ];
         this.addPriceToAllWareHouseCheckBoxCheck = true;
         this.pricingForms = [];
 
@@ -129,10 +129,10 @@ export class NewLeadComponent implements OnInit {
     });
   }
 
-  quoteDetails(){
+  quoteDetails() {
     this.quoteDetailsForm = this._formBuilder.group({
-      quoteValidDate: ['', Validators.required],
-      quoteNote: ['']
+      quoteValidDate: [ '', Validators.required ],
+      quoteNote: [ '' ]
     });
   }
 
@@ -167,8 +167,8 @@ export class NewLeadComponent implements OnInit {
           this.paymentterms = res.data;
           const terms = this.showLeadObjDetails.data.request.sellerPaymentTerm;
           for (let i = 0; i < this.paymentterms.length; i++) {
-            if (this.paymentterms[i].displayName == terms) {
-              this.paymentTermCode = this.paymentterms[i].code;
+            if (this.paymentterms[ i ].displayName == terms) {
+              this.paymentTermCode = this.paymentterms[ i ].code;
               this.openTextBoxPayment = false;
             }
           }
@@ -188,14 +188,14 @@ export class NewLeadComponent implements OnInit {
        */
       const attachedDocs = res.data.request.documents;
       attachedDocs.map(doc => {
-        const [fileName, fileExt] = doc.orginalFileName.split(".");
+        const [ fileName, fileExt ] = doc.orginalFileName.split(".");
         this.fileExtension = fileExt;
       });
 
-      if (res.data.warehouseList && (res.data.warehouseList[0].warehousePriceList.length > 0) && (res.data.warehouseList[0].warehousePriceList[0].validEndDt)) {
-        const month = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(0, 2);
-        const day = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(3, 5);
-        const year = res.data.warehouseList[0].warehousePriceList[0].validEndDt.substring(6, 10);
+      if (res.data.warehouseList && (res.data.warehouseList[ 0 ].warehousePriceList.length > 0) && (res.data.warehouseList[ 0 ].warehousePriceList[ 0 ].validEndDt)) {
+        const month = res.data.warehouseList[ 0 ].warehousePriceList[ 0 ].validEndDt.substring(0, 2);
+        const day = res.data.warehouseList[ 0 ].warehousePriceList[ 0 ].validEndDt.substring(3, 5);
+        const year = res.data.warehouseList[ 0 ].warehousePriceList[ 0 ].validEndDt.substring(6, 10);
         const dateVal = day + "-" + month + "-" + year;
         this.datePickerValue = new FormControl(new Date(dateVal));
         this.datePickerValueLeads = dateVal;
@@ -244,7 +244,7 @@ export class NewLeadComponent implements OnInit {
 
   createWarehouseData(warehouselist) {
 
-    if(warehouselist && warehouselist.length){
+    if (warehouselist && warehouselist.length) {
       warehouselist.forEach((warehouse) => {
 
         const forms: FormGroup[] = [];
@@ -255,31 +255,31 @@ export class NewLeadComponent implements OnInit {
             warehouse.specs.forEach(spec => {
 
               const form: FormGroup = this._formBuilder.group({
-                diameter: [spec.specName],
-                specMinQty: [spec.minQty, {
+                diameter: [ spec.specName ],
+                specMinQty: [ spec.minQty, {
                   validators:
                     [
                       Validators.required,
                       Validators.max(spec.minQty)
                     ]
-                }],
-                specMaxQty: [spec.maxQty, {
+                } ],
+                specMaxQty: [ spec.maxQty, {
                   validators:
                     [
                       Validators.required,
                       Validators.min(spec.maxQty)
                     ]
-                }],
-                specPrice: [spec.price, Validators.required],
-                check: [''],
-                specCode: [spec.specCd],
-                specId: [spec.specId],
-                specRelId: [spec.id]
+                } ],
+                specPrice: [ spec.price, Validators.required ],
+                check: [ '' ],
+                specCode: [ spec.specCd ],
+                specId: [ spec.specId ],
+                specRelId: [ spec.id ]
               })
 
               this.subscriptions.push(
                 form.get('specMinQty').valueChanges.subscribe(val => {
-                  form.get('specMaxQty').setValidators([Validators.required, Validators.min(val)]);
+                  form.get('specMaxQty').setValidators([ Validators.required, Validators.min(val) ]);
                   form.get('specMaxQty').updateValueAndValidity();
                 })
               )
@@ -290,14 +290,14 @@ export class NewLeadComponent implements OnInit {
             warehouse.warehousePriceList.forEach(spec => {
               forms.push(
                 this._formBuilder.group({
-                  diameter: [spec.specName],
-                  specMinQty: [spec.minQty, Validators.required],
-                  specMaxQty: [spec.maxQty],
-                  specPrice: [spec.price, Validators.required],
-                  check: [''],
-                  specCode: [spec.specCd],
-                  specId: [spec.specId],
-                  specRelId: [spec.id]
+                  diameter: [ spec.specName ],
+                  specMinQty: [ spec.minQty, Validators.required ],
+                  specMaxQty: [ spec.maxQty ],
+                  specPrice: [ spec.price, Validators.required ],
+                  check: [ '' ],
+                  specCode: [ spec.specCd ],
+                  specId: [ spec.specId ],
+                  specRelId: [ spec.id ]
                 })
               );
             })
@@ -310,25 +310,25 @@ export class NewLeadComponent implements OnInit {
             warehouse.warehousePriceList.forEach(pricesItem => {
 
               const form1 = this._formBuilder.group({
-                minPrice: [pricesItem.minQty, {
+                minPrice: [ pricesItem.minQty, {
                   validators: [
                     Validators.required,
                     Validators.max(this.showLeadObjDetails.data.request.requestQty)
                   ]
-                }],
-                maxPrice: [pricesItem.maxQty, {
+                } ],
+                maxPrice: [ pricesItem.maxQty, {
                   validators: [
                     Validators.required,
                     Validators.min(this.showLeadObjDetails.data.request.requestQty)
                   ]
-                }],
-                price: [pricesItem.price, Validators.required],
-                check: ['']
+                } ],
+                price: [ pricesItem.price, Validators.required ],
+                check: [ '' ]
               })
 
               this.subscriptions.push(
                 form1.get('minPrice').valueChanges.subscribe(val => {
-                  form1.get('maxPrice').setValidators([Validators.required, Validators.min(val)]);
+                  form1.get('maxPrice').setValidators([ Validators.required, Validators.min(val) ]);
                   form1.get('maxPrice').updateValueAndValidity();
                 })
               )
@@ -339,20 +339,20 @@ export class NewLeadComponent implements OnInit {
           } else {
             // if no data in price List set on default price form
             const form = this._formBuilder.group({
-              minPrice: [this.showLeadObjDetails.data.request.minQty, {
+              minPrice: [ this.showLeadObjDetails.data.request.minQty, {
                 validators: [
                   Validators.required,
                   Validators.max(this.showLeadObjDetails.data.request.requestQty)
                 ]
-              }],
-              maxPrice: [this.showLeadObjDetails.data.request.maxQty, {
+              } ],
+              maxPrice: [ this.showLeadObjDetails.data.request.maxQty, {
                 validators: [
                   Validators.required,
                   Validators.min(this.showLeadObjDetails.data.request.requestQty)
                 ]
-              }],
-              price: ['', Validators.required],
-              check: ['']
+              } ],
+              price: [ '', Validators.required ],
+              check: [ '' ]
             })
             forms.push(form);
           }
@@ -389,13 +389,13 @@ export class NewLeadComponent implements OnInit {
   }
 
   checkPrice(currentFormIndex) {
-    if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex].controls.maxPrice.value) {
+    if (this.pricingForms[ currentFormIndex ].controls.minPrice.value < this.pricingForms[ currentFormIndex ].controls.maxPrice.value) {
       this.minMaxValidValue = false;
     }
-    if (this.pricingForms[currentFormIndex].controls.price.value == null) {
+    if (this.pricingForms[ currentFormIndex ].controls.price.value == null) {
       this.checkPriceValidate = true;
     }
-    else if (this.pricingForms[currentFormIndex].controls.price.value == "") {
+    else if (this.pricingForms[ currentFormIndex ].controls.price.value == "") {
       this.checkPriceValidate = true;
     }
     else {
@@ -406,9 +406,9 @@ export class NewLeadComponent implements OnInit {
 
   checkPriceIndvidual(currentFormIndex, Index) {
 
-    const minQty = this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value;
-    const maxQty = this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value;
-    const price = this.warehouseData[Index].pricingForms[currentFormIndex].controls.price.value;
+    const minQty = this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value;
+    const maxQty = this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value;
+    const price = this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.price.value;
     const requestedQty = this.showLeadObjDetails.data.request.requestedQty;
 
 
@@ -433,7 +433,7 @@ export class NewLeadComponent implements OnInit {
     this.datePickerValue = new FormControl(new Date(value));
     this.datePickerValueLeads = value.replace('/', '-');
     this.datePickerValueLeads = this.datePickerValueLeads.replace('/', '-');
-    let [month, day, year] = this.datePickerValueLeads.split('-');
+    let [ month, day, year ] = this.datePickerValueLeads.split('-');
     if (day < 10) day = "0" + day;
     if (month < 10) month = "0" + month;
     this.datePickerValueLeads = `${day}-${month}-${year}`;
@@ -442,29 +442,29 @@ export class NewLeadComponent implements OnInit {
   compareMinMaxIndvidual(currentFormIndex, Index) {
 
     if (currentFormIndex > 0) {
-      if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value < this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
+      if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value < this.warehouseData[ Index ].pricingForms[ currentFormIndex - 1 ].controls.maxPrice.value) {
         this.editMinMaxIsFalse = true;
-        this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
-        this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
+        this.warehouseData[ Index ].pricingForms[ currentFormIndex - 1 ].controls.check.setErrors(null);
+        this.warehouseData[ Index ].pricingForms[ currentFormIndex - 1 ].controls.check.setErrors({ isMinMaxInValid: false });
       }
-      else if (this.warehouseData[Index].pricingForms[currentFormIndex + 1]) {
-        if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value > this.warehouseData[Index].pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+      else if (this.warehouseData[ Index ].pricingForms[ currentFormIndex + 1 ]) {
+        if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value > this.warehouseData[ Index ].pricingForms[ currentFormIndex + 1 ].controls.minPrice.value) {
           this.editMinMaxIsFalse = true;
-          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+          this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.check.setErrors({ isMinMaxInValid: false });
         }
         else {
           this.editMinMaxIsFalse = false;
-          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors(null);
+          this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.check.setErrors(null);
         }
       }
 
       else {
         this.editMinMaxIsFalse = false;
-        this.warehouseData[Index].pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
+        this.warehouseData[ Index ].pricingForms[ currentFormIndex - 1 ].controls.check.setErrors(null);
       }
 
 
-      if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value < this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value) {
+      if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value < this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value) {
         this.minMaxValidValue = true;
       }
       else {
@@ -476,22 +476,22 @@ export class NewLeadComponent implements OnInit {
     else if (currentFormIndex == 0) {
 
       const requestedQty = this.showLeadObjDetails.data.request.requestQty;
-      const maxPricing = this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value;
-      const minPricing = this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value;
+      const maxPricing = this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value;
+      const minPricing = this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value;
 
-      if (this.warehouseData[Index].pricingForms[currentFormIndex + 1]) {
-        if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value > this.warehouseData[Index].pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+      if (this.warehouseData[ Index ].pricingForms[ currentFormIndex + 1 ]) {
+        if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value > this.warehouseData[ Index ].pricingForms[ currentFormIndex + 1 ].controls.minPrice.value) {
           this.editMinMaxIsFalse = true;
-          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors(null);
-          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+          this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.check.setErrors(null);
+          this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.check.setErrors({ isMinMaxInValid: false });
         } else {
           this.editMinMaxIsFalse = false;
-          this.warehouseData[Index].pricingForms[currentFormIndex].controls.check.setErrors(null);
+          this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.check.setErrors(null);
         }
       }
 
 
-      if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.maxPrice.value < this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value) {
+      if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.maxPrice.value < this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value) {
         this.minMaxValidValue = true;
       }
       else {
@@ -508,20 +508,20 @@ export class NewLeadComponent implements OnInit {
       }
     }
 
-    if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value == null) {
+    if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value == null) {
       this.minMaxValidValue = true;
     }
-    else if (this.warehouseData[Index].pricingForms[currentFormIndex].controls.minPrice.value == "") {
+    else if (this.warehouseData[ Index ].pricingForms[ currentFormIndex ].controls.minPrice.value == "") {
       this.minMaxValidValue = true;
     }
 
     for (let i = 0; i < this.warehouseData.length; i++) {
-      for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
-        if ((this.warehouseData[i].pricingForms[j].controls.maxPrice.value == 2147483647) && (this.addPriceForRemainingIndividualQuantity[i])) {
-          if (this.warehouseData[i].pricingForms[j].controls.minPrice.value == null) {
+      for (let j = 0; j < this.warehouseData[ i ].pricingForms.length; j++) {
+        if ((this.warehouseData[ i ].pricingForms[ j ].controls.maxPrice.value == 2147483647) && (this.addPriceForRemainingIndividualQuantity[ i ])) {
+          if (this.warehouseData[ i ].pricingForms[ j ].controls.minPrice.value == null) {
             this.AllIndividualForms = true;
           }
-          else if (this.warehouseData[i].pricingForms[j].controls.minPrice.value == "") {
+          else if (this.warehouseData[ i ].pricingForms[ j ].controls.minPrice.value == "") {
             this.AllIndividualForms = true;
           }
           else {
@@ -539,41 +539,41 @@ export class NewLeadComponent implements OnInit {
     if (this.pricingForms) {
 
       if (currentFormIndex > 0) {
-        if (this.pricingForms[currentFormIndex].controls.minPrice.value < this.pricingForms[currentFormIndex - 1].controls.maxPrice.value) {
+        if (this.pricingForms[ currentFormIndex ].controls.minPrice.value < this.pricingForms[ currentFormIndex - 1 ].controls.maxPrice.value) {
           this.editMinMaxIsFalse = true;
-          this.pricingForms[currentFormIndex - 1].controls.check.setErrors({ isMinMaxInValid: false });
+          this.pricingForms[ currentFormIndex - 1 ].controls.check.setErrors({ isMinMaxInValid: false });
         }
-        else if (this.pricingForms[currentFormIndex + 1]) {
-          if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+        else if (this.pricingForms[ currentFormIndex + 1 ]) {
+          if (this.pricingForms[ currentFormIndex ].controls.maxPrice.value > this.pricingForms[ currentFormIndex + 1 ].controls.minPrice.value) {
             this.editMinMaxIsFalse = true;
-            this.pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+            this.pricingForms[ currentFormIndex ].controls.check.setErrors({ isMinMaxInValid: false });
           }
           else {
             this.editMinMaxIsFalse = false;
-            this.pricingForms[currentFormIndex].controls.check.setErrors(null);
+            this.pricingForms[ currentFormIndex ].controls.check.setErrors(null);
           }
         }
         else {
           this.editMinMaxIsFalse = false;
-          this.pricingForms[currentFormIndex - 1].controls.check.setErrors(null);
+          this.pricingForms[ currentFormIndex - 1 ].controls.check.setErrors(null);
         }
       }
 
       else if (currentFormIndex == 0) {
 
         const requestedQty = this.showLeadObjDetails.data.request.requestQty;
-        const maxPricing = this.pricingForms[currentFormIndex].controls.maxPrice.value;
-        const minPricing = this.pricingForms[currentFormIndex].controls.minPrice.value;
+        const maxPricing = this.pricingForms[ currentFormIndex ].controls.maxPrice.value;
+        const minPricing = this.pricingForms[ currentFormIndex ].controls.minPrice.value;
 
-        if (this.pricingForms[currentFormIndex + 1]) {
-          if (this.pricingForms[currentFormIndex].controls.maxPrice.value > this.pricingForms[currentFormIndex + 1].controls.minPrice.value) {
+        if (this.pricingForms[ currentFormIndex + 1 ]) {
+          if (this.pricingForms[ currentFormIndex ].controls.maxPrice.value > this.pricingForms[ currentFormIndex + 1 ].controls.minPrice.value) {
             //   this.pricingForms[currentFormIndex].controls.maxPrice.setErrors(null);
             this.editMinMaxIsFalse = true;
-            this.pricingForms[currentFormIndex].controls.check.setErrors({ isMinMaxInValid: false });
+            this.pricingForms[ currentFormIndex ].controls.check.setErrors({ isMinMaxInValid: false });
           }
           else {
             this.editMinMaxIsFalse = false;
-            this.pricingForms[currentFormIndex].controls.check.setErrors(null);
+            this.pricingForms[ currentFormIndex ].controls.check.setErrors(null);
           }
         }
 
@@ -588,16 +588,16 @@ export class NewLeadComponent implements OnInit {
 
       }
 
-      if (this.pricingForms[currentFormIndex].controls.minPrice.value > this.pricingForms[currentFormIndex].controls.maxPrice.value) {
+      if (this.pricingForms[ currentFormIndex ].controls.minPrice.value > this.pricingForms[ currentFormIndex ].controls.maxPrice.value) {
         this.minMaxValidValue = true;
       } else {
         this.minMaxValidValue = false;
       }
 
-      if (this.pricingForms[currentFormIndex].controls.minPrice.value == null) {
+      if (this.pricingForms[ currentFormIndex ].controls.minPrice.value == null) {
         this.minMaxValidValue = true;
       }
-      else if (this.pricingForms[currentFormIndex].controls.minPrice.value == "") {
+      else if (this.pricingForms[ currentFormIndex ].controls.minPrice.value == "") {
         this.minMaxValidValue = true;
       }
 
@@ -615,25 +615,25 @@ export class NewLeadComponent implements OnInit {
     this.quoteDetailsForm.get('quoteValidDate').setValue(this.datePickerValueLeads);
     this.sendPricingToIndividualArrayAdd = [];
 
-    if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
+    if (this.showLeadObjDetails.data.warehouseList[ 0 ].specs.length > 0) {
       for (let i = 0; i < this.warehouseData.length; i++) {
-        for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
-          if ((this.warehouseData[i].pricingForms[j].controls.specMinQty.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.specMinQty.value != "")) {
+        for (let j = 0; j < this.warehouseData[ i ].pricingForms.length; j++) {
+          if ((this.warehouseData[ i ].pricingForms[ j ].controls.specMinQty.value >= 0) && (this.warehouseData[ i ].pricingForms[ j ].controls.specMinQty.value != "")) {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
               "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
-              "maxQty": this.warehouseData[i].pricingForms[j].controls.specMaxQty.value,
-              "minQty": this.warehouseData[i].pricingForms[j].controls.specMinQty.value,
-              "price": this.warehouseData[i].pricingForms[j].controls.specPrice.value,
+              "maxQty": this.warehouseData[ i ].pricingForms[ j ].controls.specMaxQty.value,
+              "minQty": this.warehouseData[ i ].pricingForms[ j ].controls.specMinQty.value,
+              "price": this.warehouseData[ i ].pricingForms[ j ].controls.specPrice.value,
               "samePriceAllWarehouse": false,
-              "warehouseId": this.warehouseData[i].address.addressId,
+              "warehouseId": this.warehouseData[ i ].address.addressId,
               "paymentTerm": this.paymentTermCode,
               "note": this.notes,
-              "specCd": this.warehouseData[i].pricingForms[j].controls.specCode.value,
-              "specId": this.warehouseData[i].pricingForms[j].controls.specId.value,
-              "specName": this.warehouseData[i].pricingForms[j].controls.diameter.value,
-              "specRelId": this.warehouseData[i].pricingForms[j].controls.specRelId.value
+              "specCd": this.warehouseData[ i ].pricingForms[ j ].controls.specCode.value,
+              "specId": this.warehouseData[ i ].pricingForms[ j ].controls.specId.value,
+              "specName": this.warehouseData[ i ].pricingForms[ j ].controls.diameter.value,
+              "specRelId": this.warehouseData[ i ].pricingForms[ j ].controls.specRelId.value
             }
             this.sendPricingToIndividualArrayAdd.push(object);
           }
@@ -641,17 +641,17 @@ export class NewLeadComponent implements OnInit {
       }
     } else {
       for (let i = 0; i < this.warehouseData.length; i++) {
-        for (let j = 0; j < this.warehouseData[i].pricingForms.length; j++) {
-          if ((this.warehouseData[i].pricingForms[j].controls.minPrice.value >= 0) && (this.warehouseData[i].pricingForms[j].controls.minPrice.value != "")) {
+        for (let j = 0; j < this.warehouseData[ i ].pricingForms.length; j++) {
+          if ((this.warehouseData[ i ].pricingForms[ j ].controls.minPrice.value >= 0) && (this.warehouseData[ i ].pricingForms[ j ].controls.minPrice.value != "")) {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
               "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
-              "maxQty": this.warehouseData[i].pricingForms[j].controls.maxPrice.value,
-              "minQty": this.warehouseData[i].pricingForms[j].controls.minPrice.value,
-              "price": this.warehouseData[i].pricingForms[j].controls.price.value,
+              "maxQty": this.warehouseData[ i ].pricingForms[ j ].controls.maxPrice.value,
+              "minQty": this.warehouseData[ i ].pricingForms[ j ].controls.minPrice.value,
+              "price": this.warehouseData[ i ].pricingForms[ j ].controls.price.value,
               "samePriceAllWarehouse": false,
-              "warehouseId": this.warehouseData[i].address.addressId,
+              "warehouseId": this.warehouseData[ i ].address.addressId,
               "paymentTerm": this.paymentTermCode,
               "note": this.notes
             }
@@ -666,11 +666,11 @@ export class NewLeadComponent implements OnInit {
         this.getLeadObj(this.leadId);
         this.data.changeSubmitQuoteMessage("SUBMIT");
         if (this.currentActiveTab == "ActedLeads") {
-          this._router.navigate([`/lead/acted-lead`]);
+          this._router.navigate([ `/lead/acted-lead` ]);
           // this.data.changeMessage("ActedLeads");
         }
         else if (this.currentActiveTab == "NewLeads") {
-          this._router.navigate([`/lead/new-lead`]);
+          this._router.navigate([ `/lead/new-lead` ]);
           // this.data.changeMessage("NewLeads");
         }
         // this._router.navigate([`/lead`]);
@@ -685,40 +685,40 @@ export class NewLeadComponent implements OnInit {
       this.quoteDetailsForm.get('quoteValidDate').setValue(this.datePickerValueLeads);
       this.sendPricingToAllArray = [];
 
-      if (this.showLeadObjDetails.data.warehouseList[0].specs.length > 0) {
-        for (var i = 0; i < this.warehouseData[0].pricingForms.length; i++) {
-          if ((this.warehouseData[0].pricingForms[i].controls.specMinQty.value >= 0) && (this.warehouseData[0].pricingForms[i].controls.specMinQty.value != "")) {
+      if (this.showLeadObjDetails.data.warehouseList[ 0 ].specs.length > 0) {
+        for (var i = 0; i < this.warehouseData[ 0 ].pricingForms.length; i++) {
+          if ((this.warehouseData[ 0 ].pricingForms[ i ].controls.specMinQty.value >= 0) && (this.warehouseData[ 0 ].pricingForms[ i ].controls.specMinQty.value != "")) {
             const object = {
               "id": this.leadId,
               "attachId": this.sequenceId,
               "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
-              "maxQty": this.warehouseData[0].pricingForms[i].controls.specMaxQty.value,
-              "minQty": this.warehouseData[0].pricingForms[i].controls.specMinQty.value,
-              "price": this.warehouseData[0].pricingForms[i].controls.specPrice.value,
+              "maxQty": this.warehouseData[ 0 ].pricingForms[ i ].controls.specMaxQty.value,
+              "minQty": this.warehouseData[ 0 ].pricingForms[ i ].controls.specMinQty.value,
+              "price": this.warehouseData[ 0 ].pricingForms[ i ].controls.specPrice.value,
               "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
               "paymentTerm": this.paymentTermCode,
               "note": this.notes,
-              "specCd": this.warehouseData[0].pricingForms[i].controls.specCode.value,
-              "specId": this.warehouseData[0].pricingForms[i].controls.specId.value,
-              "specName": this.warehouseData[0].pricingForms[i].controls.diameter.value,
-              "specRelId": this.warehouseData[0].pricingForms[i].controls.specRelId.value
+              "specCd": this.warehouseData[ 0 ].pricingForms[ i ].controls.specCode.value,
+              "specId": this.warehouseData[ 0 ].pricingForms[ i ].controls.specId.value,
+              "specName": this.warehouseData[ 0 ].pricingForms[ i ].controls.diameter.value,
+              "specRelId": this.warehouseData[ 0 ].pricingForms[ i ].controls.specRelId.value
             }
             this.sendPricingToAllArray.push(object);
           }
         }
       } else {
-          const object = {
-            "id": this.leadId,
-            "attachId": this.sequenceId,
-            "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
-            "maxQty": this.warehouseData[0].pricingForms[0].controls.maxPrice.value,
-            "minQty": this.warehouseData[0].pricingForms[0].controls.minPrice.value,
-            "price": this.warehouseData[0].pricingForms[0].controls.price.value,
-            "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
-            "paymentTerm": this.paymentTermCode,
-            "note": this.notes,
-          }
-          this.sendPricingToAllArray.push(object);
+        const object = {
+          "id": this.leadId,
+          "attachId": this.sequenceId,
+          "validEndDt": this.quoteDetailsForm.controls.quoteValidDate.value,
+          "maxQty": this.warehouseData[ 0 ].pricingForms[ 0 ].controls.maxPrice.value,
+          "minQty": this.warehouseData[ 0 ].pricingForms[ 0 ].controls.minPrice.value,
+          "price": this.warehouseData[ 0 ].pricingForms[ 0 ].controls.price.value,
+          "samePriceAllWarehouse": this.addPriceToAllWareHouseCheckBox,
+          "paymentTerm": this.paymentTermCode,
+          "note": this.notes,
+        }
+        this.sendPricingToAllArray.push(object);
       }
 
       this._leadService.sendQuoteToAllWarehouse(this.sendPricingToAllArray, this.leadId).then(res => {
@@ -731,7 +731,8 @@ export class NewLeadComponent implements OnInit {
           else if (this.message == "NewLeads") {
             this.data.changeMessage("NewLeads");
           }
-          this._router.navigate([`/lead`]);
+          debugger
+          this._router.navigate([ `/lead` ]);
         }
       });
     }
@@ -776,8 +777,8 @@ export class NewLeadComponent implements OnInit {
       const fileArr: File[] = [];
 
       for (let key in Object.keys(this.docs)) {
-        fileArr.push(this.docs[key]);
-        data.append(`files[${key}]`, this.docs[key]);
+        fileArr.push(this.docs[ key ]);
+        data.append(`files[${key}]`, this.docs[ key ]);
       }
       data.append('fileUploadType', 'SELLER_LEAD_RESPONSE');
       data.append('parentId', this.sequenceId);
@@ -798,11 +799,11 @@ export class NewLeadComponent implements OnInit {
 
   get isAllFormValidation() {
     if (this.addPriceToAllWareHouseCheckBox) {
-      const warehouseValid = this.warehouseData[0].pricingForms;
+      const warehouseValid = this.warehouseData[ 0 ].pricingForms;
       if (warehouseValid.length > 1) {
         return warehouseValid.every(priceForm => priceForm.valid)
       } else {
-        return this.warehouseData[0].pricingForms[0].valid
+        return this.warehouseData[ 0 ].pricingForms[ 0 ].valid
       }
     } else {
       return this.warehouseData.every(warehouseForm => {

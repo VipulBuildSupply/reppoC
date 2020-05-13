@@ -108,12 +108,6 @@ export const routes: Routes = [
       },
 
       {
-        path: 'lead',
-        redirectTo: 'lead/new/list/',
-        pathMatch: 'full'
-      },
-
-      {
         path: '',
         component: DefaultLayoutComponent,
         canActivate: [ AuthGuardService, CatalogueGuardService ],

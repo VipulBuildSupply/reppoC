@@ -24,7 +24,7 @@ import { AddressService } from 'src/app/shared/services/address.service';
     LeadListComponent,
     SkuComponent,
     LeadDetailsViewComponent,
-    ChooseAddressDialogComponent
+    ChooseAddressDialogComponent,
   ],
   imports: [
     CommonModule,

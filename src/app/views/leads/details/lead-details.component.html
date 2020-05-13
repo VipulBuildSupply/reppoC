@@ -36,6 +36,7 @@
                                                 {{allLocations}}
                                             </h6>
                                             <a
+                                                *ngIf="!isActedLead"
                                                 (click)="submit()"
                                                 mat-button>
                                                 Submit
@@ -75,7 +76,9 @@
                                                     [size]="'BIG'"></app-sku>
                                             </mat-expansion-panel-header>
 
-                                            <div class=" max-w-550">
+                                            <div
+                                                *ngIf="item.sellerRfqItem.rmcDesignMix"
+                                                class=" max-w-550">
                                                 Design Mix:
                                                 <div class="design-mix p-2">
                                                     <div class="d-flex flex-wrap">
@@ -115,7 +118,12 @@
                                                                     <mat-grid-tile [style.background]="'#ffffff'">{{spec.specName}}</mat-grid-tile>
                                                                     <mat-grid-tile [style.background]="'#ffffff'">{{spec.requestQty}}</mat-grid-tile>
                                                                     <mat-grid-tile [style.background]="'#ffffff'">
-                                                                        <mat-form-field class="w-75 text-center">
+
+                                                                        <ng-container *ngIf="item.sellerRfqItem.quotePrice && isActedLead">{{item.sellerRfqItem.quotePrice}}</ng-container>
+
+                                                                        <mat-form-field
+                                                                            *ngIf="!item.sellerRfqItem.quotePrice && !isActedLead"
+                                                                            class="w-75 text-center">
                                                                             <input
                                                                                 formControlName="price"
                                                                                 matInput>
@@ -131,7 +139,9 @@
                                                         <ng-template #qty>
                                                             <mat-grid-tile [style.background]="'#ffffff'">{{item.sellerRfqItem.requestQty}}</mat-grid-tile>
                                                             <mat-grid-tile [style.background]="'#ffffff'">
+                                                                <ng-container *ngIf="isActedLead">{{item.sellerRfqItem.quotePrice}}</ng-container>
                                                                 <mat-form-field
+                                                                    *ngIf="!isActedLead"
                                                                     formGroupName="data"
                                                                     class="w-75 text-center">
                                                                     <input
@@ -147,7 +157,7 @@
                                                 </mat-grid-list>
                                             </div>
 
-                                            <ng-container *ngIf="!item.selectedAddress">
+                                            <ng-container *ngIf="!item.selectedAddress && !isActedLead">
                                                 Please add warehouse address.
                                                 <br>
                                                 <a
@@ -161,14 +171,21 @@
 
                                             <br>
                                             <div
-                                                *ngIf="item.selectedAddress"
+                                                *ngIf="item.selectedAddress || item.sellerRfqItem.deliveryAddress "
                                                 class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                 <span>Warehouse</span>
                                                 <span
+                                                    *ngIf="!isActedLead"
                                                     class="blue-cl cursor-link"
                                                     (click)="chooseAddr(item.sellerRfqItem.id)">
                                                     Change
                                                 </span>
+                                            </div>
+                                            <div
+                                                [innerHTML]="isActedLead && item.sellerRfqItem.deliveryAddress"
+                                                *ngIf="item.sellerRfqItem.deliveryAddress"
+                                                class="mt-2 w-100 border p-2 max-w-300 ">
+
                                             </div>
                                             <div
                                                 class="mt-2 w-100 border p-2 max-w-300 "
@@ -183,11 +200,18 @@
                                             </div>
 
                                             <div
-                                                *ngIf="!noteObj[i]"
+                                                *ngIf="!noteObj[i] && !isActedLead"
                                                 (click)="noteObj[i] =  true "
                                                 class="blue-cl d-flex align-items-center pt-3 cursor-link">
                                                 <mat-icon>note_add</mat-icon>
                                                 ADD NOTE (OPTIONAL)
+                                            </div>
+
+                                            <div
+                                                [innerHTML]="isActedLead && item.sellerRfqItem.note"
+                                                *ngIf="item.sellerRfqItem.note"
+                                                class="mt-2 w-100 border p-2 max-w-300 ">
+
                                             </div>
 
                                             <div

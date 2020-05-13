@@ -8,6 +8,11 @@ import { DetailsResolver } from './resolver/details.resolver';
 
 export const leadRoutes: Routes = [
     {
+        path: '',
+        redirectTo: 'new/list',
+        pathMatch: 'full'
+    },
+    {
         path: 'new-lead',
         component: LeadDetailsComponent,
         data: { title: 'New Leads' }
@@ -20,6 +25,12 @@ export const leadRoutes: Routes = [
     },
     {
         path: 'new/details/:id',
+        component: LeadDetailsViewComponent,
+        resolve: { details: DetailsResolver },
+        data: { title: 'Lead Details' }
+    },
+    {
+        path: 'acted/details/:id',
         component: LeadDetailsViewComponent,
         resolve: { details: DetailsResolver },
         data: { title: 'Lead Details' }
