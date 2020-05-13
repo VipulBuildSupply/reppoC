@@ -12,6 +12,7 @@ import { IndianCurrency } from './pipes/indianCurrency.pipe';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { NewDatePipe } from './pipes/new-date.pipe';
 import { DecimalNumberDirective } from './directive/decimal-numbers.directive';
+import { Keyobject } from './pipes/obj-ng-for.pipe';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { DecimalNumberDirective } from './directive/decimal-numbers.directive';
     IndianCurrency,
     CustomDatePipe,
     NewDatePipe,
-    DecimalNumberDirective
+    DecimalNumberDirective,
+    Keyobject
   ],
   exports: [
     ...SharedDialogs,
@@ -42,7 +44,8 @@ import { DecimalNumberDirective } from './directive/decimal-numbers.directive';
     IndianCurrency,
     CustomDatePipe,
     NewDatePipe,
-    DecimalNumberDirective
+    DecimalNumberDirective,
+    Keyobject
   ],
   entryComponents: [
     ...SharedDialogs,

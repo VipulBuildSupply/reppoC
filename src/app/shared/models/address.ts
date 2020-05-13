@@ -204,7 +204,7 @@ export class BankName {
     name: string;
 }
 
-export class BalanceSheets{
+export class BalanceSheets {
     attachId: number;
     attachUrl: string;
     createDt: string;
@@ -223,7 +223,7 @@ export class BalanceSheets{
         note = '',
         pid = 0,
         year = ''
-    }){
+    }) {
         this.attachId = attachId;
         this.attachUrl = attachUrl;
         this.createDt = createDt;
@@ -234,3 +234,22 @@ export class BalanceSheets{
         this.year = year;
     }
 }
+
+export type AddressTypes = 'BILLING' | 'DELIVERY' | 'WAREHOUSE' | 'COMPANY_REGISTERED' | 'PROJECT_ADDRESS';
+export interface AddressModel {
+    addressCategory: string;
+    addressId: number;
+    addressLine1: string;
+    addressLine2: string;
+    city: CityModel;
+    defaultAddress: boolean;
+    deliveryRange: number;
+    htmlData: string;
+    name: string;
+    phoneNo: string;
+    pincode: string;
+    state: StateModel;
+}
+
+export interface CityModel { id: number; name: string; code: string; stateCode: string; stateId: number; }
+export interface StateModel { id: number; name: string; code: string; countryId: number; }

@@ -1,0 +1,299 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="leads-top-section">
+                <h4>Lead Details</h4>
+
+                <!-- ──────────────────────────────────────────────────────────────────────────────── -->
+                <div
+                    class="po"
+                    *ngIf="details">
+
+                    <div class="po__orders-list">
+                        <div class="po__order my-3">
+                            <mat-card class="po__card">
+
+                                <div class="po__title-section">
+                                    <div
+                                        *ngIf="details"
+                                        class="d-flex justify-content-between align-items-center">
+                                        <div class="po__title-left">
+                                            <div class="mb-0 d-flex align-items-center">
+                                                <h4 class="mr-3 mb-0">Lead Id : {{details.rfq.id}}</h4>
+                                                <div
+                                                    class="po__header-right"
+                                                    *ngIf="selectedTab === 'awarded'">
+                                                    <span>Awarded</span>
+                                                </div>
+                                            </div>
+                                            <p class="datetime mb-0 mt-1">{{details.requiredStartDt}}</p>
+                                        </div>
+
+                                        <div class="po__title-right d-flex align-items-center">
+                                            <h6 class="font600 mb-0">{{details.items.length}} ITEMS</h6>
+                                            <h6 class="font600 mb-0 d-flex align-items-center">
+                                                <mat-icon class="font-18 d-flex align-items-center gry-cl">location_on</mat-icon>
+                                                {{allLocations}}
+                                            </h6>
+                                            <a
+                                                (click)="submit()"
+                                                mat-button>
+                                                Submit
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <mat-divider></mat-divider>
+                                <mat-accordion class="acc-pd">
+                                    <!-- • • ITEMS• • • -->
+                                    <ng-container *ngFor="let item of details.items; let i = index">
+
+                                        <mat-expansion-panel
+                                            #panel
+                                            [disabled]="true"
+                                            [expanded]="item.expand"
+                                            [hideToggle]="true">
+                                            <mat-expansion-panel-header
+                                                class="extra-height"
+                                                [collapsedHeight]="'auto'"
+                                                [expandedHeight]="'auto'">
+                                                <div class="d-flex pb-2 pt-2">
+                                                    <mat-panel-title>ITEM {{i + 1}}</mat-panel-title>
+                                                    <mat-panel-description
+                                                        class="cursor-link"
+                                                        (click)="item.expand = !item.expand">
+                                                        View {{'more'}}
+                                                        <mat-icon>
+                                                            {{item.expand ? 'expand_less' : 'expand_more'}}
+                                                        </mat-icon>
+                                                    </mat-panel-description>
+                                                </div>
+                                                <app-sku
+                                                    class="pb-3 d-block"
+                                                    [sku]="item"
+                                                    [size]="'BIG'"></app-sku>
+                                            </mat-expansion-panel-header>
+
+                                            <div class=" max-w-550">
+                                                Design Mix:
+                                                <div class="design-mix p-2">
+                                                    <div class="d-flex flex-wrap">
+                                                        <div
+                                                            style="flex: 1 0 50%"
+                                                            class="design-mix__col "
+                                                            *ngFor="let rmcItem of item.sellerRfqItem.rmcDesignMix | keyobject; let i = index; ">
+                                                            <span>{{ rmcItem.key}}:</span>
+                                                            <span>{{ rmcItem.value}}</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div
+                                                class="border mb-3 mt-3"
+                                                style="max-width:420px">
+
+                                                <mat-grid-list
+                                                    class="new-grd"
+                                                    [cols]="item.sellerRfqItem.specs?.length ? 3 : 2"
+                                                    [style.background]="'#cccccc'"
+                                                    rowHeight="50px">
+                                                    <ng-container *ngIf="item.sellerRfqItem.specs?.length">
+                                                        <mat-grid-tile [style.background]="'#eaf8ff'">{{'spec'}}</mat-grid-tile>
+                                                    </ng-container>
+                                                    <mat-grid-tile [style.background]="'#eaf8ff'">Quantity ({{item.sellerRfqItem.unit}})</mat-grid-tile>
+                                                    <mat-grid-tile [style.background]="'#eaf8ff'">Price Per Unit (₹)</mat-grid-tile>
+                                                    <form [formGroup]="item.form">
+                                                        <ng-container *ngIf="item.sellerRfqItem.specs?.length; else qty">
+                                                            <ng-container formArrayName="data">
+                                                                <ng-container
+                                                                    [formGroupName]="i"
+                                                                    *ngFor="let spec of item.sellerRfqItem.specs; let i = index">
+                                                                    <mat-grid-tile [style.background]="'#ffffff'">{{spec.specName}}</mat-grid-tile>
+                                                                    <mat-grid-tile [style.background]="'#ffffff'">{{spec.requestQty}}</mat-grid-tile>
+                                                                    <mat-grid-tile [style.background]="'#ffffff'">
+                                                                        <mat-form-field class="w-75 text-center">
+                                                                            <input
+                                                                                formControlName="price"
+                                                                                matInput>
+
+                                                                            <mat-error *ngIf="item.form['controls']['data']['controls'][i]['controls']['price'].hasError('pattern')">Enter a valid price</mat-error>
+                                                                            <mat-error *ngIf="item.form['controls']['data']['controls'][i]['controls']['price'].hasError('required')">Price are required</mat-error>
+                                                                        </mat-form-field>
+
+                                                                    </mat-grid-tile>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <ng-template #qty>
+                                                            <mat-grid-tile [style.background]="'#ffffff'">{{item.sellerRfqItem.requestQty}}</mat-grid-tile>
+                                                            <mat-grid-tile [style.background]="'#ffffff'">
+                                                                <mat-form-field
+                                                                    formGroupName="data"
+                                                                    class="w-75 text-center">
+                                                                    <input
+                                                                        formControlName="price"
+                                                                        matInput>
+                                                                    <mat-error *ngIf="item.form['controls']['data']['controls']['price'].hasError('pattern')">Enter a valid price</mat-error>
+                                                                    <mat-error *ngIf="item.form['controls']['data']['controls']['price'].hasError('required')">Price are required</mat-error>
+                                                                </mat-form-field>
+                                                            </mat-grid-tile>
+                                                        </ng-template>
+                                                    </form>
+
+                                                </mat-grid-list>
+                                            </div>
+
+                                            <ng-container *ngIf="!item.selectedAddress">
+                                                Please add warehouse address.
+                                                <br>
+                                                <a
+                                                    mat-button
+                                                    (click)="chooseAddr(item.sellerRfqItem.id)"
+                                                    class="pl-5 pr-5 bs-btn bs-btn__dashed">
+                                                    + Add Warhorse Address
+                                                </a>
+                                                <mat-error *ngIf="!item.selectedAddress && commonForm['touched']">Warehouse address required</mat-error>
+                                            </ng-container>
+
+                                            <br>
+                                            <div
+                                                *ngIf="item.selectedAddress"
+                                                class="w-100 d-flex align-items-center justify-content-between max-w-300">
+                                                <span>Warehouse</span>
+                                                <span
+                                                    class="blue-cl cursor-link"
+                                                    (click)="chooseAddr(item.sellerRfqItem.id)">
+                                                    Change
+                                                </span>
+                                            </div>
+                                            <div
+                                                class="mt-2 w-100 border p-2 max-w-300 "
+                                                *ngIf="item.selectedAddress">
+                                                <b class="pb-1">{{ item.selectedAddress.name}}</b>
+                                                <br>
+                                                {{item.selectedAddress.addressLine1}}
+                                                <br>
+                                                {{item.selectedAddress.addressLine2}}
+                                                <br>
+                                                {{item.selectedAddress.city.name}}, {{item.selectedAddress.pincode}}
+                                            </div>
+
+                                            <div
+                                                *ngIf="!noteObj[i]"
+                                                (click)="noteObj[i] =  true "
+                                                class="blue-cl d-flex align-items-center pt-3 cursor-link">
+                                                <mat-icon>note_add</mat-icon>
+                                                ADD NOTE (OPTIONAL)
+                                            </div>
+
+                                            <div
+                                                class="pt-3"
+                                                *ngIf="noteObj[i]">
+                                                <div class="w-100 d-flex align-items-center justify-content-between max-w-300">
+                                                    <span>Note</span>
+
+                                                </div>
+                                                <mat-form-field
+                                                    appearance="outline"
+                                                    class="w-100 max-w-300">
+                                                    <textarea
+                                                        #note
+                                                        (input)="addNotes(item.sellerRfqItem.id, note.value)"
+                                                        cdkTextareaAutosize
+                                                        cdkAutosizeMinRows="5"
+                                                        matInput></textarea>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </mat-expansion-panel>
+                                        <mat-divider [inset]="true"></mat-divider>
+                                    </ng-container>
+                                    <!-- ITEMS END -->
+                                </mat-accordion>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <!-- ──────────────────────────────────────────────────────────────────────────────── -->
+
+                <div
+                    class="po"
+                    *ngIf="details">
+
+                    <div class="po__orders-list">
+                        <div class="po__order my-3">
+                            <mat-card class="po__card">
+
+                                <div class="bs-note cyan-bg p-3">
+                                    <div class="font-12">BuildSupply Note:</div>
+                                    <ul
+                                        [innerHTML]="details.rfq.note"
+                                        class="font-14"></ul>
+
+                                    <div class="font-12">BuildSupply Payment Terms :</div>
+                                    <ul
+                                        class="font-14"
+                                        [innerHTML]="details.rfq.paymentTerm"></ul>
+                                </div>
+                                <mat-divider></mat-divider>
+                                <div class="common-frm p-3">
+                                    <form [formGroup]="commonForm">
+                                        <div class="row">
+                                            <mat-form-field class="col max-w-300">
+                                                <mat-label>Quote Valid Till</mat-label>
+                                                <input
+                                                    formControlName="validEndDt"
+                                                    matInput
+                                                    [min]="today"
+                                                    [matDatepicker]="myDatepicker">
+                                                <mat-datepicker-toggle
+                                                    matSuffix
+                                                    [for]="myDatepicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #myDatepicker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row">
+                                            <mat-form-field
+                                                *ngIf="allFright"
+                                                class="col max-w-300">
+                                                <mat-label>Fright Information</mat-label>
+                                                <mat-select formControlName="freightTermCd">
+                                                    <mat-option
+                                                        *ngFor="let fri of allFright"
+                                                        [value]="fri.code">
+                                                        {{fri.displayName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row">
+                                            <mat-form-field
+                                                *ngIf="allPaymentTerms"
+                                                class="col max-w-300">
+                                                <mat-label>Payment Terms</mat-label>
+                                                <mat-select formControlName="paymentTerm">
+                                                    <mat-option
+                                                        *ngFor="let term of allPaymentTerms"
+                                                        [value]="term.code">
+                                                        {{term.displayName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </form>
+                                    <div>
+                                        Note: Lead response once submitted cannot be changed.
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

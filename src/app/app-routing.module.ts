@@ -37,7 +37,7 @@ export const routes: Routes = [
       {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [CatalogueGuardService],
+        canActivate: [ CatalogueGuardService ],
         children: [
           {
             path: 'home',
@@ -60,7 +60,7 @@ export const routes: Routes = [
       {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [AuthGuardService],
+        canActivate: [ AuthGuardService ],
         children: [
           {
             path: '',
@@ -79,7 +79,7 @@ export const routes: Routes = [
       {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [AuthGuardService, CatalogueGuardService],
+        canActivate: [ AuthGuardService, CatalogueGuardService ],
         children: [
           {
             path: '',
@@ -109,14 +109,14 @@ export const routes: Routes = [
 
       {
         path: 'lead',
-        redirectTo: 'lead/new-lead',
+        redirectTo: 'lead/new/list/',
         pathMatch: 'full'
       },
 
       {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [AuthGuardService, CatalogueGuardService],
+        canActivate: [ AuthGuardService, CatalogueGuardService ],
         children: [
           {
             path: 'lead',
@@ -129,7 +129,7 @@ export const routes: Routes = [
       {
         path: '',
         component: ProfileLayoutComponent,
-        canActivate: [AuthGuardService, CatalogueGuardService],
+        canActivate: [ AuthGuardService, CatalogueGuardService ],
         children: [
           {
             path: 'user',
@@ -142,7 +142,7 @@ export const routes: Routes = [
       {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [AuthGuardService, CatalogueGuardService],
+        canActivate: [ AuthGuardService, CatalogueGuardService ],
         children: [
           {
             path: 'catalogue',
@@ -167,7 +167,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

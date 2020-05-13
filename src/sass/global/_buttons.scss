@@ -51,7 +51,6 @@ fieldset:disabled a.btn {
   pointer-events: none;
 }
 
-
 //
 // Alternate buttons
 //
@@ -67,7 +66,6 @@ fieldset:disabled a.btn {
     @include button-outline-variant($value);
   }
 }
-
 
 //
 // Link buttons
@@ -99,19 +97,29 @@ fieldset:disabled a.btn {
   // No need for an active state here
 }
 
-
 //
 // Button Sizes
 //
 
 .btn-lg {
-  @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-line-height-lg, $btn-border-radius-lg);
+  @include button-size(
+    $btn-padding-y-lg,
+    $btn-padding-x-lg,
+    $btn-font-size-lg,
+    $btn-line-height-lg,
+    $btn-border-radius-lg
+  );
 }
 
 .btn-sm {
-  @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-line-height-sm, $btn-border-radius-sm);
+  @include button-size(
+    $btn-padding-y-sm,
+    $btn-padding-x-sm,
+    $btn-font-size-sm,
+    $btn-line-height-sm,
+    $btn-border-radius-sm
+  );
 }
-
 
 //
 // Block button
@@ -134,4 +142,108 @@ input[type="button"] {
   &.btn-block {
     width: 100%;
   }
+}
+.po .mat-button.bs-btn,
+.mat-button.bs-btn,
+.bs-btn {
+  border-radius: 24px;
+
+  font-size: 16px;
+  padding: 0 20px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 35px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  height: auto;
+
+  $this: &;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &__solid {
+    background-color: $primary-cl;
+    color: $white;
+    border-color: $primary-cl;
+
+    &:hover {
+      color: $white;
+      background-color: darken($color: $primary-cl, $amount: 5);
+      border-color: darken($color: $primary-cl, $amount: 5);
+    }
+  }
+
+  &__hollow {
+    color: $primary;
+    background-color: $white;
+    border-color: $primary-cl;
+
+    &:hover {
+      color: $primary-cl;
+      background-color: darken($color: $white, $amount: 2);
+    }
+  }
+
+  &__link {
+    color: $blue;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    border-radius: 2px;
+
+    &:hover {
+      color: darken($color: $blue, $amount: 8);
+      // background-color: darken($color: $white, $amount: 1);
+    }
+  }
+
+  &__dashed {
+    color: $blue;
+    background-color: transparent;
+    border: 1px dashed $blue;
+    padding: 0 10px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 14px;
+
+    &:hover {
+      color: darken($color: $blue, $amount: 8);
+      // background-color: darken($color: $white, $amount: 1);
+    }
+  }
+
+  &__small {
+    line-height: 30px;
+    font-size: 14px;
+    border-width: 1px;
+  }
+
+  &__big {
+    line-height: 45px;
+    // font-size: 14px;
+    // border-width: 1px;
+  }
+
+  &--radius-0 {
+    border-radius: 0;
+  }
+}
+
+.mat-button.mat-primary,
+.mat-icon-button.mat-primary,
+.mat-stroked-button.mat-primary {
+  background: $primary-cl;
+  color: $white;
+}
+.btn:focus,
+.btn.focus {
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.35) !important;
 }

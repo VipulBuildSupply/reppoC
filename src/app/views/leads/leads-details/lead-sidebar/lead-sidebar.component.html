@@ -1,17 +1,40 @@
+<ng-container *ngIf="new_leads?.length">
+    <div class="po">
+
+        <div class="po__orders-list">
+            <div class="po__order my-3">
+                <app-lead-list-item
+                    class="mb-3 d-block"
+                    [item]="item"
+                    *ngFor="let item of new_leads"></app-lead-list-item>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
 <ng-container *ngIf="new_leads">
     <ng-container *ngFor="let newlead of new_leads; let i = index">
-        <mat-card class="leads-card" 
+        <mat-card
+            class="leads-card"
             [ngClass]="[activeLeads[i] ? 'required-box active-leads' : 'required-box', 
                         (activeLeads[i] && newlead.expired) ? 'activeExpiredLeads' : '']">
             <mat-card-header>
-                <div mat-card-avatar class="example-header-image">
-                    <img [src]="newlead.imageUrl || 'assets/img/bricks.png'" alt="">
+                <div
+                    mat-card-avatar
+                    class="example-header-image">
+                    <img
+                        [src]="newlead.imageUrl || 'assets/img/bricks.png'"
+                        alt>
                 </div>
                 <mat-card-title>
                     <div class="row align-items-start">
                         <ng-container *ngIf="newlead.skuSlugUrl; else noUrlLink">
-                            <a class="col-md-9 pr-1 mgtn4 lead-title" target="_blank" 
-                                [attr.href]="newlead.skuSlugUrl">{{newlead.skuName}}</a>
+                            <a
+                                class="col-md-9 pr-1 mgtn4 lead-title"
+                                target="_blank"
+                                [attr.href]="newlead.skuSlugUrl">
+                                {{newlead.skuName}}
+                            </a>
                         </ng-container>
 
                         <ng-template #noUrlLink>
@@ -23,15 +46,23 @@
                             <ng-container *ngIf="(newlead.statusCd !== 'quote.request.sts.seller.submit') && (!newlead.expired)">
                                 <div *ngIf="!bookmarkClicked[i]">
                                     <span class="bookmark-img">
-                                        <img src="assets/img/svg-img/ic_wishlist.svg" class="bookmark" alt=""
-                                        (click)="bookmarkToggle(i,newlead.id)">
+                                        <img
+                                            src="assets/img/svg-img/ic_wishlist.svg"
+                                            class="bookmark"
+                                            alt
+                                            (click)="bookmarkToggle(i,newlead.id)">
                                     </span>
                                     <span class="icons-group">
-                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="menu"
+                                            aria-label="Example icon-button with a menu">
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
-                                            <button (click)="DismissBtnClicked(newlead.id)" mat-menu-item>
+                                            <button
+                                                (click)="DismissBtnClicked(newlead.id)"
+                                                mat-menu-item>
                                                 <mat-icon>delete</mat-icon>
                                                 <span>Show fewer leads like this</span>
                                             </button>
@@ -41,15 +72,23 @@
 
                                 <div *ngIf="bookmarkClicked[i]">
                                     <span class="bookmark-img">
-                                        <img src="assets/img/wishlist-icon-2.png" class="bookmark" alt=""
-                                        (click)="bookmarkToggle(i,newlead.id)">
+                                        <img
+                                            src="assets/img/wishlist-icon-2.png"
+                                            class="bookmark"
+                                            alt
+                                            (click)="bookmarkToggle(i,newlead.id)">
                                     </span>
                                     <span class="icons-group">
-                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="menu"
+                                            aria-label="Example icon-button with a menu">
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
-                                            <button (click)="DismissBtnClicked(newlead.id)" mat-menu-item>
+                                            <button
+                                                (click)="DismissBtnClicked(newlead.id)"
+                                                mat-menu-item>
                                                 <mat-icon>delete</mat-icon>
                                                 <span>Show fewer leads like this</span>
                                             </button>
@@ -58,14 +97,15 @@
                                 </div>
                             </ng-container>
 
-
                             <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
                                 <div class="breakLine mb-3 mt-2"></div>
-                
+
                                 <div class="quote-section mt-2">
                                     <div class="quote-price">
-                                        <span>Submitted</span> 
-                                        <img alt="" src="assets/img/green-check.png">
+                                        <span>Submitted</span>
+                                        <img
+                                            alt
+                                            src="assets/img/green-check.png">
                                     </div>
                                 </div>
                             </ng-container>
@@ -88,93 +128,86 @@
                 </mat-card-subtitle>
             </mat-card-header>
 
-            <!---------- This code will use later ------------>
-            <!-- <ng-container *ngIf="newlead.minPrice || newlead.quotePrice">
-                <div class="breakLine"></div>
-
-                <mat-card-header class="mt10">
-                    <div mat-card-avatar></div>
-    
-                    <mat-card-subtitle>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ng-container *ngIf="newlead.minPrice">
-                                    <h6>{{newlead.minPrice}}</h6>
-                                    <p>Lowest Quote(₹)</p>
-                                </ng-container>
-                            </div>
-    
-                            <div class="col-md-6">
-                                <ng-container *ngIf="newlead.quotePrice">
-                                    <h6>{{newlead.quotePrice}}</h6>
-                                    <p>Submitted Quote(₹)</p>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </mat-card-subtitle>
-                </mat-card-header>
-            </ng-container> -->
-            
             <div class="breakLine"></div>
 
             <mat-card-actions class="d-flex align-items-center justify-content-between">
                 <div class="required-date">Required by {{ newlead.requiredEndDt }}</div>
-                <!-- {{newlead.requiredEndDt | gmtToLocal }} -->
 
                 <ng-container *ngIf="newlead.status == 'Submit' || newlead.statusCd == 'quote.request.sts.seller.submit'">
-                        
+
                     <div *ngIf="currentActiveTab === 'ActedLeads'">
-                        <!--------- Condition if submit quote, Acted Lead and not expired ------>
+                        <!-- ------- Condition if submit quote, Acted Lead and not expired ---- -->
                         <ng-container *ngIf="!newlead.expired; else expiredLeadActed">
-                            <button mat-button class="orangeBttn brdbttn mr-0"
+                            <button
+                                mat-button
+                                class="orangeBttn brdbttn mr-0"
                                 (click)="viewQuote(i)"
-                                [routerLink]="['/lead/acted-lead',newlead.id]">View Quote</button>
+                                [routerLink]="['/lead/acted-lead',newlead.id]">
+                                View Quote
+                            </button>
                         </ng-container>
 
-                        <!--------- Condition if submit quote, Acted Lead and expired ------>
+                        <!-- ------- Condition if submit quote, Acted Lead and expired ---- -->
                         <ng-template #expiredLeadActed>
-                            <button (click)="viewQuote(i)"
+                            <button
+                                (click)="viewQuote(i)"
                                 [routerLink]="['/lead/acted-lead',newlead.id]"
-                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                                class="expiredLeadBttn brdbttn mr-0">
+                                Lead Expired
+                            </button>
                         </ng-template>
                     </div>
                 </ng-container>
 
                 <ng-container *ngIf="newlead.status != 'Submit' && newlead.statusCd != 'quote.request.sts.seller.submit'">
                     <div *ngIf="currentActiveTab === 'NewLeads'">
-                        
-                        <!--------- Condition if submit quote, Acted & New Lead and not expired ------>
+
+                        <!-- ------- Condition if submit quote, Acted & New Lead and not expired ---- -->
                         <ng-container *ngIf="!newlead.expired; else expiredLeadBoth">
-                            <button mat-button class="orangeBttn brdbttn mr-0"
-                                (click)="viewQuote(i)" 
-                                [routerLink]="['/lead/new-lead',newlead.id]">View Lead</button>
+                            <button
+                                mat-button
+                                class="orangeBttn brdbttn mr-0"
+                                (click)="viewQuote(i)"
+                                [routerLink]="['/lead/new-lead',newlead.id]">
+                                View Lead
+                            </button>
                         </ng-container>
 
-                        <!--------- Condition if submit quote, Acted & New Lead and expired ------>
+                        <!-- ------- Condition if submit quote, Acted & New Lead and expired ---- -->
                         <ng-template #expiredLeadBoth>
-                            <button (click)="viewQuote(i)"
+                            <button
+                                (click)="viewQuote(i)"
                                 [routerLink]="['/lead/new-lead',newlead.id]"
-                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                                class="expiredLeadBttn brdbttn mr-0">
+                                Lead Expired
+                            </button>
                         </ng-template>
                     </div>
 
                     <div *ngIf="currentActiveTab === 'ActedLeads'">
-                        <!--------- Condition if submit quote, Acted Lead and not expired ------>
+                        <!-- ------- Condition if submit quote, Acted Lead and not expired ---- -->
                         <ng-container *ngIf="!newlead.expired; else expiredLeadBoth">
-                            <button mat-button class="orangeBttn brdbttn mr-0"
-                                (click)="viewQuote(i)" 
-                                [routerLink]="['/lead/acted-lead/'+newlead.id]">View Lead</button>
+                            <button
+                                mat-button
+                                class="orangeBttn brdbttn mr-0"
+                                (click)="viewQuote(i)"
+                                [routerLink]="['/lead/acted-lead/'+newlead.id]">
+                                View Lead
+                            </button>
                         </ng-container>
 
-                        <!--------- Condition if submit quote, Acted Lead and expired ------>
+                        <!-- ------- Condition if submit quote, Acted Lead and expired ---- -->
                         <ng-template #expiredLeadBoth>
-                            <button (click)="viewQuote(i)"
+                            <button
+                                (click)="viewQuote(i)"
                                 [routerLink]="['/lead/acted-lead/'+newlead.id]"
-                                class="expiredLeadBttn brdbttn mr-0">Lead Expired</button>
+                                class="expiredLeadBttn brdbttn mr-0">
+                                Lead Expired
+                            </button>
                         </ng-template>
                     </div>
                 </ng-container>
-            
+
             </mat-card-actions>
 
         </mat-card>

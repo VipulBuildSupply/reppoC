@@ -8,11 +8,22 @@ import { Subject } from 'rxjs';
 export class LeadsService {
 
     hasNewLeads$ = new Subject<boolean>();
-    
+
     constructor(
         private dataService: DataService
     ) { }
-    
+
+    getLeads(isActed = '') {
+        // old api url API.GET_NEW_LEADS
+        return this.dataService.getRequest(API.GET_RFQ_LIST + (isActed ? `?statusList=${isActed}` : '')).then((res: any) => {
+            return res.data;
+        });
+    }
+
+    getLeadDetails(id: number) {
+        return this.dataService.getRequest(API.GET_RFQ_DETAIL(id)).then(res => res.data);
+    }
+
     getNewLeads() {
         return this.dataService.getRequest(API.GET_NEW_LEADS).then((res: any) => {
             this.hasNewLeads$.next(!!res.data.length);
@@ -49,5 +60,13 @@ export class LeadsService {
 
     docUpload(data) {
         return this.dataService.sendPostRequest(API.UPLOAD_DOC, data).then(res => res)
+    }
+
+    freightTerms() {
+        return this.dataService.getRequest(API.GET_FREIGHT_TERMS).then(res => res.data);
+    }
+
+    submitRfq(sellerRfqId, data) {
+        return this.dataService.sendPostRequest(API.RFQ_SUBMIT(sellerRfqId), data).then(res => res.data);
     }
 }
