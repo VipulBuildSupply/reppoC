@@ -48,7 +48,7 @@ export class LeadDetailsViewComponent implements OnInit {
     initCommonForm(): void {
 
         this.commonForm = this.formBuilder.group({
-            paymentTerm: [ '', Validators.required ],
+            paymentTermCd: [ '', Validators.required ],
             validEndDt: [ '', Validators.required ],
             freightTermCd: [ '', Validators.required ]
         });
@@ -192,7 +192,7 @@ export class LeadDetailsViewComponent implements OnInit {
     submitData(items: RfqSubmitModel[]) {
         this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
             this.router.navigate([ '/lead/acted/list' ]);
-        })
+        });
     }
 
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
