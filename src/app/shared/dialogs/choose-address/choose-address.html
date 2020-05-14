@@ -4,11 +4,7 @@
         <div
             class="modal-header pb-0"
             style="border:none;">
-            <h5
-                class="top-title mb-0"
-                [ngClass]="isMobile ? 'mt-2' : '' ">
-                All {{addressType}} Address
-            </h5>
+            <h5 class="top-title mb-0">All {{addressType}} Address</h5>
             <button
                 type="button"
                 class="close"
@@ -29,9 +25,7 @@
                     <mat-list-item
                         *ngFor="let addrs of allAddress"
                         class="border addrs-list-item">
-                        <mat-radio-button
-                            [value]="addrs"
-                            *ngIf="!isMobile; else btnInMobile">
+                        <mat-radio-button [value]="addrs">
                             <b>{{addrs.name}}</b>
                             |
                             <b>{{addrs.phoneNo}}</b>
@@ -58,15 +52,15 @@
                         Bangalore, Karnataka 120342</span>
                 </div> -->
 
-            <span
+            <!-- <span
                 *ngIf="addreErr"
                 style="float: none;
                 display: block;
                 clear: both;
                 text-align: right;"
                 class="err">
-                {{this.errMsg }}
-            </span>
+                {{this.errMsg }} -->
+            <!-- </span> -->
 
             <div class="p-2 text-right">
                 <button

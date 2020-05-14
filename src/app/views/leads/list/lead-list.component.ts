@@ -3,6 +3,10 @@ import { LeadsService } from 'src/app/shared/services/leads.service';
 import { LeadListItemModel } from 'src/app/shared/models/leads';
 import { RfqItem } from 'src/app/shared/models/rfq.models';
 import { ActivatedRoute } from '@angular/router';
+import { CatalogueFiltersComponent } from 'src/app/shared/dialogs/catalogue-filters/catalogue-filters.component';
+import { MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { LeadFiltersComponent } from 'src/app/shared/dialogs/lead-filters/lead-filters.component';
 
 @Component({
     selector: 'app-lead-list',
@@ -11,10 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 export class LeadListComponent implements OnInit {
 
     allLeads: RfqItem[];
-    count: number;
 
     constructor(
-        private leadService: LeadsService,
         private activatedLeads: ActivatedRoute
     ) { }
 
@@ -23,6 +25,8 @@ export class LeadListComponent implements OnInit {
 
     }
 
-    filters() { }
-    applySearchFilter() { }
+
+
+
+
 }

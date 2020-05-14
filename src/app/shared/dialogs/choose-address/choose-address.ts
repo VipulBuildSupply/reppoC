@@ -45,7 +45,7 @@ export class ChooseAddressDialogComponent implements OnInit, OnDestroy {
         this.dialogRef.close(null);
     }
 
-    submit(address: any) {
+    submit(address?: any) {
         this.dialogRef.close({ address: this.selectedAddress, id: this.data.id });
     }
 }

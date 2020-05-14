@@ -46,11 +46,17 @@ export class LeadDetailsViewComponent implements OnInit {
 
 
     initCommonForm(): void {
+        let date = null;
+        if (this.details.validEndDt) {
+
+            const dtArr = this.details.validEndDt.split('-').map(n => Number(n));
+            date = new Date((dtArr[ 2 ] - 1), (dtArr[ 1 ] - 1), dtArr[ 0 ]);
+        }
 
         this.commonForm = this.formBuilder.group({
-            paymentTermCd: [ '', Validators.required ],
-            validEndDt: [ '', Validators.required ],
-            freightTermCd: [ '', Validators.required ]
+            paymentTermCd: [ { value: this.details.paymentTermCd, disabled: this.isActedLead }, Validators.required ],
+            validEndDt: [ { value: date, disabled: this.isActedLead }, Validators.required ],
+            freightTermCd: [ { value: this.details.freightTermCd, disabled: this.isActedLead }, Validators.required ]
         });
     }
 
@@ -229,6 +235,17 @@ export class LeadDetailsViewComponent implements OnInit {
             }
         });
 
+    }
+
+    objToArr(obj) {
+        const keys = [];
+        for (let key in obj) {
+            keys.push({ key: key, value: obj[ key ] });
+        }
+        return keys.filter(itm => itm.value).map((itm, i, arr) => {
+            itm.total = arr.length;
+            return itm;
+        })
     }
 
 

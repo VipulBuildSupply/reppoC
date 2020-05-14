@@ -12,11 +12,11 @@ export const leadRoutes: Routes = [
         redirectTo: 'new/list',
         pathMatch: 'full'
     },
-    {
-        path: 'new-lead',
-        component: LeadDetailsComponent,
-        data: { title: 'New Leads' }
-    },
+    // {
+    //     path: 'new-lead',
+    //     component: LeadDetailsComponent,
+    //     data: { title: 'New Leads' }
+    // },
     {
         path: 'new/list',
         component: LeadListComponent,
@@ -41,21 +41,21 @@ export const leadRoutes: Routes = [
         resolve: { leads: LeadResolver },
         data: { title: 'New Leads' }
     },
-    {
-        path: 'acted-lead',
-        component: LeadDetailsComponent,
-        data: { title: 'Acted Leads' }
-    },
-    {
-        path: 'new-lead/:id',
-        component: LeadDetailsComponent,
-        data: { title: 'New Leads' }
-    },
-    {
-        path: 'acted-lead/:id',
-        component: LeadDetailsComponent,
-        data: { title: 'Acted Leads' }
-    }
+    // {
+    //     path: 'acted-lead',
+    //     component: LeadDetailsComponent,
+    //     data: { title: 'Acted Leads' }
+    // },
+    // {
+    //     path: 'new-lead/:id',
+    //     component: LeadDetailsComponent,
+    //     data: { title: 'New Leads' }
+    // },
+    // {
+    //     path: 'acted-lead/:id',
+    //     component: LeadDetailsComponent,
+    //     data: { title: 'Acted Leads' }
+    // }
 ];
 
 @NgModule({
