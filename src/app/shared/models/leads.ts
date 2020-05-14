@@ -132,7 +132,7 @@ export interface RfqSubmitModel {
     freightTermCd: string;
     minQty: number;
     note: string;
-    paymentTerm: string;
+    paymentTermCd: string;
     price: number;
     sellerRfqItemId: number;
     specRelId: string;
