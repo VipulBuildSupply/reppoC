@@ -35,8 +35,8 @@ export class LeadDetailsViewComponent implements OnInit {
         private leadService: LeadsService) { }
 
     ngOnInit(): void {
-        this.isActedLead = this.router.url.indexOf('new') === -1;
         this.details = this.activatedRout.snapshot.data.details;
+        this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
         this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
         this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
         this.initCommonForm();
