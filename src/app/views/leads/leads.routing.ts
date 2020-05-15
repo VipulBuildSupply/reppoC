@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from "@angular/router";
-import { LeadDetailsComponent } from './leads-details/lead-details.component';
+// import { LeadDetailsComponent } from './leads-details/lead-details.component';
 import { LeadListComponent } from './list/lead-list.component';
 import { LeadResolver } from './resolver/lead.resolver';
 import { LeadDetailsViewComponent } from './details/lead-details.component';
@@ -24,7 +24,7 @@ export const leadRoutes: Routes = [
         data: { title: 'New Leads' }
     },
     {
-        path: 'new/details/:id',
+        path: 'details/:id',
         component: LeadDetailsViewComponent,
         resolve: { details: DetailsResolver },
         data: { title: 'Lead Details' }
@@ -57,7 +57,6 @@ export const leadRoutes: Routes = [
     //     data: { title: 'Acted Leads' }
     // }
 ];
-
 @NgModule({
     imports: [ RouterModule.forChild(leadRoutes) ],
     exports: [ RouterModule ]
