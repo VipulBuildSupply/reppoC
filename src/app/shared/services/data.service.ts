@@ -21,7 +21,8 @@ export class DataService {
     constructor(private http: HttpClient,
         private notifier: NotificationService,
         private token: TokenService) {
-        this.baseUrl = window[ 'env' ][ 'api_url' ] || 'https://api.yeho.ga';
+        this.baseUrl = (window[ 'env' ] && window[ 'env' ][ 'api_url' ]) || 'https://dev-api.buildsupply.io/';
+        // this.baseUrl = window[ 'env' ][ 'api_url' ] || 'https://api.yeho.ga';
     }
 
     private messageSource = new BehaviorSubject("NewLeads");
