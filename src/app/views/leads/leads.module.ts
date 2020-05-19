@@ -14,6 +14,7 @@ import { LeadDetailsViewComponent } from './details/lead-details.component';
 import { DetailsResolver } from './resolver/details.resolver';
 import { ChooseAddressDialogComponent } from 'src/app/shared/dialogs/choose-address/choose-address';
 import { AddressService } from 'src/app/shared/services/address.service';
+import { VerifiedUserGuard } from 'src/app/shared/guards/verified-user.guard';
 
 @NgModule({
   declarations: [

@@ -138,6 +138,7 @@ export interface RfqSubmitModel {
     specRelId: string;
     validEndDt: string;
     warehouseId: number;
+    paymentTerm?: string;
 }
 
 export interface PromptItem extends RfqSubmitModel {

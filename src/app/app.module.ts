@@ -20,7 +20,7 @@ import { SnotifyService, ToastDefaults } from 'ng-snotify';
 import { HttpClientModule } from '@angular/common/http';
 import { TermsAndConditionsComponent } from './views/need-help/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './views/need-help/privacy-policy/privacy-policy.component';
-import { HttpInterceptorProviders } from './shared/http-interceptors/http-interceptor-providers'; 
+import { HttpInterceptorProviders } from './shared/http-interceptors/http-interceptor-providers';
 import { OpenTileModule } from './views/open-tile/open-tile.module';
 import { CategoryService } from './shared/services/category.service';
 import { AuthGuardService } from './shared/guards/auth.guard';
@@ -29,6 +29,9 @@ import { LeadsService } from './shared/services/leads.service';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { PurchaseOrdersService } from './shared/services/purchase-orders.service';
 import { NotificationsComponent } from './views/notifications/notifications.component';
+import { VerifiedUserGuard } from './shared/guards/verified-user.guard';
+import { ComingSoonComponent } from './views/leads/comingsoon/comingsoon.component';
+import { HasLeadGuard } from './shared/guards/isLead.guard';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { NotificationsComponent } from './views/notifications/notifications.comp
     PrivacyPolicyComponent,
     // LeadLayoutComponent,
     MainLayoutComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ComingSoonComponent
   ],
   imports: [
     BrowserModule,
@@ -70,8 +74,10 @@ import { NotificationsComponent } from './views/notifications/notifications.comp
     AuthGuardService,
     CatalogueGuardService,
     LeadsService,
-    PurchaseOrdersService
+    PurchaseOrdersService,
+    VerifiedUserGuard,
+    HasLeadGuard
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
