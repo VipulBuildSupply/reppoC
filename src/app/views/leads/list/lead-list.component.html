@@ -1,0 +1,104 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="leads-top-section">
+                <h4>Leads</h4>
+
+                <div class="leads-srch-box flex-sb-m">
+
+                    <div class="leads-tap">
+                        <a
+                            href="javascript:void(0)"
+                            routerLinkActive="active-tab"
+                            [routerLink]="['/lead/new/list']">
+                            New Leads
+                        </a>
+                        <a
+                            href="javascript:void(0)"
+                            routerLinkActive="active-tab"
+                            [routerLink]="['/lead/acted/list']">
+                            Acted Leads
+                        </a>
+                    </div>
+
+                    <!-- <div class="leads-srch">
+                        <div class="form-group has-search mb-0">
+                            <span class="form-control-feedback">
+                                <img
+                                    src="assets/img/search-icon.png"
+                                    alt>
+                            </span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                (keyup)="applySearchFilter($event.target.value)"
+                                placeholder="Search">
+                        </div>
+
+                        <a
+                            href="javascript:void(0)"
+                            (click)="filters()"
+                            role="button"
+                            style="color:rgba(125,125,125,0.95);">
+                            <img
+                                [src]="count ? 'assets/img/filler-icon.png' : 'assets/img/svg-img/ic_filter.svg'"
+                                alt>
+                            <span
+                                class="filter-no"
+                                *ngIf="count">
+                                {{count}}
+                            </span>
+                            Filters
+                        </a>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="allLeads?.length">
+        <div class="po">
+
+            <div class="po__orders-list">
+                <div class="po__order my-3">
+                    <app-lead-list-item
+                        class="d-block mb-4"
+                        [item]="item"
+                        *ngFor="let item of allLeads"></app-lead-list-item>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <div
+        *ngIf="!allLeads.length"
+        class="no-new-leads">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="profile-verification__img">
+                    <img
+                        src="assets/img/no-leads.png"
+                        alt
+                        class="img-fluid">
+                </div>
+                <h3 class="mt-4">Currently NO New Leads Available!</h3>
+                <p>
+                    Our team is working on the RFQ requirements best suited for your business. You will be notified as soon
+      as
+      RFQ relevant to your profile is available. Inbetween, updating your catalogue will help in reeciving more
+      leads.
+                </p>
+
+                <div class="mt-3 pb-5">
+                    <a
+                        class="btn orangeBttn"
+                        href="javascript:void(0)"
+                        [routerLink]="'/catalogue/add-catalogue'">
+                        Update
+        Catalogue
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<mat-dialog-content class="content__parent">
+
+    <div class=" delivery-modal address-modal">
+        <div
+            class="modal-header pb-0"
+            style="border:none;">
+            <h5 class="top-title mb-0">All {{addressType}} Address</h5>
+            <button
+                type="button"
+                class="close"
+                (click)="closeDialog()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="allAddress?.length === 0">
+                There is not address saved for selected Location
+            </div>
+            <mat-radio-group
+                *ngIf="allAddress?.length"
+                [(ngModel)]="selectedAddress"
+                aria-label="Select an option">
+
+                <mat-list>
+                    <mat-list-item
+                        *ngFor="let addrs of allAddress"
+                        class="border addrs-list-item">
+                        <mat-radio-button [value]="addrs">
+                            <b>{{addrs.name}}</b>
+                            |
+                            <b>{{addrs.phoneNo}}</b>
+                            |
+                            {{addrs.addressLine1}},
+                            {{addrs.addressLine2}},{{addrs.state.name}},{{addrs.city.name}},{{addrs.pincode}}
+                        </mat-radio-button>
+
+                    </mat-list-item>
+
+                </mat-list>
+            </mat-radio-group>
+
+            <!-- <div class="address-box">
+                    <div class="form-chack d-inline-block p-0">
+                        <input type="radio" name="aarif" class="checkbox-style radio-style" id="radio5">
+                        <label class="m-0" for="radio5">
+                        </label>
+                    </div>
+
+                    <span>Lloyd Knight</span><span style="color:#979797;"> | </span><span>9990329873</span><span
+                        style="color:#979797;"> | </span>
+                    <span style="color:#979797;">98 Taylor Walks Suite 585
+                        Bangalore, Karnataka 120342</span>
+                </div> -->
+
+            <!-- <span
+                *ngIf="addreErr"
+                style="float: none;
+                display: block;
+                clear: both;
+                text-align: right;"
+                class="err">
+                {{this.errMsg }} -->
+            <!-- </span> -->
+
+            <div class="p-2 text-right">
+                <button
+                    MatRipple
+                    type="button"
+                    *ngIf="allAddress && allAddress.length"
+                    (click)="submit()"
+                    class="bs-btn bs-btn__solid">
+                    Use this
+                address
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</mat-dialog-content>

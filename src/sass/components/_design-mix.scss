@@ -1,0 +1,13 @@
+.design-mix {
+    background: $gray-200;
+    width: 100%;
+    display: flex;
+    &__col {
+        display: flex;
+        padding-left: 5px;
+        padding-right: 5px;
+        justify-content: space-between;
+
+        max-width: 50%;
+    }
+}
