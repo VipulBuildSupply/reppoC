@@ -29,12 +29,16 @@
                                             <div class="mb-0 d-flex align-items-center">
                                                 <h4 class="mr-3 mb-0">Lead Id : {{details.rfq.id}}</h4>
                                             </div>
-                                            <!-- <p class="datetime mb-0 mt-1">{{details.requiredStartDt}}</p> -->
+                                            <p
+                                                *ngIf="details.rfq.createDt"
+                                                class="datetime mb-0 mt-1">
+                                                {{details.rfq.createDt}}
+                                            </p>
                                         </div>
 
                                         <div class="po__title-right d-flex align-items-center">
-                                            <h6 class="font600 mb-0">{{details.items.length}} ITEMS</h6>
-                                            <h6 class="font600 mb-0 d-flex align-items-center">
+                                            <h6 class=" mb-0">{{details.items.length}} ITEMS</h6>
+                                            <h6 class=" mb-0 d-flex align-items-center">
                                                 <mat-icon class="font-18 d-flex align-items-center gry-cl">location_on</mat-icon>
                                                 {{allLocations}}
                                             </h6>
