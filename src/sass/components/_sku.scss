@@ -1,8 +1,13 @@
 .sku {
+    font-family: "Open Sans", sans-serif;
     &__title {
+        font-family: "Open Sans", sans-serif;
         font-size: 18px;
         color: $black;
         padding-bottom: 5px;
         line-height: normal;
     }
+}
+.mat-card {
+    font-family: "Open Sans", sans-serif;
 }
