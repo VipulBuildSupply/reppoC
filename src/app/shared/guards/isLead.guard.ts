@@ -10,12 +10,13 @@ export class HasLeadGuard implements CanActivate {
 
     constructor(
         private leadService: LeadsService,
-        private router: Router) {
+        private router: Router
+    ) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         return this.leadService.hasLead().then(data => {
             return data || this.router.navigate([ 'leads-coming-soon' ]);
-        })
+        });
     }
 }
