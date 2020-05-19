@@ -39,7 +39,7 @@ export class SellerPersonalProfile {
     type?: string;
     companyId?: number;
     userId: number;
-    verifyStatus: 'Unverified' | 'Verified' | 'Verification In Progress';
+    verifyStatus: 'Unverified' | 'Verified' | 'Verification In Progress' | string;
     verifyStatusCode: string;
     firstName?: string;
 
