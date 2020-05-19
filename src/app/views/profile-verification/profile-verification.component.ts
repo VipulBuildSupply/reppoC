@@ -3,6 +3,7 @@ import { UserModel } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+type FalsyStatus = 'unverified' | 'in-progress';
 @Component({
     selector: 'app-profile-verification',
     templateUrl: './profile-verification.component.html'
@@ -15,7 +16,7 @@ export class ProfileVerificationComponent implements OnInit {
     isVerified: boolean;
     new_leads: any;
     showleads: boolean;
-    status: 'Unverified' | 'Verification In Progress';
+    status: FalsyStatus;
 
     constructor(
         private _userService: UserService,
@@ -24,7 +25,7 @@ export class ProfileVerificationComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.status = this.activatedRoute.snapshot.params.status;
+        this.status = this.activatedRoute.snapshot.params.status as FalsyStatus;
 
         // this.showleads = false;
         // this._userService.getUserData().then(res => {

@@ -29,6 +29,8 @@ export interface RfqDetails {
     pid: number;
     status: string;
     statusCd: string;
+
+    createDt: string;
 }
 
 export interface RfqSku {

@@ -53,7 +53,7 @@ export class SellerPersonalProfile {
         roleTag = "",
         suspended = false,
         userId = 0,
-        verifyStatus = "",
+        verifyStatus = null,
         verifyStatusCode = "",
         firstName = "",
         isSelected = false,
