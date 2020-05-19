@@ -98,11 +98,13 @@ export const API = {
     GET_RFQ_LIST: 'product/api/seller/rfq/list',
     GET_RFQ_DETAIL: (id: number) => `product/api/seller/rfq/${id}/obj`,
     GET_ADDRESS_LIST: (addrType: AddressTypes) => `account/api/address/${addrType}`,
-    RFQ_SUBMIT: (sellerRfqId: number) => `product/api/seller/rfq/${sellerRfqId}/price`
+    RFQ_SUBMIT: (sellerRfqId: number) => `product/api/seller/rfq/${sellerRfqId}/price`,
+
+    CHECK_RFQ_COUNT: `product/api/seller/rfq/checkCount`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [
-    { name: 'Leads', link: '/profile-verification/status', imgUrl: 'assets/img/leads.png' },
+    { name: 'Leads', link: '/lead', imgUrl: 'assets/img/leads.png' },
     // { name: 'Orders', link: '', imgUrl: 'assets/img/order.png' }
     { name: 'Catalogue', link: '/../catalogue/catalogue-list', imgUrl: 'assets/img/catlogue.png' },
     { name: 'PO', link: '/orders/list/pending', imgUrl: 'assets/img/po.png' },

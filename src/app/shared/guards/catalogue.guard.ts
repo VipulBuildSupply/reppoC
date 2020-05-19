@@ -5,18 +5,20 @@ import { CategoryService } from '../services/category.service';
 @Injectable()
 export class CatalogueGuardService implements CanActivate {
 
-    constructor(private _categoryService: CategoryService,
+    constructor(
+        private _categoryService: CategoryService,
         private router: Router) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        this._categoryService.getCatalogueCategories().then(res => {
+        return this._categoryService.getCatalogueCategories().then(res => {
             if (!res.data.length) {
-                this.router.navigate(['/open-tile/list']);
+                this.router.navigate([ '/open-tile/list' ]);
                 return false;
             }
+            return true;
         });
-        return true;
+
     }
 }

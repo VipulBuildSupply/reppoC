@@ -91,3 +91,33 @@
 .max-w-300 {
     max-width: 300px;
 }
+
+.word-break-all {
+    word-break: break-all;
+}
+
+.pdf-ico {
+    display: flex;
+    align-items: center;
+    &:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 26px;
+        margin-right: 5px;
+        background: no-repeat url(assets/img/file.png);
+    }
+}
+
+.back-btn {
+    background: $white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $black;
+    border: 1px solid $gray-300;
+    font-size: 12px;
+}

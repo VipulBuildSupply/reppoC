@@ -1,5 +1,6 @@
 import { AddressModel } from './address';
 import { FormGroup, FormArray } from '@angular/forms';
+import { DocumentModel } from './delivery-request';
 
 export interface RfqItem {
 
@@ -37,6 +38,8 @@ export interface RfqSku {
 
     selectedAddress?: AddressModel;
     form?: FormGroup;
+
+    expand?: boolean;
 }
 
 export interface RFQItemSkuDetails {
@@ -47,7 +50,7 @@ export interface RFQItemSkuDetails {
     deliveryLocation: string;
     deliveryLocationCd: string;
     displayName: string;
-    documents: any[];
+    documents: DocumentModel[];
     id: number;
     imageUrl: string;
     maxQty: number;

@@ -2,7 +2,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="leads-top-section">
-                <h4>Lead Details</h4>
+                <h4 class="pt-3 d-flex align-items-center">
+                    <a
+                        href="javascript:void(0)"
+                        class="back-btn mr-2"
+                        [routerLink]="isActedLead ? ['/lead/acted/list'] : ['/lead/new/list']">
+                        <mat-icon>chevron_left</mat-icon>
+                    </a>
+                    Lead Details
+                </h4>
 
                 <!-- ──────────────────────────────────────────────────────────────────────────────── -->
                 <div
@@ -58,7 +66,7 @@
                                                     <mat-panel-title>ITEM {{i + 1}}</mat-panel-title>
                                                     <mat-panel-description
                                                         class="cursor-link"
-                                                        (click)="item.expand = !item.expand">
+                                                        (click)="openItem(i)">
                                                         View {{'more'}}
                                                         <mat-icon>
                                                             {{item.expand ? 'expand_less' : 'expand_more'}}
@@ -75,8 +83,10 @@
                                                 *ngIf="item.sellerRfqItem.rmcDesignMix"
                                                 class=" max-w-550">
                                                 Design Mix:
-                                                <div class="design-mix p-2">
+                                                <div class="design-mix p-3">
                                                     <div class="d-flex flex-wrap">
+                                                        <ng-container></ng-container>
+
                                                         <div
                                                             style="flex: 1 0 50%"
                                                             class="design-mix__col "
@@ -166,7 +176,7 @@
 
                                             <br>
                                             <div
-                                                *ngIf="item.selectedAddress || item.sellerRfqItem.deliveryAddress "
+                                                *ngIf="item.selectedAddress || (item.sellerRfqItem.deliveryAddress && item.sellerRfqItem.deliveryAddress !== false  && item.sellerRfqItem.deliveryAddress !== 'false') "
                                                 class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                 <span>Warehouse</span>
                                                 <span
@@ -179,11 +189,11 @@
                                             <div
                                                 [innerHTML]="isActedLead && item.sellerRfqItem.deliveryAddress"
                                                 *ngIf="item.sellerRfqItem.deliveryAddress"
-                                                class="mt-2 w-100 border p-2 max-w-300 ">
+                                                class="word-break-all mt-2 w-100 border p-2 max-w-300 ">
 
                                             </div>
                                             <div
-                                                class="mt-2 w-100 border p-2 max-w-300 "
+                                                class=" word-break-all mt-2 w-100 border p-2 max-w-300 "
                                                 *ngIf="item.selectedAddress">
                                                 <b class="pb-1">{{ item.selectedAddress.name}}</b>
                                                 <br>
@@ -202,6 +212,12 @@
                                                 ADD NOTE (OPTIONAL)
                                             </div>
 
+                                            <div
+                                                *ngIf="item.sellerRfqItem.note"
+                                                class="w-100 d-flex align-items-center justify-content-between max-w-300">
+                                                <span>Note</span>
+
+                                            </div>
                                             <div
                                                 [innerHTML]="isActedLead && item.sellerRfqItem.note"
                                                 *ngIf="item.sellerRfqItem.note"
@@ -301,6 +317,14 @@
                                                         {{term.displayName}}
                                                     </mat-option>
                                                 </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div
+                                            class="row"
+                                            *ngIf="commonForm['controls']['paymentTerm']">
+                                            <mat-form-field class="col  max-w-300">
+                                                <mat-label>Other Payment Terms</mat-label>
+                                                <textarea matInput></textarea>
                                             </mat-form-field>
                                         </div>
                                     </form>

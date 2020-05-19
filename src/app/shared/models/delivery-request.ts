@@ -1,6 +1,6 @@
-export class DeliveryRequest{
+export class DeliveryRequest {
     challanAttachId: number;
-    challanDate: string
+    challanDate: string;
     challanNo: string;
     driverName: string;
     driverPhone: string;
@@ -21,9 +21,9 @@ export class DeliveryRequest{
     vehicleNo: string;
 }
 
-export class OrderItems{
+export class OrderItems {
     deliveryQty: number;
-    poItemId: number
+    poItemId: number;
 }
 
 export interface DocumentModel {
@@ -39,4 +39,6 @@ export interface DocumentModel {
     responses?: null[];
     servingUrl: string;
     signedUrl: string;
+
+    pid?: number;
 }

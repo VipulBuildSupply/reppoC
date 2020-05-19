@@ -1,0 +1,13 @@
+.delete-bank-details__para {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.delete-bank-details p .btn {
+  color: #fa8534;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+/*# sourceMappingURL=delete-bank-details.css.map */

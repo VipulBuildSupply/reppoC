@@ -35,6 +35,16 @@
                 </div>
             </div>
 
+            <div *ngIf="sku.sellerRfqItem.documents?.length">
+                BuildSupply Attachment:
+                <div
+                    class="border mb-1 p-2 d-flex justify-content-between"
+                    *ngFor="let doc of sku.sellerRfqItem.documents">
+                    <span class="pdf-ico">{{  doc.orginalFileName}}</span>
+                    <a [href]="doc.signedUrl">view</a>
+                </div>
+            </div>
+
         </ng-container>
 
     </div>

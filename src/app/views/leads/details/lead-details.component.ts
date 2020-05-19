@@ -58,6 +58,18 @@ export class LeadDetailsViewComponent implements OnInit {
             validEndDt: [ { value: date, disabled: this.isActedLead }, Validators.required ],
             freightTermCd: [ { value: this.details.freightTermCd, disabled: this.isActedLead }, Validators.required ]
         });
+
+
+        this.commonForm.get('paymentTermCd').valueChanges.subscribe(val => {
+
+            if (val === 'bs.paymenterm.others') {
+                this.commonForm.addControl('paymentTerm', this.formBuilder.control('', Validators.required));
+            } else {
+                if (this.commonForm.get('paymentTerm')) {
+                    this.commonForm.removeControl('paymentTerm');
+                }
+            }
+        })
     }
 
     setForm(item: RfqSku): FormGroup | FormArray {
@@ -101,7 +113,7 @@ export class LeadDetailsViewComponent implements OnInit {
 
         addrPop.afterClosed().toPromise().then((data: { address: AddressModel, id: number }) => {
 
-            if (!data.address) { return; }
+            if (!data || !data.address) { return; }
             const item: RfqSku = this.details.items.find(itm => itm.sellerRfqItem.id === data.id);
 
             item.selectedAddress = data.address;
@@ -242,12 +254,25 @@ export class LeadDetailsViewComponent implements OnInit {
         for (let key in obj) {
             keys.push({ key: key, value: obj[ key ] });
         }
-        return keys.filter(itm => itm.value).map((itm, i, arr) => {
-            itm.total = arr.length;
-            return itm;
-        })
+        return keys.filter(itm => itm.value && itm.key !== 'id' && itm.key !== 'sellerRfqItemId' && itm.key !== 'pid')
+            .map((itm, i, arr) => {
+                itm.total = arr.length;
+
+                itm.value = itm.value === 'Y' ? 'Yes' : itm.value;
+                itm.value = itm.value === 'N' ? 'No' : itm.value;
+
+                itm.key = itm.key === 'pumpRequiredYn' ? 'Pump Required' : itm.key.replace(/([A-Z])/g, " $1");
+                itm.key = itm.key.charAt(0).toUpperCase() + itm.key.slice(1);
+
+                itm.key = itm.key.replace('Aggregate', 'Aggregate ');
+
+                return itm;
+            })
     }
 
 
+    openItem(itemIndex: number) {
+        this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
+    }
 
 }
