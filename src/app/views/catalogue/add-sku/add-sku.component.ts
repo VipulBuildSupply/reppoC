@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
 import { NgModel } from '@angular/forms';
@@ -27,6 +27,9 @@ export class AddSkuComponent implements OnInit {
   selectedBrands: any[];
   selectAllBox: boolean;
   selectedCats: Category[] = [];
+
+  @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
+
   constructor(
     private _router: Router,
     private userService: UserService,
@@ -116,10 +119,10 @@ export class AddSkuComponent implements OnInit {
   }
 
   getItems(catId: number) {
-
     const data = {
       brandIdList: [],
-      categoryIdList: [ catId ]
+      categoryIdList: [ catId ],
+      text: this.searchInput.nativeElement.value
     };
     this.userService.getSearchResults(data).then(res => {
       if (res) {
