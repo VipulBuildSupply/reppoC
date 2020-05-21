@@ -7,6 +7,7 @@ import { MultiItemCheckboxComponent } from './multi-item-checkbox/multi-item-che
 import { DeliveryRequest } from 'src/app/shared/models/delivery-request';
 import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
 import { NotificationService } from 'src/app/shared/services/notification-service';
+import { PoOrders } from 'src/app/shared/models/purchase-orders';
 
 @Component({
   selector: 'app-initiate-delivery',
@@ -23,9 +24,9 @@ export class InitiateDeliveryComponent implements OnInit {
   invoiceDocs: FileList;
   eWayBillDocs: FileList;
   transportMode: any;
+  order: PoOrders;
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
-
   constructor(private _activatedRoute: ActivatedRoute,
     private _purchaseOrdersService: PurchaseOrdersService,
     private _formBuilder: FormBuilder,
@@ -37,6 +38,13 @@ export class InitiateDeliveryComponent implements OnInit {
     this.purchaseId = parseInt(poId.id);
     this.getAllItemsList(this.purchaseId);
     this.formInit();
+    this.getPoDetails(this.purchaseId);
+  }
+
+  getPoDetails(id) {
+    this._purchaseOrdersService.getPORequest(id).then(res => {
+      this.order = res.data;
+    })
   }
 
   getAllItemsList(oid) {
@@ -45,34 +53,34 @@ export class InitiateDeliveryComponent implements OnInit {
 
   formInit() {
     this.deliveryRequestForm = this._formBuilder.group({
-      invoiceNo: ['', Validators.required],
-      invoiceAttachId: ['', {
+      invoiceNo: [ '', Validators.required ],
+      invoiceAttachId: [ '', {
         validators: [
           Validators.required,
           Validators.minLength(1)
         ]
-      }],
-      ewayBillNo: ['', Validators.required],
-      eWayBillDate: [''],
-      ewayBillAttachId: ['', Validators.required],
-      challanNo: [''],
-      challanDate: [''],
-      challanAttachId: [''],
-      materialTestAttachId: [''],
-      transporterName: ['', Validators.required],
-      transportModeCd: [''],
-      vehicleNo: ['', Validators.required],
-      driverName: [''],
-      driverPhone: ['', {
+      } ],
+      ewayBillNo: [ '', Validators.required ],
+      eWayBillDate: [ '' ],
+      ewayBillAttachId: [ '', Validators.required ],
+      challanNo: [ '' ],
+      challanDate: [ '' ],
+      challanAttachId: [ '' ],
+      materialTestAttachId: [ '' ],
+      transporterName: [ '', Validators.required ],
+      transportModeCd: [ '' ],
+      vehicleNo: [ '', Validators.required ],
+      driverName: [ '' ],
+      driverPhone: [ '', {
         validators: [
           Validators.maxLength(10),
           Validators.minLength(10),
           Validators.pattern(FieldRegExConst.PHONE)
         ]
-      }],
-      lorryReceiptNo: ['', Validators.required],
-      transportDate: [''],
-      lorryReceiptAttachId: ['']
+      } ],
+      lorryReceiptNo: [ '', Validators.required ],
+      transportDate: [ '' ],
+      lorryReceiptAttachId: [ '' ]
     });
   }
 
@@ -88,11 +96,11 @@ export class InitiateDeliveryComponent implements OnInit {
       /**
        * @description upload all docs 
       */
-      this.deliveryRequestForm.get('invoiceAttachId').setValue(res[0]);
-      this.deliveryRequestForm.get('ewayBillAttachId').setValue(res[1]);
-      this.deliveryRequestForm.get('challanAttachId').setValue(res[2]);
-      this.deliveryRequestForm.get('materialTestAttachId').setValue(res[3]);
-      this.deliveryRequestForm.get('lorryReceiptAttachId').setValue(res[4]);
+      this.deliveryRequestForm.get('invoiceAttachId').setValue(res[ 0 ]);
+      this.deliveryRequestForm.get('ewayBillAttachId').setValue(res[ 1 ]);
+      this.deliveryRequestForm.get('challanAttachId').setValue(res[ 2 ]);
+      this.deliveryRequestForm.get('materialTestAttachId').setValue(res[ 3 ]);
+      this.deliveryRequestForm.get('lorryReceiptAttachId').setValue(res[ 4 ]);
 
       if (this.deliveryRequestForm.valid) {
 
@@ -174,6 +182,6 @@ export class InitiateDeliveryComponent implements OnInit {
   }
 
   goBack() {
-    this._router.navigate(['/orders/details/awarded/' + this.purchaseId]);
+    this._router.navigate([ '/orders/details/awarded/' + this.purchaseId ]);
   }
 }

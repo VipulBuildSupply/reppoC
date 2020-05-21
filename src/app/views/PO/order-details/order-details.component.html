@@ -411,11 +411,11 @@
 
                             <mat-expansion-panel
                                 class="terms-conditions pb-3"
-                                *ngIf="orders.purchaseOrder.transporterTermCondition">
+                                *ngIf="orders.purchaseOrder.contractCondition">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>Contract Conditions</mat-panel-title>
                                 </mat-expansion-panel-header>
-                                <p [innerHTML]="orders.purchaseOrder.transporterTermCondition"></p>
+                                <p [innerHTML]="orders.purchaseOrder.contractCondition"></p>
                             </mat-expansion-panel>
 
                         </ng-container>
