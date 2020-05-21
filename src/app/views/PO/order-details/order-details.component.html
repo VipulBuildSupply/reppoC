@@ -409,6 +409,15 @@
                                 <p [innerHTML]="orders.purchaseOrder.termCondition"></p>
                             </mat-expansion-panel>
 
+                            <mat-expansion-panel
+                                class="terms-conditions pb-3"
+                                *ngIf="orders.purchaseOrder.transporterTermCondition">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>Contract Conditions</mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <p [innerHTML]="orders.purchaseOrder.transporterTermCondition"></p>
+                            </mat-expansion-panel>
+
                         </ng-container>
                     </mat-card-content>
                 </mat-card>
