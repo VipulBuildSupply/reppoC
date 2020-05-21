@@ -146,7 +146,7 @@
 
                                                                 <ng-container *ngIf="orders && orders.purchaseOrder">
                                                                     <span
-                                                                        class="cursor-link"
+                                                                        class="min-w-115 text-right cursor-link"
                                                                         [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/active-delivery-details/'+activeDel.id]">
                                                                         View Details
                                                                     </span>
@@ -169,7 +169,7 @@
                                                                         <span>{{ item.name }}</span>
                                                                     </ng-template>
 
-                                                                    <span class="min-w-115">{{ item.itemQty }} {{ item.unit }}</span>
+                                                                    <span class="min-w-115 text-right">{{ item.itemQty }} {{ item.unit }}</span>
                                                                 </p>
                                                             </ng-container>
                                                         </div>
@@ -232,7 +232,7 @@
                                                                         <span>{{ item.name }}</span>
                                                                     </ng-template>
 
-                                                                    <span class="min-w-115">{{ item.itemQty }} {{ item.unit }}</span>
+                                                                    <span class="min-w-115 text-right">{{ item.itemQty }} {{ item.unit }}</span>
                                                                 </p>
                                                             </ng-container>
                                                         </div>
@@ -270,7 +270,7 @@
                                                         <div class="dispatch-schedules__details">
                                                             <p class="dispatch-title d-flex align-items-center justify-content-between">
                                                                 <span>Item</span>
-                                                                <span class="min-w-115">Quantity Required</span>
+                                                                <span class="min-w-115 text-right">Quantity Required</span>
                                                             </p>
                                                             <ng-container *ngFor="let item of dispatch.items">
                                                                 <p
@@ -290,7 +290,7 @@
                                                                         <span>{{ item.name }}</span>
                                                                     </ng-template>
 
-                                                                    <span class="min-w-115">{{ item.requestQty }} {{ item.unit }}</span>
+                                                                    <span class="min-w-115 text-right">{{ item.requestQty }} {{ item.unit }}</span>
                                                                 </p>
                                                             </ng-container>
                                                         </div>
