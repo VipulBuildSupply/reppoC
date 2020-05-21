@@ -208,6 +208,10 @@ export class LeadDetailsViewComponent implements OnInit {
     }
 
     submitData(items: RfqSubmitModel[]) {
+
+        items = items.filter(itm => itm.price);
+
+
         this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
             this.router.navigate([ '/lead/acted/list' ]);
         });
