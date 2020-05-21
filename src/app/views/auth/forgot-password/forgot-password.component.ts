@@ -32,17 +32,17 @@ export class ForgotPasswordComponent implements OnInit {
     ngOnInit(): void {
         this.phoneNumber = this.signinService.userPhone;
         this.forgotForm = this._formBuilder.group({
-            password: [this.password, {
+            password: [ this.password, {
                 validators: [
                     Validators.required,
                     Validators.minLength(6)
                 ]
-            }],
-            confirmPassword: [this.confirmPassword, {
+            } ],
+            confirmPassword: [ this.confirmPassword, {
                 validators: [
                     Validators.required
                 ]
-            }]
+            } ]
         })
     }
 
@@ -76,20 +76,20 @@ export class ForgotPasswordComponent implements OnInit {
 
             const data: any = {};
             Object.keys(this.forgotForm.value).forEach((field) => {
-                if ((this.forgotForm.value[field] !== null) && (this.forgotForm.value[field] !== '')) {
-                    data[field] = this.forgotForm.value[field];
+                if ((this.forgotForm.value[ field ] !== null) && (this.forgotForm.value[ field ] !== '')) {
+                    data[ field ] = this.forgotForm.value[ field ];
                 }
             });
 
             data.phone = this.signinService.userPhone;
 
             this.signinService.resetPassword(data).then(res => {
-                
-                if(res.userType && res.userType == "BUYER"){
+
+                if (res.userType && res.userType == "BUYER") {
                     this.switchUserProfile(res);
-                }else{
+                } else {
                     this.userService.getUserData();
-                    this._router.navigate(['/profile-verification/status']);
+                    this._router.navigate([ '/lead' ]);
                 }
             }, err => {
                 this.passwordError = err.message;
@@ -101,7 +101,7 @@ export class ForgotPasswordComponent implements OnInit {
      * @description function to open switch user profile popup when the entered user is buyer
      * @property {object} userData - to store UserModel data
      */
-    switchUserProfile(userProfileData){
+    switchUserProfile(userProfileData) {
         const d = this._dialog.open(SwitchUserProfileComponent, {
             data: { userData: userProfileData },
             disableClose: true,
