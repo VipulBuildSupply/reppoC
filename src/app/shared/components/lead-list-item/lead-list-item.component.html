@@ -17,6 +17,19 @@
             </div>
 
             <div class="po__title-right d-flex align-items-center">
+                <h6
+                    *ngIf="leadType === 'acted'"
+                    class="mb-0 d-flex align-content-stretch">
+                    <span
+                        class="d-flex itm-status itm-status__red"
+                        [class.itm-status__green]="rfqDetails.rfq.statusCd === 'sellerrfq.seller.submit.full'"
+                        [class.itm-status__red]="rfqDetails.rfq.expired">
+                        {{rfqDetails.rfq.statusCd === 'sellerrfq.seller.submit.full' ? 'Quote Submitted' : ''}}
+                            {{rfqDetails.rfq.expired ? 'LEAD EXPIRED' : ''}}
+                        <mat-icon *ngIf="rfqDetails.rfq.statusCd === 'sellerrfq.seller.submit.full'">check_circle</mat-icon>
+                    </span>
+                </h6>
+
                 <h6 class="mb-0">
                     {{rfqDetails.items.length + moreSku.length}}  ITEM{{rfqDetails.items.length > 1 ? 'S' : ''}}
                 </h6>

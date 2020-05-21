@@ -37,10 +37,20 @@
                                         </div>
 
                                         <div class="po__title-right d-flex align-items-center">
-                                            <h6 class=" mb-0">{{details.items.length}} ITEMS</h6>
-                                            <h6 class=" mb-0 d-flex align-items-center">
+                                            <h6 class="mb-0 d-flex align-content-stretch">
+                                                <span
+                                                    class="d-flex itm-status itm-status__red"
+                                                    [class.itm-status__green]="details.rfq.statusCd === 'sellerrfq.seller.submit.full'"
+                                                    [class.itm-status__red]="details.rfq.expired">
+                                                    {{details.rfq.statusCd === 'sellerrfq.seller.submit.full' ? 'Quote Submitted' : ''}}
+                                                    {{details.rfq.expired ? 'LEAD EXPIRED' : ''}}
+                                                    <mat-icon *ngIf="details.rfq.statusCd === 'sellerrfq.seller.submit.full'">check_circle</mat-icon>
+                                                </span>
+                                            </h6>
+                                            <h6 class="mb-0">{{details.items.length}} ITEMS</h6>
+                                            <h6 class="mb-0 d-flex align-items-stretch">
                                                 <mat-icon class="font-18 d-flex align-items-center gry-cl">location_on</mat-icon>
-                                                {{allLocations}}
+                                                <span class="align-self-center">{{allLocations}}</span>
                                             </h6>
                                             <a
                                                 *ngIf="!isActedLead"

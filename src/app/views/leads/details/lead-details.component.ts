@@ -52,7 +52,9 @@ export class LeadDetailsViewComponent implements OnInit {
 
         if (this.isActedLead) {
             this.details.items.forEach(itm => {
-                itm.warehousePrice.warehouseAddress.htmlData = this.formatAddress(itm.warehousePrice.warehouseAddress.htmlData);
+                if (itm.warehousePrice && itm.warehousePrice.warehouseAddress && itm.warehousePrice.warehouseAddress.htmlData) {
+                    itm.warehousePrice.warehouseAddress.htmlData = this.formatAddress(itm.warehousePrice.warehouseAddress.htmlData);
+                }
             });
         }
     }
