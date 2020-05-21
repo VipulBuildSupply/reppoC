@@ -12,53 +12,53 @@ import { Router } from '@angular/router';
 })
 export class ProfileVerifyComponent implements OnInit {
 
-    profileVerifyForm: FormGroup;
-    email: any;
+  profileVerifyForm: FormGroup;
+  email: any;
 
-    constructor(private _formBuilder: FormBuilder,
-      public dialogRef: MatDialogRef<ProfileVerifyComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private userService: UserService,
-      private notify: NotificationService,
-      private _router: Router) { }
+  constructor(private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<ProfileVerifyComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService,
+    private notify: NotificationService,
+    private _router: Router) { }
 
-    ngOnInit(){
+  ngOnInit() {
 
-      this.email = this.data.userinfo.email;
+    this.email = this.data.userinfo.email;
 
-      this.profileVerifyForm = this._formBuilder.group({
-          emailAddress: [this.email ? this.email : null,
-          {
-              validators: [
-                  Validators.required,
-                  Validators.pattern(FieldRegExConst.EMAIL),
-              ]
-          }],
+    this.profileVerifyForm = this._formBuilder.group({
+      emailAddress: [ this.email ? this.email : null,
+      {
+        validators: [
+          Validators.required,
+          Validators.pattern(FieldRegExConst.EMAIL),
+        ]
+      } ],
+    });
+  }
+
+  /**
+   * @description function to close popup window
+   */
+  closeDialog(): void {
+    this.dialogRef.close(null);
+  }
+
+  /**
+   * @description function to submit the profile verification form
+   */
+  submit() {
+    if (this.profileVerifyForm.valid) {
+      if (this.email == undefined || this.email == null || this.email == '') {
+        this.email = this.profileVerifyForm.controls.emailAddress.value;
+      }
+
+      this.userService.profileVerify(this.data, this.email).then(res => {
+        this.notify.snack('A verification e-mail has been sent to your email id');
+        this.closeDialog();
+        this.userService.setUser(res.data);
+        this._router.navigate([ 'lead' ]);
       });
     }
-
-    /**
-     * @description function to close popup window
-     */
-    closeDialog(): void {
-      this.dialogRef.close(null);
-    }
-
-    /**
-     * @description function to submit the profile verification form
-     */
-    submit(){
-      if(this.profileVerifyForm.valid){
-          if(this.email == undefined || this.email == null || this.email == ''){
-            this.email = this.profileVerifyForm.controls.emailAddress.value;
-          }
-
-          this.userService.profileVerify(this.data, this.email).then(res => {
-              this.notify.snack('A verification e-mail has been sent to your email id');
-              this.closeDialog();
-              this.userService.setUser(res.data);
-              this._router.navigate(['profile-verification/status']);
-          });
-      }
-    }
+  }
 }

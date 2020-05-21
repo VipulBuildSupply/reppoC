@@ -22,18 +22,18 @@ export class EnterMobileComponent implements OnInit {
     ngOnInit(): void {
 
         if (this.signinService.isLoggedIn) {
-            this._router.navigate(['/profile-verification/status']);
+            this._router.navigate([ '/lead' ]);
         }
 
         this.mobileVerifyForm = this._formBuilder.group({
-            phone: ['', {
+            phone: [ '', {
                 validators: [
                     Validators.required,
                     Validators.maxLength(10),
                     Validators.minLength(10),
                     Validators.pattern(FieldRegExConst.PHONE)
                 ]
-            }]
+            } ]
         });
     }
 
@@ -45,7 +45,7 @@ export class EnterMobileComponent implements OnInit {
 
         if (this.mobileVerifyForm.valid) {
 
-            const phone = this.mobileVerifyForm.controls['phone'].value;
+            const phone = this.mobileVerifyForm.controls[ 'phone' ].value;
 
             /**
              * @description: This function is used to check if phone number exist
@@ -54,10 +54,10 @@ export class EnterMobileComponent implements OnInit {
 
                 if (!res.alreadyRegistered) {
                     this.signinService.createOTP(phone).then(res => {
-                        this._router.navigate(['auth/otp-verify'])
+                        this._router.navigate([ 'auth/otp-verify' ])
                     });
                 } else {
-                    this._router.navigate(['auth/login'])
+                    this._router.navigate([ 'auth/login' ])
                 }
             });
         } else {

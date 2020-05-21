@@ -14,39 +14,39 @@ import { Router } from '@angular/router';
 })
 export class SwitchUserProfileComponent implements OnInit {
 
-    profileVerifyForm: FormGroup;
-    email: any;
+  profileVerifyForm: FormGroup;
+  email: any;
 
-    constructor(private _formBuilder: FormBuilder,
-      public dialogRef: MatDialogRef<SwitchUserProfileComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private userService: UserService,
-      private notify: NotificationService,
-      private _token: TokenService,
-      private _dataService: DataService,
-      private _router: Router) { }
+  constructor(private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<SwitchUserProfileComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService,
+    private notify: NotificationService,
+    private _token: TokenService,
+    private _dataService: DataService,
+    private _router: Router) { }
 
-    ngOnInit(){
-    }
+  ngOnInit() {
+  }
 
-    /**
-     * @description function to close popup window
-     */
-    closeDialog(): void {
-      this.dialogRef.close(null);
-    }
+  /**
+   * @description function to close popup window
+   */
+  closeDialog(): void {
+    this.dialogRef.close(null);
+  }
 
-    confirmAction() {
-        this._token.saveAccessToken(this.data.userData.jwtToken);
-        this.userService.isBuyer(this.data).then(res => {
-            this.userService.getUserData();
-            return this.isSignedIn();
-        });
-    }
+  confirmAction() {
+    this._token.saveAccessToken(this.data.userData.jwtToken);
+    this.userService.isBuyer(this.data).then(res => {
+      this.userService.getUserData();
+      return this.isSignedIn();
+    });
+  }
 
-    isSignedIn(){
-        this.closeDialog();
-        this._router.navigate(['/profile-verification/status']);
-    }
+  isSignedIn() {
+    this.closeDialog();
+    this._router.navigate([ '/lead' ]);
+  }
 
 }
