@@ -36,7 +36,7 @@ export class LeadListItemComponent implements OnInit {
 
     ngOnInit(): void {
         this.leadType = this.router.url.indexOf('new') !== -1 ? 'new' : 'acted';
-
+        this.rfqDetails.rfq.statusCd = this.rfqDetails.rfq.expired ? '' : this.rfqDetails.rfq.statusCd;
         this.moreSku = this.rfqDetails ? this.rfqDetails.items.splice(2, this.rfqDetails.items.length) : [];
         // this.allLocations = this.rfqDetails ? this.rfqDetails.items.map(sku => sku.sellerRfqItem.deliveryLocation).join(', ') : '';
 

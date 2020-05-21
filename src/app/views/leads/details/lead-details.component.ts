@@ -29,7 +29,7 @@ export class LeadDetailsViewComponent implements OnInit {
     leadType: 'new' | 'acted';
     isActedLead: boolean;
 
-    @ViewChild('formElm') public formElm: ElementRef;
+    @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
         private activatedRout: ActivatedRoute,
         private router: Router,
@@ -40,6 +40,7 @@ export class LeadDetailsViewComponent implements OnInit {
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
+        this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
         this.allLocations = this.details ?
             this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation)
