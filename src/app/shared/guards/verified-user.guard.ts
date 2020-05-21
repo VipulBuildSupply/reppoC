@@ -21,7 +21,7 @@ export class VerifiedUserGuard implements CanActivate {
     }
 
     getUserStatus(): Promise<'Unverified' | 'Verified' | 'Verification In Progress'> {
-        if (this.userService.user) {
+        if (this.userService.user && false) { // get latest data From API
             return Promise.resolve(this.userService.user.sellerPersonalProfile.verifyStatus);
         } else {
             return this.userService.getUserData().then((user) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
@@ -11,6 +11,7 @@ import { TermModel, RfqSubmitModel, PromptItem } from 'src/app/shared/models/lea
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { item } from 'src/app/shared/models/item';
 import { SkuPromptComponent } from 'src/app/shared/dialogs/sku-prompt/sku-prompt.dialog';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 @Component({
     selector: 'app-lead-details',
@@ -27,23 +28,38 @@ export class LeadDetailsViewComponent implements OnInit {
     today = new Date();
     leadType: 'new' | 'acted';
     isActedLead: boolean;
+
+    @ViewChild('formElm') public formElm: ElementRef;
     constructor(
         private activatedRout: ActivatedRoute,
         private router: Router,
         private dialog: MatDialog,
         private formBuilder: FormBuilder,
-        private leadService: LeadsService) { }
+        private leadService: LeadsService,
+        private commonService: CommonService) { }
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
-        this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
+        this.allLocations = this.details ?
+            this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation)
+                .filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
         this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
         this.initCommonForm();
         this.getPaymentTerms();
         this.getFreightTerms();
+
+
+        if (this.isActedLead) {
+            this.details.items.forEach(itm => {
+                itm.warehousePrice.warehouseAddress.htmlData = this.formatAddress(itm.warehousePrice.warehouseAddress.htmlData);
+            });
+        }
     }
 
+    formatAddress(addr): string {
+        return (addr || '').replace('<br>', ' | ').replace('<br>', ' | ').split('<br>').join(', ');
+    }
 
     initCommonForm(): void {
         let date = null;
@@ -81,7 +97,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 note: [ '' ],
                 price: [ '' ],
                 sellerRfqItemId: [ item.sellerRfqItem.id ],
-                warehouseId: [ '' ],
+                warehouseId: [ '', Validators.required ],
             });
 
             if (specId) {
@@ -164,8 +180,6 @@ export class LeadDetailsViewComponent implements OnInit {
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
 
-
-
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
 
 
@@ -204,6 +218,10 @@ export class LeadDetailsViewComponent implements OnInit {
                 }
 
             });
+
+            const itemNeedWarehouse = forms.findIndex((itmForm, i) => !itmForm.value.data.warehouseId);
+            this.details.items.forEach((itm, i) => itm.expand = i === itemNeedWarehouse);
+            this.commonService.smoothScrollToElement({ element: this.formElm.nativeElement, className: '.mat-error' });
         }
     }
 
@@ -211,10 +229,13 @@ export class LeadDetailsViewComponent implements OnInit {
 
         items = items.filter(itm => itm.price);
 
-
-        this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
-            this.router.navigate([ '/lead/acted/list' ]);
-        });
+        if (items.length) {
+            this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
+                this.router.navigate([ '/lead/acted/list' ]);
+            });
+        } else {
+            this.router.navigate([ '/lead/new/list' ]);
+        }
     }
 
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {

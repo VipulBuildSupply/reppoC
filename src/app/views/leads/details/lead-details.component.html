@@ -118,7 +118,9 @@
                                                     </ng-container>
                                                     <mat-grid-tile [style.background]="'#eaf8ff'">Quantity ({{item.sellerRfqItem.unit}})</mat-grid-tile>
                                                     <mat-grid-tile [style.background]="'#eaf8ff'">Price Per Unit (₹)</mat-grid-tile>
-                                                    <form [formGroup]="item.form">
+                                                    <form
+                                                        #formElm
+                                                        [formGroup]="item.form">
                                                         <ng-container *ngIf="item.sellerRfqItem.specs?.length; else qty">
                                                             <ng-container formArrayName="data">
                                                                 <ng-container
@@ -128,10 +130,10 @@
                                                                     <mat-grid-tile [style.background]="'#ffffff'">{{spec.requestQty}}</mat-grid-tile>
                                                                     <mat-grid-tile [style.background]="'#ffffff'">
 
-                                                                        <ng-container *ngIf="item.sellerRfqItem.quotePrice && isActedLead">{{spec.price}}</ng-container>
+                                                                        <ng-container *ngIf="isActedLead">{{spec.price}}</ng-container>
 
                                                                         <mat-form-field
-                                                                            *ngIf="!item.sellerRfqItem.quotePrice && !isActedLead"
+                                                                            *ngIf="!isActedLead"
                                                                             class="w-75 text-center">
                                                                             <input
                                                                                 formControlName="price"
@@ -180,7 +182,7 @@
 
                                             <br>
                                             <div
-                                                *ngIf="item.selectedAddress || (item.sellerRfqItem.deliveryAddress && item.sellerRfqItem.deliveryAddress !== false  && item.sellerRfqItem.deliveryAddress !== 'false') "
+                                                *ngIf="item.selectedAddress || (item.warehousePrice && item.warehousePrice.warehouseAddress) "
                                                 class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                 <span>Warehouse</span>
                                                 <span
@@ -191,14 +193,14 @@
                                                 </span>
                                             </div>
                                             <div
-                                                [innerHTML]="isActedLead && item.sellerRfqItem.deliveryAddress"
-                                                *ngIf="item.sellerRfqItem.deliveryAddress"
+                                                [innerHTML]="item.warehousePrice.warehouseAddress.htmlData"
+                                                *ngIf="isActedLead && item?.warehousePrice?.warehouseAddress"
                                                 class="word-break-all mt-2 w-100 border p-2 max-w-300 ">
 
                                             </div>
                                             <div
                                                 class=" word-break-all mt-2 w-100 border p-2 max-w-300 "
-                                                *ngIf="item.selectedAddress">
+                                                *ngIf="item.selectedAddress && !isActedLead">
                                                 <b class="pb-1">{{ item.selectedAddress.name}}</b>
                                                 <br>
                                                 {{item.selectedAddress.addressLine1}}
@@ -328,10 +330,17 @@
                                             *ngIf="commonForm['controls']['paymentTerm']">
                                             <mat-form-field class="col  max-w-300">
                                                 <mat-label>Other Payment Terms</mat-label>
-                                                <textarea matInput></textarea>
+                                                <textarea
+                                                    formControlName="paymentTerm"
+                                                    matInput></textarea>
                                             </mat-form-field>
                                         </div>
                                     </form>
+                                    <div
+                                        *ngIf="isActedLead && details.paymentTermCd === 'bs.paymenterm.others'"
+                                        class="mb-3 border max-w-300 p-2">
+                                        {{details.paymentTerm}}
+                                    </div>
                                     <div>
                                         Note: Lead response once submitted cannot be changed.
                                     </div>

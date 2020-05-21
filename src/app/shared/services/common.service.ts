@@ -49,6 +49,20 @@ export class CommonService {
         }, 500);
     }
 
+    smoothScrollToElement({ element, fromStart = true, extraOffset = 220, className }) {
+
+        const timer = setTimeout(() => {
+            element = element as HTMLFontElement;
+            const errElm = document.querySelector(className);
+            window.scrollBy({
+                top: -(extraOffset - (errElm.getBoundingClientRect().top)),
+                behavior: 'smooth'
+            });
+            clearTimeout(timer);
+        }, 100);
+
+    }
+
     static closeMiniBag() {
         $('.minibag__wrapper').addClass('hide');
     }
