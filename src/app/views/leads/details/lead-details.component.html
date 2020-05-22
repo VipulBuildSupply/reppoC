@@ -37,7 +37,9 @@
                                         </div>
 
                                         <div class="po__title-right d-flex align-items-center">
-                                            <h6 class="mb-0 d-flex align-content-stretch">
+                                            <h6
+                                                *ngIf="details.rfq.statusCd"
+                                                class="mb-0 d-flex align-content-stretch">
                                                 <span
                                                     class="d-flex itm-status itm-status__red"
                                                     [class.itm-status__green]="details.rfq.statusCd === 'sellerrfq.seller.submit.full'"

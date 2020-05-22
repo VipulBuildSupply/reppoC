@@ -18,7 +18,7 @@
 
             <div class="po__title-right d-flex align-items-center">
                 <h6
-                    *ngIf="leadType === 'acted'"
+                    *ngIf="leadType === 'acted' && rfqDetails.rfq.statusCd"
                     class="mb-0 d-flex align-content-stretch">
                     <span
                         class="d-flex itm-status itm-status__red"
