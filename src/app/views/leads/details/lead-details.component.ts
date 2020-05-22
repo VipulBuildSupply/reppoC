@@ -13,6 +13,8 @@ import { item } from 'src/app/shared/models/item';
 import { SkuPromptComponent } from 'src/app/shared/dialogs/sku-prompt/sku-prompt.dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { AddAddressDialogComponent } from 'src/app/shared/dialogs/add-address/address.dialog';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
     selector: 'app-lead-details',
@@ -236,10 +238,21 @@ export class LeadDetailsViewComponent implements OnInit {
 
                 return item;
             });
+            // const itemsWithoutPrice = items.filter(itm => !itm.price);
 
-            const itemsWithoutPrice = items.filter(itm => !itm.price);
-            if (itemsWithoutPrice.length) {
-                this.showPopup(itemsWithoutPrice, items);
+            const itemHasPrice = items.filter(itm => itm.price);
+
+            const itemsWithoutPrice = items.filter(itm => !itm.price)
+                .filter(itm => itemHasPrice.some(pItem => pItem.sellerRfqItemId !== itm.sellerRfqItemId));
+
+            const uniqItemsWithoutPrice = [ ...itemsWithoutPrice.reduce((a, c) => {
+                a.set(c.sellerRfqItemId, c);
+                return a;
+            }, new Map()).values() ];
+
+
+            if (uniqItemsWithoutPrice.length) {
+                this.showPopup(uniqItemsWithoutPrice, items);
             } else {
                 this.submitData(items);
             }
@@ -263,7 +276,11 @@ export class LeadDetailsViewComponent implements OnInit {
 
             const itemNeedWarehouse = forms.findIndex((itmForm, i) => !itmForm.value.data.warehouseId);
             this.details.items.forEach((itm, i) => itm.expand = i === itemNeedWarehouse);
-            this.commonService.smoothScrollToElement({ element: this.formElm.nativeElement, className: '.mat-error' });
+
+            const timer = setTimeout(() => {
+                this.commonService.smoothScrollToElement({ element: this.formElm.nativeElement, className: '.mat-error' });
+                clearTimeout(timer);
+            }, 500);
         }
     }
 
@@ -282,6 +299,7 @@ export class LeadDetailsViewComponent implements OnInit {
 
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
 
+        debugger
         const promptItem: PromptItem[] = itemsWithoutPrice.map((item) => {
 
             const orgItm = this.details.items.find(itm => itm.sellerRfqItem.id === item.sellerRfqItemId);
