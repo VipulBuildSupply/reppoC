@@ -147,7 +147,7 @@
                                 </span>
 
                                 <label
-                                    class="container"
+                                    class="container container2"
                                     *ngIf="selectAllBox">
                                     Select All
                                     <input
@@ -158,7 +158,7 @@
                                 </label>
 
                                 <label
-                                    class="container"
+                                    class="container container2"
                                     *ngIf="!selectAllBox">
                                     Select All
                                     <input
@@ -170,13 +170,13 @@
                                 <div
                                     class="select-item-box"
                                     *ngFor="let searchResult of searchResults.data.skuList">
-                                    <!-- <div class="container">
+                                    <!-- <div class="container container2">
                                             <input type="checkbox" (change)="searchResultCheckBox($event)">
                                             <label>{{searchResult.name}}</label>
                                         </div> -->
 
                                     <ng-container *ngIf="!selectAllBox">
-                                        <label class="container">
+                                        <label class="container container2">
                                             {{searchResult.name}}
                                             <input
                                                 type="checkbox"
@@ -186,7 +186,7 @@
                                     </ng-container>
 
                                     <ng-container *ngIf="selectAllBox">
-                                        <label class="container">
+                                        <label class="container container2">
                                             {{searchResult.name}}
                                             <input
                                                 type="checkbox"

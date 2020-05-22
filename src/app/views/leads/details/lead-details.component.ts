@@ -12,6 +12,7 @@ import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { item } from 'src/app/shared/models/item';
 import { SkuPromptComponent } from 'src/app/shared/dialogs/sku-prompt/sku-prompt.dialog';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { AddAddressDialogComponent } from 'src/app/shared/dialogs/add-address/address.dialog';
 
 @Component({
     selector: 'app-lead-details',
@@ -130,18 +131,56 @@ export class LeadDetailsViewComponent implements OnInit {
             maxWidth: '700px'
         });
 
-        addrPop.afterClosed().toPromise().then((data: { address: AddressModel, id: number }) => {
+        addrPop.afterClosed().toPromise().then((data: { isAddNew: boolean, addressType: string; address: AddressModel, id: number }) => {
+
+            if (data.isAddNew) {
+                this.addAddress(data.addressType, id);
+                return;
+            }
 
             if (!data || !data.address) { return; }
-            const item: RfqSku = this.details.items.find(itm => itm.sellerRfqItem.id === data.id);
 
-            item.selectedAddress = data.address;
+            this.setAddress(data, id);
 
-            if (item.sellerRfqItem.specs.length) {
-                const arr = item.form.get('data') as FormArray;
-                this.setValueInAllItems(arr, 'warehouseId', data.address.addressId);
-            } else {
-                item.form.get('data').get('warehouseId').setValue(data.address.addressId);
+        });
+    }
+
+    setAddress(data, sellerRfqItemId) {
+        const item: RfqSku = this.details.items.find(itm => itm.sellerRfqItem.id === sellerRfqItemId);
+
+        item.selectedAddress = data.address;
+
+        if (item.sellerRfqItem.specs.length) {
+            const arr = item.form.get('data') as FormArray;
+            this.setValueInAllItems(arr, 'warehouseId', data.address.addressId);
+        } else {
+            item.form.get('data').get('warehouseId').setValue(data.address.addressId);
+        }
+    }
+
+    addAddress(addressType, sellerRfqItemId) {
+        const data: any = { addressType };
+
+        // const rfqDeliveryLocation = this.rfqItems.length ? this.rfqItems[0].selectedLocation.deliveryLocation : null;
+        // const rfqLocationCode = this.rfqItems.length ? this.rfqItems[0].selectedLocation.deliveryLocationCd : null;
+        // if(rfqLocationCode){
+        //     data.rfqLocationCode = rfqLocationCode;
+        // }
+        // if(rfqDeliveryLocation){
+        //     data.rfqDeliveryLocation = rfqDeliveryLocation;
+        // }
+        const d = this.dialog.open(AddAddressDialogComponent, {
+            data,
+            disableClose: true,
+            maxWidth: '700px',
+            panelClass: 'custom-popup-switch'
+        });
+
+        d.afterClosed().toPromise().then((data: any) => {
+
+            if (data) {
+
+                this.setAddress(data, sellerRfqItemId);
             }
 
         });

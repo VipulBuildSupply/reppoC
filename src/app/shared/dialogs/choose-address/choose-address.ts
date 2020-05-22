@@ -34,6 +34,10 @@ export class ChooseAddressDialogComponent implements OnInit, OnDestroy {
         });
     }
 
+    addNewAddress() {
+        this.dialogRef.close({ isAddNew: true, addressType: this.addressType });
+    }
+
     ngOnDestroy(): void {
         //Called once, before the instance is destroyed.
         //Add 'implements OnDestroy' to the class.
