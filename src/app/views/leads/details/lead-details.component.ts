@@ -299,7 +299,6 @@ export class LeadDetailsViewComponent implements OnInit {
 
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
 
-        debugger
         const promptItem: PromptItem[] = itemsWithoutPrice.map((item) => {
 
             const orgItm = this.details.items.find(itm => itm.sellerRfqItem.id === item.sellerRfqItemId);

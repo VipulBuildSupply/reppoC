@@ -307,6 +307,7 @@
                                                     matSuffix
                                                     [for]="myDatepicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #myDatepicker></mat-datepicker>
+                                                <mat-error>Date is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div class="row">
@@ -321,6 +322,7 @@
                                                         {{fri.displayName}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error>Fright Information is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div class="row">
@@ -335,6 +337,7 @@
                                                         {{term.displayName}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error>Payment Terms is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div
@@ -345,6 +348,7 @@
                                                 <textarea
                                                     formControlName="paymentTerm"
                                                     matInput></textarea>
+                                                <mat-error>Payment Terms is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                     </form>
