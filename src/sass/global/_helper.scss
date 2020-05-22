@@ -151,13 +151,13 @@
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    background-color: rgb(66, 134, 244);
+    background-color: $green;
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-    border-color: rgb(66, 134, 244);
+    border-color: $green;
 }
 
 .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-    background-color: rgba(66, 134, 244, 0.26);
+    background-color: $green;
 }
