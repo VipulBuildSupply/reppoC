@@ -37,10 +37,22 @@
                                         </div>
 
                                         <div class="po__title-right d-flex align-items-center">
-                                            <h6 class=" mb-0">{{details.items.length}} ITEMS</h6>
-                                            <h6 class=" mb-0 d-flex align-items-center">
+                                            <h6
+                                                *ngIf="details.rfq.statusCd"
+                                                class="mb-0 d-flex align-content-stretch">
+                                                <span
+                                                    class="d-flex itm-status itm-status__red"
+                                                    [class.itm-status__green]="details.rfq.statusCd === 'sellerrfq.seller.submit.full'"
+                                                    [class.itm-status__red]="details.rfq.expired">
+                                                    {{details.rfq.statusCd === 'sellerrfq.seller.submit.full' ? 'Quote Submitted' : ''}}
+                                                    {{details.rfq.expired ? 'LEAD EXPIRED' : ''}}
+                                                    <mat-icon *ngIf="details.rfq.statusCd === 'sellerrfq.seller.submit.full'">check_circle</mat-icon>
+                                                </span>
+                                            </h6>
+                                            <h6 class="mb-0">{{details.items.length}} ITEMS</h6>
+                                            <h6 class="mb-0 d-flex align-items-stretch">
                                                 <mat-icon class="font-18 d-flex align-items-center gry-cl">location_on</mat-icon>
-                                                {{allLocations}}
+                                                <span class="align-self-center">{{allLocations}}</span>
                                             </h6>
                                             <a
                                                 *ngIf="!isActedLead"
@@ -118,7 +130,9 @@
                                                     </ng-container>
                                                     <mat-grid-tile [style.background]="'#eaf8ff'">Quantity ({{item.sellerRfqItem.unit}})</mat-grid-tile>
                                                     <mat-grid-tile [style.background]="'#eaf8ff'">Price Per Unit (₹)</mat-grid-tile>
-                                                    <form [formGroup]="item.form">
+                                                    <form
+                                                        #formElm
+                                                        [formGroup]="item.form">
                                                         <ng-container *ngIf="item.sellerRfqItem.specs?.length; else qty">
                                                             <ng-container formArrayName="data">
                                                                 <ng-container
@@ -128,10 +142,10 @@
                                                                     <mat-grid-tile [style.background]="'#ffffff'">{{spec.requestQty}}</mat-grid-tile>
                                                                     <mat-grid-tile [style.background]="'#ffffff'">
 
-                                                                        <ng-container *ngIf="item.sellerRfqItem.quotePrice && isActedLead">{{spec.price}}</ng-container>
+                                                                        <ng-container *ngIf="isActedLead">{{spec.price}}</ng-container>
 
                                                                         <mat-form-field
-                                                                            *ngIf="!item.sellerRfqItem.quotePrice && !isActedLead"
+                                                                            *ngIf="!isActedLead"
                                                                             class="w-75 text-center">
                                                                             <input
                                                                                 formControlName="price"
@@ -180,7 +194,7 @@
 
                                             <br>
                                             <div
-                                                *ngIf="item.selectedAddress || (item.sellerRfqItem.deliveryAddress && item.sellerRfqItem.deliveryAddress !== false  && item.sellerRfqItem.deliveryAddress !== 'false') "
+                                                *ngIf="item.selectedAddress || (item.warehousePrice && item.warehousePrice.warehouseAddress) "
                                                 class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                 <span>Warehouse</span>
                                                 <span
@@ -191,14 +205,14 @@
                                                 </span>
                                             </div>
                                             <div
-                                                [innerHTML]="isActedLead && item.sellerRfqItem.deliveryAddress"
-                                                *ngIf="item.sellerRfqItem.deliveryAddress"
+                                                [innerHTML]="item.warehousePrice.warehouseAddress.htmlData"
+                                                *ngIf="isActedLead && item?.warehousePrice?.warehouseAddress"
                                                 class="word-break-all mt-2 w-100 border p-2 max-w-300 ">
 
                                             </div>
                                             <div
                                                 class=" word-break-all mt-2 w-100 border p-2 max-w-300 "
-                                                *ngIf="item.selectedAddress">
+                                                *ngIf="item.selectedAddress && !isActedLead">
                                                 <b class="pb-1">{{ item.selectedAddress.name}}</b>
                                                 <br>
                                                 {{item.selectedAddress.addressLine1}}
@@ -293,6 +307,7 @@
                                                     matSuffix
                                                     [for]="myDatepicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #myDatepicker></mat-datepicker>
+                                                <mat-error>Date is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div class="row">
@@ -307,6 +322,7 @@
                                                         {{fri.displayName}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error>Fright Information is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div class="row">
@@ -321,6 +337,7 @@
                                                         {{term.displayName}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error>Payment Terms is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                         <div
@@ -328,10 +345,18 @@
                                             *ngIf="commonForm['controls']['paymentTerm']">
                                             <mat-form-field class="col  max-w-300">
                                                 <mat-label>Other Payment Terms</mat-label>
-                                                <textarea matInput></textarea>
+                                                <textarea
+                                                    formControlName="paymentTerm"
+                                                    matInput></textarea>
+                                                <mat-error>Payment Terms is required</mat-error>
                                             </mat-form-field>
                                         </div>
                                     </form>
+                                    <div
+                                        *ngIf="isActedLead && details.paymentTermCd === 'bs.paymenterm.others'"
+                                        class="mb-3 border max-w-300 p-2">
+                                        {{details.paymentTerm}}
+                                    </div>
                                     <div>
                                         Note: Lead response once submitted cannot be changed.
                                     </div>

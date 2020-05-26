@@ -43,7 +43,7 @@ export class DataService {
     searchLeads = this.seachLeads.asObservable();
 
     searchAllLeads(message: any) {
-        this.seachLeads.next(message)
+        this.seachLeads.next(message);
     }
 
 

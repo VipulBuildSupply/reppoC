@@ -14,7 +14,7 @@ export class AddAddressDialogComponent implements OnInit, OnDestroy {
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) { }
 
-    ngOnInit(): void { 
+    ngOnInit(): void {
         CommonService.hideBodyOverFlow();
         CommonService.addScrollFixPopup();
     }
@@ -30,9 +30,9 @@ export class AddAddressDialogComponent implements OnInit, OnDestroy {
         this.dialogRef.close(null);
     }
 
-    submit(address:any){
+    submit(address: any) {
 
-       
-        this.dialogRef.close({locationId:this.data.locationId, address});
+
+        this.dialogRef.close({ locationId: this.data.locationId, address });
     }
 }
