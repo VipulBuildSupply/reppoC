@@ -41,7 +41,7 @@
 
                             <!-- Accept/Reject PO Functionality -->
                             <div
-                                class="po__title-right d-flex align-items-center"
+                                class="po__title-right d-flex align-items-center d-block"
                                 *ngIf="orders.purchaseOrder.statusCd == 'sellerpo.ops.sent' && activeTab === 'pending'">
                                 <button
                                     mat-button
@@ -58,7 +58,7 @@
                             </div>
 
                             <ng-container
-                                class="po__title-right"
+                                class="  d-block po__title-right"
                                 *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm' && activeTab === 'pending'">
                                 <!-- <div class="order-accept-reject">
                                     <span>PO Accepted</span>
@@ -79,7 +79,7 @@
 
                             <!-- Initiate Delivery Button If Awarded PO Selected -->
                             <div
-                                class="po__title-right"
+                                class=" d-block po__title-right"
                                 *ngIf="activeTab === 'awarded'">
                                 <button
                                     mat-button
