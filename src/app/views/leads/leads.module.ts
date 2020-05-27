@@ -14,6 +14,8 @@ import { LeadDetailsViewComponent } from './details/lead-details.component';
 import { DetailsResolver } from './resolver/details.resolver';
 import { ChooseAddressDialogComponent } from 'src/app/shared/dialogs/choose-address/choose-address';
 import { AddressService } from 'src/app/shared/services/address.service';
+import { VerifiedUserGuard } from 'src/app/shared/guards/verified-user.guard';
+import { AddAddressDialogComponent } from 'src/app/shared/dialogs/add-address/address.dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { AddressService } from 'src/app/shared/services/address.service';
     LeadsRouting
   ],
   providers: [ LeadResolver, DetailsResolver, AddressService ],
-  entryComponents: [ ChooseAddressDialogComponent ]
+  entryComponents: [ ChooseAddressDialogComponent, AddAddressDialogComponent ]
 })
 
 

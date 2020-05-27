@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
@@ -11,6 +11,10 @@ import { TermModel, RfqSubmitModel, PromptItem } from 'src/app/shared/models/lea
 import { FormHelper } from 'src/app/shared/helpers/form-helper';
 import { item } from 'src/app/shared/models/item';
 import { SkuPromptComponent } from 'src/app/shared/dialogs/sku-prompt/sku-prompt.dialog';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { AddAddressDialogComponent } from 'src/app/shared/dialogs/add-address/address.dialog';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
     selector: 'app-lead-details',
@@ -27,23 +31,41 @@ export class LeadDetailsViewComponent implements OnInit {
     today = new Date();
     leadType: 'new' | 'acted';
     isActedLead: boolean;
+
+    @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
         private activatedRout: ActivatedRoute,
         private router: Router,
         private dialog: MatDialog,
         private formBuilder: FormBuilder,
-        private leadService: LeadsService) { }
+        private leadService: LeadsService,
+        private commonService: CommonService) { }
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
+        this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
-        this.allLocations = this.details ? this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation).filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
+        this.allLocations = this.details ?
+            this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation)
+                .filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
         this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
         this.initCommonForm();
         this.getPaymentTerms();
         this.getFreightTerms();
+
+
+        if (this.isActedLead) {
+            this.details.items.forEach(itm => {
+                if (itm.warehousePrice && itm.warehousePrice.warehouseAddress && itm.warehousePrice.warehouseAddress.htmlData) {
+                    itm.warehousePrice.warehouseAddress.htmlData = this.formatAddress(itm.warehousePrice.warehouseAddress.htmlData);
+                }
+            });
+        }
     }
 
+    formatAddress(addr): string {
+        return (addr || '').replace('<br>', ' | ').replace('<br>', ' | ').split('<br>').join(', ');
+    }
 
     initCommonForm(): void {
         let date = null;
@@ -58,6 +80,18 @@ export class LeadDetailsViewComponent implements OnInit {
             validEndDt: [ { value: date, disabled: this.isActedLead }, Validators.required ],
             freightTermCd: [ { value: this.details.freightTermCd, disabled: this.isActedLead }, Validators.required ]
         });
+
+
+        this.commonForm.get('paymentTermCd').valueChanges.subscribe(val => {
+
+            if (val === 'bs.paymenterm.others') {
+                this.commonForm.addControl('paymentTerm', this.formBuilder.control('', Validators.required));
+            } else {
+                if (this.commonForm.get('paymentTerm')) {
+                    this.commonForm.removeControl('paymentTerm');
+                }
+            }
+        })
     }
 
     setForm(item: RfqSku): FormGroup | FormArray {
@@ -69,7 +103,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 note: [ '' ],
                 price: [ '' ],
                 sellerRfqItemId: [ item.sellerRfqItem.id ],
-                warehouseId: [ '' ],
+                warehouseId: [ '', Validators.required ],
             });
 
             if (specId) {
@@ -99,18 +133,56 @@ export class LeadDetailsViewComponent implements OnInit {
             maxWidth: '700px'
         });
 
-        addrPop.afterClosed().toPromise().then((data: { address: AddressModel, id: number }) => {
+        addrPop.afterClosed().toPromise().then((data: { isAddNew: boolean, addressType: string; address: AddressModel, id: number }) => {
 
-            if (!data.address) { return; }
-            const item: RfqSku = this.details.items.find(itm => itm.sellerRfqItem.id === data.id);
+            if (data.isAddNew) {
+                this.addAddress(data.addressType, id);
+                return;
+            }
 
-            item.selectedAddress = data.address;
+            if (!data || !data.address) { return; }
 
-            if (item.sellerRfqItem.specs.length) {
-                const arr = item.form.get('data') as FormArray;
-                this.setValueInAllItems(arr, 'warehouseId', data.address.addressId);
-            } else {
-                item.form.get('data').get('warehouseId').setValue(data.address.addressId);
+            this.setAddress(data, id);
+
+        });
+    }
+
+    setAddress(data, sellerRfqItemId) {
+        const item: RfqSku = this.details.items.find(itm => itm.sellerRfqItem.id === sellerRfqItemId);
+
+        item.selectedAddress = data.address;
+
+        if (item.sellerRfqItem.specs.length) {
+            const arr = item.form.get('data') as FormArray;
+            this.setValueInAllItems(arr, 'warehouseId', data.address.addressId);
+        } else {
+            item.form.get('data').get('warehouseId').setValue(data.address.addressId);
+        }
+    }
+
+    addAddress(addressType, sellerRfqItemId) {
+        const data: any = { addressType };
+
+        // const rfqDeliveryLocation = this.rfqItems.length ? this.rfqItems[0].selectedLocation.deliveryLocation : null;
+        // const rfqLocationCode = this.rfqItems.length ? this.rfqItems[0].selectedLocation.deliveryLocationCd : null;
+        // if(rfqLocationCode){
+        //     data.rfqLocationCode = rfqLocationCode;
+        // }
+        // if(rfqDeliveryLocation){
+        //     data.rfqDeliveryLocation = rfqDeliveryLocation;
+        // }
+        const d = this.dialog.open(AddAddressDialogComponent, {
+            data,
+            disableClose: true,
+            maxWidth: '700px',
+            panelClass: 'custom-popup-switch'
+        });
+
+        d.afterClosed().toPromise().then((data: any) => {
+
+            if (data) {
+
+                this.setAddress(data, sellerRfqItemId);
             }
 
         });
@@ -152,8 +224,6 @@ export class LeadDetailsViewComponent implements OnInit {
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
 
-
-
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
 
 
@@ -168,10 +238,21 @@ export class LeadDetailsViewComponent implements OnInit {
 
                 return item;
             });
+            // const itemsWithoutPrice = items.filter(itm => !itm.price);
 
-            const itemsWithoutPrice = items.filter(itm => !itm.price);
-            if (itemsWithoutPrice.length) {
-                this.showPopup(itemsWithoutPrice, items);
+            const itemHasPrice = items.filter(itm => itm.price);
+
+            const itemsWithoutPrice = items.filter(itm => !itm.price)
+                .filter(itm => itemHasPrice.some(pItem => pItem.sellerRfqItemId !== itm.sellerRfqItemId));
+
+            const uniqItemsWithoutPrice = [ ...itemsWithoutPrice.reduce((a, c) => {
+                a.set(c.sellerRfqItemId, c);
+                return a;
+            }, new Map()).values() ];
+
+
+            if (uniqItemsWithoutPrice.length) {
+                this.showPopup(uniqItemsWithoutPrice, items);
             } else {
                 this.submitData(items);
             }
@@ -192,13 +273,28 @@ export class LeadDetailsViewComponent implements OnInit {
                 }
 
             });
+
+            const itemNeedWarehouse = forms.findIndex((itmForm, i) => !itmForm.value.data.warehouseId);
+            this.details.items.forEach((itm, i) => itm.expand = i === itemNeedWarehouse);
+
+            const timer = setTimeout(() => {
+                this.commonService.smoothScrollToElement({ element: this.formElm.nativeElement, className: '.mat-error' });
+                clearTimeout(timer);
+            }, 500);
         }
     }
 
     submitData(items: RfqSubmitModel[]) {
-        this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
-            this.router.navigate([ '/lead/acted/list' ]);
-        });
+
+        items = items.filter(itm => itm.price);
+
+        if (items.length) {
+            this.leadService.submitRfq(this.activatedRout.snapshot.params.id, items).then(data => {
+                this.router.navigate([ '/lead/acted/list' ]);
+            });
+        } else {
+            this.router.navigate([ '/lead/new/list' ]);
+        }
     }
 
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
@@ -242,12 +338,25 @@ export class LeadDetailsViewComponent implements OnInit {
         for (let key in obj) {
             keys.push({ key: key, value: obj[ key ] });
         }
-        return keys.filter(itm => itm.value).map((itm, i, arr) => {
-            itm.total = arr.length;
-            return itm;
-        })
+        return keys.filter(itm => itm.value && itm.key !== 'id' && itm.key !== 'sellerRfqItemId' && itm.key !== 'pid')
+            .map((itm, i, arr) => {
+                itm.total = arr.length;
+
+                itm.value = itm.value === 'Y' ? 'Yes' : itm.value;
+                itm.value = itm.value === 'N' ? 'No' : itm.value;
+
+                itm.key = itm.key === 'pumpRequiredYn' ? 'Pump Required' : itm.key.replace(/([A-Z])/g, " $1");
+                itm.key = itm.key.charAt(0).toUpperCase() + itm.key.slice(1);
+
+                itm.key = itm.key.replace('Aggregate', 'Aggregate ');
+
+                return itm;
+            })
     }
 
 
+    openItem(itemIndex: number) {
+        this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
+    }
 
 }

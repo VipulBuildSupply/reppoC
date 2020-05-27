@@ -29,7 +29,7 @@
 .add-sku-link a {
     font-size: $font-size-16;
     font-weight: $font-weight-700;
-    color: #F47720;
+    color: #f47720;
     text-transform: $text-transform;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .download-box {
-    padding-top: 20px
+    padding-top: 20px;
 }
 
 .download-box a {
@@ -161,7 +161,7 @@
 }
 
 .sku-categeory .input-group .input-group-append .fa.fa-search {
-    color: #7C7C7C;
+    color: #7c7c7c;
     font-size: $font-size-12;
 }
 
@@ -222,7 +222,7 @@
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+.container2 input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -246,12 +246,12 @@
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input~.checkmark {
+.container:hover input ~ .checkmark {
     background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked~.checkmark {
+.container input:checked ~ .checkmark {
     background-color: green;
 }
 
@@ -263,7 +263,7 @@
 }
 
 /* Show the checkmark when checked */
-.container input:checked~.checkmark:after {
+.container input:checked ~ .checkmark:after {
     display: block;
 }
 
@@ -294,15 +294,13 @@
     transition: $transition;
     cursor: pointer;
 
-
     &:hover {
-        background-color: #E0F8FF;
+        background-color: #e0f8ff;
         box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
     }
 
-
     p {
-        color: #4A4A4A;
+        color: #4a4a4a;
         font-size: $font-size-14;
         font-weight: $font-weight-600;
         margin: 0;
@@ -320,7 +318,6 @@
         border-color: $error;
         color: $error;
     }
-
 }
 
 .listOfCatalogues {
@@ -363,7 +360,7 @@
 }
 
 .leads-tap a {
-    color: #95989A;
+    color: #95989a;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -372,12 +369,12 @@
 }
 
 .leads-tap .active-tab {
-    color: #1896BA;
+    color: #1896ba;
     border-bottom: 3px solid;
 }
 
 .leads-srch a {
-    color: #1896BA;
+    color: #1896ba;
     font-size: 12px;
     display: inline-block;
     line-height: 40px;
@@ -409,7 +406,7 @@
     text-align: center;
     font-weight: bold;
     border-radius: 20.25px;
-    background-color: #F47720;
+    background-color: #f47720;
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.04);
 }
 
@@ -439,11 +436,9 @@
     font-size: 14px;
 }
 
-
-
 .leads-srch {
     .add-new {
-        color: #F47720;
+        color: #f47720;
         font-size: $font-size-16;
         font-weight: $font-weight-700;
     }
@@ -478,10 +473,10 @@
     }
 
     .quote-smt-price {
-        border: 1.1px solid #03B10F;
+        border: 1.1px solid #03b10f;
         border-radius: 4.4px;
         background-color: #fff;
-        color: #03B10F;
+        color: #03b10f;
         font-size: 10px;
         font-weight: 600;
         height: 24.2px;
@@ -505,7 +500,7 @@
     display: block !important;
 }
 
-.on-button:checked+.slider {
+.on-button:checked + .slider {
     background-color: #81d887;
 }
 
@@ -522,11 +517,11 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
-.on-button:checked+.slider:before {
+.on-button:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
@@ -541,13 +536,13 @@
     content: "";
     height: 20px;
     width: 20px;
-    background-color: #03B10F;
+    background-color: #03b10f;
     opacity: 0.9;
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.12), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
     left: -10px;
     bottom: -3px;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .switch .on-button {
@@ -590,12 +585,12 @@
 
 .commom-drop li a:hover {
     font-weight: $font-weight-600;
-    color: #00A6B2;
+    color: #00a6b2;
 }
 
 .commom-drop li .active {
     font-weight: $font-weight-600;
-    color: #00A6B2;
+    color: #00a6b2;
 }
 
 .addsku.overflowClass {
@@ -613,7 +608,6 @@
         letter-spacing: 0.5px;
         margin-bottom: 0px;
     }
-
 
     &__description {
         color: #000;
@@ -659,7 +653,6 @@
         width: 80%;
         margin: auto;
     }
-
 }
 
 .profile-verification {
@@ -692,7 +685,7 @@
                 border: none;
 
                 .modal-header {
-                    background-color: #F0F0F0;
+                    background-color: #f0f0f0;
                     border-radius: 0;
                     padding: 16px 20px;
                     border-bottom: none;
@@ -704,7 +697,7 @@
                     }
 
                     .close {
-                        font-size: 2.0rem;
+                        font-size: 2rem;
                         font-weight: 600;
                         line-height: 25px;
                         color: #afafaf;
@@ -726,7 +719,6 @@
         }
 
         &__description {
-
             ol,
             ul {
                 padding-left: 20px;
@@ -771,7 +763,6 @@
             width: 150px !important;
         }
     }
-
 }
 
 .close-btn.mat-menu-item {
@@ -846,19 +837,19 @@
     align-items: center;
 }
 
-.clicked{
+.clicked {
     background-color: gray;
 }
 
-.highlightSku{
-    background-color: #E0F8FF;
+.highlightSku {
+    background-color: #e0f8ff;
     box-shadow: 1px 3px 4px 0 rgba(151, 151, 151, 0.5);
 }
 
-.disableCategories{
+.disableCategories {
     pointer-events: none;
 }
 
-.output-box .selected-option{
+.output-box .selected-option {
     margin-bottom: 10px;
 }

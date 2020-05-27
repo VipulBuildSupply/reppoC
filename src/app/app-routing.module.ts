@@ -11,6 +11,9 @@ import { AuthGuardService } from './shared/guards/auth.guard';
 import { CatalogueGuardService } from './shared/guards/catalogue.guard';
 import { MainLayoutComponent } from './shared/components/layouts/main-layout/main-layout.component';
 import { NotificationsComponent } from './views/notifications/notifications.component';
+import { VerifiedUserGuard } from './shared/guards/verified-user.guard';
+import { ComingSoonComponent } from './views/leads/comingsoon/comingsoon.component';
+import { HasLeadGuard } from './shared/guards/isLead.guard';
 
 export const routes: Routes = [
   {
@@ -108,9 +111,14 @@ export const routes: Routes = [
       },
 
       {
+        path: 'leads-coming-soon',
+        component: ComingSoonComponent
+      },
+
+      {
         path: '',
         component: DefaultLayoutComponent,
-        canActivate: [ AuthGuardService, CatalogueGuardService ],
+        canActivate: [ AuthGuardService, CatalogueGuardService, VerifiedUserGuard ],
         children: [
           {
             path: 'lead',

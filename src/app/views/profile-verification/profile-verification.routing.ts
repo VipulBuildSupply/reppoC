@@ -6,18 +6,18 @@ export const routes: Routes = [
   {
     path: '',
     children: [
-        {
-            path: 'status',
-            component: ProfileVerificationComponent,
-            data: { title: 'Profile Verification' }
-        }
-    ]    
+      {
+        path: ':status',
+        component: ProfileVerificationComponent,
+        data: { title: 'Profile Verification' }
+      }
+    ]
   }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 
 export class ProfileVerificationRouting { }

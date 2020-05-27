@@ -28,9 +28,9 @@ export class OpenTileComponent implements OnInit {
     /**
      * @description if api has category list then it will redirect to personal profile page
      */
-    this._categoryService.getCatalogueCategories().then(res => {      
-      if(res.data.length){        
-          this._router.navigate(['/profile-verification/status']);
+    this._categoryService.getCatalogueCategories().then(res => {
+      if (res.data.length) {
+        this._router.navigate([ '/lead' ]);
       }
     });
 
@@ -39,7 +39,7 @@ export class OpenTileComponent implements OnInit {
      */
     this._categoryService.getCategories().then((res: any) => {
       this.categories = res.data;
-    }, (err: any) => {});
+    }, (err: any) => { });
   }
 
 
@@ -56,10 +56,10 @@ export class OpenTileComponent implements OnInit {
    */
   continue() {
     const cats = this.categories.reduce((allCats, item) => {
-      if (item.isSelected){
-        if(item.id != null) {
+      if (item.isSelected) {
+        if (item.id != null) {
           allCats.itemList.push(item.id);
-        }else{
+        } else {
           allCats.customCategories.push(item.name);
         }
       }
@@ -70,20 +70,20 @@ export class OpenTileComponent implements OnInit {
      * @description to add selected categories in api and localstorage
      */
     this._categoryService.setCatalogueCategories(cats).then(res => res);
-    this._router.navigate(['profile-verification/status']);
+    this._router.navigate([ '/lead' ]);
   }
 
-  otherCategory(){
+  otherCategory() {
     const d = this._dialog.open(OtherCategoryComponent, {
-        data: { },
-        disableClose: true,
-        panelClass: 'profile-verification-popup',
-        width: '25%'
+      data: {},
+      disableClose: true,
+      panelClass: 'profile-verification-popup',
+      width: '25%'
     });
     d.afterClosed().toPromise().then((data: any) => {
       if (data) {
-          this.otherCategoryValue = data;
-          this.categories.push({id: null, name: this.otherCategoryValue, isSelected: true, isDisable: true});
+        this.otherCategoryValue = data;
+        this.categories.push({ id: null, name: this.otherCategoryValue, isSelected: true, isDisable: true });
       }
     });
   }

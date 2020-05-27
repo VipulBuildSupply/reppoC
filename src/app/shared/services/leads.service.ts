@@ -69,4 +69,8 @@ export class LeadsService {
     submitRfq(sellerRfqId, data) {
         return this.dataService.sendPostRequest(API.RFQ_SUBMIT(sellerRfqId), data).then(res => res.data);
     }
+
+    hasLead() {
+        return this.dataService.getRequest(API.CHECK_RFQ_COUNT).then(res => res.data);
+    }
 }

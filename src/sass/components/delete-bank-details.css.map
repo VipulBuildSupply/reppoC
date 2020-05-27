@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACK,AAAD,0BAAO,CAAC;EACJ,UAAU,EAAE,IAAI;EAChB,SAAS,EAAE,IAAI;EACf,WAAW,EAAE,GAAG;EAChB,aAAa,EAAE,IAAI;CACtB;;AANL,AASQ,oBATY,CAQhB,CAAC,CACG,IAAI,CAAC;EACD,KAAK,EAAE,OAAO;EACd,cAAc,EAAE,SAAS;EACzB,WAAW,EAAE,GAAG;CACnB",
+    "sources": [
+        "delete-bank-details.scss"
+    ],
+    "names": [],
+    "file": "delete-bank-details.css"
+}

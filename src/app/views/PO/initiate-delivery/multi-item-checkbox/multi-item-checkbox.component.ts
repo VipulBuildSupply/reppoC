@@ -19,15 +19,16 @@ export class MultiItemCheckboxComponent implements OnInit {
     this.formInit();
   }
 
-  formInit(){
+  formInit() {
     this.multiItemForm = this._fb.group({
-      deliveryQty: ['', {
+      deliveryQty: [ '', {
         validators: [
           Validators.required,
+          Validators.max(this.item.deliverySummary.maxRaiseAllowQty),
           Validators.pattern(FieldRegExConst.DECIMAL_NUMBERS)
         ]
-      }],
-      poItemId: [this.item.id]
+      } ],
+      poItemId: [ this.item.id ]
     });
   }
 }

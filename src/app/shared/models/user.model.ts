@@ -1,12 +1,12 @@
 import { first, retry } from 'rxjs/operators';
 
 export class UserModel {
-    phone:string;
-    userType:string;
-    sellerPersonalProfile:SellerPersonalProfile;
-    seller:boolean;
-    buyer:boolean;
-    operator:boolean;
+    phone: string;
+    userType: string;
+    sellerPersonalProfile: SellerPersonalProfile;
+    seller: boolean;
+    buyer: boolean;
+    operator: boolean;
     //selectedProfile: string;
 
     constructor({ phone = '', userType = "", seller = true, buyer = false, operator = false, sellerPersonalProfile }) {
@@ -35,11 +35,11 @@ export class SellerPersonalProfile {
     profileImageUrl?: string;
     roleTag: string;
     suspended: boolean;
-    isSelected?:boolean;
+    isSelected?: boolean;
     type?: string;
     companyId?: number;
     userId: number;
-    verifyStatus: string;
+    verifyStatus: 'Unverified' | 'Verified' | 'Verification In Progress';
     verifyStatusCode: string;
     firstName?: string;
 
@@ -53,19 +53,19 @@ export class SellerPersonalProfile {
         roleTag = "",
         suspended = false,
         userId = 0,
-        verifyStatus = "",
+        verifyStatus = null,
         verifyStatusCode = "",
         firstName = "",
         isSelected = false,
         type = '',
         companyId = 0
-    }){
+    }) {
         this.deleted = deleted;
         this.email = email;
         this.emailVerified = emailVerified;
         this.hideRequestVerification = hideRequestVerification;
         this.profileCompletePercentage = profileCompletePercentage,
-        this.profileImageUrl = profileImageUrl;
+            this.profileImageUrl = profileImageUrl;
         this.roleTag = roleTag;
         this.suspended = suspended;
         this.userId = userId;
@@ -76,5 +76,5 @@ export class SellerPersonalProfile {
         this.type = type;
         this.companyId = companyId;
     }
-    
+
 }

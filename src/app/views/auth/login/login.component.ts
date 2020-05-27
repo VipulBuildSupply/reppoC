@@ -34,21 +34,21 @@ export class LoginComponent implements OnInit {
         this.phoneNumber = this.signinService.userPhone;
 
         if (this.phoneNumber == undefined) {
-            this._router.navigate(['/auth/enter-mobile']);
+            this._router.navigate([ '/auth/enter-mobile' ]);
         }
 
         this.signinForm = this._formBuilder.group({
-            emailOrPhone: [this.phoneNumber, {
+            emailOrPhone: [ this.phoneNumber, {
                 validators: [
                     Validators.required,
                     Validators.pattern(FieldRegExConst.PHONE)
                 ]
-            }],
-            password: [this.password, {
+            } ],
+            password: [ this.password, {
                 validators: [
                     Validators.required,
                 ]
-            }]
+            } ]
         });
     }
 
@@ -69,8 +69,8 @@ export class LoginComponent implements OnInit {
 
             const data = {};
             Object.keys(this.signinForm.value).forEach((field) => {
-                if ((this.signinForm.value[field] !== null) && (this.signinForm.value[field] !== '')) {
-                    data[field] = this.signinForm.value[field];
+                if ((this.signinForm.value[ field ] !== null) && (this.signinForm.value[ field ] !== '')) {
+                    data[ field ] = this.signinForm.value[ field ];
                 }
             });
 
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
                     this.switchUserProfile(res.data);
                 } else {
                     this._userService.getUserData().then(res => {
-                        this._router.navigate(['profile-verification/status']);
+                        this._router.navigate([ '/lead' ]);
                     });
                 }
             }, err => {
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
     forgot() {
         this.signinService.isForgot = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
-            this._router.navigate(['auth/otp-verify'])
+            this._router.navigate([ 'auth/otp-verify' ])
         });
     }
 
@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
     loginOtp() {
         this.signinService.isLoginWithOtp = true;
         this.signinService.createOTP(this.phoneNumber).then(res => {
-            this._router.navigate(['auth/otp-verify'])
+            this._router.navigate([ 'auth/otp-verify' ])
         });
     }
 
