@@ -112,3 +112,60 @@ button:focus {
 .container-fluid {
     padding: 0 100px;
 }
+
+.bg-blue{
+    background-color:$bg-color-blue;
+    color:white;
+}
+
+.left-content{
+    max-width: 900px;
+    .mat-figure{
+        justify-content: start !important;
+        padding-left: 20px !important;
+    }
+}
+
+.m-vrt{
+    font-size: 2.5em;
+    font-weight: lighter;
+    color:#bbb7b7de;
+    cursor: pointer;
+}
+
+.m-vrt-menu{
+    min-height: auto !important;
+    button{
+        text-align: center;
+    }
+}
+.mat-menu-panel.mat-menu-below button.mat-menu-item.sc-btn{
+    font-size: 18px;
+    color: #1896BA
+}
+
+.txtarea-bdr{
+    border:1px solid #b5b5b5 !important;
+    border-radius: 3px !important;
+}
+
+.w-96{
+    width:96% !important;
+}
+
+.lh-initial{
+    line-height: initial !important;
+}
+.mt-mns{
+    margin-top: -20px;
+}
+
+.bbtn:disabled{
+    background-color: #efd8c9 !important;
+    border: 0px !important;
+}
+
+.isDisabled{
+    pointer-events: none !important;
+    color:lightgray !important;
+}

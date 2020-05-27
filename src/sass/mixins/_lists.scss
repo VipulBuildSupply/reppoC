@@ -5,3 +5,19 @@
   padding-left: 0;
   list-style: none;
 }
+
+.spec-list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  padding-bottom: 10px;
+  li {
+    margin-right: 5px;
+    list-style: none;
+    border-radius: 2px;
+    display: block;
+    padding: 5px 10px;
+    background: $cyan;
+    font-size: 12px;
+  }
+}

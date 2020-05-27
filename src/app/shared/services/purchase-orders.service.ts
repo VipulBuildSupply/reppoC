@@ -19,23 +19,32 @@ export class PurchaseOrdersService {
         return this._dataService.getRequest(API.GET_PO_REQUEST(reqId)).then((res: any) => res);
     }
 
-    getPOPdfDownload(pid){
+    getPOPdfDownload(pid) {
         return this._dataService.getRequest(API.GET_PO_PDF_DOWNLOAD(pid)).then((res: any) => res);
     }
 
-    acceptRejectPO(pid, status){
+    acceptRejectPO(pid, status) {
         return this._dataService.sendPutRequest(API.PO_ACCEPT_REJECT(pid, status), null).then((res: any) => res);
     }
 
-    getItemsList(oid){
+    getItemsList(oid) {
         return this._dataService.getRequest(API.GET_PO_ITEMS_LIST(oid)).then((res: any) => res);
     }
 
-    sendDeliveryRequest(orderId, data){
+    sendDeliveryRequest(orderId, data) {
         return this._dataService.sendPostRequest(API.INITIATE_DELIVERY_REQUEST(orderId), data).then((res: any) => res);
     }
 
-    getAllTypeDeliveries(orderId){
+    getAllTypeDeliveries(orderId) {
         return this._dataService.getRequest(API.INITIATE_DELIVERY_REQUEST(orderId)).then((res: any) => res);
     }
+
+    getPOPymtSmryRqst(orderId) {
+        return this._dataService.getRequest(API.GET_PO_PAYMENT_SUMMARY(orderId)).then((res: any) => res);
+    }
+
+    setShortCloseData(orderId, data) {
+        return this._dataService.sendPutRequest(API.PUT_SHORTCLOSE_REQUEST(orderId), data).then(res => res.data)
+    }
+
 }

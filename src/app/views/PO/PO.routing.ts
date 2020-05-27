@@ -4,6 +4,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { PoComponent } from './po.component';
 import { InitiateDeliveryComponent } from './initiate-delivery/initiate-delivery.component';
 import { DeliveryDetailsComponent } from './delivery-details/delivery-details.component';
+import { ShortCloseComponent } from './short-close/short-close.component';
+import { ShortCloseResolver } from './short-close/resolver/short-close.resolver';
 
 export const routes: Routes = [
   {
@@ -48,14 +50,20 @@ export const routes: Routes = [
         path: 'orders/details/awarded/:orderId/past-delivery-details/:itemId',
         component: DeliveryDetailsComponent,
         data: { title: 'Delivery Details' }
+      },
+      {
+        path: 'orders/details/awarded/:id/short-close-request',
+        component: ShortCloseComponent,
+        resolve: { orders: ShortCloseResolver }
+        // data: { title: 'Short Close Request' }
       }
-    ]    
+    ]
   }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 
 export class PORouting { }

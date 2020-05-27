@@ -214,6 +214,13 @@
     // user-select: none;
 }
 
+.container input.reset-input-css{
+    position: static;
+    opacity:1;
+    height: auto;
+    width: auto;
+}
+
 /* Hide the browser's default checkbox */
 .container input {
     position: absolute;

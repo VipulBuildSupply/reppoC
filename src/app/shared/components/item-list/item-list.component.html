@@ -1,50 +1,74 @@
 <mat-card-header class="po__header-section" [class.po-awarded]="activeTab === 'awarded'">
     <div class="po__header-left">
         <div mat-card-avatar class="po__header-image">
-            <img [src]="items.imageUrl ? items.imageUrl : 'assets/img/bricks.png'" 
-                alt="" class="img-fluid">
+            <img [src]="items.imageUrl ? items.imageUrl : 'assets/img/bricks.png'" alt class="img-fluid">
         </div>
 
         <div class="mat-card-header-text mat-card__title">
 
             <ng-container *ngIf="items.skuSlugUrl; else noUrlLink">
-                <a [attr.href]="items.skuSlugUrl" target="_blank" class="po-item-title">{{ items.name }}</a>
+                <a [attr.href]="items.skuSlugUrl" target="_blank" class="po-item-title">
+                    {{ items.name }}
+                </a>
             </ng-container>
 
             <ng-template #noUrlLink>
                 <mat-card-title>{{ items.name }}</mat-card-title>
             </ng-template>
-
+            <mat-card-subtitle *ngIf="items?.specs?.length">
+                <ul class="spec-list">
+                    <li *ngFor="let spec of items.specs">{{spec}}</li>
+                </ul>
+            </mat-card-subtitle>
             <ng-container *ngIf="!deliveryDetails">
-                <mat-card-subtitle class="pb-2" 
-                    *ngIf="!(orderDetails === 'order-details' && activeTab === 'awarded')">
+                <mat-card-subtitle class="pb-2"
+                    *ngIf="!(orderDetails === 'order-details' && activeTab === 'awarded') && !shortClose">
                     Quantity: {{ items.requestQty }} {{ items.unit }}
                 </mat-card-subtitle>
-            </ng-container>            
+            </ng-container>
 
-            <mat-card-subtitle class="awarded-po pb-2" 
-                *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
-                <span>Quantity: {{ items.requestQty }} {{ items.unit }}</span>
-                <span>Balance Quantity: {{ items.deliverySummary.maxRaiseAllowQty }} {{ items.unit }}</span>
-                <span>Enqueued Quantity: {{ items.deliverySummary.totalEnqueueQty }} {{ items.unit }}</span>
+            <mat-card-subtitle class="pb-2" *ngIf="items.location">
+                Location: {{ items.location }}
             </mat-card-subtitle>
 
-            <mat-card-subtitle class="pt-2 seller-price-gst d-flex align-items-center 
+            <mat-card-subtitle class="awarded-po pb-2"
+                *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
+                <span>
+                    Quantity: {{ items.requestQty }} {{ items.unit }}
+                </span>
+                <span>
+                    Balance Quantity: {{ items.deliverySummary.maxRaiseAllowQty }} {{ items.unit }}
+                </span>
+                <span>
+                    Enqueued Quantity: {{ items.deliverySummary.totalEnqueueQty }} {{ items.unit }}
+                </span>
+            </mat-card-subtitle>
+
+            <mat-card-subtitle class="shortClose pb-2" *ngIf="activeTab !== 'awarded' && shortClose === 'short-close'">
+                <span>
+                    Quantity: {{ items.requestQty }} {{ items.unit }}
+                </span>
+                <span>
+                    Balance Quantity: {{ items.deliverySummary.maxRaiseAllowQty }} {{ items.unit }}
+                </span>
+
+            </mat-card-subtitle>
+
+            <mat-card-subtitle *ngIf="!shortClose" class="pt-2 seller-price-gst d-flex align-items-center
                 justify-content-between">
                 <span class="item-qty">
-                    <span class="mr-1" *ngIf="!deliveryDetails">₹{{ items.sellerPrice }}</span>
-                    <span *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
-                        (Excl. GST @{{ items.gstTax }}%)
+                    <span class="mr-1" *ngIf="!deliveryDetails && items.sellerPrice">
+                        ₹{{ items.sellerPrice }}
                     </span>
+                    <span *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">(Excl. GST
+                        @{{ items.gstTax }}%)</span>
                 </span>
-                <span class="sub-total" 
-                    *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
+                <span class="sub-total" *ngIf="activeTab === 'awarded' && orderDetails === 'order-details'">
                     Sub Total: ₹{{ items.totalAmount }}
                 </span>
             </mat-card-subtitle>
 
-            <mat-card-subtitle class="pb-2" 
-                *ngIf="activeTab === 'awarded' && deliveryDetails">
+            <mat-card-subtitle class="pb-2" *ngIf="activeTab === 'awarded' && deliveryDetails">
                 Delivery Quantity: {{ items.itemQty }} {{ items.unit }}
             </mat-card-subtitle>
 

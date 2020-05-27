@@ -1,5 +1,6 @@
 export const environment = {
     ga: "UA-145397532-1",
+    hmr: false,
     production: true,
     debug_mode: false,
     // apiURL: 'https://api.yeho.ga'
