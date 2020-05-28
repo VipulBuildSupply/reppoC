@@ -47,7 +47,8 @@
             </div>
 
             <div class="col-lg-5">
-                <div class="select-box-left" *ngFor="let catalogue of catalogueList" [class.highlightSku]="catalogue.isSelected">
+                <div class="select-box-left" *ngFor="let catalogue of catalogueList"
+                    [class.highlightSku]="catalogue.isSelected">
                     <div (click)="selectUniqueCatalogue(catalogue.id);">
                         <div class="quote-smt" *ngIf="catalogue.stockStatus == 'N'">
                             Out of Stock
@@ -127,7 +128,8 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMax(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMax(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
                                                                             placeholder="start" required>
@@ -142,7 +144,8 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field *ngIf="i < pricingForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMax(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMax(i); checkNumbers($event);"
                                                                             [type]="addPriceForRemainingQuantity ? 'text' : 'number'"
                                                                             class="form-control"
                                                                             formControlName="maxPrice"
@@ -163,7 +166,8 @@
                                                                     <mat-form-field *ngIf="i == pricingForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="addPriceForRemainingQuantity">
-                                                                        <input matInput (input)="compareMinMax(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMax(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
                                                                             placeholder="end">
@@ -192,8 +196,8 @@
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
-                                                                (input)="checkPrice(i)" formControlName="price"
-                                                                placeholder="Price Per Unit (₹)"
+                                                                (input)="checkPrice(i); checkNumbers($event);"
+                                                                formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error
                                                                 *ngIf="pricingForm.controls.price.errors && pricingForm.controls.price.hasError('required')">
@@ -229,7 +233,8 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
                                                                             placeholder="start" required>
@@ -245,7 +250,8 @@
                                                                     <mat-form-field
                                                                         *ngIf="i<editPricingAllForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
                                                                             placeholder="end">
@@ -267,7 +273,8 @@
                                                                         *ngIf="i == editPricingAllForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="addPriceForRemainingQuantity">
-                                                                        <input matInput (input)="compareMinMaxEdit(i)"
+                                                                        <input matInput
+                                                                            (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
                                                                             placeholder="end">
@@ -297,8 +304,8 @@
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
-                                                                (input)="checkPriceEdit(i)" formControlName="price"
-                                                                placeholder="Price Per Unit (₹)"
+                                                                (input)="checkPriceEdit(i); checkNumbers($event);"
+                                                                formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error
                                                                 *ngIf="editPricingAllForm.controls.price.errors && editPricingAllForm.controls.price.hasError('required')">
@@ -428,7 +435,7 @@
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput
-                                                                            (input)="compareMinMaxIndvidual(i,indx)"
+                                                                            (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
                                                                             placeholder="start" required>
@@ -445,7 +452,7 @@
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         *ngIf="(i < (warehouse.pricingForms.length - 1))">
                                                                         <input matInput
-                                                                            (input)="compareMinMaxIndvidual(i,indx)"
+                                                                            (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
                                                                             placeholder="end">
@@ -466,7 +473,7 @@
                                                                         *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber[indx] != indx))"
                                                                         class="quantity-mat-form inputFieldOfPrice">
                                                                         <input matInput
-                                                                            (input)="compareMinMaxIndvidual(i,indx)"
+                                                                            (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
                                                                             placeholder="end">
@@ -505,7 +512,7 @@
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
                                                             <input matInput type="number" id="mobile"
-                                                                (input)="checkPriceIndvidual(i,indx)"
+                                                                (input)="checkPriceIndvidual(i,indx); checkNumbers($event);"
                                                                 formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
                                                             <mat-error

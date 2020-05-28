@@ -416,11 +416,11 @@
                                         <div *ngIf="poSummary.payments.length">
                                             <mat-grid-list
                                                 class="border-color-bg border-left border-right border-bottom left-content"
-                                                [cols]="6" rowHeight="40">
-                                                <mat-grid-tile colspan="1" class="bg-blue">
+                                                [cols]="8" rowHeight="40">
+                                                <mat-grid-tile colspan="2" class="bg-blue">
                                                     Date
                                                 </mat-grid-tile>
-                                                <mat-grid-tile colspan="2" class="bg-blue">
+                                                <mat-grid-tile colspan="1" class="bg-blue">
                                                     Amount (₹)
                                                 </mat-grid-tile>
                                                 <mat-grid-tile colspan="1" class="bg-blue">
@@ -432,11 +432,11 @@
                                                 <mat-grid-tile colspan="1" class="bg-blue">
                                                     Invoice No.
                                                 </mat-grid-tile>
-                                                <mat-grid-tile colspan="1" class="bg-blue">
+                                                <mat-grid-tile colspan="2" class="bg-blue">
                                                     Status
                                                 </mat-grid-tile>
                                                 <ng-container *ngFor="let item of poSummary.payments; let i = index">
-                                                    <mat-grid-tile colspan="1" class="border-left">
+                                                    <mat-grid-tile colspan="2" class="border-left">
                                                         {{ item.createDt }}
                                                     </mat-grid-tile>
                                                     <mat-grid-tile colspan="1" class="border-left">
@@ -451,13 +451,14 @@
                                                             (click)="showAttachments(item.attachId)">
                                                             View
                                                         </a>
-                                                        <img class="ml-4" src="src/assets/img/file.png" alt="">
+                                                        <img class="ml-4" src="./../assets/img/file.png" alt="">
                                                     </mat-grid-tile>
                                                     <mat-grid-tile colspan="1" class="border-left">
                                                         {{ item.invoice }}
                                                     </mat-grid-tile>
-                                                    <mat-grid-tile colspan="1" class="border-left">
-                                                        {{ item.status }}
+                                                    <mat-grid-tile colspan="2" class="border-left">
+                                                        <span
+                                                            [class]="'font-bold status-' + getStatusColor(item.statusCd)">{{ item.status }}</span>
                                                     </mat-grid-tile>
                                                 </ng-container>
                                             </mat-grid-list>

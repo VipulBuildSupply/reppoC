@@ -151,4 +151,14 @@ export class OrderDetailsComponent implements OnInit {
     this.isPayReq = false;
   }
 
+  getStatusColor(statusCd) {
+    let colname = '';
+    if (statusCd == 'payment.sts.submit') {
+      colname = 'green';
+    } else {
+      colname = 'yellow';
+    }
+    return colname;
+  }
+
 }
