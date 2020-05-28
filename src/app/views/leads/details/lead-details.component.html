@@ -44,8 +44,7 @@
                                                     class="d-flex itm-status itm-status__red"
                                                     [class.itm-status__green]="details.rfq.statusCd === 'sellerrfq.seller.submit.full'"
                                                     [class.itm-status__red]="details.rfq.expired">
-                                                    {{details.rfq.statusCd === 'sellerrfq.seller.submit.full' ? 'Quote Submitted' : ''}}
-                                                    {{details.rfq.expired ? 'LEAD EXPIRED' : ''}}
+                                                    {{details.rfq.status}}
                                                     <mat-icon *ngIf="details.rfq.statusCd === 'sellerrfq.seller.submit.full'">check_circle</mat-icon>
                                                 </span>
                                             </h6>
