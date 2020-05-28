@@ -93,6 +93,8 @@ export const API = {
 
     GET_PO_PAYMENT_SUMMARY: (id: number) => `product/api/po/seller/${id}/payment/summary`,
 
+    INITIATE_PAYMENT_REQUEST: 'product/api/payment/request/seller',
+
     GET_USER_NOTIFICATIONS: 'product/api/user/notification/list',
     GET_FREIGHT_TERMS: 'account/api/seller/profile/freightTerms',
     PROFILE_REFERENCES: 'account/api/profile/reference',

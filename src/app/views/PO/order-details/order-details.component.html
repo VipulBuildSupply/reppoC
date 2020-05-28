@@ -29,6 +29,10 @@
                             <div class="po__title-left">
                                 <h4 class="mb-1">
                                     Purchase Order Id : {{ orders.purchaseOrder.orderNo }}
+                                    <div class="po__header-right d-inline-block pl-2"
+                                        *ngIf="orders.purchaseOrder.statusCd">
+                                        <span>{{ orders.purchaseOrder.status }}</span>
+                                    </div>
                                 </h4>
                                 <p class="datetime mb-0">
                                     {{ orders.purchaseOrder.createDt | gmtToLocal }}
@@ -36,7 +40,7 @@
                             </div>
 
                             <!-- Accept/Reject PO Functionality -->
-                            <div class="po__title-right d-flex align-items-center"
+                            <div class="po__title-right d-block d-flex align-items-center"
                                 *ngIf="orders.purchaseOrder.statusCd == 'sellerpo.ops.sent' && activeTab === 'pending'">
                                 <button mat-button class="brdbttn mr-2"
                                     (click)="acceptRejectPO(orders.purchaseOrder.id, 'REJECT')">
@@ -48,7 +52,7 @@
                                 </button>
                             </div>
 
-                            <ng-container class="po__title-right"
+                            <ng-container class="po__title-right d-block"
                                 *ngIf="orders.purchaseOrder.statusCd === 'sellerpo.seller.confirm' && activeTab === 'pending'">
                                 <!-- <div class="order-accept-reject">
                                     <span>PO Accepted</span>
@@ -67,10 +71,10 @@
                             </ng-container>
 
                             <!-- Initiate Delivery Button If Awarded PO Selected-->
-                            <div class="po__title-right" *ngIf="activeTab === 'awarded'">
+                            <!-- <div class="po__title-right" *ngIf="activeTab === 'awarded'"> -->
+                            <div class="po__title-right d-block" *ngIf="activeTab === 'awarded'">
 
-                                <button mat-button class="btn-mark-in-transit ml-2"
-                                    [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/initiate-delivery']">
+                                <button mat-button class="btn-mark-in-transit ml-2" (click)="initiatPayment()">
                                     Request Payment</button>
 
                                 <button mat-button class="btn-mark-in-transit ml-2"
@@ -78,8 +82,9 @@
                                     Initiate Delivery</button>
 
 
-                                <span mat-button matRipple *ngIf="isShortClose" [matMenuTriggerFor]="slideMorVert"
-                                    class="material-icons align-middle m-vrt">
+                                <span mat-button matRipple
+                                    *ngIf="isShortClose && (orders.purchaseOrder.statusCd && orders.purchaseOrder.statusCd !== 'sellerpo.ops.shortclose')"
+                                    [matMenuTriggerFor]="slideMorVert" class="material-icons align-middle m-vrt">
                                     more_vert
                                 </span>
                                 <mat-menu #slideMorVert="matMenu" class="m-vrt-menu">
@@ -139,13 +144,14 @@
                                                             *ngIf="activeDel.items && activeDel.items.length">
                                                             <p
                                                                 class="vehicle-number d-flex align-items-center justify-content-between">
-                                                                <span>
+                                                                <span class="w-75">
                                                                     Vehicle No. {{ activeDel.vehicleNo }}
                                                                     (Ph-{{ activeDel.driverPhone }})
                                                                 </span>
 
                                                                 <ng-container *ngIf="orders && orders.purchaseOrder">
-                                                                    <span class="min-w-115 text-right cursor-link"
+                                                                    <span
+                                                                        class="min-w-115 text-right cursor-link align-self-start"
                                                                         [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/active-delivery-details/'+activeDel.id]">
                                                                         View Details
                                                                     </span>
@@ -159,7 +165,7 @@
                                                                     <ng-container
                                                                         *ngIf="item.skuSlugUrl; else noUrlLink">
                                                                         <a [attr.href]="item.skuSlugUrl" target="_blank"
-                                                                            class="po-item-title mb-1 font14">
+                                                                            class="po-item-title mb-1 font14 lh-initial w-75">
                                                                             {{ item.name }}
                                                                         </a>
                                                                     </ng-container>
@@ -170,7 +176,7 @@
                                                                     </ng-template>
 
                                                                     <span
-                                                                        class="min-w-115 text-right">{{ item.itemQty }}
+                                                                        class="min-w-115 text-right align-self-baseline">{{ item.itemQty }}
                                                                         {{ item.unit }}</span>
                                                                 </p>
                                                             </ng-container>
@@ -380,10 +386,10 @@
                                                 Total Amount
                                             </mat-grid-tile>
                                             <mat-grid-tile colspan="1" class="bg-blue">
-                                                Total Received Amount
+                                                Received Amount
                                             </mat-grid-tile>
                                             <mat-grid-tile colspan="1" class="bg-blue">
-                                                Total Balance Amount
+                                                Balance Amount
                                             </mat-grid-tile>
                                             <mat-grid-tile colspan="1" class="bg-blue">
                                                 Requested Amount
@@ -410,15 +416,12 @@
                                         <div *ngIf="poSummary.payments.length">
                                             <mat-grid-list
                                                 class="border-color-bg border-left border-right border-bottom left-content"
-                                                [cols]="8" rowHeight="40">
-                                                <mat-grid-tile colspan="1" class="bg-blue">
-                                                    S. No.
-                                                </mat-grid-tile>
+                                                [cols]="6" rowHeight="40">
                                                 <mat-grid-tile colspan="1" class="bg-blue">
                                                     Date
                                                 </mat-grid-tile>
                                                 <mat-grid-tile colspan="2" class="bg-blue">
-                                                    Received Amount (₹)
+                                                    Amount (₹)
                                                 </mat-grid-tile>
                                                 <mat-grid-tile colspan="1" class="bg-blue">
                                                     UTR
@@ -433,13 +436,10 @@
                                                     Status
                                                 </mat-grid-tile>
                                                 <ng-container *ngFor="let item of poSummary.payments; let i = index">
-                                                    <mat-grid-tile colspan="1">
-                                                        {{ i }}
-                                                    </mat-grid-tile>
                                                     <mat-grid-tile colspan="1" class="border-left">
                                                         {{ item.createDt }}
                                                     </mat-grid-tile>
-                                                    <mat-grid-tile colspan="2" class="border-left">
+                                                    <mat-grid-tile colspan="1" class="border-left">
                                                         {{ item.txnAmount }}
                                                     </mat-grid-tile>
                                                     <mat-grid-tile colspan="1" class="border-left">
@@ -467,7 +467,7 @@
                             </div>
 
                             <div class="payment-details">
-                                <h5 class="payment-details__title">Payment Details (₹)</h5>
+                                <h5 class="payment-details__title">Order Summary</h5>
                                 <div class="payment-details__data">
                                     <p *ngIf="orders.purchaseOrder.totalItemAmount">
                                         <span>Material Cost</span>
@@ -549,3 +549,12 @@
         </div>
     </div>
 </div>
+
+
+<ng-container *ngIf="orders && isPayReq">
+    <div class="full-width-shadow-background">
+        <app-payment-initiate-request [orderId]="orders.purchaseOrder.id" [orderNo]="orders.purchaseOrder.orderNo"
+            [orderDate]="orders.purchaseOrder.createDt | gmtToLocal" (closePayReqBlock)="getClosePayReqBlock()">
+        </app-payment-initiate-request>
+    </div>
+</ng-container>

@@ -47,4 +47,8 @@ export class PurchaseOrdersService {
         return this._dataService.sendPutRequest(API.PUT_SHORTCLOSE_REQUEST(orderId), data).then(res => res.data)
     }
 
+    initiatePaymentRequest(data) {
+        return this._dataService.sendPostRequest(API.INITIATE_PAYMENT_REQUEST, data).then((res: any) => res);
+    }
+
 }

@@ -26,6 +26,7 @@ export class OrderDetailsComponent implements OnInit {
 
   paymentLable = 'View More Details';
   isShortClose: boolean;
+  isPayReq: boolean;
 
   @Input() collapsedHeight: string;
   @Input() expandedHeight: string;
@@ -141,4 +142,13 @@ export class OrderDetailsComponent implements OnInit {
       this.dispatchSchedules = res.data.dispatchSchedules;
     });
   }
+
+  initiatPayment() {
+    this.isPayReq = true;
+  }
+
+  getClosePayReqBlock() {
+    this.isPayReq = false;
+  }
+
 }
