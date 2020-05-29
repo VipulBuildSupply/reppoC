@@ -51,7 +51,7 @@ export class PaymentInitiateRequestComponent implements OnInit {
     if (this.paymentReqForm.valid) {
       const data = this.paymentReqForm.value;
       if (this.uploadFile) {
-        this.uploadPaymentReqDoc.uploadDocs('SELLER_PO_DELIVERY').then(ids => {
+        this.uploadPaymentReqDoc.uploadDocs('SELLER_PO_PAYMENT_REQUEST').then(ids => {
           data.attachId = ids;
           this.sendData(data);
         })
