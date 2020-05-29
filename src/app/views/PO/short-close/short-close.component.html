@@ -1,0 +1,106 @@
+<div class="po">
+    <div class="container">
+        <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
+
+            <h3>
+                <i aria-hidden="true" class="fa fa-angle-left" tabindex="0"
+                    [routerLink]="['/orders/details/awarded/'+ activeTab]"></i>
+                Short Close Request</h3>
+        </div>
+
+        <div class="po__orders-list">
+            <div class="po__order mb-3">
+                <mat-card class="po__card">
+
+                    <div class="po__title-section">
+                        <div class="d-flex justify-content-between align-items-center"
+                            *ngIf="orders && orders.purchaseOrder">
+                            <div class="po__title-left w-100">
+                                <h4 class="d-inline-block mb-0">Purchase Order Id : {{ orders.purchaseOrder.orderNo }}
+                                </h4>
+                                <p class="datetime d-inline-block float-right mt-1">
+                                    {{ orders.purchaseOrder.createDt | gmtToLocal }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <form *ngIf="orderForm" [formGroup]="orderForm" (ngSubmit)="submit()">
+
+                        <ng-container *ngIf="orders && orders.orderItemList.length">
+                            <ng-container *ngFor="let item of orders.orderItemList; let i = index">
+
+                                <ng-container *ngIf="item.deliverySummary.maxRaiseAllowQty">
+
+                                    <div formArrayName="orderItemList">
+                                        <div [formGroupName]="i">
+                                            <mat-checkbox *ngIf="oItemsList.length > 1"
+                                                class="float-left mt-4 ml-4 st-chkbox" formControlName="isChecked">
+                                            </mat-checkbox>
+                                        </div>
+                                    </div>
+
+                                    <app-item-list [itemList]="item" [selectedTab]="activeTab"
+                                        [shortClose]="'short-close'">
+                                    </app-item-list>
+
+                                    <div formArrayName="orderItemList"
+                                        [ngClass]="oItemsList.length > 1 ? 'mlst-185-input' : 'mlst-130-input' ">
+                                        <div class="sc-input-control" [formGroupName]="i">
+                                            <label>Enter Quantity</label>
+                                            <mat-form-field class="w-100 mt-mns">
+                                                <input type="number" matInput class="reset-input-css"
+                                                    formControlName="closeQty"
+                                                    [ngClass]="!isRemarked ? 'isDisabled' : '' ">
+                                            </mat-form-field>
+
+                                            <ng-container *ngIf="oItemsList.controls[i].get('closeQty').touched">
+                                                <mat-error class="mt-mns pt-2 pb-2"
+                                                    *ngIf="oItemsList.controls[i].get('closeQty').errors?.max">
+                                                    Max
+                                                    {{item.deliverySummary.maxRaiseAllowQty}} qty is Allowed
+                                                </mat-error>
+                                                <mat-error class="mt-mns pt-2 pb-2"
+                                                    *ngIf="oItemsList.controls[i].get('closeQty').errors?.min">
+                                                    Min
+                                                    1 qty is Allowed
+                                                </mat-error>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+
+                                    <div class="line-br w-96 m-auto"></div>
+
+                                </ng-container>
+
+                            </ng-container>
+                        </ng-container>
+
+                        <div class="w-50 ml-4 mt-3">
+                            <p class="mb-2 font-bold">Remarks</p>
+                            <textarea (input)="enableInputs($event)" formControlName="remark"
+                                class="form-control txtarea-bdr p-3 mb-3" rows="6"></textarea>
+                        </div>
+
+                        <div class="_flex mb-4 ml-4 mt-5">
+                            <button (click)="cancel()" type="button" mat-button class="brdbttn mr-3">
+                                Cancel
+                            </button>
+                            <button [disabled]="!orderForm.valid" type="submit" mat-button
+                                class="btn-mark-in-transit bbtn">
+                                Submit
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-card>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,6 +1,3 @@
 {
-    "git.ignoreLimitWarning": true,
-    "explorer.compactFolders": false,
-    "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true,
+    "git.ignoreLimitWarning": true
 }

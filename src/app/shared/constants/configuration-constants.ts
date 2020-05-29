@@ -89,6 +89,12 @@ export const API = {
     GET_PO_ITEMS_LIST: (oid: number) => `product/api/po/seller/v1/${oid}/items`,
     INITIATE_DELIVERY_REQUEST: (orderId: number) => `product/api/po/seller/v1/${orderId}/delivery`,
 
+    PUT_SHORTCLOSE_REQUEST: (orderId) => `product/api/po/seller/${orderId}/shortclose`,
+
+    GET_PO_PAYMENT_SUMMARY: (id: number) => `product/api/po/seller/${id}/payment/summary`,
+
+    INITIATE_PAYMENT_REQUEST: 'product/api/payment/request/seller',
+
     GET_USER_NOTIFICATIONS: 'product/api/user/notification/list',
     GET_FREIGHT_TERMS: 'account/api/seller/profile/freightTerms',
     PROFILE_REFERENCES: 'account/api/profile/reference',

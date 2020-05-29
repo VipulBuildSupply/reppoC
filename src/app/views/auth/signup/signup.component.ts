@@ -64,11 +64,7 @@ export class SignupComponent implements OnInit {
                 ]
             } ],
 
-            terms: [ this.terms, {
-                validators: [
-                    Validators.required
-                ]
-            } ]
+            terms: [ this.terms ]
 
         });
 
@@ -76,7 +72,7 @@ export class SignupComponent implements OnInit {
 
     /**
      * @description function to compare current and confirm passwords value
-     * @property {string} pass - to store password value 
+     * @property {string} pass - to store password value
      * @property {string} confirmPass - to store confirm Password value
      * @return {boolean}
      */
