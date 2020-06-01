@@ -11,6 +11,7 @@ export class ItemListComponent implements OnInit {
     @Input('selectedTab') activeTab: string;
     @Input('deliveryDetails') deliveryDetails: boolean;
     @Input('orderDetails') orderDetails: string;
+    @Input('shortClose') shortClose: string;
 
     constructor() { }
 

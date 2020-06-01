@@ -11,6 +11,8 @@ import { DeliveryDetailsComponent } from './delivery-details/delivery-details.co
 import { MultiItemCheckboxComponent } from './initiate-delivery/multi-item-checkbox/multi-item-checkbox.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppSharedModule } from 'src/app/shared/app-shared.module';
+import { ShortCloseComponent } from './short-close/short-close.component';
+import { ShortCloseResolver } from './short-close/resolver/short-close.resolver';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { AppSharedModule } from 'src/app/shared/app-shared.module';
     OrderDetailsComponent,
     InitiateDeliveryComponent,
     DeliveryDetailsComponent,
-    MultiItemCheckboxComponent
+    MultiItemCheckboxComponent,
+    ShortCloseComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +34,6 @@ import { AppSharedModule } from 'src/app/shared/app-shared.module';
     AppSharedModule
   ],
   exports: [],
-  providers: [],
+  providers: [ ShortCloseResolver ],
 })
 export class POModule { }

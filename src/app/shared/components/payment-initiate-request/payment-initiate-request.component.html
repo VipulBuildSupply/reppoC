@@ -1,0 +1,62 @@
+<section class="pay-req po">
+    <div class="h-res">
+        <h3>Payment Request</h3>
+        <span class="material-icons clr-icn p-3" (click)="clear()">
+            clear
+        </span>
+    </div>
+
+    <div class="pay-req__body">
+
+        <div class="mb-5">
+            <h4 class="mb-1">
+                Purchase Order Id : {{ orderNo }}
+            </h4>
+            <p class="datetime mb-0">
+                {{ orderDate }}
+            </p>
+        </div>
+
+        <form *ngIf="paymentReqForm" [formGroup]="paymentReqForm" (ngSubmit)="submit()">
+
+            <div class="res-input">
+                <label>Enter Amount</label>
+                <mat-form-field class="w-100 mt-mns">
+                    <input type="number" matInput class="reset-input-css" formControlName="amount">
+                </mat-form-field>
+                <ng-container *ngIf="paymentReqForm.controls['amount'].touched">
+                    <mat-error class="mt-mns pt-2 pb-1" *ngIf="paymentReqForm.controls['amount'].hasError('required')">
+                        Required!
+                    </mat-error>
+                    <mat-error class="mt-mns pt-2 pb-1" *ngIf="paymentReqForm.controls['amount'].hasError('min')">
+                        Min 1 is required!
+                    </mat-error>
+                </ng-container>
+            </div>
+
+            <div class="res-input">
+                <label>Invoice Number</label>
+                <mat-form-field class="w-100 mt-mns">
+                    <input type="number" matInput class="reset-input-css" formControlName="invoice">
+                </mat-form-field>
+            </div>
+
+            <div class="res-input">
+                <label>Invoice</label>
+                <app-upload label="invoiceAttachId" [isViewShow]="false" [fieldName]="'Invoice'"
+                    (onFileUpdate)="checkIfFileUpload($event)" #uploadPaymentReqDoc>
+                </app-upload>
+            </div>
+
+            <div class="mb-5 ml-4 mt-5 text-right">
+                <button [disabled]="!paymentReqForm.valid" type="submit" mat-button class="btn-mark-in-transit bbtn">
+                    Submit
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+</section>

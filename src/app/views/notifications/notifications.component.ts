@@ -12,13 +12,13 @@ export class NotificationsComponent implements OnInit {
   notificationsList: NotificationsList[];
   notiCount: number;
 
-  constructor(private _userService: UserService){}
+  constructor(private _userService: UserService) { }
 
-  ngOnInit(){
-      this.userNotifications();
+  ngOnInit() {
+    this.userNotifications();
   }
 
-  userNotifications(){
+  userNotifications() {
     this._userService.getUserNotifications().then(res => {
       this.notificationsList = res.data;
       this.notiCount = this.notificationsList.filter(msg => msg.read === false).length;
