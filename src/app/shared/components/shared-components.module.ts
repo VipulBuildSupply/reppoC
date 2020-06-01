@@ -17,6 +17,7 @@ import { SideNavigationComponent } from './side-navigation/side-navigation.compo
 import { SubFilterComponent } from './sub-filter/sub-filter.component';
 import { UploadComponent } from './upload/upload.component';
 import { ItemListComponent } from './item-list/item-list.component';
+import { PaymentInitiateRequestComponent } from './payment-initiate-request/payment-initiate-request.component';
 
 
 const components = [
@@ -32,7 +33,8 @@ const components = [
   SideNavigationComponent,
   SubFilterComponent,
   UploadComponent,
-  ItemListComponent
+  ItemListComponent,
+  PaymentInitiateRequestComponent
 ]
 
 @NgModule({

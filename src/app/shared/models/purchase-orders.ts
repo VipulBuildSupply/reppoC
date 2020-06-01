@@ -1,14 +1,14 @@
-export class PoCategory{
+export class PoCategory {
     awarded?: PoOrders[];
     pending?: PoOrders[];
 }
 
-export class PoOrders{
+export class PoOrders {
     purchaseOrder: PurchaseOrders;
     orderItemList: OrderItemsList[];
 }
 
-export class PoList{
+export class PoList {
     cgstAmount?: number;
     createDt: string;
     id: number;
@@ -23,7 +23,15 @@ export class PoList{
     totalAmount: number;
 }
 
-export class PurchaseOrders extends PoList{
+export class PoSummary {
+    payments: [];
+    totalAmount: string;
+    totalRecieved: number;
+    balanceAmount: number;
+    requestedAmount: number;
+}
+
+export class PurchaseOrders extends PoList {
     buyerAddress: string;
     contractCondition?: string;
     creditDay: number;
@@ -40,7 +48,7 @@ export class PurchaseOrders extends PoList{
     totalItemAmount?: number;
     transporterTermCondition?: string;
     shippingCost?: number;
-    addresses:{
+    addresses: {
         displayName: string;
         rawText: boolean;
         type: string;
@@ -49,7 +57,7 @@ export class PurchaseOrders extends PoList{
     }[];
 }
 
-export class OrderItemsList extends PoList{ 
+export class OrderItemsList extends PoList {
     modifyDt: string;
     orderId: number;
     skuId: number;
@@ -69,11 +77,11 @@ export class OrderItemsList extends PoList{
     deliverySummary: DeliverySummary;
     totalGst: number;
     totalCost: number;
-    skuSlugUrl?: string; 
-    checked?:boolean;
+    skuSlugUrl?: string;
+    checked?: boolean;
 }
 
-export class DownloadPo{
+export class DownloadPo {
     accessType?: string;
     bucketFilePath: string;
     cleanFileName: string;
@@ -87,7 +95,7 @@ export class DownloadPo{
     signedUrl: string;
 }
 
-export class Address{
+export class Address {
     addressLine1: string;
     addressLine2: string;
     addressTypeCode: string;
@@ -113,7 +121,7 @@ export class Address{
     gstin?: string;
 }
 
-export class DeliveryList{
+export class DeliveryList {
     id: number;
     modifyDt: string;
     createDt: string;
@@ -131,7 +139,7 @@ export class DeliveryList{
     remark: string;
 }
 
-export class DeliverySummary{
+export class DeliverySummary {
     orderRequestQty: number;
     totalRequestQty: number;
     totalAcceptQty: number;
@@ -140,13 +148,13 @@ export class DeliverySummary{
     totalRejectedQty: number;
 }
 
-export class AllDeliveries{
+export class AllDeliveries {
     activeDeliveries: ActivePastDelivery[];
     pastDeliveries: ActivePastDelivery[];
     dispatchSchedules: DispatchSchedules[];
 }
 
-export class ActivePastDelivery{
+export class ActivePastDelivery {
     id: number;
     modifyDt: string;
     createDt: string;
@@ -187,7 +195,7 @@ export class ActivePastDelivery{
     challanDocName?: string;
     materialTestDocName?: string;
     lorryReceiptDocName?: string;
-    
+
     invoiceSignedUrl?: string;
     eWaySignedUrl?: string;
     challanSignedUrl?: string;
@@ -195,7 +203,7 @@ export class ActivePastDelivery{
     lorryReceiptSignedUrl?: string;
 }
 
-export class DispatchSchedules{
+export class DispatchSchedules {
     id: number;
     pid: number;
     orderId: number;
@@ -206,7 +214,7 @@ export class DispatchSchedules{
     items: DispatchItems[];
 }
 
-export class DispatchItems{
+export class DispatchItems {
     id: number;
     pid: number;
     deliveryPlanId: number;
@@ -218,7 +226,7 @@ export class DispatchItems{
     name: string;
 }
 
-export class DeliveryItems{
+export class DeliveryItems {
     id: number;
     createDt: string;
     deliveryInvoiceId: number;

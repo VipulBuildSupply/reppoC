@@ -7,7 +7,7 @@
                 <div class="item-image">
                     <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/default-sku-img.png'" alt="">
                 </div>
-                
+
             </div>
         </mat-checkbox>
 
@@ -22,15 +22,15 @@
             </ng-template>
 
             <div class="item-quantity d-flex">
-                <span>Balance Quantity: {{ item.deliverySummary.maxRaiseAllowQty }} {{ item.unit }}</span>
+                <span>Balance Quantity: {{ item.deliverySummary.totalBalanceQty }} {{ item.unit }}</span>
                 <span>Requested Quantity: {{ item.requestQty }} {{ item.unit }}</span>
                 <span class="green">Enqueued Quantity: {{ item.deliverySummary.totalEnqueueQty }} {{ item.unit }}</span>
             </div>
-            
-            <mat-form-field class="item-enter-qty"> 
-                <input matInput formControlName="deliveryQty"
-                placeholder="Enter delivery quantity" DecimalNumber="true" required/>
-                <mat-error *ngIf="multiItemForm.controls['deliveryQty'].errors && 
+
+            <mat-form-field class="item-enter-qty">
+                <input matInput formControlName="deliveryQty" placeholder="Enter delivery quantity" DecimalNumber="true"
+                    required />
+                <mat-error *ngIf="multiItemForm.controls['deliveryQty'].errors &&
                 (multiItemForm.controls['deliveryQty'].dirty || multiItemForm.controls['deliveryQty'].touched)">
                     <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('required')">
                         Delivery Quantity is required
