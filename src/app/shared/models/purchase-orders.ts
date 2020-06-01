@@ -146,6 +146,7 @@ export class DeliverySummary {
     totalEnqueueQty: number;
     maxRaiseAllowQty: number;
     totalRejectedQty: number;
+    totalBalanceQty: number;
 }
 
 export class AllDeliveries {
