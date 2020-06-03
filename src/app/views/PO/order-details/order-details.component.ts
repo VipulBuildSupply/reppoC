@@ -25,7 +25,7 @@ export class OrderDetailsComponent implements OnInit {
   poSummary: PoSummary;
 
   paymentLable = 'View More Details';
-  isShortClose: boolean;
+  // isShortClose: boolean;
   isPayReq: boolean;
 
   @Input() collapsedHeight: string;
@@ -66,11 +66,11 @@ export class OrderDetailsComponent implements OnInit {
   getPurchaseOrdersList(orderId: number) {
     this._purchaseOrdersService.getPORequest(orderId).then(res => {
       this.orders = res.data;
-      this.isShortClose = this.orders.orderItemList.some(itm => {
-        if (itm.deliverySummary.maxRaiseAllowQty) {
-          return true;
-        }
-      });
+      // this.isShortClose = this.orders.orderItemList.some(itm => {
+      //   if (itm.deliverySummary.maxRaiseAllowQty) {
+      //     return true;
+      //   }
+      // });
     });
   }
 
