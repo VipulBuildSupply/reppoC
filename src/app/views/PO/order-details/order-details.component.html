@@ -37,6 +37,10 @@
                                 <p class="datetime mb-0">
                                     {{ orders.purchaseOrder.createDt | gmtToLocal }}
                                 </p>
+
+                                <mat-card-subtitle class="mt-1">
+                                    <strong>ShortClose Amuont:</strong> ₹500000
+                                </mat-card-subtitle>
                             </div>
 
                             <!-- Accept/Reject PO Functionality -->
@@ -83,7 +87,7 @@
 
 
                                 <span mat-button matRipple
-                                    *ngIf="isShortClose && (orders.purchaseOrder.statusCd && orders.purchaseOrder.statusCd !== 'sellerpo.ops.shortclose')"
+                                    *ngIf="(orders.purchaseOrder.statusCd && orders.purchaseOrder.statusCd !== 'sellerpo.ops.shortclose')"
                                     [matMenuTriggerFor]="slideMorVert" class="material-icons align-middle m-vrt">
                                     more_vert
                                 </span>
@@ -554,8 +558,9 @@
 
 <ng-container *ngIf="orders && isPayReq">
     <div class="full-width-shadow-background">
-        <app-payment-initiate-request [orderId]="orders.purchaseOrder.id" [orderNo]="orders.purchaseOrder.orderNo"
-            [orderDate]="orders.purchaseOrder.createDt | gmtToLocal" (closePayReqBlock)="getClosePayReqBlock()">
+        <app-payment-initiate-request [poSummary]="poSummary" [orderId]="orders.purchaseOrder.id"
+            [orderNo]="orders.purchaseOrder.orderNo" [orderDate]="orders.purchaseOrder.createDt | gmtToLocal"
+            (closePayReqBlock)="getClosePayReqBlock()">
         </app-payment-initiate-request>
     </div>
 </ng-container>

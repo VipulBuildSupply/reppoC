@@ -39,23 +39,24 @@ export class ShortCloseComponent implements OnInit {
     this.orders = this._activatedRoute.snapshot.data.orders.data;
     this.activeTab = this._activatedRoute.snapshot.params.id;
 
-    let bQtyItems = [];
-    this.orders.orderItemList.map(itm => {
-      if (itm.deliverySummary.maxRaiseAllowQty) {
-        bQtyItems.push(itm);
-      }
-    });
+    // let bQtyItems = [];
+    // this.orders.orderItemList.map(itm => {
+    //   if (itm.deliverySummary.maxRaiseAllowQty) {
+    //     bQtyItems.push(itm);
+    //   }
+    // });
 
-    this.orders.orderItemList = bQtyItems;
+    // this.orders.orderItemList = bQtyItems;
 
     this.initForms(this.orders);
   }
 
   initForms(order: PoOrders) {
     const allItems: FormGroup[] = order.orderItemList.map(item => {
-      const bQty = Number(item.deliverySummary.maxRaiseAllowQty);
+      const bQty = Number(item.deliverySummary.orderRequestQty);
+      const mQty = (Number(item.deliverySummary.maxRaiseAllowQty) < Number(item.deliverySummary.orderRequestQty)) ? Number(item.deliverySummary.orderRequestQty) : Number(item.deliverySummary.maxRaiseAllowQty);
       const itemForm = this.formBuilder.group({
-        closeQty: new FormControl(bQty, Validators.compose([ Validators.max(item.deliverySummary.maxRaiseAllowQty), Validators.min(1) ])),
+        closeQty: new FormControl(bQty, Validators.compose([ Validators.max(mQty), Validators.min(1) ])),
         poItemId: new FormControl(item.id),
         isChecked: order.orderItemList.length === 1 ? true : false
       })
