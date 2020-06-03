@@ -287,7 +287,7 @@
                                                                     <ng-container
                                                                         *ngIf="item.skuSlugUrl; else noUrlLink">
                                                                         <a [attr.href]="item.skuSlugUrl" target="_blank"
-                                                                            class="po-item-title mb-1 font14">
+                                                                            class="po-item-title mb-1 font14 lh-initial w-75">
                                                                             {{ item.name }}
                                                                         </a>
                                                                     </ng-container>
@@ -297,7 +297,7 @@
                                                                     </ng-template>
 
                                                                     <span
-                                                                        class="min-w-115 text-right">{{ item.requestQty }}
+                                                                        class="min-w-115 text-right align-self-baseline">{{ item.requestQty }}
                                                                         {{ item.unit }}</span>
                                                                 </p>
                                                             </ng-container>
