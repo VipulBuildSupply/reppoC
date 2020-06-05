@@ -38,8 +38,8 @@
                                     {{ orders.purchaseOrder.createDt | gmtToLocal }}
                                 </p>
 
-                                <mat-card-subtitle class="mt-1">
-                                    <strong>ShortClose Amuont:</strong> ₹500000
+                                <mat-card-subtitle class="mt-1" *ngIf="orders.purchaseOrder.shortCloseAmount">
+                                    <strong>ShortClose Amuont :</strong> ₹{{ orders.purchaseOrder.shortCloseAmount }}
                                 </mat-card-subtitle>
                             </div>
 
