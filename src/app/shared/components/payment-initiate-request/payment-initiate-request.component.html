@@ -28,6 +28,9 @@
                     <mat-error class="mt-mns pt-2 pb-1" *ngIf="paymentReqForm.controls['amount'].hasError('required')">
                         Required!
                     </mat-error>
+                    <mat-error class="mt-mns pt-2 pb-1" *ngIf="paymentReqForm.controls['amount'].hasError('max')">
+                        Max {{ isSCAmount }} is required!
+                    </mat-error>
                     <mat-error class="mt-mns pt-2 pb-1" *ngIf="paymentReqForm.controls['amount'].hasError('min')">
                         Min 1 is required!
                     </mat-error>
@@ -37,7 +40,7 @@
             <div class="res-input">
                 <label>Invoice Number</label>
                 <mat-form-field class="w-100 mt-mns">
-                    <input type="number" matInput class="reset-input-css" formControlName="invoice">
+                    <input matInput class="reset-input-css" formControlName="invoice">
                 </mat-form-field>
             </div>
 

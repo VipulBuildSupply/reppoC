@@ -12,9 +12,11 @@ export class PaymentInitiateRequestComponent implements OnInit {
   @Input() orderNo: number;
   @Input() orderDate: number;
   @Input() orderId: number;
+  @Input() poSummary: any;
   @Output() closePayReqBlock = new EventEmitter<boolean>();
   @ViewChild('uploadPaymentReqDoc', { static: false }) uploadPaymentReqDoc: UploadComponent;
   uploadFile: boolean;
+  isSCAmount: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,13 +32,18 @@ export class PaymentInitiateRequestComponent implements OnInit {
   }
 
   initForm() {
+    this.isSCAmount = this.poSummary.totalAmount ? this.poSummary.totalAmount - this.poSummary.requestedAmount : null;
     this.paymentReqForm = this.formBuilder.group({
-      amount: new FormControl(null, Validators.compose([ Validators.required, Validators.min(1) ])),
       invoice: new FormControl(null),
       refId: new FormControl(this.orderId),
       refCd: new FormControl('payment.ref.seller.po'),
       attachId: new FormControl(null)
-    })
+    });
+    if (this.isSCAmount) {
+      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([ Validators.required, Validators.min(1), Validators.max(this.isSCAmount) ])));
+    } else {
+      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([ Validators.required, Validators.min(1) ])));
+    }
   }
 
   checkIfFileUpload(file: FileList) {
