@@ -7,9 +7,17 @@
                     <div class="po__title-left">
                         <div class="mb-0 d-flex align-items-center">
                             <h4 class="mr-3 mb-0">Purchase Order Id : {{ ordersItems.purchaseOrder.orderNo }}</h4>
-                            <div class="po__header-right" *ngIf="selectedTab === 'awarded'">
-                                <span>Awarded</span>
-                            </div>
+                            <ng-container
+                                *ngIf="(ordersItems.purchaseOrder.statusCd && ordersItems.purchaseOrder.status); else defSt">
+                                <div class="po__header-right">
+                                    <span>{{ordersItems.purchaseOrder.status}}</span>
+                                </div>
+                            </ng-container>
+                            <ng-template #defSt>
+                                <div class="po__header-right" *ngIf="selectedTab === 'awarded'">
+                                    <span>Awarded</span>
+                                </div>
+                            </ng-template>
                         </div>
                         <p class="datetime mb-0 mt-1">{{ ordersItems.purchaseOrder.createDt | gmtToLocal }}</p>
                     </div>
@@ -20,7 +28,7 @@
                             [routerLink]="['/orders/details/'+selectedTab+'/'+ordersItems.purchaseOrder.id]">View
                             Details</button>
                     </div>
-                    
+
                 </div>
             </div>
 
