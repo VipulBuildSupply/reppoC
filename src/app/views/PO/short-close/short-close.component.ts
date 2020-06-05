@@ -56,10 +56,11 @@ export class ShortCloseComponent implements OnInit {
       const bQty = Number(item.deliverySummary.orderRequestQty);
       const mQty = (Number(item.deliverySummary.maxRaiseAllowQty) < Number(item.deliverySummary.orderRequestQty)) ? Number(item.deliverySummary.orderRequestQty) : Number(item.deliverySummary.maxRaiseAllowQty);
       const itemForm = this.formBuilder.group({
-        closeQty: new FormControl(bQty, Validators.compose([ Validators.max(mQty), Validators.min(1) ])),
+        closeQty: new FormControl(null, Validators.compose([ Validators.max(mQty), Validators.min(1) ])),
         poItemId: new FormControl(item.id),
         isChecked: order.orderItemList.length === 1 ? true : false
       })
+      itemForm.get('closeQty').setValue(bQty);
       return itemForm;
     })
     this.oItemsList = this.formBuilder.array(allItems);
