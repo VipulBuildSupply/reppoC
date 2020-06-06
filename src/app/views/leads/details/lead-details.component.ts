@@ -92,6 +92,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 }
             }
         })
+
     }
 
     setForm(item: RfqSku): FormGroup | FormArray {
@@ -223,7 +224,6 @@ export class LeadDetailsViewComponent implements OnInit {
 
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
-
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
 
 
@@ -314,7 +314,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 type: 'WAREHOUSE',
                 items: promptItem,
                 title: 'Submit Quote',
-                msg: `<b>You have not mentioned the pricing for the below items in the lead.</b> 
+                msg: `<b>You have not mentioned the pricing for the below items in the lead.</b>
             <br>
             Would you like to submit the lead response without filling the price for these items?
             `

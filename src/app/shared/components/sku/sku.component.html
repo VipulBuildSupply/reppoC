@@ -1,18 +1,10 @@
 <div class="d-flex">
-    <div
-        class="align-self-start border"
-        [class.max-w-270px]="size === 'BIG'"
-        [class.max-w-60px]="size === 'SMALL'">
-        <img
-            class="w-100"
-            [src]="sku.sellerRfqItem.imageUrl"
-            alt>
+    <div class="align-self-start border" [class.max-w-270px]="size === 'BIG'" [class.max-w-60px]="size === 'SMALL'">
+        <img class="w-100" [src]="sku.sellerRfqItem.imageUrl" alt>
     </div>
     <div class="pl-3">
         <div class="sku__title">{{sku.sellerRfqItem.displayName}}</div>
-        <ul
-            class="spec-list"
-            *ngIf="sku.sellerRfqItem.specs.length">
+        <ul class="spec-list" *ngIf="sku.sellerRfqItem.specs.length">
             <li *ngFor="let spec of sku.sellerRfqItem.specs">{{spec.specName}}</li>
         </ul>
 
@@ -26,7 +18,7 @@
         <ng-container *ngIf="size === 'BIG'">
             <div class="font-14 ">
                 <div>
-                    Required By: {{sku.sellerRfqItem.requiredStartDt}}
+                    Required By: {{sku.sellerRfqItem.requiredEndDt}}
                 </div>
                 <div *ngIf="sku.sellerRfqItem.deliveryAddress">
                     Delivery Address:
@@ -37,8 +29,7 @@
 
             <div *ngIf="sku.sellerRfqItem.documents?.length">
                 BuildSupply Attachment:
-                <div
-                    class="border mb-1 p-2 d-flex justify-content-between"
+                <div class="border mb-1 p-2 d-flex justify-content-between"
                     *ngFor="let doc of sku.sellerRfqItem.documents">
                     <span class="pdf-ico">{{  doc.orginalFileName}}</span>
                     <a [href]="doc.signedUrl">view</a>
