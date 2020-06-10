@@ -23,6 +23,7 @@ export class OrderDetailsComponent implements OnInit {
   pastDelivery: ActivePastDelivery[];
   dispatchSchedules: DispatchSchedules[];
   poSummary: PoSummary;
+  isShortClose: boolean = true;
 
   paymentLable = 'View More Details';
   // isShortClose: boolean;
@@ -50,13 +51,13 @@ export class OrderDetailsComponent implements OnInit {
     this.getAllDeliveryDetails(parseInt(reqId.id));
     this.getPoSummary(parseInt(reqId.id));
 
-    this.activeTab = this._activatedRoute.snapshot.url[ 2 ].path;
+    this.activeTab = this._activatedRoute.snapshot.url[2].path;
 
     /**
      * @description Checked the selected url
      */
     this._activatedRoute.url.subscribe(url => {
-      this.activeTab = url[ 2 ].path;
+      this.activeTab = url[2].path;
     });
   }
 
@@ -66,6 +67,10 @@ export class OrderDetailsComponent implements OnInit {
   getPurchaseOrdersList(orderId: number) {
     this._purchaseOrdersService.getPORequest(orderId).then(res => {
       this.orders = res.data;
+      let stcd = this.orders.purchaseOrder.statusCd;
+      if (stcd === "sellerpo.ops.shortclose" || stcd === "sellerpo.ops.shortclose.confirm" || stcd == 'sellerpo.ops.shortclose.request' || stcd === "sellerpo.seller.shortclose" || stcd === "sellerpo.seller.shortclose.confirm" || stcd == 'sellerpo.seller.shortclose.request') {
+        this.isShortClose = false;
+      }
       // this.isShortClose = this.orders.orderItemList.some(itm => {
       //   if (itm.deliverySummary.maxRaiseAllowQty) {
       //     return true;

@@ -103,7 +103,7 @@
                         <div *ngIf="uniqueCatalogueData" class="form-check pl-0 mt-3">
                             <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
                                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
-                                    [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse">
+                                    [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse" hidden>
                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                             </label>
 

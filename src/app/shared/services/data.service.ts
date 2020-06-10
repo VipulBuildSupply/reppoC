@@ -22,7 +22,7 @@ export class DataService {
         private http: HttpClient,
         private notifier: NotificationService,
         private token: TokenService) {
-        this.baseUrl = (window[ 'env' ] && window[ 'env' ][ 'api_url' ]) || 'https://dev-api.buildsupply.io/';
+        this.baseUrl = (window['env'] && window['env']['api_url']) || 'https://dev-api.buildsupply.io/';
     }
 
     private messageSource = new BehaviorSubject("NewLeads");
@@ -85,7 +85,7 @@ export class DataService {
             if (reqOptions.headers) {
                 const hdrs = reqOptions.headers.split(',');
 
-                headers = headers.append(hdrs[ 0 ], hdrs[ 1 ]);
+                headers = headers.append(hdrs[0], hdrs[1]);
             }
         }
 
