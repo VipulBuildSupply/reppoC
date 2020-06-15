@@ -656,3 +656,17 @@
 .dismiss-menu{
     min-height: auto;
 }
+
+.lead-cstm-pnl{
+    .mat-expansion-panel-header:not([aria-disabled=true]){
+        cursor: default;
+    }
+    .mat-expansion-indicator{
+        display: none;
+    }
+}
+
+.is-sticky-lead{
+    z-index: 1;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}

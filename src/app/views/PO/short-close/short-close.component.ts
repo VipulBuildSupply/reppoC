@@ -58,7 +58,7 @@ export class ShortCloseComponent implements OnInit {
       const bQty = Number(item.deliverySummary.orderRequestQty);
       const mQty = (Number(item.deliverySummary.maxRaiseAllowQty) < Number(item.deliverySummary.orderRequestQty)) ? Number(item.deliverySummary.orderRequestQty) : Number(item.deliverySummary.maxRaiseAllowQty);
       const itemForm = this.formBuilder.group({
-        closeQty: new FormControl(null, Validators.compose([Validators.max(mQty), Validators.min(1)])),
+        closeQty: new FormControl(null, Validators.compose([ Validators.max(mQty), Validators.min(1) ])),
         poItemId: new FormControl(item.id),
         isChecked: order.orderItemList.length === 1 ? true : false
       })
@@ -100,7 +100,7 @@ export class ShortCloseComponent implements OnInit {
       this._purchaseOrdersService.setShortCloseData(this.orders.purchaseOrder.id, shortCloseData).then(res => {
         // if (res.success) {
         this.snack.open('Request for PO short closure submitted successfully', '', { duration: 3000 });
-        this.router.navigate(['/orders/details/awarded/' + this.orders.purchaseOrder.id]);
+        this.router.navigate([ '/orders/details/awarded/' + this.orders.purchaseOrder.id ]);
         // }
       });
     }
@@ -108,7 +108,7 @@ export class ShortCloseComponent implements OnInit {
 
   cancel() {
     this.orderForm.reset();
-    this.router.navigate(['/orders/details/awarded/' + this.orders.purchaseOrder.id]);
+    this.router.navigate([ '/orders/details/awarded/' + this.orders.purchaseOrder.id ]);
   }
 
 }

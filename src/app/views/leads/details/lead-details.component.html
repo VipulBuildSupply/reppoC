@@ -17,11 +17,18 @@
                         <div class="po__order my-3">
                             <mat-card class="po__card">
 
-                                <div class="po__title-section">
-                                    <div *ngIf="details" class="d-flex justify-content-between align-items-center">
+                                <div class="po__title-section" data-sticky-container class="sticky" data-margin-top="0"
+                                    data-sticky-class="is-sticky-lead">
+                                    <div *ngIf="details"
+                                        class="d-flex justify-content-between align-items-center p-3 bg-white">
                                         <div class="po__title-left">
                                             <div class="mb-0 d-flex align-items-center">
                                                 <h4 class="mr-3 mb-0">Lead Id : {{details.rfq.id}}</h4>
+
+                                                <div class="po__header-right d-inline-block pl-2"
+                                                    *ngIf="details.rfq.expired">
+                                                    <span>Lead Expired</span>
+                                                </div>
                                             </div>
                                             <p *ngIf="details.rfq.createDt" class="datetime mb-0 mt-1">
                                                 {{details.rfq.createDt}}
@@ -45,9 +52,16 @@
                                                 </mat-icon>
                                                 <span class="align-self-center">{{allLocations}}</span>
                                             </h6>
-                                            <a *ngIf="!isActedLead" (click)="submit()" mat-button>
-                                                Submit
-                                            </a>
+                                            <ng-container *ngIf="details.rfq.expired; else ldValid">
+                                                <a *ngIf="!isActedLead" class="bbtn1" disabled mat-button>
+                                                    Submit
+                                                </a>
+                                            </ng-container>
+                                            <ng-template #ldValid>
+                                                <a *ngIf="!isActedLead" (click)="submit()" mat-button>
+                                                    Submit
+                                                </a>
+                                            </ng-template>
                                         </div>
 
                                     </div>
@@ -57,13 +71,15 @@
                                     <!-- • • ITEMS• • • -->
                                     <ng-container *ngFor="let item of details.items; let i = index">
 
-                                        <mat-expansion-panel #panel [disabled]="true" [expanded]="item.expand"
-                                            [hideToggle]="true">
+                                        <!-- <mat-expansion-panel #panel [disabled]="true" [expanded]="item.expand"
+                                            [hideToggle]="true"> -->
+                                        <mat-expansion-panel class="lead-cstm-pnl" (opened)="item.expand = true"
+                                            (closed)="item.expand = false">
                                             <mat-expansion-panel-header class="extra-height" [collapsedHeight]="'auto'"
                                                 [expandedHeight]="'auto'">
                                                 <div class="d-flex pb-2 pt-2">
                                                     <mat-panel-title>ITEM {{i + 1}}</mat-panel-title>
-                                                    <mat-panel-description class="cursor-link" (click)="openItem(i)">
+                                                    <mat-panel-description class="cursor-link">
                                                         View {{'more'}}
                                                         <mat-icon>
                                                             {{item.expand ? 'expand_less' : 'expand_more'}}
@@ -217,7 +233,7 @@
 
                                                 </div>
                                                 <mat-form-field appearance="outline" class="w-100 max-w-300">
-                                                    <textarea #note
+                                                    <textarea #note [autofocus]="noteObj[i]"
                                                         (input)="addNotes(item.sellerRfqItem.id, note.value)"
                                                         cdkTextareaAutosize cdkAutosizeMinRows="5" matInput></textarea>
                                                 </mat-form-field>
@@ -254,7 +270,8 @@
                                             <mat-form-field class="col max-w-300">
                                                 <mat-label>Quote Valid Till</mat-label>
                                                 <input formControlName="validEndDt" matInput [min]="today"
-                                                    [matDatepicker]="myDatepicker">
+                                                    [matDatepicker]="myDatepicker" (click)="myDatepicker.open()"
+                                                    readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="myDatepicker">
                                                 </mat-datepicker-toggle>
                                                 <mat-datepicker #myDatepicker></mat-datepicker>
