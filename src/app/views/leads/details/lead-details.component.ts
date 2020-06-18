@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
@@ -15,12 +15,13 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { AddAddressDialogComponent } from 'src/app/shared/dialogs/add-address/address.dialog';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import * as Sticky from 'sticky-js';
 
 @Component({
     selector: 'app-lead-details',
     templateUrl: './lead-details.component.html'
 })
-export class LeadDetailsViewComponent implements OnInit {
+export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     details: RfqItem;
     moreSku: RfqSku[];
     allLocations: string;
@@ -31,6 +32,7 @@ export class LeadDetailsViewComponent implements OnInit {
     today = new Date();
     leadType: 'new' | 'acted';
     isActedLead: boolean;
+    sticky: any;
 
     @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
@@ -53,7 +55,6 @@ export class LeadDetailsViewComponent implements OnInit {
         this.getPaymentTerms();
         this.getFreightTerms();
 
-
         if (this.isActedLead) {
             this.details.items.forEach(itm => {
                 if (itm.warehousePrice && itm.warehousePrice.warehouseAddress && itm.warehousePrice.warehouseAddress.htmlData) {
@@ -61,6 +62,9 @@ export class LeadDetailsViewComponent implements OnInit {
                 }
             });
         }
+
+        this.sticky = new Sticky('.sticky');
+        this.sticky.update();
     }
 
     formatAddress(addr): string {
@@ -92,6 +96,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 }
             }
         })
+
     }
 
     setForm(item: RfqSku): FormGroup | FormArray {
@@ -223,7 +228,6 @@ export class LeadDetailsViewComponent implements OnInit {
 
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
-
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
 
 
@@ -314,7 +318,7 @@ export class LeadDetailsViewComponent implements OnInit {
                 type: 'WAREHOUSE',
                 items: promptItem,
                 title: 'Submit Quote',
-                msg: `<b>You have not mentioned the pricing for the below items in the lead.</b> 
+                msg: `<b>You have not mentioned the pricing for the below items in the lead.</b>
             <br>
             Would you like to submit the lead response without filling the price for these items?
             `
@@ -354,9 +358,15 @@ export class LeadDetailsViewComponent implements OnInit {
             })
     }
 
-
-    openItem(itemIndex: number) {
-        this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
+    ngOnDestroy() {
+        if (this.sticky) {
+            this.sticky.destroy();
+        }
     }
+
+
+    // openItem(itemIndex: number) {
+    //     this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
+    // }
 
 }

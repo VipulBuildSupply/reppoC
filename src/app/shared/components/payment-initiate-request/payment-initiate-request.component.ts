@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PurchaseOrdersService } from '../../services/purchase-orders.service';
 import { UploadComponent } from '../upload/upload.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-payment-initiate-request',
@@ -13,6 +14,7 @@ export class PaymentInitiateRequestComponent implements OnInit {
   @Input() orderDate: number;
   @Input() orderId: number;
   @Input() poSummary: any;
+  @Input() orders: any;
   @Output() closePayReqBlock = new EventEmitter<boolean>();
   @ViewChild('uploadPaymentReqDoc', { static: false }) uploadPaymentReqDoc: UploadComponent;
   uploadFile: boolean;
@@ -20,7 +22,8 @@ export class PaymentInitiateRequestComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _purchaseOrderService: PurchaseOrdersService
+    private _purchaseOrderService: PurchaseOrdersService,
+    private snack: MatSnackBar
   ) { }
 
   paymentReqForm: FormGroup;
@@ -33,6 +36,11 @@ export class PaymentInitiateRequestComponent implements OnInit {
 
   initForm() {
     this.isSCAmount = this.poSummary.totalAmount ? this.poSummary.totalAmount - this.poSummary.requestedAmount : null;
+    if (this.orders.purchaseOrder.shortCloseAmount) {
+      if (this.isSCAmount) {
+        this.isSCAmount = this.isSCAmount >= this.orders.purchaseOrder.shortCloseAmount ? this.isSCAmount : this.orders.purchaseOrder.shortCloseAmount;
+      } this.isSCAmount = this.orders.purchaseOrder.shortCloseAmount;
+    }
     this.paymentReqForm = this.formBuilder.group({
       invoice: new FormControl(null),
       refId: new FormControl(this.orderId),
@@ -40,9 +48,9 @@ export class PaymentInitiateRequestComponent implements OnInit {
       attachId: new FormControl(null)
     });
     if (this.isSCAmount) {
-      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([ Validators.required, Validators.min(1), Validators.max(this.isSCAmount) ])));
+      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([Validators.required, Validators.min(1), Validators.max(this.isSCAmount)])));
     } else {
-      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([ Validators.required, Validators.min(1) ])));
+      this.paymentReqForm.addControl('amount', this.formBuilder.control(null, Validators.compose([Validators.required, Validators.min(1)])));
     }
   }
 
@@ -72,6 +80,7 @@ export class PaymentInitiateRequestComponent implements OnInit {
     this._purchaseOrderService.initiatePaymentRequest(data).then(res => {
       if (res.data.success) {
         this.clear();
+        this.snack.open('Your payment request has been successfully submitted.', '', { duration: 3000 });
       }
     })
   }

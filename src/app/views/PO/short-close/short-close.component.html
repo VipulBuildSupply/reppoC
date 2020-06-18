@@ -70,6 +70,12 @@
                                         </div>
                                     </div>
 
+                                    <ng-container *ngIf="item.shortCloseAmount">
+                                        <span class="d-flex font-14 mb-3 font-bold"
+                                            [ngClass]="oItemsList.length > 1 ? 'mlst-185-input' : 'mlst-130-input' ">SHORT
+                                            CLOSE AMOUNT ₹{{item.shortCloseAmount}}</span>
+                                    </ng-container>
+
                                     <div class="line-br w-96 m-auto"></div>
 
                                 </ng-container>

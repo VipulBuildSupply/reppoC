@@ -85,17 +85,17 @@
                                     [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/initiate-delivery']">
                                     Initiate Delivery</button>
 
-
-                                <span mat-button matRipple
-                                    *ngIf="(orders.purchaseOrder.statusCd && orders.purchaseOrder.statusCd !== 'sellerpo.ops.shortclose')"
-                                    [matMenuTriggerFor]="slideMorVert" class="material-icons align-middle m-vrt">
-                                    more_vert
-                                </span>
-                                <mat-menu #slideMorVert="matMenu" class="m-vrt-menu">
-                                    <button mat-menu-item class="sc-btn"
-                                        [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/short-close-request']">Short
-                                        Close</button>
-                                </mat-menu>
+                                <ng-container *ngIf="isShortClose">
+                                    <span mat-button matRipple [matMenuTriggerFor]="slideMorVert"
+                                        class="material-icons align-middle m-vrt">
+                                        more_vert
+                                    </span>
+                                    <mat-menu #slideMorVert="matMenu" class="m-vrt-menu">
+                                        <button mat-menu-item class="sc-btn"
+                                            [routerLink]="['/orders/details/awarded/'+orders.purchaseOrder.id+'/short-close-request']">Short
+                                            Close</button>
+                                    </mat-menu>
+                                </ng-container>
 
                             </div>
                         </div>
@@ -558,7 +558,7 @@
 
 <ng-container *ngIf="orders && isPayReq">
     <div class="full-width-shadow-background">
-        <app-payment-initiate-request [poSummary]="poSummary" [orderId]="orders.purchaseOrder.id"
+        <app-payment-initiate-request [orders]="orders" [poSummary]="poSummary" [orderId]="orders.purchaseOrder.id"
             [orderNo]="orders.purchaseOrder.orderNo" [orderDate]="orders.purchaseOrder.createDt | gmtToLocal"
             (closePayReqBlock)="getClosePayReqBlock()">
         </app-payment-initiate-request>

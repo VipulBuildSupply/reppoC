@@ -4,6 +4,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
 import { PoOrders, OrderItemsList } from 'src/app/shared/models/purchase-orders';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 // interface ShortCloseSubmitData {
 //   orderItemList: OrderItemSubmitModel[],
@@ -32,7 +33,8 @@ export class ShortCloseComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private commonService: CommonService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snack: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -96,9 +98,10 @@ export class ShortCloseComponent implements OnInit {
       const shortCloseData = this.orderForm.value;
       shortCloseData.orderItemList = itemsListArr;
       this._purchaseOrdersService.setShortCloseData(this.orders.purchaseOrder.id, shortCloseData).then(res => {
-        if (res.success) {
-          this.router.navigate([ '/orders/details/awarded/' + this.orders.purchaseOrder.id ]);
-        }
+        // if (res.success) {
+        this.snack.open('Request for PO short closure submitted successfully', '', { duration: 3000 });
+        this.router.navigate([ '/orders/details/awarded/' + this.orders.purchaseOrder.id ]);
+        // }
       });
     }
   }

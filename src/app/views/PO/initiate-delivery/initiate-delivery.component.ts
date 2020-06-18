@@ -122,7 +122,7 @@ export class InitiateDeliveryComponent implements OnInit {
         }
 
         this.multiItems.map(opt => {
-          if (opt.item.checked && opt.multiItemForm.value.deliveryQty != '' && opt.multiItemForm.value.deliveryQty != 0) {
+          if (opt.item.checked && opt.multiItemForm.value.deliveryQty != '' && opt.multiItemForm.valid && opt.multiItemForm.value.deliveryQty != 0) {
             deliveryObj.orderItemList.push({
               deliveryQty: opt.multiItemForm.value.deliveryQty,
               poItemId: opt.multiItemForm.value.poItemId
@@ -136,7 +136,7 @@ export class InitiateDeliveryComponent implements OnInit {
            */
           this.submitDeliveryRequest(deliveryObj);
         } else {
-          this._notify.snack("No item selected for delivery schedule");
+          this._notify.snack("Please select items for this delivery");
         }
       } else {
         this._notify.snack("Please fill mandatory fields");

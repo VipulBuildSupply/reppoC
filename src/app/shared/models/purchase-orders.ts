@@ -49,6 +49,8 @@ export class PurchaseOrders extends PoList {
     transporterTermCondition?: string;
     shippingCost?: number;
     shortCloseAmount?: number;
+    statusCd?: string;
+    status?: string;
     addresses: {
         displayName: string;
         rawText: boolean;

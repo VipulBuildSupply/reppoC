@@ -103,7 +103,7 @@
                         <div *ngIf="uniqueCatalogueData" class="form-check pl-0 mt-3">
                             <label class="container addRemainingPriceCheckBox">Use the same pricing for all warehouses
                                 <input type="checkbox" id="check1" (change)="addPriceToAllWareHouseAddress($event)"
-                                    [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse">
+                                    [checked]="uniqueCatalogueData.catalogueItem.samePriceAllWarehouse" hidden>
                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                             </label>
 
@@ -128,7 +128,7 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMax(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
@@ -144,7 +144,7 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field *ngIf="i < pricingForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMax(i); checkNumbers($event);"
                                                                             [type]="addPriceForRemainingQuantity ? 'text' : 'number'"
                                                                             class="form-control"
@@ -155,7 +155,7 @@
                                                                             *ngIf="pricingForm.controls.maxPrice.errors && (!pricingForm.controls.maxPrice.errors.isMinMaxInValid)">
                                                                             Invalid</mat-error>
                                                                     </mat-form-field>
-                                                                    <input matInput class="form-control"
+                                                                    <input matInput min="0" class="form-control"
                                                                         formControlName="check" hidden
                                                                         placeholder="end">
 
@@ -166,7 +166,7 @@
                                                                     <mat-form-field *ngIf="i == pricingForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="addPriceForRemainingQuantity">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMax(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
@@ -180,8 +180,8 @@
                                                                     <mat-form-field *ngIf="i == pricingForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="!addPriceForRemainingQuantity">
-                                                                        <input matInput class="form-control" value="∞"
-                                                                            disabled placeholder="end">
+                                                                        <input matInput min="0" class="form-control"
+                                                                            value="∞" disabled placeholder="end">
                                                                     </mat-form-field>
 
                                                                 </div>
@@ -195,7 +195,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput type="number" id="mobile"
+                                                            <input matInput min="0" type="number" id="mobile"
                                                                 (input)="checkPrice(i); checkNumbers($event);"
                                                                 formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
@@ -233,7 +233,7 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
@@ -250,7 +250,7 @@
                                                                     <mat-form-field
                                                                         *ngIf="i<editPricingAllForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
@@ -261,7 +261,7 @@
                                                                             Invalid</mat-error>
                                                                     </mat-form-field>
 
-                                                                    <input matInput class="form-control"
+                                                                    <input matInput min="0" class="form-control"
                                                                         formControlName="check" hidden
                                                                         placeholder="end">
 
@@ -273,7 +273,7 @@
                                                                         *ngIf="i == editPricingAllForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="addPriceForRemainingQuantity">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxEdit(i); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
@@ -288,7 +288,7 @@
                                                                         *ngIf="i == editPricingAllForms.length-1"
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         [hidden]="!addPriceForRemainingQuantity">
-                                                                        <input matInput class="form-control"
+                                                                        <input matInput min="0" class="form-control"
                                                                             placeholder="end" value="∞" disabled>
 
                                                                     </mat-form-field>
@@ -303,7 +303,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput type="number" id="mobile"
+                                                            <input matInput min="0" type="number" id="mobile"
                                                                 (input)="checkPriceEdit(i); checkNumbers($event);"
                                                                 formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
@@ -347,7 +347,7 @@
                                                 </ng-container>
 
                                                 <input type="checkbox" id="check1"
-                                                    (change)="addPriceForRemainingQty($event)">
+                                                    (change)="addPriceForRemainingQty($event)" hidden>
                                                 <span class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                                             </label>
                                         </div>
@@ -434,7 +434,7 @@
                                                                 <div class="col-md-6">
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="minPrice"
@@ -451,7 +451,7 @@
                                                                     <mat-form-field
                                                                         class="quantity-mat-form inputFieldOfPrice"
                                                                         *ngIf="(i < (warehouse.pricingForms.length - 1))">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
@@ -461,7 +461,7 @@
                                                                             Invalid</mat-error>
                                                                     </mat-form-field>
 
-                                                                    <input matInput class="form-control"
+                                                                    <input matInput min="0" class="form-control"
                                                                         formControlName="check" hidden
                                                                         placeholder="end">
 
@@ -472,7 +472,7 @@
                                                                     <mat-form-field
                                                                         *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber[indx] != indx))"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput
+                                                                        <input matInput min="0"
                                                                             (input)="compareMinMaxIndvidual(i,indx); checkNumbers($event);"
                                                                             type="number" class="form-control"
                                                                             formControlName="maxPrice"
@@ -490,8 +490,8 @@
                                                                     <mat-form-field
                                                                         *ngIf="((i === warehouse.pricingForms.length-1) && (addPriceForRemainingIndividualQuantityNumber[indx] == indx) && (addPriceForRemainingIndividualQuantity[indx]) )"
                                                                         class="quantity-mat-form inputFieldOfPrice">
-                                                                        <input matInput class="form-control" value="∞"
-                                                                            placeholder="end" disabled>
+                                                                        <input matInput min="0" class="form-control"
+                                                                            value="∞" placeholder="end" disabled>
 
                                                                         <!-- {{addPriceForRemainingIndividualQuantityNumber[indx]}}<br>
                                                                         {{indx}} dis <br>
@@ -511,7 +511,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group lableup mb-0 mt-4">
                                                         <mat-form-field class="quantity-mat-form">
-                                                            <input matInput type="number" id="mobile"
+                                                            <input matInput min="0" type="number" id="mobile"
                                                                 (input)="checkPriceIndvidual(i,indx); checkNumbers($event);"
                                                                 formControlName="price" placeholder="Price Per Unit (₹)"
                                                                 class="form-control inputLableUp" required>
@@ -541,7 +541,8 @@
                                                     {{warehouse.pricingForms[(warehouse.pricingForms.length)-1].controls.minPrice.value}}
                                                     use the above pricing
                                                     <input type="checkbox" id="check1"
-                                                        (change)="addPriceForRemainingQtyIndividualWarehouse($event,warehouse.pricingForms,indx)">
+                                                        (change)="addPriceForRemainingQtyIndividualWarehouse($event,warehouse.pricingForms,indx)"
+                                                        hidden>
                                                     <span
                                                         class="checkmark checkmarkInCatalogue checkCataloguePage"></span>
                                                 </label>

@@ -982,7 +982,7 @@ export class CataloguesList implements OnInit {
   }
 
   checkNumbers(event) {
-    if (!event.data.match(/^[0-9]+$/)) {
+    if (event.data && !event.data.match(/^[0-9]+$/)) {
       event.target.value = '';
     }
   }
