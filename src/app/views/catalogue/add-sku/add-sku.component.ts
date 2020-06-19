@@ -68,7 +68,7 @@ export class AddSkuComponent implements OnInit {
     }
     this.userService.addCatalogueItems(data).then(res => {
       if (res.data.success == true) {
-        this._router.navigate([ 'catalogue/catalogue-list' ]);
+        this._router.navigate(['catalogue/catalogue-list']);
       }
     });
   }
@@ -77,7 +77,7 @@ export class AddSkuComponent implements OnInit {
     this.userService.getCategory().then(data => {
       if (data) {
         this.allCategories = data;
-        this.selectedCats[ 0 ] = data;
+        this.selectedCats[0] = data;
         this.brand = null;
       }
     });
@@ -86,7 +86,7 @@ export class AddSkuComponent implements OnInit {
   changeCategory(event: MatSelectChange, catLevel: number) {
 
     const Category = event.value;
-    this.selectedCats[ catLevel ] = event.value.categoryList;
+    this.selectedCats[catLevel] = event.value.categoryList;
     this.categoryTwo = "";
     this.selectAllBox = false;
     this.idOfCatOne = Category.id;
@@ -121,8 +121,9 @@ export class AddSkuComponent implements OnInit {
   getItems(catId: number) {
     const data = {
       brandIdList: [],
-      categoryIdList: [ catId ],
-      text: this.searchInput.nativeElement.value
+      categoryIdList: [catId],
+      text: this.searchInput.nativeElement.value,
+      primarySku: false
     };
     this.userService.getSearchResults(data).then(res => {
       if (res) {
@@ -173,7 +174,8 @@ export class AddSkuComponent implements OnInit {
   searchSku() {
     const data = {
       "brandIdList": this.brandIdTemp,
-      "categoryIdList": this.categoryId
+      "categoryIdList": this.categoryId,
+      "primarySku": false
     }
 
     this.userService.getSearchResults(data).then(res => {
@@ -189,7 +191,7 @@ export class AddSkuComponent implements OnInit {
       this.SearchResultsIds = [];
       this.selectAllBox = true;
       for (let i = 0; i < items.length; i++) {
-        this.SearchResultsIds.push(items[ i ].id);
+        this.SearchResultsIds.push(items[i].id);
       }
 
     }
@@ -224,7 +226,7 @@ export class AddSkuComponent implements OnInit {
     } else {
       if (this.SearchResultsIds.includes(id)) {
         for (var i = 0; i < this.SearchResultsIds.length; i++) {
-          if (this.SearchResultsIds[ i ] === id) {
+          if (this.SearchResultsIds[i] === id) {
             this.SearchResultsIds.splice(i, 1);
           }
         }
@@ -246,10 +248,14 @@ export class AddSkuComponent implements OnInit {
 
   searchAddSkuBtn() {
     // todo: WE need to add selected category and brands Ids here as well
-    const obj = {
+
+    const data = {
+      "brandIdList": this.brandIdTemp,
+      "categoryIdList": this.categoryId,
+      "primarySku": false,
       text: this.searchKeyTypes,
-    };
-    this.userService.getSkuListFromSearch(obj).then(res => {
+    }
+    this.userService.getSearchResults(data).then(res => {
       if (res) {
         this.searchResults = res;
 
@@ -263,7 +269,7 @@ export class AddSkuComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this._dialog.open(SendSkuEmailComponent, {
-      data: { category: this.categoryId[ 0 ], brands: this.brandIdTemp },
+      data: { category: this.categoryId[0], brands: this.brandIdTemp },
       panelClass: 'sku-email-popup'
     });
 
