@@ -269,7 +269,7 @@ export class AddSkuComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this._dialog.open(SendSkuEmailComponent, {
-      data: { category: this.categoryId[0], brands: this.brandIdTemp },
+      data: { category: this.categoryId[0], brands: this.brandIdTemp, text: this.searchInput.nativeElement.value },
       panelClass: 'sku-email-popup'
     });
 
