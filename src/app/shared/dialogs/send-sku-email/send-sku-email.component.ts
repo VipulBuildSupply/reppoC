@@ -24,7 +24,7 @@ export class SendSkuEmailComponent implements OnInit {
 
   ngOnInit() {
     this.success = false;
-    
+
     if (this.data.catalogueEmail == 'catalogueEmail') {
       this.isCatalogue = 'catalogueEmail';
     }
@@ -44,7 +44,8 @@ export class SendSkuEmailComponent implements OnInit {
       const data = {
         "addSku": true,
         "brandIds": [],
-        "categoryId": catID
+        "categoryId": catID,
+        text: this.data.text
       };
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success == true) {
@@ -60,7 +61,8 @@ export class SendSkuEmailComponent implements OnInit {
       const data = {
         "addSku": true,
         "brandIds": this.data.brands,
-        "categoryId": catID
+        "categoryId": catID,
+        text: this.data.text
       };
       this.Userservice.sendSkuToEmail(data).then(res => {
         if (res.data.success == true) {
@@ -75,7 +77,7 @@ export class SendSkuEmailComponent implements OnInit {
 
   }
 
-  addCatalogueOnEmail(){
+  addCatalogueOnEmail() {
     this.Userservice.sendSkuToEmail(this.data.dataForCatalogueEmail).then(res => {
       if (res.data.success == true) {
         this.success = true;
