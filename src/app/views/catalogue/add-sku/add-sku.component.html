@@ -7,19 +7,29 @@
                         <h4>Add SKU</h4>
                         <div class="buttons-group-align">
                             <div class="request-bttn mr-3">
-                                <button class="btn orangeBttn brdbttn addToEmailBtn" (click)="openDialog()">
+                                <button
+                                    class="btn orangeBttn brdbttn addToEmailBtn"
+                                    (click)="openDialog()">
                                     <i class="fa fa-envelope"></i>
-                                    Get Search Result on Email
+                                    Get Catalogue on Email
                                 </button>
                             </div>
-                            <div class="request-bttn" *ngIf="ischecked">
-                                <button class="btn orangeBttn addToCatBtn" (click)="CatalogueList()">
+                            <div
+                                class="request-bttn"
+                                *ngIf="ischecked">
+                                <button
+                                    class="btn orangeBttn addToCatBtn"
+                                    (click)="CatalogueList()">
                                     Add to My
                                     Catalogue
                                 </button>
                             </div>
-                            <div class="request-bttn" *ngIf="!ischecked">
-                                <button class="btn orangeBttn addToCatBtnDisable" disabled>
+                            <div
+                                class="request-bttn"
+                                *ngIf="!ischecked">
+                                <button
+                                    class="btn orangeBttn addToCatBtnDisable"
+                                    disabled>
                                     Add to My
                                     Catalogue
                                 </button>
@@ -32,17 +42,25 @@
                             <div class="col-lg-4">
                                 <div class="sku-categeory">
                                     <!-- new -->
-                                    <div class="input-group" *ngFor="let cats of selectedCats; let i = index">
+                                    <div
+                                        class="input-group"
+                                        *ngFor="let cats of selectedCats; let i = index">
                                         <ng-container *ngIf="cats.length">
 
                                             <div class="input-group-prepend">
-                                                <label class="input-group-text" for="Category-1">
+                                                <label
+                                                    class="input-group-text"
+                                                    for="Category-1">
                                                     Category {{i + 1}}
                                                 </label>
                                             </div>
-                                            <mat-select class="custom-select"
-                                                (selectionChange)="changeCategory($event, (i + 1))" id="Category-1">
-                                                <mat-option *ngFor="let category of cats" [value]="category">
+                                            <mat-select
+                                                class="custom-select"
+                                                (selectionChange)="changeCategory($event, (i + 1))"
+                                                id="Category-1">
+                                                <mat-option
+                                                    *ngFor="let category of cats"
+                                                    [value]="category">
                                                     {{category.name}}
                                                 </mat-option>
                                             </mat-select>
@@ -53,7 +71,9 @@
 
                                     <div class="input-group addsku__brand">
                                         <div class="input-group-prepend">
-                                            <label class="input-group-text" for="Category-1">
+                                            <label
+                                                class="input-group-text"
+                                                for="Category-1">
                                                 Brand
                                             </label>
                                         </div>
@@ -64,14 +84,20 @@
                                             </mat-select> -->
                                         <mat-list-item role="listitem">
                                             <mat-form-field class="matFormFieldMultiSelect">
-                                                <mat-select name="year" class="custom-select"
+                                                <mat-select
+                                                    name="year"
+                                                    class="custom-select"
                                                     (selectionChange)="getBrandOnSelect($event)"
-                                                    [(ngModel)]="selectedBrands" [compareWith]="equals" multiple
+                                                    [(ngModel)]="selectedBrands"
+                                                    [compareWith]="equals"
+                                                    multiple
                                                     #yearSelect="ngModel">
                                                     <!-- <mat-option disabled="disabled" class="filter-option"> -->
                                                     <!-- <input type="checkbox" (click)="selectAll(checkAll.checked, yearSelect, years)" #checkAll> -->
                                                     <!-- </mat-option> -->
-                                                    <mat-option *ngFor="let Brand of brand" [value]="Brand.id">
+                                                    <mat-option
+                                                        *ngFor="let Brand of brand"
+                                                        [value]="Brand.id">
                                                         {{Brand.name}}
                                                     </mat-option>
                                                 </mat-select>
@@ -81,14 +107,23 @@
 
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id>
+                                            <span
+                                                class="input-group-text"
+                                                id>
                                                 Search
                                             </span>
                                         </div>
-                                        <input class="form-control" #searchInput type="search"
-                                            (input)="searchInAddSku($event.target.value)" placeholder="search">
+                                        <input
+                                            class="form-control"
+                                            #searchInput
+                                            type="search"
+                                            (input)="searchInAddSku($event.target.value)"
+                                            placeholder="search">
                                         <span class="input-group-append">
-                                            <button class="btn" type="button" (click)="searchAddSkuBtn()">
+                                            <button
+                                                class="btn"
+                                                type="button"
+                                                (click)="searchAddSkuBtn()">
                                                 <i class="fa fa-search"></i>
                                             </button>
                                         </span>
@@ -96,28 +131,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-8" *ngIf="searchResults && searchResults.data.skuList.length>0">
-                                <span class="items" *ngIf="!ischecked" style="height: 19px;"></span>
+                            <div
+                                class="col-lg-8"
+                                *ngIf="searchResults && searchResults.data.skuList.length>0">
+                                <span
+                                    class="items"
+                                    *ngIf="!ischecked"
+                                    style="height: 19px;"></span>
 
-                                <span class="items" *ngIf="ischecked">
+                                <span
+                                    class="items"
+                                    *ngIf="ischecked">
                                     {{SearchResultsIds.length}} Item
                                     Selected
                                 </span>
 
-                                <label class="container container2" *ngIf="selectAllBox">
+                                <label
+                                    class="container container2"
+                                    *ngIf="selectAllBox">
                                     Select All
-                                    <input type="checkbox" (change)="selectAllCheckboxRemove($event)" checked>
+                                    <input
+                                        type="checkbox"
+                                        (change)="selectAllCheckboxRemove($event)"
+                                        checked>
                                     <span class="checkmark selectAll"></span>
                                 </label>
 
-                                <label class="container container2" *ngIf="!selectAllBox">
+                                <label
+                                    class="container container2"
+                                    *ngIf="!selectAllBox">
                                     Select All
-                                    <input type="checkbox"
+                                    <input
+                                        type="checkbox"
                                         (change)="selectAllCheckbox($event,searchResults.data.skuList)">
                                     <span class="checkmark selectAll"></span>
                                 </label>
 
-                                <div class="select-item-box" *ngFor="let searchResult of searchResults.data.skuList">
+                                <div
+                                    class="select-item-box"
+                                    *ngFor="let searchResult of searchResults.data.skuList">
                                     <!-- <div class="container container2">
                                             <input type="checkbox" (change)="searchResultCheckBox($event)">
                                             <label>{{searchResult.name}}</label>
@@ -126,7 +178,8 @@
                                     <ng-container *ngIf="!selectAllBox">
                                         <label class="container container2">
                                             {{searchResult.title}}
-                                            <input type="checkbox"
+                                            <input
+                                                type="checkbox"
                                                 (change)="searchResultCheckBox($event,searchResult.id)">
                                             <span class="checkmark"></span>
                                         </label>
@@ -135,7 +188,9 @@
                                     <ng-container *ngIf="selectAllBox">
                                         <label class="container container2">
                                             {{searchResult.title}}
-                                            <input type="checkbox" checked>
+                                            <input
+                                                type="checkbox"
+                                                checked>
                                             <span class="checkmark"></span>
                                         </label>
                                     </ng-container>
