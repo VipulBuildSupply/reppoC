@@ -363,8 +363,28 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
             this.sticky.destroy();
         }
     }
+    getQty(item) {
+        return item.sellerRfqItem.specs.reduce((total, spec, i) => {
 
+            if (item.form.value.data[ i ].price) {
+                total += spec.requestQty;
+            }
+            return total;
+        }, 0);
 
+    }
+
+    getTotal(item) {
+
+        const total = item.form.value.data.reduce((total, spec, i) => {
+            if (spec.price) {
+                total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
+            }
+            return total;
+        }, 0);
+
+        return total;
+    }
     // openItem(itemIndex: number) {
     //     this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
     // }
