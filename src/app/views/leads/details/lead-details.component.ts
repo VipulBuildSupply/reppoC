@@ -4,7 +4,7 @@ import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
 import { ChooseAddressDialogComponent } from 'src/app/shared/dialogs/choose-address/choose-address';
 import { AddressModel } from 'src/app/shared/models/address';
-import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { LeadsService } from 'src/app/shared/services/leads.service';
 import { TermModel, RfqSubmitModel, PromptItem } from 'src/app/shared/models/leads';
@@ -67,6 +67,8 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         this.sticky.update();
     }
 
+
+
     formatAddress(addr): string {
         return (addr || '').replace('<br>', ' | ').replace('<br>', ' | ').split('<br>').join(', ');
     }
@@ -108,12 +110,25 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                 note: [ '' ],
                 price: [ '' ],
                 sellerRfqItemId: [ item.sellerRfqItem.id ],
-                warehouseId: [ '', Validators.required ],
+                warehouseId: [ '' ],
             });
 
             if (specId) {
                 form.addControl('specRelId', this.formBuilder.control(specId));
             }
+
+
+            form.get('price').valueChanges.subscribe(value => {
+
+                if (value) {
+                    form.get('warehouseId').setValidators(Validators.required);
+
+                } else {
+                    form.get('warehouseId').clearValidators();
+                }
+                form.get('warehouseId').updateValueAndValidity();
+
+            });
 
             return form;
 
@@ -229,7 +244,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
-
+            debugger;
 
             const items: RfqSubmitModel[] = this.details.items.map(itm => itm.form.value.data).flat().map(itm => {
 
@@ -385,6 +400,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         return total;
     }
+
     // openItem(itemIndex: number) {
     //     this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
     // }

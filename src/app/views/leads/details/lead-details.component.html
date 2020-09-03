@@ -230,7 +230,13 @@
                                                     class="pl-5 pr-5 bs-btn bs-btn__dashed">
                                                     + Add Warehorse Address
                                                 </a>
-                                                <mat-error *ngIf="!item.selectedAddress && commonForm['touched']">Warehouse address required</mat-error>
+                                                <ng-container *ngIf="item.sellerRfqItem.specs?.length; else noneSpec">
+                                                    <mat-error *ngIf="!item.form.valid">Warehouse address required</mat-error>
+                                                </ng-container>
+                                                <ng-template #noneSpec>
+                                                    <mat-error *ngIf="item.form['controls']['data']['controls']['warehouseId'].hasError('required')">Warehouse address required</mat-error>
+                                                </ng-template>
+
                                             </ng-container>
 
                                             <br>
