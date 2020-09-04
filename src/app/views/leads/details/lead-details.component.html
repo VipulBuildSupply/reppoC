@@ -171,6 +171,7 @@
                                                                             *ngIf="!isActedLead"
                                                                             class="w-75 text-center">
                                                                             <input
+                                                                                OnlyNumber="true"
                                                                                 formControlName="price"
                                                                                 matInput>
 
@@ -191,6 +192,7 @@
                                                                     formGroupName="data"
                                                                     class="w-75 text-center">
                                                                     <input
+                                                                        OnlyNumber="true"
                                                                         formControlName="price"
                                                                         matInput>
                                                                     <mat-error *ngIf="item.form['controls']['data']['controls']['price'].hasError('pattern')">Enter a valid price</mat-error>
