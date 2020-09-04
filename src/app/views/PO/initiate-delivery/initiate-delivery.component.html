@@ -258,7 +258,11 @@
                                                 <mat-select
                                                     formControlName="transportModeCd"
                                                     (selectionChange)="modeOfTransport($event)">
-                                                    <mat-option value="transport.mode.road">ROAD</mat-option>
+                                                    <mat-option
+                                                        selected
+                                                        [value]="transportOptionRoad.value">
+                                                        {{ transportOptionRoad.name}}
+                                                    </mat-option>
                                                 </mat-select>
 
                                                 <!-- <mat-error *ngIf="!deliveryRequestForm.controls['transportModeCd'].value">
