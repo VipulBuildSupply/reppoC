@@ -405,4 +405,12 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     //     this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
     // }
 
+    noteFocus(ref: HTMLTextAreaElement) {
+        // debugger;
+        const timer = setTimeout(() => {
+            ref.focus();
+            clearTimeout(timer);
+        }, 200);
+    }
+
 }

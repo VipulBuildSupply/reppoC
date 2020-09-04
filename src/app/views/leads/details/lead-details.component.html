@@ -273,7 +273,7 @@
 
                                             <div
                                                 *ngIf="!noteObj[i] && !isActedLead"
-                                                (click)="noteObj[i] =  true "
+                                                (click)="noteObj[i] =  true;noteFocus(note);"
                                                 class="blue-cl d-flex align-items-center pt-3 cursor-link">
                                                 <mat-icon>note_add</mat-icon>
                                                 ADD NOTE (OPTIONAL)
@@ -294,7 +294,7 @@
 
                                             <div
                                                 class="pt-3"
-                                                *ngIf="noteObj[i]">
+                                                [hidden]="!noteObj[i]">
                                                 <div class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                     <span>Note</span>
 
@@ -304,7 +304,6 @@
                                                     class="w-100 max-w-300">
                                                     <textarea
                                                         #note
-                                                        [autofocus]="noteObj[i]"
                                                         (input)="addNotes(item.sellerRfqItem.id, note.value)"
                                                         cdkTextareaAutosize
                                                         cdkAutosizeMinRows="5"
