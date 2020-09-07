@@ -106,7 +106,8 @@ export const API = {
     GET_ADDRESS_LIST: (addrType: AddressTypes) => `account/api/address/${addrType}`,
     RFQ_SUBMIT: (sellerRfqId: number) => `product/api/seller/rfq/${sellerRfqId}/price`,
 
-    CHECK_RFQ_COUNT: `product/api/seller/rfq/checkCount`
+    CHECK_RFQ_COUNT: `product/api/seller/rfq/checkCount`,
+    LEAD_ITEM_TOTAL: (sellerRfqId) => `product/api/seller/rfq/${sellerRfqId}/price/calculate/item`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

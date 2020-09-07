@@ -1,3 +1,4 @@
+import { LeadPriceResponse } from './../../../shared/models/leads';
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
@@ -33,6 +34,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     leadType: 'new' | 'acted';
     isActedLead: boolean;
     sticky: any;
+    leadPriceResponse: LeadPriceResponse;
 
     @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
@@ -45,6 +47,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
+
         this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
         this.allLocations = this.details ?
@@ -65,6 +68,9 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         this.sticky = new Sticky('.sticky');
         this.sticky.update();
+
+        console.log(this.details);
+
     }
 
 
@@ -118,8 +124,8 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
             }
 
 
-            form.get('price').valueChanges.subscribe(value => {
-
+            form.get('price').valueChanges.pipe(delay(300)).subscribe(value => {
+                this.getLeadTotal();
                 if (value) {
                     form.get('warehouseId').setValidators(Validators.required);
 
@@ -411,6 +417,41 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
             ref.focus();
             clearTimeout(timer);
         }, 200);
+    }
+
+    getLeadTotal() {
+
+        const sellerRfqItemId = this.details.items[ 0 ].sellerRfqItem.sellerRfqId;
+
+        const data = this.details.items.reduce((priceArr, itm) => {
+
+            if (Array.isArray(itm.form.value.data)) {
+                const items = itm.form.value.data.map((spec, specIndex) => ({ price: spec.price, specRelId: itm.sellerRfqItem.specs[ specIndex ].id, sellerRfqItemId: itm.sellerRfqItem.id }));
+
+                priceArr.push(...items.filter(itm => itm.price));
+            } else if (itm.form.value.data.price) {
+                const priceItem = { price: itm.form.value.data.price, sellerRfqItemId: itm.sellerRfqItem.id };
+                priceArr.push(priceItem);
+            }
+
+
+
+            return priceArr;
+
+        }, []);
+
+        console.log(data);
+
+
+
+        this.leadService.getLeadTotal(data, sellerRfqItemId).then(data => {
+            this.leadPriceResponse = data;
+            this.leadPriceResponse.totalQty = this.leadPriceResponse.quotes.reduce((total, itm) => {
+
+                total = itm.requestQty + total;
+                return total;
+            }, 0);
+        })
     }
 
 }

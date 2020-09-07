@@ -294,7 +294,7 @@
 
                                             <div
                                                 class="pt-3"
-                                                [hidden]="!noteObj[i]">
+                                                [hidden]="! noteObj[i]">
                                                 <div class="w-100 d-flex align-items-center justify-content-between max-w-300">
                                                     <span>Note</span>
 
@@ -321,6 +321,123 @@
                     </div>
                 </div>
                 <!-- ──────────────────────────────────────────────────────────────────────────────── -->
+                <div
+                    class="po"
+                    *ngIf="leadPriceResponse">
+
+                    <div class="po__orders-list">
+                        <div class="po__order my-3">
+                            <mat-card class="po__card p-3">
+                                <h4 class="mr-3 mb-0">LEAD SNAPSHOT</h4>
+                                <div
+                                    style="padding-bottom:1px ;"
+                                    class="w-50 border-bottom pt-3">
+                                    <mat-grid-list
+                                        cols="13"
+                                        [style.background]="'#cccccc'"
+                                        class=" border"
+                                        rowHeight="40px">
+
+                                        <mat-grid-tile
+                                            class="text-left"
+                                            [colspan]="6"
+                                            [style.background]="'#eaf8ff'">
+                                            <div class="text-left w-100 p-2">Item</div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [colspan]="2"
+                                            [style.background]="'#eaf8ff'">
+                                            Unit
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [colspan]="2"
+                                            [style.background]="'#eaf8ff'">
+                                            Quantity
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [colspan]="3"
+                                            [style.background]="'#eaf8ff'">
+                                            Price per unit(₹)
+                                        </mat-grid-tile>
+                                        <ng-container *ngFor="let item of leadPriceResponse.quotes; let i = index">
+
+                                            <mat-grid-tile
+                                                class="text-left"
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="6">
+                                                <div class="hide-extra text-left">{{item.skuName}}</div>
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="2">
+                                                {{item.unit || '-'}}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="2">
+                                                {{item.requestQty}}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="3">
+                                                {{item.price}}
+                                            </mat-grid-tile>
+                                        </ng-container>
+
+                                        <mat-grid-tile
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="8">
+                                            <div class="text-left w-100 p-2">Sub Total</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="2">
+                                            {{leadPriceResponse.totalQty}}
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{ leadPriceResponse.totalAmountWithoutGst }}
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">GST</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{ leadPriceResponse.gstAmount }}
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">Grand Total</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{ leadPriceResponse.totalAmount }}
+                                        </mat-grid-tile>
+
+                                    </mat-grid-list>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
 
                 <div
                     class="po"

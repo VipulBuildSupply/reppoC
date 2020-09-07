@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration hmr -o",
+    "start": "ng serve --port=4100 --configuration hmr -o",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
