@@ -12,6 +12,7 @@ import { SellerPersonalProfile } from 'src/app/shared/models/user.model';
     templateUrl: './add-bank-details.component.html'
 })
 export class AddBankDetailsComponent implements OnInit {
+    filteredBanks: any;
 
     constructor(private _formBuilder: FormBuilder,
         private _activatedRout: ActivatedRoute,
@@ -50,9 +51,9 @@ export class AddBankDetailsComponent implements OnInit {
         });
 
         this._activatedRout.url.subscribe(url => {
-            this.isEdit = url[1].path == 'edit';
+            this.isEdit = url[ 1 ].path == 'edit';
 
-            if (url[1].path == 'edit' && this._userService.bankDetailsToEdit) {
+            if (url[ 1 ].path == 'edit' && this._userService.bankDetailsToEdit) {
                 this.bankDetails = this._userService.bankDetailsToEdit;
             }
         })
@@ -64,11 +65,11 @@ export class AddBankDetailsComponent implements OnInit {
         });
 
         this.bankDetailsForm = this._formBuilder.group({
-            accountHolderName: [this.bankDetails.accountHolderName, Validators.required],
-            bankName: [{ value: (this.bankDetails.bankName ? this.bankDetails.bank.code : '') }, Validators.required],
-            accountNumber: [this.bankDetails.accountNumber, Validators.required],
-            ifscCode: [this.bankDetails.ifscCode, Validators.required],
-            cancelledChequePhotoImage: [this.bankDetails.cancelledChequePhotoImage]
+            accountHolderName: [ this.bankDetails.accountHolderName, Validators.required ],
+            bankName: [ { value: (this.bankDetails.bankName ? this.bankDetails.bank.code : '') }, Validators.required ],
+            accountNumber: [ this.bankDetails.accountNumber, Validators.required ],
+            ifscCode: [ this.bankDetails.ifscCode, Validators.required ],
+            cancelledChequePhotoImage: [ this.bankDetails.cancelledChequePhotoImage ]
         });
 
         if (this.isEdit) {
@@ -78,8 +79,8 @@ export class AddBankDetailsComponent implements OnInit {
 
     onFileSelected(event) {
         if (event.target.files.length > 0) {
-            this.fileName = event.target.files[0].name;
-            const file = event.target.files[0];
+            this.fileName = event.target.files[ 0 ].name;
+            const file = event.target.files[ 0 ];
             this.bankDetailsForm.get('cancelledChequePhotoImage').setValue(file);
         }
     }
@@ -127,15 +128,19 @@ export class AddBankDetailsComponent implements OnInit {
     *  @description: this function is used to cancel the billing/deliveryRange address after editing
     */
     goToBankDetailsPage() {
-        this._router.navigate([`/user/profile/bank-details`]);
+        this._router.navigate([ `/user/profile/bank-details` ]);
     }
 
     changeBank(event) {
         for (let i = 0; i < this.bankNames.length; i++) {
-            if (this.bankNames[i].code === event.value) {
-                this.ifscPrefix = this.bankNames[i].ifscPrefix;
+            if (this.bankNames[ i ].code === event.value) {
+                this.ifscPrefix = this.bankNames[ i ].ifscPrefix;
             }
         }
         this.bankDetailsForm.get('ifscCode').setValue(this.ifscPrefix);
+    }
+
+    searchBank(val) {
+        this.filteredBanks = this.bankNames.filter(bnk => bnk.name.toLowerCase().indexOf(val.toLowerCase()) !== -1);
     }
 }
