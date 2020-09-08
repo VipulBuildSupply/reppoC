@@ -388,9 +388,6 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     }
     getQty(item) {
 
-        if (this.isActedLead) {
-            debugger
-        }
 
 
         return item.sellerRfqItem.specs.reduce((total, spec, i) => {
@@ -406,25 +403,14 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
     getTotal(item) {
 
-        let total: number;
-        if (this.isActedLead) {
-            total = item.sellerRfqItem.specs.reduce((total, spec, i) => {
-                if (spec.price) {
-                    total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
-                }
-                return total;
-            }, 0);
-        } else {
+        const total = (this.isActedLead ? item.sellerRfqItem.specs : item.form.value.data).reduce((totalP, spec, i) => {
+            if (spec.price) {
+                totalP = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + totalP;
+            }
+            return totalP;
+        }, 0);
 
 
-            total = item.form.value.data.reduce((total, spec, i) => {
-                if (spec.price) {
-                    total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
-                }
-                return total;
-            }, 0);
-
-        }
         return total;
     }
 
@@ -464,7 +450,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                 if (Array.isArray(itm.sellerRfqItem.specs) && itm.sellerRfqItem.specs.length) {
                     const items = itm.sellerRfqItem.specs
                         .map((spec, specIndex) => ({
-                            price: spec.quotePrice,
+                            price: spec.price,
                             specRelId: itm.sellerRfqItem.specs[ specIndex ].id,
                             sellerRfqItemId: itm.sellerRfqItem.id
                         }));
@@ -483,17 +469,19 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         }, []);
 
-        console.log(data);
 
 
 
         this.leadService.getLeadTotal(data, sellerRfqItemId).then(data => {
             this.leadPriceResponse = data;
-            this.leadPriceResponse.totalQty = this.leadPriceResponse.quotes.reduce((total, itm) => {
+            if (this.leadPriceResponse.quotes) {
 
-                total = itm.requestQty + total;
-                return total;
-            }, 0);
+                this.leadPriceResponse.totalQty = this.leadPriceResponse.quotes.reduce((total, itm) => {
+
+                    total = itm.requestQty + total;
+                    return total;
+                }, 0);
+            }
         });
     }
 
