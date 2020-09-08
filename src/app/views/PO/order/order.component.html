@@ -6,37 +6,52 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="po__title-left">
                         <div class="mb-0 d-flex align-items-center">
-                            <h4 class="mr-3 mb-0">Purchase Order Id : {{ ordersItems.purchaseOrder.orderNo }}</h4>
-                            <ng-container
-                                *ngIf="(ordersItems.purchaseOrder.statusCd && ordersItems.purchaseOrder.status); else defSt">
+                            <h4 class="mr-3 mb-0">
+                                Purchase Order Id : {{ ordersItems.purchaseOrder.orderNo }}
+                            </h4>
+                            <ng-container *ngIf="(ordersItems.purchaseOrder.statusCd && ordersItems.purchaseOrder.status); else defSt">
                                 <div class="po__header-right">
                                     <span>{{ordersItems.purchaseOrder.status}}</span>
                                 </div>
                             </ng-container>
                             <ng-template #defSt>
-                                <div class="po__header-right" *ngIf="selectedTab === 'awarded'">
+                                <div
+                                    class="po__header-right"
+                                    *ngIf="selectedTab === 'awarded'">
                                     <span>Awarded</span>
                                 </div>
                             </ng-template>
                         </div>
-                        <p class="datetime mb-0 mt-1">{{ ordersItems.purchaseOrder.createDt | gmtToLocal }}</p>
+                        <p class="datetime mb-0 mt-1">
+                            {{ ordersItems.purchaseOrder.createDt | gmtToLocal }}
+                        </p>
                     </div>
 
                     <div class="po__title-right d-flex align-items-center">
-                        <h6 class="font600 mb-0">Order Total : {{ ordersItems.purchaseOrder.totalAmount }}</h6>
-                        <button mat-button
-                            [routerLink]="['/orders/details/'+selectedTab+'/'+ordersItems.purchaseOrder.id]">View
-                            Details</button>
+                        <h6 class="font600 mb-0">
+                            Order Total : {{ ordersItems.purchaseOrder.totalAmount }}
+                        </h6>
+                        <button
+                            mat-button
+                            [routerLink]="['/orders/details/'+selectedTab+'/'+ordersItems.purchaseOrder.id]">
+                            View
+                            Details
+                        </button>
                     </div>
 
                 </div>
             </div>
 
             <div class="divider"></div>
+            <ng-container>
 
-            <div *ngFor="let item of ordersItems.orderItemList">
-                <app-item-list [itemList]="item" [selectedTab]="selectedTab"></app-item-list>
-            </div>
+                <div *ngFor="let item of ordersItems.orderItemList">
+                    <app-item-list
+                        [itemList]="item"
+                        [selectedTab]="selectedTab"></app-item-list>
+                </div>
+            </ng-container>
+
         </mat-card>
     </div>
 </div>

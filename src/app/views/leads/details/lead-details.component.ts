@@ -1,10 +1,11 @@
+import { LeadPriceResponse } from './../../../shared/models/leads';
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RfqItem, RfqSku } from 'src/app/shared/models/rfq.models';
 import { MatDialog } from '@angular/material';
 import { ChooseAddressDialogComponent } from 'src/app/shared/dialogs/choose-address/choose-address';
 import { AddressModel } from 'src/app/shared/models/address';
-import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { FieldRegExConst } from 'src/app/shared/constants';
 import { LeadsService } from 'src/app/shared/services/leads.service';
 import { TermModel, RfqSubmitModel, PromptItem } from 'src/app/shared/models/leads';
@@ -33,6 +34,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     leadType: 'new' | 'acted';
     isActedLead: boolean;
     sticky: any;
+    leadPriceResponse: LeadPriceResponse;
 
     @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
@@ -45,6 +47,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
+
         this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
         this.allLocations = this.details ?
@@ -65,7 +68,14 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         this.sticky = new Sticky('.sticky');
         this.sticky.update();
+
+        console.log(this.details);
+
+        this.getLeadTotal();
+
     }
+
+
 
     formatAddress(addr): string {
         return (addr || '').replace('<br>', ' | ').replace('<br>', ' | ').split('<br>').join(', ');
@@ -108,12 +118,25 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                 note: [ '' ],
                 price: [ '' ],
                 sellerRfqItemId: [ item.sellerRfqItem.id ],
-                warehouseId: [ '', Validators.required ],
+                warehouseId: [ '' ],
             });
 
             if (specId) {
                 form.addControl('specRelId', this.formBuilder.control(specId));
             }
+
+
+            form.get('price').valueChanges.pipe(delay(300)).subscribe(value => {
+                this.getLeadTotal();
+                if (value) {
+                    form.get('warehouseId').setValidators(Validators.required);
+
+                } else {
+                    form.get('warehouseId').clearValidators();
+                }
+                form.get('warehouseId').updateValueAndValidity();
+
+            });
 
             return form;
 
@@ -229,7 +252,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
-
+            debugger;
 
             const items: RfqSubmitModel[] = this.details.items.map(itm => itm.form.value.data).flat().map(itm => {
 
@@ -363,10 +386,103 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
             this.sticky.destroy();
         }
     }
+    getQty(item) {
 
+
+
+        return item.sellerRfqItem.specs.reduce((total, spec, i) => {
+
+            const isPrice = this.isActedLead ? spec.price : item.form.value.data[ i ].price;
+            if (isPrice) {
+                total += spec.requestQty;
+            }
+            return total;
+        }, 0);
+
+    }
+
+    getTotal(item) {
+
+        const total = (this.isActedLead ? item.sellerRfqItem.specs : item.form.value.data).reduce((totalP, spec, i) => {
+            if (spec.price) {
+                totalP = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + totalP;
+            }
+            return totalP;
+        }, 0);
+
+
+        return total;
+    }
 
     // openItem(itemIndex: number) {
     //     this.details.items.forEach((itm, i) => itm.expand = i === itemIndex);
     // }
+
+    noteFocus(ref: HTMLTextAreaElement) {
+        // debugger;
+        const timer = setTimeout(() => {
+            ref.focus();
+            clearTimeout(timer);
+        }, 200);
+    }
+
+    getLeadTotal() {
+
+        const sellerRfqItemId = this.details.items[ 0 ].sellerRfqItem.sellerRfqId;
+
+        const data = this.details.items.reduce((priceArr, itm) => {
+
+            if (!this.isActedLead) {
+                if (Array.isArray(itm.form.value.data)) {
+                    const items = itm.form.value.data
+                        .map((spec, specIndex) => ({
+                            price: spec.price,
+                            specRelId: itm.sellerRfqItem.specs[ specIndex ].id,
+                            sellerRfqItemId: itm.sellerRfqItem.id
+                        }));
+
+                    priceArr.push(...items.filter(itm => itm.price));
+                } else if (itm.form.value.data.price) {
+                    const priceItem = { price: itm.form.value.data.price, sellerRfqItemId: itm.sellerRfqItem.id };
+                    priceArr.push(priceItem);
+                }
+            } else {
+                if (Array.isArray(itm.sellerRfqItem.specs) && itm.sellerRfqItem.specs.length) {
+                    const items = itm.sellerRfqItem.specs
+                        .map((spec, specIndex) => ({
+                            price: spec.price,
+                            specRelId: itm.sellerRfqItem.specs[ specIndex ].id,
+                            sellerRfqItemId: itm.sellerRfqItem.id
+                        }));
+
+                    priceArr.push(...items.filter(itm => itm.price));
+                } else if (itm.sellerRfqItem.quotePrice) {
+                    const priceItem = { price: itm.sellerRfqItem.quotePrice, sellerRfqItemId: itm.sellerRfqItem.id };
+                    priceArr.push(priceItem);
+                }
+
+            }
+
+
+
+            return priceArr;
+
+        }, []);
+
+
+
+
+        this.leadService.getLeadTotal(data, sellerRfqItemId).then(data => {
+            this.leadPriceResponse = data;
+            if (this.leadPriceResponse.quotes) {
+
+                this.leadPriceResponse.totalQty = this.leadPriceResponse.quotes.reduce((total, itm) => {
+
+                    total = itm.requestQty + total;
+                    return total;
+                }, 0);
+            }
+        });
+    }
 
 }

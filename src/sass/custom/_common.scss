@@ -1,5 +1,5 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     //  background: $bg-color-gray;
     background: #ffffff;
     @include border-bottom-left-radius(5px);
@@ -8,7 +8,7 @@ body {
 a,
 a:hover {
     text-decoration: $none;
-    color: #1896BA;
+    color: #1896ba;
 }
 
 .container-fluid {
@@ -28,7 +28,7 @@ a:hover {
     color: $text-color-white;
     height: 37px;
     border-radius: 17.5px;
-    background-color: #F47721;
+    background-color: #f47721;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
@@ -39,27 +39,26 @@ a:hover {
     background: #fa8534;
 }
 
-
 .expiredLeadBttn {
     width: 92px;
     height: 24px;
-    color: #FF0000;
+    color: #ff0000;
     font-size: 10px;
     font-weight: 600;
     line-height: 14px;
     font-family: "open sans", sans-serif;
     display: inline-block;
-    border: 1px solid #FF0000;
+    border: 1px solid #ff0000;
     border-radius: 3px;
-    background-color: #FFF1F1;
+    background-color: #fff1f1;
     text-transform: uppercase;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
 
 .expiredLeadBttn:hover {
-    color: #FF0000;
-    background-color: #FFF1F1;
+    color: #ff0000;
+    background-color: #fff1f1;
 }
 
 button:focus {
@@ -77,8 +76,8 @@ button:focus {
 }
 
 .dottbttn {
-    border: dashed 1.2px #1896BA;
-    background-color: #FFFFFF;
+    border: dashed 1.2px #1896ba;
+    background-color: #ffffff;
     padding: 10px 0;
     text-align: center;
     margin-bottom: 10px;
@@ -88,14 +87,14 @@ button:focus {
     display: block;
     font-size: $font-size-14;
     font-weight: $font-weight-600;
-    color: #1896BA;
+    color: #1896ba;
 }
 
 .bg-white {
     background: $bg-color-white;
 }
 
-.nav-link{
+.nav-link {
     padding: 0.5rem 0.6rem;
 }
 
@@ -103,9 +102,9 @@ button:focus {
     font-size: 16px !important;
 }
 
-@media only screen and (min-width: 1200px){
+@media only screen and (min-width: 1200px) {
     .container:not(.modal-body) {
-        max-width: 90%!important;
+        max-width: 90% !important;
     }
 }
 
@@ -113,81 +112,81 @@ button:focus {
     padding: 0 100px;
 }
 
-.bg-blue{
-    background-color:$bg-color-blue;
-    color:white;
+.bg-blue {
+    background-color: $bg-color-blue;
+    color: white;
 }
 
-.left-content{
+.left-content {
     max-width: 900px;
-    .mat-figure{
+    .mat-figure {
         justify-content: start !important;
         padding-left: 20px !important;
     }
 }
 
-.m-vrt{
+.m-vrt {
     font-size: 2.5em;
     font-weight: lighter;
-    color:#bbb7b7de;
+    color: #bbb7b7de;
     cursor: pointer;
 }
 
-.m-vrt-menu{
+.m-vrt-menu {
     min-height: auto !important;
-    button{
+    button {
         text-align: center;
     }
 }
-.mat-menu-panel.mat-menu-below button.mat-menu-item.sc-btn{
+.mat-menu-panel.mat-menu-below button.mat-menu-item.sc-btn {
     font-size: 18px;
-    color: #1896BA
+    color: #1896ba;
 }
 
-.txtarea-bdr{
-    border:1px solid #b5b5b5 !important;
+.txtarea-bdr {
+    border: 1px solid #b5b5b5 !important;
     border-radius: 3px !important;
 }
 
-.w-96{
-    width:96% !important;
+.w-96 {
+    width: 96% !important;
 }
 
-.lh-initial{
+.lh-initial {
     line-height: initial !important;
 }
-.mt-mns{
+.mt-mns {
     margin-top: -20px;
 }
 
-.bbtn:disabled{
+.bbtn:disabled {
     background-color: #efd8c9 !important;
     border: 0px !important;
 }
 
-.isDisabled{
+.isDisabled {
     pointer-events: none !important;
-    color:lightgray !important;
+    // color: lightgray !important;
 }
 
-.full-width-shadow-background{
+.full-width-shadow-background {
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     z-index: 999;
     left: 0;
     top: 0;
 }
 
-.status-yellow{
-    color:#e8b00c;
+.status-yellow {
+    color: #e8b00c;
 }
-.status-green{
-    color:#07d407;
+.status-green {
+    color: #07d407;
 }
 
-.bbtn1{
+.bbtn1 {
     background-color: #efd8c9 !important;
     border: 0px !important;
     cursor: auto;

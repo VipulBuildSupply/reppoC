@@ -5,65 +5,100 @@
   <div *ngIf="success"> Success ! </div>
 </mat-dialog-content> -->
 
-
 <mat-dialog-content>
-  <div class="modal-content">
-    <ng-container *ngIf="!success; else successEmail">
-      <div class="modal-header">
-        <h5 class="modal-title">Get Search Results on Email</h5>
-        <button type="button" class="close" (click)="closeDialog()">
-          <span>&times;</span>
-        </button>
-      </div>
+    <div class="modal-content">
+        <ng-container *ngIf="!success; else successEmail">
+            <div class="modal-header">
+                <h5 class="modal-title">Get Catalogue on Email</h5>
+                <button
+                    type="button"
+                    class="close"
+                    (click)="closeDialog()">
+                    <span>&times;</span>
+                </button>
+            </div>
 
-      <div class="modal-body">
-        <div class="modal-body__image text-center">
-          <img src="assets/img/Get-Search-result-on-mail.png" alt="" class="img-flud">
-        </div>
+            <div class="modal-body">
+                <div class="modal-body__image text-center">
+                    <img
+                        src="assets/img/Get-Search-result-on-mail.png"
+                        alt
+                        class="img-flud">
+                </div>
 
-        <div class="modal-body__description mt-4">
-          <ol>
-            <li>You will receive these search results in an excel over your <strong>registered email id</strong></li>
-            <li>In the excel, please mark the items you want to add to your catalogue and update the pricing information
-              for the same.</li>
-            <li>To add those items to your catalogue, either -
-              <ol type="a" class="mt-2">
-                <li>Reply back to mail with the updated excel or,</li>
-                <li>Upload the excel using "Bulk Catalogue Update" option</li>
-              </ol>
-            </li>
-          </ol>
-        </div>
-        <ng-container *ngIf="isCatalogue == 'catalogueEmail'; else getEmail">
-          <button class="btn orangeBttn modal-body--btn" (click)="addCatalogueOnEmail()">Get Catalogue</button>
+                <div class="modal-body__description mt-4">
+                    <ol>
+                        <li>
+                            You will receive these search results in an excel over your
+                            <strong>registered email id</strong>
+                        </li>
+                        <li>
+                            In the excel, please mark the items you want to add to your catalogue and update the pricing information
+              for the same.
+                        </li>
+                        <li>
+                            To add those items to your catalogue, either -
+                            <ol
+                                type="a"
+                                class="mt-2">
+                                <li>
+                                    Reply back to mail with the updated excel or,
+                                </li>
+                                <li>
+                                    Upload the excel using "Bulk Catalogue Update" option
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+                <ng-container *ngIf="isCatalogue == 'catalogueEmail'; else getEmail">
+                    <button
+                        class="btn orangeBttn modal-body--btn"
+                        (click)="addCatalogueOnEmail()">
+                        Get Catalogue
+                    </button>
+                </ng-container>
+                <ng-template #getEmail>
+                    <button
+                        class="btn orangeBttn modal-body--btn"
+                        (click)="addSkuOnEmail()">
+                        Get Email
+                    </button>
+                </ng-template>
+            </div>
         </ng-container>
-        <ng-template #getEmail>
-          <button class="btn orangeBttn modal-body--btn" (click)="addSkuOnEmail()">Get Email</button>
+
+        <ng-template #successEmail>
+            <div class="modal-header">
+                <h5 class="modal-title">Search Results Shared Successfully</h5>
+                <button
+                    type="button"
+                    class="close"
+                    (click)="closeDialog()">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-body__image text-center">
+                    <img
+                        src="assets/img/message.png"
+                        alt
+                        class="img-flud modal-body--width150">
+                </div>
+                <div class="modal-body__description mt-4">
+                    <ul>
+                        <li>
+                            We have sent you an excel sheet with the search result details on your registered email id.
+                        </li>
+                        <li>
+                            Please update the pricing information of the required items and do a bulk upload using the "Bulk
+              Catalogue Update" option.
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </ng-template>
-      </div>
-    </ng-container>
 
-    <ng-template #successEmail>
-      <div class="modal-header">
-        <h5 class="modal-title">Search Results Shared Successfully</h5>
-        <button type="button" class="close" (click)="closeDialog()">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="modal-body__image text-center">
-          <img src="assets/img/message.png" alt="" class="img-flud modal-body--width150">
-        </div>
-        <div class="modal-body__description mt-4">
-          <ul>
-            <li>We have sent you an excel sheet with the search result details on your registered email id.</li>
-            <li>Please update the pricing information of the required items and do a bulk upload using the "Bulk
-              Catalogue Update" option.</li>
-          </ul>
-        </div>
-      </div>
-    </ng-template>
-
-  </div>
+    </div>
 </mat-dialog-content>

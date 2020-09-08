@@ -24,6 +24,7 @@ export class InitiateDeliveryComponent implements OnInit {
   invoiceDocs: FileList;
   eWayBillDocs: FileList;
   transportMode: any;
+  transportOptionRoad = { name: 'Road', value: 'transport.mode.road' };
   order: PoOrders;
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
@@ -68,7 +69,7 @@ export class InitiateDeliveryComponent implements OnInit {
       challanAttachId: [ '' ],
       materialTestAttachId: [ '' ],
       transporterName: [ '', Validators.required ],
-      transportModeCd: [ '' ],
+      transportModeCd: [ this.transportOptionRoad.value ],
       vehicleNo: [ '', Validators.required ],
       driverName: [ '' ],
       driverPhone: [ '', {

@@ -83,6 +83,7 @@ export interface SkuSpecs {
     minQty: number;
     pid: number;
     price: number;
+    quotePrice?: number;
     requestQty: number;
     sellerRfqItemId: number;
     skuId: number;

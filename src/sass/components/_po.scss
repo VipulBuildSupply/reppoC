@@ -328,6 +328,12 @@
                     .attachment-inner-col {
                         font-family: "Open Sans", sans-serif;
                         font-size: 14px;
+                        display: flex;
+                        max-width: 140px;
+                        width: 100%;
+                        flex-direction: column;
+                        justify-content: center;
+
                         h3 {
                             color: #4a4a4a;
                             font-weight: 600;
@@ -358,6 +364,15 @@
 
                         .attachment-img {
                             text-align: center;
+                            display: flex;
+                            justify-content: center;
+                            width: 70px;
+                            height: 50px;
+                            align-self: center;
+                            img {
+                                max-width: 32px;
+                                max-height: 32px;
+                            }
                         }
                     }
                 }
@@ -685,7 +700,7 @@
     border-left: 5px solid transparent;
 }
 
-.awarded-po{
+.awarded-po {
     span {
         &:not(:last-child):after {
             content: "|";
@@ -696,7 +711,7 @@
         }
     }
 }
-.shortClose{
+.shortClose {
     span {
         &:not(:last-child):after {
             content: "|";
@@ -949,22 +964,21 @@
     flex: 0 0 50%;
 }
 
-
-.sc-input-control{
+.sc-input-control {
     min-width: 250px;
     margin-top: -15px;
-    display:inline-block;
+    display: inline-block;
 }
-.mlst-185-input{
+.mlst-185-input {
     margin-left: 185px;
 }
-.mlst-130-input{
+.mlst-130-input {
     margin-left: 130px;
 }
 
-.st-chkbox{
+.st-chkbox {
     .mat-checkbox-inner-container {
-        height:30px;
-        width:30px;
+        height: 30px;
+        width: 30px;
     }
 }

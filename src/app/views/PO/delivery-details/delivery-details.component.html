@@ -3,22 +3,27 @@
         <div class="po__headBar d-flex align-items-center justify-content-between pt-4 pb-2">
 
             <h3>
-                <i aria-hidden="true" class="fa fa-angle-left"
+                <i
+                    aria-hidden="true"
+                    class="fa fa-angle-left"
                     [routerLink]="['/orders/details/awarded/'+orderId]"></i>
                 Delivery Details
             </h3>
 
         </div>
 
-
-        <div class="po__orders-list" *ngIf="deliveryDetails && deliveryDetails.length">
+        <div
+            class="po__orders-list"
+            *ngIf="deliveryDetails && deliveryDetails.length">
             <div class="po__order mb-3">
                 <mat-card class="po__card">
 
                     <div class="po__title-section">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="po__title-left">
-                                <h4 class="mb-1">Order Id : {{ deliveryDetails[0].orderNo }}</h4>
+                                <h4 class="mb-1">
+                                    Order Id : {{ deliveryDetails[0].orderNo }}
+                                </h4>
                             </div>
 
                             <!-- Accept/Reject PO Functionality -->
@@ -32,7 +37,9 @@
 
                     <ng-container *ngIf="deliveryDetails[0].items && deliveryDetails[0].items.length">
                         <ng-container *ngFor="let item of deliveryDetails[0].items">
-                            <app-item-list [itemList]="item" [selectedTab]="'awarded'" 
+                            <app-item-list
+                                [itemList]="item"
+                                [selectedTab]="'awarded'"
                                 [deliveryDetails]="true">
                             </app-item-list>
                         </ng-container>
@@ -60,17 +67,24 @@
                                         <div class="attachment-inner-col flex50 text-center">
                                             <div class="attachment-img">
                                                 <!-- [src]="fileExtension === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" -->
-                                                <img [src]="invoiceFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-32" />
+                                                <img
+                                                    [src]="invoiceFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'"
+                                                    alt
+                                                    class="img-fluid">
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].invoiceDocName}}</p>
                                         </div>
-        
+
                                         <div class="attachment-inner-col text-center">
-                                            <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].invoiceSignedUrl)">View</span>
+                                            <span
+                                                class="link-view"
+                                                (click)="downloadAttachment(deliveryDetails[0].invoiceSignedUrl)">
+                                                View
+                                            </span>
                                         </div>
                                     </ng-container>
                                 </div>
-                                
+
                             </div>
 
                             <!-- Eway Bill Details -->
@@ -91,13 +105,20 @@
                                     <ng-container *ngIf="deliveryDetails[0].ewayBillAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img [src]="eWayFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
+                                                <img
+                                                    [src]="eWayFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'"
+                                                    alt
+                                                    class="img-fluid ">
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].eWayDocName}}</p>
                                         </div>
-        
+
                                         <div class="attachment-inner-col text-center">
-                                            <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].eWaySignedUrl)">View</span>
+                                            <span
+                                                class="link-view"
+                                                (click)="downloadAttachment(deliveryDetails[0].eWaySignedUrl)">
+                                                View
+                                            </span>
                                         </div>
                                     </ng-container>
                                 </div>
@@ -122,17 +143,24 @@
                                     <ng-container *ngIf="deliveryDetails[0].challanAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img [src]="challanFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
+                                                <img
+                                                    [src]="challanFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'"
+                                                    alt
+                                                    class="img-fluid">
                                             </div>
                                             <p class="attachment-filename mb-0">{{deliveryDetails[0].challanDocName}}</p>
                                         </div>
-        
+
                                         <div class="attachment-inner-col text-center">
-                                            <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].challanSignedUrl)">View</span>
+                                            <span
+                                                class="link-view"
+                                                (click)="downloadAttachment(deliveryDetails[0].challanSignedUrl)">
+                                                View
+                                            </span>
                                         </div>
                                     </ng-container>
                                 </div>
-                                
+
                             </div>
 
                             <!-- Material Test Certificate Details -->
@@ -153,17 +181,26 @@
                                     <ng-container *ngIf="deliveryDetails[0].materialTestAttachId">
                                         <div class="attachment-inner-col text-center">
                                             <div class="attachment-img">
-                                                <img [src]="MtcFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
+                                                <img
+                                                    [src]="MtcFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'"
+                                                    alt
+                                                    class="img-fluid">
                                             </div>
-                                            <p class="attachment-filename mb-0">{{deliveryDetails[0].materialTestDocName}}</p>
+                                            <p class="attachment-filename mb-0">
+                                                {{deliveryDetails[0].materialTestDocName}}
+                                            </p>
                                         </div>
-        
+
                                         <div class="attachment-inner-col text-center">
-                                            <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].materialTestSignedUrl)">View</span>
+                                            <span
+                                                class="link-view"
+                                                (click)="downloadAttachment(deliveryDetails[0].materialTestSignedUrl)">
+                                                View
+                                            </span>
                                         </div>
                                     </ng-container>
                                 </div>
-                                
+
                             </div>
 
                             <!-- Attachments Details -->
@@ -190,7 +227,7 @@
                                         </div>
                                     </ng-container>
                                 </div> -->
-                                
+
                             </div>
                         </div>
 
@@ -203,9 +240,11 @@
                                     <div class="vehicle-col">
                                         <h3>Transporter Name:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
-                                        <p class="mb-0">{{ deliveryDetails[0].transporterName }}</p>
+                                        <p class="mb-0">
+                                            {{ deliveryDetails[0].transporterName }}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -213,9 +252,11 @@
                                     <div class="vehicle-col">
                                         <h3>Mode of Transport:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
-                                        <p class="mb-0">{{ deliveryDetails[0].transportModeName }}</p>
+                                        <p class="mb-0">
+                                            {{ deliveryDetails[0].transportModeName }}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -223,7 +264,7 @@
                                     <div class="vehicle-col">
                                         <h3>Vehicle Number:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
                                         <p class="mb-0">{{ deliveryDetails[0].vehicleNo }}</p>
                                     </div>
@@ -233,7 +274,7 @@
                                     <div class="vehicle-col">
                                         <h3>Driver Name:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
                                         <p class="mb-0">{{ deliveryDetails[0].driverName }}</p>
                                     </div>
@@ -243,7 +284,7 @@
                                     <div class="vehicle-col">
                                         <h3>Driver Contact No.:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
                                         <p class="mb-0">{{ deliveryDetails[0].driverPhone }}</p>
                                     </div>
@@ -253,25 +294,34 @@
                                     <div class="vehicle-col">
                                         <h3>LR No:</h3>
                                     </div>
-    
+
                                     <div class="vehicle-col">
                                         <p class="mb-0">{{ deliveryDetails[0].lorryReceiptNo }}</p>
                                     </div>
-    
+
                                     <div class="vehicle-col">
                                         <span class="date-time"></span>
                                     </div>
-    
+
                                     <ng-container *ngIf="deliveryDetails[0].lorryReceiptAttachId">
                                         <div class="vehicle-col text-center">
                                             <div class="attachment-img">
-                                                <img [src]="LrFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'" alt="" class="img-fluid w-25" />
+                                                <img
+                                                    [src]="LrFileExt === 'pdf' ? 'assets/img/file.png' : 'assets/img/icon-image.png'"
+                                                    alt
+                                                    class="img-fluid">
                                             </div>
-                                            <p class="attachment-filename mb-0">{{ deliveryDetails[0].lorryReceiptDocName }}</p>
+                                            <p class="attachment-filename mb-0">
+                                                {{ deliveryDetails[0].lorryReceiptDocName }}
+                                            </p>
                                         </div>
-        
+
                                         <div class="vehicle-col text-center">
-                                            <span class="link-view" (click)="downloadAttachment(deliveryDetails[0].lorryReceiptSignedUrl)">View</span>
+                                            <span
+                                                class="link-view"
+                                                (click)="downloadAttachment(deliveryDetails[0].lorryReceiptSignedUrl)">
+                                                View
+                                            </span>
                                         </div>
                                     </ng-container>
                                 </div>

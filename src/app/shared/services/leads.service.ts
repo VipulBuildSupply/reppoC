@@ -1,3 +1,4 @@
+import { LeadPriceItem } from './../models/leads';
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { API } from '../constants';
@@ -72,5 +73,9 @@ export class LeadsService {
 
     hasLead() {
         return this.dataService.getRequest(API.CHECK_RFQ_COUNT).then(res => res.data);
+    }
+
+    getLeadTotal(leadPriceData: LeadPriceItem[], id: number) {
+        return this.dataService.sendPostRequest(API.LEAD_ITEM_TOTAL(id), leadPriceData).then(res => res.data)
     }
 }
