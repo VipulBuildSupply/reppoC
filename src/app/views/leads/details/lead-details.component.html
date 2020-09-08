@@ -214,8 +214,12 @@
                                                     <ng-template #qtyTotal>
 
                                                         <mat-grid-tile [style.background]="'#ffffff'">
-                                                            <b>
-                                                                {{item.form.value.data.price ? item.form.value.data.price * item.form.value.data.minQty : '-'}}
+                                                            <b *ngIf="!isActedLead">
+                                                                {{ item.form.value.data.price ? item.form.value.data.price * item.form.value.data.minQty : '-'}}
+                                                            </b>
+
+                                                            <b *ngIf="isActedLead">
+                                                                {{item.sellerRfqItem.requestQty * item.sellerRfqItem.quotePrice || '-'}}
                                                             </b>
                                                         </mat-grid-tile>
                                                     </ng-template>
@@ -365,7 +369,7 @@
                                                 class="text-left"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="6">
-                                                <div class="hide-extra text-left">{{item.skuName}}</div>
+                                                <div class="hide-extra text-left w-100">{{item.skuName}}</div>
                                             </mat-grid-tile>
 
                                             <mat-grid-tile

@@ -71,6 +71,8 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         console.log(this.details);
 
+        this.getLeadTotal();
+
     }
 
 
@@ -385,9 +387,16 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         }
     }
     getQty(item) {
+
+        if (this.isActedLead) {
+            debugger
+        }
+
+
         return item.sellerRfqItem.specs.reduce((total, spec, i) => {
 
-            if (item.form.value.data[ i ].price) {
+            const isPrice = this.isActedLead ? spec.price : item.form.value.data[ i ].price;
+            if (isPrice) {
                 total += spec.requestQty;
             }
             return total;
@@ -397,13 +406,25 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
     getTotal(item) {
 
-        const total = item.form.value.data.reduce((total, spec, i) => {
-            if (spec.price) {
-                total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
-            }
-            return total;
-        }, 0);
+        let total: number;
+        if (this.isActedLead) {
+            total = item.sellerRfqItem.specs.reduce((total, spec, i) => {
+                if (spec.price) {
+                    total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
+                }
+                return total;
+            }, 0);
+        } else {
 
+
+            total = item.form.value.data.reduce((total, spec, i) => {
+                if (spec.price) {
+                    total = (item.sellerRfqItem.specs[ i ].requestQty * spec.price) + total;
+                }
+                return total;
+            }, 0);
+
+        }
         return total;
     }
 
@@ -425,13 +446,35 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
         const data = this.details.items.reduce((priceArr, itm) => {
 
-            if (Array.isArray(itm.form.value.data)) {
-                const items = itm.form.value.data.map((spec, specIndex) => ({ price: spec.price, specRelId: itm.sellerRfqItem.specs[ specIndex ].id, sellerRfqItemId: itm.sellerRfqItem.id }));
+            if (!this.isActedLead) {
+                if (Array.isArray(itm.form.value.data)) {
+                    const items = itm.form.value.data
+                        .map((spec, specIndex) => ({
+                            price: spec.price,
+                            specRelId: itm.sellerRfqItem.specs[ specIndex ].id,
+                            sellerRfqItemId: itm.sellerRfqItem.id
+                        }));
 
-                priceArr.push(...items.filter(itm => itm.price));
-            } else if (itm.form.value.data.price) {
-                const priceItem = { price: itm.form.value.data.price, sellerRfqItemId: itm.sellerRfqItem.id };
-                priceArr.push(priceItem);
+                    priceArr.push(...items.filter(itm => itm.price));
+                } else if (itm.form.value.data.price) {
+                    const priceItem = { price: itm.form.value.data.price, sellerRfqItemId: itm.sellerRfqItem.id };
+                    priceArr.push(priceItem);
+                }
+            } else {
+                if (Array.isArray(itm.sellerRfqItem.specs) && itm.sellerRfqItem.specs.length) {
+                    const items = itm.sellerRfqItem.specs
+                        .map((spec, specIndex) => ({
+                            price: spec.quotePrice,
+                            specRelId: itm.sellerRfqItem.specs[ specIndex ].id,
+                            sellerRfqItemId: itm.sellerRfqItem.id
+                        }));
+
+                    priceArr.push(...items.filter(itm => itm.price));
+                } else if (itm.sellerRfqItem.quotePrice) {
+                    const priceItem = { price: itm.sellerRfqItem.quotePrice, sellerRfqItemId: itm.sellerRfqItem.id };
+                    priceArr.push(priceItem);
+                }
+
             }
 
 
@@ -451,7 +494,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                 total = itm.requestQty + total;
                 return total;
             }, 0);
-        })
+        });
     }
 
 }
