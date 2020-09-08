@@ -64,7 +64,14 @@
                                                 <mat-icon class="font-18 d-flex align-items-center gry-cl">location_on</mat-icon>
                                                 <span class="align-self-center">{{allLocations}}</span>
                                             </h6>
-                                            <ng-container *ngIf="details.rfq.expired; else ldValid">
+                                            <a
+                                                *ngIf="!isActedLead"
+                                                class="bbtn1"
+                                                (click)="submit()"
+                                                mat-button>
+                                                Submit
+                                            </a>
+                                            <!-- <ng-container *ngIf="details.rfq.expired; else ldValid">
                                                 <a
                                                     *ngIf="!isActedLead"
                                                     class="bbtn1"
@@ -80,7 +87,7 @@
                                                     mat-button>
                                                     Submit
                                                 </a>
-                                            </ng-template>
+                                            </ng-template> -->
                                         </div>
 
                                     </div>

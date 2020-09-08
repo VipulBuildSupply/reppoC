@@ -252,7 +252,6 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         const forms: FormGroup[] = this.details.items.map(itm => itm.form);
 
         if (this.commonForm.valid && forms.every(frm => frm.valid)) {
-            debugger;
 
             const items: RfqSubmitModel[] = this.details.items.map(itm => itm.form.value.data).flat().map(itm => {
 
@@ -269,17 +268,17 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
 
             const itemHasPrice = items.filter(itm => itm.price);
 
-            const itemsWithoutPrice = items.filter(itm => !itm.price)
-                .filter(itm => itemHasPrice.some(pItem => pItem.sellerRfqItemId !== itm.sellerRfqItemId));
+            const itemsWithoutPrice = items.filter(itm => !itm.price);
+            // .filter(itm => itemHasPrice.some(pItem => pItem.sellerRfqItemId !== itm.sellerRfqItemId));
 
-            const uniqItemsWithoutPrice = [ ...itemsWithoutPrice.reduce((a, c) => {
-                a.set(c.sellerRfqItemId, c);
-                return a;
-            }, new Map()).values() ];
+            // const uniqItemsWithoutPrice = [ ...itemsWithoutPrice.reduce((a, c) => {
+            //     a.set(c.sellerRfqItemId, c);
+            //     return a;
+            // }, new Map()).values() ];
 
 
-            if (uniqItemsWithoutPrice.length) {
-                this.showPopup(uniqItemsWithoutPrice, items);
+            if (itemsWithoutPrice.length) {
+                this.showPopup(itemsWithoutPrice, items);
             } else {
                 this.submitData(items);
             }
@@ -327,11 +326,17 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     showPopup(itemsWithoutPrice: RfqSubmitModel[], allItems: RfqSubmitModel[]) {
 
         const promptItem: PromptItem[] = itemsWithoutPrice.map((item) => {
-
+            let specName;
             const orgItm = this.details.items.find(itm => itm.sellerRfqItem.id === item.sellerRfqItemId);
+            if (orgItm.sellerRfqItem.specs.length) {
+                specName = orgItm.sellerRfqItem.specs.find(spec => spec.id === Number(item.specRelId)).specName;
+            }
 
-
-            return { ...item, imageUrl: orgItm.sellerRfqItem.imageUrl, displayName: orgItm.sellerRfqItem.displayName };
+            return {
+                ...item,
+                imageUrl: orgItm.sellerRfqItem.imageUrl,
+                displayName: orgItm.sellerRfqItem.displayName + (specName ? `(${specName})` : '')
+            };
 
         }) as PromptItem[];
 
