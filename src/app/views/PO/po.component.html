@@ -63,7 +63,7 @@
                 </ng-container>
 
                 <div
-                    *ngIf="activeTab === 'pending' && (!pendingOrderItemsList || !pendingOrderItemsList.length)"
+                    *ngIf="activeTab === 'pending' && (!pendingOrderItemsList || (!pendingOrderItemsList.pending.length))"
                     class="mt-2 no-new-leads">
                     <div class="row">
                         <div class="col-md-12 text-center">
@@ -91,7 +91,7 @@
                 </div>
 
                 <div
-                    *ngIf="activeTab === 'awarded' && (!awardedOrderItemsList || !awardedOrderItemsList.length)"
+                    *ngIf="activeTab === 'awarded' && (!awardedOrderItemsList || !awardedOrderItemsList.awarded.length)"
                     class="mt-2 no-new-leads">
                     <div class="row">
                         <div class="col-md-12 text-center">
