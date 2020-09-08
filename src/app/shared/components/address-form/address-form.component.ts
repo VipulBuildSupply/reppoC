@@ -275,7 +275,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
                 userType: ConfigurationConstants.USER_TYPE,
                 addressCategory: this.addrs.addressCategory,
                 additionalTypes: '',
-                name: this.addressForm.value.gstHolderName
+                name: this.addressForm.value.gstHolderName,
+                defaultAddress: this.addressForm.value.defaultAddress
             };
 
             if (this.addressForm.get('isAdditionalAddress').value) {
