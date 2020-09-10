@@ -166,10 +166,10 @@
     cursor: pointer;
 }
 .hide-extra {
-    overflow: hidden;
+    // overflow: hidden;
     display: block;
-    text-overflow: ellipsis;
-    height: 24px;
-    white-space: nowrap;
+    // text-overflow: ellipsis;
+    // height: 24px;
+    // white-space: nowrap;
     padding: 0 10px;
 }
