@@ -116,7 +116,7 @@
                                             </mat-expansion-panel-header>
 
                                             <div
-                                                *ngIf="item.sellerRfqItem.rmcDesignMix"
+                                                *ngIf="item.sellerRfqItem.rmcDesignMix && objToArr(item.sellerRfqItem.rmcDesignMix).length"
                                                 class=" max-w-550">
                                                 Design Mix:
                                                 <div class="design-mix p-3">
@@ -234,7 +234,7 @@
                                                     mat-button
                                                     (click)="chooseAddr(item.sellerRfqItem.id)"
                                                     class="pl-5 pr-5 bs-btn bs-btn__dashed">
-                                                    + Add Warehorse Address
+                                                    + Add Warehouse Address
                                                 </a>
                                                 <ng-container *ngIf="item.sellerRfqItem.specs?.length; else noneSpec">
                                                     <mat-error *ngIf="!item.form.valid">Warehouse address required</mat-error>
@@ -332,33 +332,37 @@
                     <div class="po__orders-list">
                         <div class="po__order my-3">
                             <mat-card class="po__card p-3">
-                                <h4 class="mr-3 mb-0">LEAD SNAPSHOT</h4>
+                                <h4 class="mr-3 mb-0">Pricing Summary</h4>
                                 <div
                                     style="padding-bottom:1px ;"
-                                    class="w-50 border-bottom pt-3">
+                                    class="lead-total-table border-bottom pt-3">
                                     <mat-grid-list
                                         cols="13"
                                         [style.background]="'#cccccc'"
                                         class=" border"
-                                        rowHeight="40px">
+                                        rowHeight="20px">
 
                                         <mat-grid-tile
                                             class="text-left"
                                             [colspan]="6"
+                                            [rowspan]="2"
                                             [style.background]="'#eaf8ff'">
                                             <div class="text-left w-100 p-2">Item</div>
                                         </mat-grid-tile>
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             [colspan]="2"
                                             [style.background]="'#eaf8ff'">
                                             Unit
                                         </mat-grid-tile>
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             [colspan]="2"
                                             [style.background]="'#eaf8ff'">
                                             Quantity
                                         </mat-grid-tile>
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             [colspan]="3"
                                             [style.background]="'#eaf8ff'">
                                             Price per unit(₹)
@@ -366,6 +370,7 @@
                                         <ng-container *ngFor="let item of leadPriceResponse.quotes; let i = index">
 
                                             <mat-grid-tile
+                                                [rowspan]="item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2"
                                                 class="text-left"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="6">
@@ -373,18 +378,21 @@
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
+                                                [rowspan]="item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="2">
                                                 {{item.unit || '-'}}
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
+                                                [rowspan]="item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="2">
                                                 {{item.requestQty}}
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
+                                                [rowspan]="item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="3">
                                                 {{item.price}}
@@ -392,25 +400,22 @@
                                         </ng-container>
 
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
-                                            [colspan]="8">
+                                            [colspan]="10">
                                             <div class="text-left w-100 p-2">Sub Total</div>
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
-                                            [style.background]="'#ffffff'"
-                                            [colspan]="2">
-                                            {{leadPriceResponse.totalQty}}
-                                        </mat-grid-tile>
-
-                                        <mat-grid-tile
+                                            [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
                                             {{ leadPriceResponse.totalAmountWithoutGst }}
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
                                             [colspan]="10">
@@ -418,12 +423,14 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
                                             {{ leadPriceResponse.gstAmount }}
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
                                             [colspan]="10">
@@ -431,6 +438,7 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
                                             {{ leadPriceResponse.totalAmount }}

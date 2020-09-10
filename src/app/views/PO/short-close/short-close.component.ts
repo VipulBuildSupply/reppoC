@@ -62,7 +62,7 @@ export class ShortCloseComponent implements OnInit {
         poItemId: new FormControl(item.id),
         isChecked: order.orderItemList.length === 1 ? true : false
       })
-      itemForm.get('closeQty').setValue(bQty);
+      // itemForm.get('closeQty').setValue(bQty);
       return itemForm;
     })
     this.oItemsList = this.formBuilder.array(allItems);
