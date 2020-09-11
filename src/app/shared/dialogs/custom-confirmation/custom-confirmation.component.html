@@ -1,26 +1,72 @@
 <mat-dialog-content class="content__parent">
 
-        <div class="modal-dialog" role="document">
-            <div class="modal-content ">
-                <div class="modal-body">
-                    <h5 class="top-title">{{ title }}</h5>
-                    <div class="remove-product-info">
-                        <p>{{msg}}</p>
+
+
+
+
+
+
+
+    <button
+        *ngIf="showCloseButton"
+        type="button"
+        class="close"
+        (click)="closeDialog()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+
+
+
+
+    <div
+        class="modal-dialog"
+        role="document">
+        <div class="modal-content ">
+            <div class="modal-body">
+                <h5 class="top-title">{{ title }}</h5>
+                <div class="remove-product-info">
+                    <p>{{msg}}</p>
+                </div>
+
+
+
+                <ng-container *ngIf="docs">
+                    <div
+                        *ngFor="let doc of docs"
+                        class="border p-2 pb-1">
+                        <a [href]="doc.signedUrl">{{doc.orginalFileName}}</a>
                     </div>
-                    <div class="remove-btn">
-                        <button *ngIf="payload.cancel" (click)="closeDialog()" class="save-button cancel-button">Cancel</button>
-                        <button (click)="confirmAction()" class="save-button save-button2 mr-0">OK</button>
-                    </div>
+                </ng-container>
+
+
+
+
+                <div class="remove-btn pt-3">
+                    <button
+                        *ngIf="payload.cancel"
+                        (click)="closeDialog()"
+                        class="bs-btn bs-btn__hollow mr-2 ">
+                        Cancel
+                    </button>
+                    <button
+                        (click)="confirmAction()"
+                        class="bs-btn bs-btn__solid mr-0">
+                        OK
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
 
-<!-- 
 
-    <div class="_block">
+
+
+
+    <!-- <div class="_block">
         <div class="relative _block menu-popup">
             <div class="popup__body _block">
                 <div class="col-sm-12 menu__tooltip-container _block">
@@ -48,5 +94,9 @@
             </div>
         </div>
     </div> -->
+
+
+
+
 
 </mat-dialog-content>
