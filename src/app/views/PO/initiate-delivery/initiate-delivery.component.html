@@ -48,15 +48,163 @@
                                 class="form-outer"
                                 *ngIf="order">
                                 <h3 class="mb-3">Delivery Summary (₹)</h3>
-                                <div class="max-w-300">
+
+                                <div
+                                    style="padding-bottom:1px ;"
+                                    class="lead-total-table border-bottom pt-3">
+                                    <mat-grid-list
+                                        cols="13"
+                                        [style.background]="'#cccccc'"
+                                        class=" border"
+                                        rowHeight="20px">
+
+                                        <mat-grid-tile
+                                            class="text-left"
+                                            [colspan]="6"
+                                            [rowspan]="2"
+                                            [style.background]="'#eaf8ff'">
+                                            <div class="text-left w-100 p-2">Item</div>
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [colspan]="2"
+                                            [style.background]="'#eaf8ff'">
+                                            Unit
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [colspan]="2"
+                                            [style.background]="'#eaf8ff'">
+                                            Quantity
+                                        </mat-grid-tile>
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [colspan]="3"
+                                            [style.background]="'#eaf8ff'">
+                                            Price
+                                            <!-- per unit(?) -->
+                                        </mat-grid-tile>
+
+                                        <ng-container *ngFor="let item of itemsList.orderItemList; let i = index">
+                                            <!-- item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2 -->
+                                            <mat-grid-tile
+                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                class="text-left"
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="6">
+                                                <div class="hide-extra text-left w-100  ">{{item.name}}</div>
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="2">
+                                                {{item.unit}}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="2">
+                                                {{item.requestQty}}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [style.background]="'#ffffff'"
+                                                [colspan]="3">
+                                                {{ item.totalAmount}}
+                                            </mat-grid-tile>
+                                        </ng-container>
+
+                                        <!-- subTotal -->
+
+                                        <!-- <mat-grid-tile
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">Sub Total</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            800
+                                        </mat-grid-tile> -->
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">IGST</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{order.purchaseOrder.igstAmount}}
+                                        </mat-grid-tile>
+                                        <!-- CDST -->
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">CGST</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{order.purchaseOrder.cgstAmount}}
+                                        </mat-grid-tile>
+                                        <!-- SGST -->
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">SGST</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{  order.purchaseOrder.sgstAmount}}
+                                        </mat-grid-tile>
+
+                                        <!-- total -->
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">Grand Total</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{order.purchaseOrder.totalAmount}}
+                                        </mat-grid-tile>
+
+                                    </mat-grid-list>
+                                </div>
+
+                                <!-- -------------------- -->
+                                <!-- <div class="max-w-300">
                                     <div class="d-flex justify-content-between">
                                         <span>Total Items</span>
                                         <span>{{ order.orderItemList.length }}</span>
                                     </div>
-                                    <!-- <div class="d-flex justify-content-between">
-                                        <span>Material Cost</span>
-                                        <span>-</span>
-                                    </div> -->
+                                    
                                     <div class="d-flex justify-content-between">
                                         <span>IGST</span>
                                         <span>{{order.purchaseOrder.igstAmount}}</span>
@@ -73,11 +221,11 @@
                                         <span>Total Amount</span>
                                         <span>{{ order.purchaseOrder.totalAmount}}</span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
-                        <div class="mark-in-transit__vehicle-details">
+                        <div class="mt-3 mark-in-transit__vehicle-details">
 
                             <div class="form-outer">
                                 <h3 class="mb-3">Invoice</h3>
