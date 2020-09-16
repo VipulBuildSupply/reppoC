@@ -107,7 +107,8 @@ export const API = {
     RFQ_SUBMIT: (sellerRfqId: number) => `product/api/seller/rfq/${sellerRfqId}/price`,
 
     CHECK_RFQ_COUNT: `product/api/seller/rfq/checkCount`,
-    LEAD_ITEM_TOTAL: (sellerRfqId) => `product/api/seller/rfq/${sellerRfqId}/price/calculate/item`
+    LEAD_ITEM_TOTAL: (sellerRfqId) => `product/api/seller/rfq/${sellerRfqId}/price/calculate/item`,
+    PO_TOTAL: (orderId) => `product/api/po/seller/v1/${orderId}/delivery/calculate`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

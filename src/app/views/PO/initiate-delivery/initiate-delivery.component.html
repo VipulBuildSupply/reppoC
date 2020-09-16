@@ -38,12 +38,16 @@
                                 <div
                                     class="mark-in-transit__items-list"
                                     *ngFor="let item of itemsList.orderItemList">
-                                    <app-multi-item-checkbox [items]="item"></app-multi-item-checkbox>
+                                    <app-multi-item-checkbox
+                                        [items]="item"
+                                        (valueChange)="qtyChnage($event)"></app-multi-item-checkbox>
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="mark-in-transit__vehicle-details">
-                            .
+                        <div
+                            *ngIf="deliverySummary"
+                            class="mark-in-transit__vehicle-details">
+
                             <div
                                 class="form-outer"
                                 *ngIf="order">
@@ -85,10 +89,10 @@
                                             <!-- per unit(?) -->
                                         </mat-grid-tile>
 
-                                        <ng-container *ngFor="let item of itemsList.orderItemList; let i = index">
+                                        <ng-container *ngFor="let item of deliverySummary.items; let i = index">
                                             <!-- item.skuName.length > 72 ? 4 : item.skuName.length > 37 ? 3 : 2 -->
                                             <mat-grid-tile
-                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [rowspan]="(item.name && item.name.length) > 72 ? 4 : (item.name && item.name.length) > 37 ? 3 : 2"
                                                 class="text-left"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="6">
@@ -96,30 +100,31 @@
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
-                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [rowspan]="(item.name && item.name.length) > 72 ? 4 : (item.name && item.name.length) > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="2">
                                                 {{item.unit}}
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
-                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [rowspan]="(item.name && item.name.length) > 72 ? 4 : (item.name && item.name.length) > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="2">
-                                                {{item.requestQty}}
+                                                {{item.itemQty}}
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
-                                                [rowspan]="item.name.length > 72 ? 4 : item.name.length > 37 ? 3 : 2"
+                                                [rowspan]="(item.name && item.name.length) > 72 ? 4 : (item.name && item.name.length) > 37 ? 3 : 2"
                                                 [style.background]="'#ffffff'"
                                                 [colspan]="3">
-                                                {{ item.totalAmount}}
+                                                {{ item.totalAmountExludingTax}}
                                             </mat-grid-tile>
                                         </ng-container>
 
                                         <!-- subTotal -->
 
-                                        <!-- <mat-grid-tile
+                                        <mat-grid-tile
+                                            *ngIf="deliverySummary.totalAmountExludingTax"
                                             [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
@@ -128,13 +133,15 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.totalAmountExludingTax"
                                             [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
                                             800
-                                        </mat-grid-tile> -->
+                                        </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.igstAmount"
                                             [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
@@ -143,13 +150,15 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.igstAmount"
                                             [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
-                                            {{order.purchaseOrder.igstAmount}}
+                                            {{deliverySummary.igstAmount}}
                                         </mat-grid-tile>
                                         <!-- CDST -->
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.cgstAmount"
                                             [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
@@ -158,13 +167,15 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.cgstAmount"
                                             [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
-                                            {{order.purchaseOrder.cgstAmount}}
+                                            {{deliverySummary.cgstAmount}}
                                         </mat-grid-tile>
                                         <!-- SGST -->
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.sgstAmount"
                                             [rowspan]="2"
                                             class="text-left"
                                             [style.background]="'#ffffff'"
@@ -173,10 +184,30 @@
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
+                                            *ngIf="deliverySummary.sgstAmount"
                                             [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
-                                            {{  order.purchaseOrder.sgstAmount}}
+                                            {{  deliverySummary.sgstAmount}}
+                                        </mat-grid-tile>
+
+                                        <!-- SGST -->
+
+                                        <mat-grid-tile
+                                            *ngIf="deliverySummary.totalGst"
+                                            [rowspan]="2"
+                                            class="text-left"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="10">
+                                            <div class="text-left w-100 p-2">GST</div>
+                                        </mat-grid-tile>
+
+                                        <mat-grid-tile
+                                            *ngIf="deliverySummary.totalGst"
+                                            [rowspan]="2"
+                                            [style.background]="'#ffffff'"
+                                            [colspan]="3">
+                                            {{  deliverySummary.totalGst}}
                                         </mat-grid-tile>
 
                                         <!-- total -->
@@ -185,14 +216,14 @@
                                             class="text-left"
                                             [style.background]="'#ffffff'"
                                             [colspan]="10">
-                                            <div class="text-left w-100 p-2">Grand Total</div>
+                                            <div class="text-left w-100 p-2">Grand Total (Invoice Value)</div>
                                         </mat-grid-tile>
 
                                         <mat-grid-tile
                                             [rowspan]="2"
                                             [style.background]="'#ffffff'"
                                             [colspan]="3">
-                                            {{order.purchaseOrder.totalAmount}}
+                                            {{deliverySummary.invoiceAmount}}
                                         </mat-grid-tile>
 
                                     </mat-grid-list>
