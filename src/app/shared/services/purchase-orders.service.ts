@@ -51,4 +51,8 @@ export class PurchaseOrdersService {
         return this._dataService.sendPostRequest(API.INITIATE_PAYMENT_REQUEST, data).then((res: any) => res);
     }
 
+    updateDeliveryTotal(id, data) {
+        return this._dataService.sendPostRequest(API.PO_TOTAL(id), data).then((res: any) => res.data);
+    }
+
 }

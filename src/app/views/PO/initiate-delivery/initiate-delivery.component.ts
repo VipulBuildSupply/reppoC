@@ -1,3 +1,5 @@
+import { InitDeliverySummary } from './../../../shared/models/delivery-request';
+
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PurchaseOrdersService } from 'src/app/shared/services/purchase-orders.service';
@@ -8,6 +10,8 @@ import { DeliveryRequest } from 'src/app/shared/models/delivery-request';
 import { UploadComponent } from 'src/app/shared/components/upload/upload.component';
 import { NotificationService } from 'src/app/shared/services/notification-service';
 import { PoOrders } from 'src/app/shared/models/purchase-orders';
+
+
 
 @Component({
   selector: 'app-initiate-delivery',
@@ -26,8 +30,10 @@ export class InitiateDeliveryComponent implements OnInit {
   transportMode: any;
   transportOptionRoad = { name: 'Road', value: 'transport.mode.road' };
   order: PoOrders;
+  deliveryDetails: any;
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
+  deliverySummary: InitDeliverySummary;
   constructor(private _activatedRoute: ActivatedRoute,
     private _purchaseOrdersService: PurchaseOrdersService,
     private _formBuilder: FormBuilder,
@@ -40,6 +46,16 @@ export class InitiateDeliveryComponent implements OnInit {
     this.getAllItemsList(this.purchaseId);
     this.formInit();
     this.getPoDetails(this.purchaseId);
+    this.getFields(poId.id);
+  }
+
+  getFields(orderId) {
+    this._purchaseOrdersService.getAllTypeDeliveries(orderId).then(res => {
+      this.deliveryDetails = res.data.activeDeliveries[ 0 ];
+
+
+
+    });
   }
 
   getPoDetails(id) {
@@ -184,5 +200,18 @@ export class InitiateDeliveryComponent implements OnInit {
 
   goBack() {
     this._router.navigate([ '/orders/details/awarded/' + this.purchaseId ]);
+  }
+
+  qtyChnage(e) {
+    const items = this.multiItems.map(itm => ({
+      poItemId: itm.item.id,
+      deliveryQty: itm.multiItemForm.value.deliveryQty ? Number(itm.multiItemForm.value.deliveryQty) : 0
+    })).filter(itm => itm.deliveryQty);
+
+    this.deliveryDetails.orderItemList = items;
+    this._purchaseOrdersService.updateDeliveryTotal(this.purchaseId, this.deliveryDetails).then(data => {
+      this.deliverySummary = data;
+
+    });
   }
 }
