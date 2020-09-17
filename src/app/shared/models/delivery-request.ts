@@ -81,6 +81,10 @@ export interface InitDeliverySummary {
     transportModeName: string | number;
     transporterName: string;
     vehicleNo: string;
+    igst?: number;
+    sgst?: number;
+    cgst?: number;
+
 }
 
 export interface InitDeliverySummaryItem {
