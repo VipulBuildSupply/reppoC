@@ -208,8 +208,9 @@ export class InitiateDeliveryComponent implements OnInit {
       deliveryQty: itm.multiItemForm.value.deliveryQty ? Number(itm.multiItemForm.value.deliveryQty) : 0
     })).filter(itm => itm.deliveryQty);
 
-    this.deliveryDetails.orderItemList = items;
-    this._purchaseOrdersService.updateDeliveryTotal(this.purchaseId, this.deliveryDetails).then(data => {
+    const data: any = { orderId: this.purchaseId };
+    data.orderItemList = items;
+    this._purchaseOrdersService.updateDeliveryTotal(this.purchaseId, data).then(data => {
       this.deliverySummary = data;
 
     });
