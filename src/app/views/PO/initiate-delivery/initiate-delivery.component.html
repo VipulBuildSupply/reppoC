@@ -268,6 +268,29 @@
                                     </div>
 
                                     <div class="col-md-4">
+                                        <mat-form-field class="mr-5 w-75">
+                                            <input
+                                                hidden
+                                                matInput
+                                                [matDatepicker]="invcDate"
+                                                formControlName="invoiceDate"
+                                                [min]="minDate"
+                                                disabled>
+                                            <span
+                                                class="form-placeholder cursor-pointer d-block"
+                                                (click)="invcDate.open()">
+                                                {{ formatDate(deliveryRequestForm.controls.invoiceDate.value) }}
+                                            </span>
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="invcDate"></mat-datepicker-toggle>
+                                            <mat-datepicker
+                                                #invcDate
+                                                disabled="false"></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-4">
                                         <app-upload
                                             label="invoiceAttachId"
                                             [isViewShow]="false"

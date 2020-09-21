@@ -71,6 +71,7 @@ export class InitiateDeliveryComponent implements OnInit {
   formInit() {
     this.deliveryRequestForm = this._formBuilder.group({
       invoiceNo: [ '', Validators.required ],
+      invoiceDate: [ '' ],
       invoiceAttachId: [ '', {
         validators: [
           Validators.required,

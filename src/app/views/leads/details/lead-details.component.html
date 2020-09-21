@@ -546,6 +546,25 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="po">
+                    <div class="po__orders-list">
+                        <div class="po__order my-3">
+                            <mat-card class="po__card mat-card p-3">
+                                <div *ngIf="details.rfq && details.rfq.documents?.length">
+                                    <h4 class="mr-3 mb-3">BuildSupply Attachment:</h4>
+                                    <div
+                                        class="col-md-6 border mb-1 p-2 d-flex justify-content-between"
+                                        *ngFor="let doc of details.rfq.documents">
+                                        <span class="pdf-ico">{{  doc.orginalFileName}}</span>
+                                        <a [href]="doc.signedUrl">view</a>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
