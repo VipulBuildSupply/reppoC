@@ -35,6 +35,8 @@ export class MultiItemCheckboxComponent implements OnInit {
 
     this.multiItemForm.get('deliveryQty').valueChanges.pipe(debounceTime(300)).subscribe(val => {
       this.valueChange.emit(val);
+      this.item.checked = !!val;
+
     });
   }
 }

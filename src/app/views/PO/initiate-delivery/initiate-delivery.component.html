@@ -322,7 +322,7 @@
                                                 type="text"
                                                 placeholder="Eway Bill Number"
                                                 formControlName="ewayBillNo"
-                                                required>
+                                                [required]="deliverySummary && deliverySummary.invoiceAmount >= billCap">
                                         </mat-form-field>
                                     </div>
 
@@ -439,8 +439,7 @@
                                                     matInput
                                                     type="text"
                                                     placeholder="Transporter Name"
-                                                    formControlName="transporterName"
-                                                    required>
+                                                    formControlName="transporterName">
                                             </mat-form-field>
                                         </div>
 
