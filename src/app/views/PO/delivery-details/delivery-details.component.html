@@ -60,7 +60,9 @@
                                     <p class="mb-0">{{ deliveryDetails[0].invoice }}</p>
                                 </div>
 
-                                <div class="attachment-col text-center"></div>
+                                <div class="attachment-col text-center">
+                                    <span class="date-time">{{ deliveryDetails[0].invoiceDt }}</span>
+                                </div>
 
                                 <div class="attachment-outer-col">
                                     <ng-container *ngIf="deliveryDetails[0].invoiceAttachId">

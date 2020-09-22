@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { InitDeliverySummary } from './../../../shared/models/delivery-request';
 
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
@@ -34,6 +35,7 @@ export class InitiateDeliveryComponent implements OnInit {
   @ViewChildren(MultiItemCheckboxComponent) multiItems: QueryList<any>;
   @ViewChildren('uploadRef') uploadItems: QueryList<UploadComponent>;
   deliverySummary: InitDeliverySummary;
+  billCap = 50000;
   constructor(private _activatedRoute: ActivatedRoute,
     private _purchaseOrdersService: PurchaseOrdersService,
     private _formBuilder: FormBuilder,
@@ -71,20 +73,21 @@ export class InitiateDeliveryComponent implements OnInit {
   formInit() {
     this.deliveryRequestForm = this._formBuilder.group({
       invoiceNo: [ '', Validators.required ],
+      invoiceDate: [ '' ],
       invoiceAttachId: [ '', {
         validators: [
           Validators.required,
           Validators.minLength(1)
         ]
       } ],
-      ewayBillNo: [ '', Validators.required ],
+      ewayBillNo: [ '' ],
       eWayBillDate: [ '' ],
       ewayBillAttachId: [ '', Validators.required ],
       challanNo: [ '' ],
       challanDate: [ '' ],
       challanAttachId: [ '' ],
       materialTestAttachId: [ '' ],
-      transporterName: [ '', Validators.required ],
+      transporterName: [ '' ],
       transportModeCd: [ this.transportOptionRoad.value ],
       vehicleNo: [ '', Validators.required ],
       driverName: [ '' ],
@@ -212,6 +215,15 @@ export class InitiateDeliveryComponent implements OnInit {
     data.orderItemList = items;
     this._purchaseOrdersService.updateDeliveryTotal(this.purchaseId, data).then(data => {
       this.deliverySummary = data;
+
+      if (this.deliverySummary.invoiceAmount >= this.billCap) {
+
+        this.deliveryRequestForm.get('ewayBillNo').setValidators([ Validators.required ]);
+      } else {
+        this.deliveryRequestForm.get('ewayBillNo').clearValidators();
+      }
+
+      this.deliveryRequestForm.get('ewayBillNo').updateValueAndValidity();
 
     });
   }
