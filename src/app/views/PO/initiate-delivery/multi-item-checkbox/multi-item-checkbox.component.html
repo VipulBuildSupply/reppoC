@@ -2,10 +2,14 @@
 
     <div class="items-list d-flex">
 
-        <mat-checkbox (change)="item.checked = !item.checked" [checked]="item.checked">
+        <mat-checkbox
+            (change)="item.checked = !item.checked"
+            [checked]="item.checked">
             <div class="item-details d-flex">
                 <div class="item-image">
-                    <img [src]="item.imageUrl ? item.imageUrl : 'assets/img/default-sku-img.png'" alt="">
+                    <img
+                        [src]="item.imageUrl ? item.imageUrl : 'assets/img/default-sku-img.png'"
+                        alt>
                 </div>
 
             </div>
@@ -14,7 +18,12 @@
         <div class="item-desc">
 
             <ng-container *ngIf="item.skuSlugUrl; else noUrlLink">
-                <a [attr.href]="item.skuSlugUrl" target="_blank" class="po-item-title mb-1">{{ item.name }}</a>
+                <a
+                    [attr.href]="item.skuSlugUrl"
+                    target="_blank"
+                    class="po-item-title mb-1">
+                    {{ item.name }}
+                </a>
             </ng-container>
 
             <ng-template #noUrlLink>
@@ -22,23 +31,29 @@
             </ng-template>
 
             <div class="item-quantity d-flex">
-                <span>Balance Quantity: {{ item.deliverySummary.totalBalanceQty }} {{ item.unit }}</span>
-                <span>Requested Quantity: {{ item.requestQty }} {{ item.unit }}</span>
-                <span class="green">Enqueued Quantity: {{ item.deliverySummary.totalEnqueueQty }} {{ item.unit }}</span>
+                <span>
+                    Balance Quantity: {{ item.deliverySummary.totalBalanceQty }} {{ item.unit }}
+                </span>
+                <span>
+                    Approved Quantity: {{ item.deliverySummary.totalApprovalQty | 0  }} {{ item.unit }}
+                </span>
+                <span class="green">
+                    Enqueued Quantity: {{ item.deliverySummary.totalEnqueueQty }} {{ item.unit }}
+                </span>
             </div>
 
             <mat-form-field class="item-enter-qty">
-                <input matInput formControlName="deliveryQty" placeholder="Enter delivery quantity" DecimalNumber="true"
-                    required />
+                <input
+                    matInput
+                    formControlName="deliveryQty"
+                    placeholder="Enter delivery quantity"
+                    DecimalNumber="true"
+                    required>
                 <mat-error *ngIf="multiItemForm.controls['deliveryQty'].errors &&
                 (multiItemForm.controls['deliveryQty'].dirty || multiItemForm.controls['deliveryQty'].touched)">
-                    <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('required')">
-                        Delivery Quantity is required
-                    </mat-error>
+                    <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('required')">Delivery Quantity is required</mat-error>
 
-                    <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('pattern')">
-                        Invalid Delivery Quantity
-                    </mat-error>
+                    <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('pattern')">Invalid Delivery Quantity</mat-error>
                     <mat-error *ngIf="multiItemForm.controls['deliveryQty'].hasError('max')">
                         MAx Delivery Quantity is {{ item.deliverySummary.maxRaiseAllowQty }}
                     </mat-error>
