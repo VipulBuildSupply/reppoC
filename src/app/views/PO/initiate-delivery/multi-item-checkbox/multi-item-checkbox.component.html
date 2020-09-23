@@ -35,7 +35,7 @@
                     Balance Quantity: {{ item.deliverySummary.totalBalanceQty }} {{ item.unit }}
                 </span>
                 <span>
-                    Approved Quantity: {{ item.deliverySummary.totalApprovalQty | 0  }} {{ item.unit }}
+                    Approved Quantity: {{ item.deliverySummary.totalApprovalQty || 0  }} {{ item.unit }}
                 </span>
                 <span class="green">
                     Enqueued Quantity: {{ item.deliverySummary.totalEnqueueQty }} {{ item.unit }}
