@@ -51,7 +51,7 @@
                             <div
                                 class="form-outer"
                                 *ngIf="order">
-                                <h3 class="mb-3">Delivery Summary (?)</h3>
+                                <h3 class="mb-3">Delivery Summary (₹)</h3>
 
                                 <div
                                     style="padding-bottom:1px ;"
@@ -85,7 +85,7 @@
                                             [rowspan]="2"
                                             [colspan]="3"
                                             [style.background]="'#eaf8ff'">
-                                            Price (?)
+                                            Price (₹)
                                             <!-- per unit(?) -->
                                         </mat-grid-tile>
 
@@ -363,7 +363,7 @@
                                             Bill Docs
                                         </mat-error>
 
-                                        <mat-error *ngIf="deliveryRequestForm.controls['ewayBillAttachId'].value === undefined">Please upload eWay Bill Docs</mat-error>
+                                        <mat-error *ngIf="deliveryRequestForm.controls['ewayBillAttachId'].hasError('required')">Please upload eWay Bill Docs</mat-error>
                                     </div>
                                 </div>
                             </div>

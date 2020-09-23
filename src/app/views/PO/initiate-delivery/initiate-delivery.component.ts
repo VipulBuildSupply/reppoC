@@ -82,7 +82,7 @@ export class InitiateDeliveryComponent implements OnInit {
       } ],
       ewayBillNo: [ '' ],
       eWayBillDate: [ '' ],
-      ewayBillAttachId: [ '', Validators.required ],
+      ewayBillAttachId: [ '' ],
       challanNo: [ '' ],
       challanDate: [ '' ],
       challanAttachId: [ '' ],
@@ -219,11 +219,14 @@ export class InitiateDeliveryComponent implements OnInit {
       if (this.deliverySummary.invoiceAmount >= this.billCap) {
 
         this.deliveryRequestForm.get('ewayBillNo').setValidators([ Validators.required ]);
+        this.deliveryRequestForm.get('ewayBillAttachId').setValidators([ Validators.required ]);
       } else {
         this.deliveryRequestForm.get('ewayBillNo').clearValidators();
+        this.deliveryRequestForm.get('ewayBillAttachId').clearValidators();
       }
 
       this.deliveryRequestForm.get('ewayBillNo').updateValueAndValidity();
+      this.deliveryRequestForm.get('ewayBillAttachId').updateValueAndValidity();
 
     });
   }
