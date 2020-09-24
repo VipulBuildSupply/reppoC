@@ -26,7 +26,7 @@ export class MultiItemCheckboxComponent implements OnInit {
       deliveryQty: [ '', {
         validators: [
           Validators.required,
-          // Validators.max(this.item.deliverySummary.maxRaiseAllowQty),
+          Validators.max(this.item.deliverySummary.maxRaiseAllowQty),
           Validators.pattern(FieldRegExConst.DECIMAL_NUMBERS)
         ]
       } ],
