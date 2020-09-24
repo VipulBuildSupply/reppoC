@@ -547,11 +547,13 @@
                     </div>
                 </div>
 
-                <div class="po">
+                <div
+                    *ngIf="details.rfq && details.rfq.documents?.length"
+                    class="po">
                     <div class="po__orders-list">
                         <div class="po__order my-3">
                             <mat-card class="po__card mat-card p-3">
-                                <div *ngIf="details.rfq && details.rfq.documents?.length">
+                                <div>
                                     <h4 class="mr-3 mb-3">BuildSupply Attachment:</h4>
                                     <div
                                         class="col-md-6 border mb-1 p-2 d-flex justify-content-between"
