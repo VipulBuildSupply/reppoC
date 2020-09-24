@@ -150,6 +150,7 @@ export class DeliverySummary {
     maxRaiseAllowQty: number;
     totalRejectedQty: number;
     totalBalanceQty: number;
+    totalApprovalQty?: number;
 }
 
 export class AllDeliveries {
