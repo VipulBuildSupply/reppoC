@@ -705,9 +705,13 @@
         &:not(:last-child):after {
             content: "|";
             margin: 0 15px;
+            color: #000;
         }
-        &:last-child {
+        &.green-cl {
             color: #03b10f;
+        }
+        &.red-cl {
+            color: #ff0000;
         }
     }
 }
