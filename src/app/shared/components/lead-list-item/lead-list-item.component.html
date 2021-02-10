@@ -14,6 +14,11 @@
                     class="datetime mb-0 mt-1">
                     {{rfqDetails.rfq.createDt}}
                 </p>
+
+                <p *ngIf="rfqDetails.rfq?.sellerstoreYn === 'Y'" class="buyer-detail mb-0 mt-1">
+                    <span *ngIf="rfqDetails.rfq?.buyerPhone" class="mr-3">Phone: {{rfqDetails.rfq.buyerPhone}}</span>
+                    <span *ngIf="rfqDetails.rfq?.buyerEmail">Email: {{rfqDetails.rfq.buyerEmail}}</span>
+                </p>
             </div>
 
             <div class="po__title-right d-flex align-items-center">
@@ -55,7 +60,7 @@
             class="d-block mb-4"
             *ngFor="let item of rfqDetails.items;"
             [size]="'SMALL'"
-            [sku]="item"></app-sku>
+            [sku]="item" [otherSkuDetail]="{buyerPhone: rfqDetails.rfq.buyerPhone, buyerEmail: rfqDetails.rfq.buyerEmail}"></app-sku>
 
         <div [@slideInOut]="open">
             <app-sku
