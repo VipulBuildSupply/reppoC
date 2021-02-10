@@ -46,6 +46,13 @@
         line-height: 17px;
         margin-bottom: 0;
     }
+    .buyer-detail{
+        color: #000000;
+        font-family: "Open Sans", sans-serif;
+        font-size: 12px;
+        font-weight: 300;
+        letter-spacing: .5px;
+    }
 
     .mat-card-header {
         padding: 13px 15px;
@@ -985,4 +992,22 @@
         height: 30px;
         width: 30px;
     }
+}
+
+.border-btn {
+    border-width: 2px;
+    background-color: transparent;
+    color: #f47721;
+    border-radius: 20px;
+    border:0px;
+    outline: 0;
+}
+
+.remark-btn{
+    position: absolute;
+    font-size: 12px;
+    display: block;
+    right:40px;
+    color:#f47721;
+    cursor: pointer;
 }

@@ -108,7 +108,8 @@ export const API = {
 
     CHECK_RFQ_COUNT: `product/api/seller/rfq/checkCount`,
     LEAD_ITEM_TOTAL: (sellerRfqId) => `product/api/seller/rfq/${sellerRfqId}/price/calculate/item`,
-    PO_TOTAL: (orderId) => `product/api/po/seller/v1/${orderId}/delivery/calculate`
+    PO_TOTAL: (orderId) => `product/api/po/seller/v1/${orderId}/delivery/calculate`,
+    LEAD_CLOSEYN: (leadId) => `product/api/seller/rfq/${leadId}/close`
 }
 
 export const HEADER_NAV: HeaderNavigaton[] = [

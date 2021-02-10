@@ -45,9 +45,22 @@
                                                 class="datetime mb-0 mt-1">
                                                 {{details.rfq.createDt}}
                                             </p>
+                                            <p *ngIf="details.rfq?.sellerstoreYn === 'Y'" class="buyer-detail mb-0 mt-1">
+                                                <span *ngIf="details.rfq?.buyerPhone" class="mr-3">Phone: {{details.rfq.buyerPhone}}</span>
+                                                <span *ngIf="details.rfq?.buyerEmail">Email: {{details.rfq.buyerEmail}}</span>
+                                            </p>
                                         </div>
 
                                         <div class="po__title-right d-flex align-items-center">
+                                            <h6 *ngIf="details.rfq?.sellerstoreYn === 'Y'" class="mb-0 pt-2 position-relative">
+                                                    <mat-radio-group aria-label="Select an option" (change)="leadDialog($event)" [disabled]="isLeadCloseAction">
+                                                        <mat-radio-button value="1" class="mr-3">Lead Closed</mat-radio-button>
+                                                        <mat-radio-button value="2">Lead Not Closed</mat-radio-button>
+                                                    </mat-radio-group>
+                                                    <ng-container *ngIf="details.rfq?.closeRemark">
+                                                        <span (click)="showRemarks(details.rfq.closeRemark)" class="remark-btn">Show Remarks</span>
+                                                    </ng-container>
+                                            </h6>
                                             <h6
                                                 *ngIf="details.rfq.statusCd"
                                                 class="mb-0 d-flex align-content-stretch">

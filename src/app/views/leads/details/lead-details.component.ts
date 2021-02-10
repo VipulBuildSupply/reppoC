@@ -1,3 +1,6 @@
+import { API } from './../../../shared/constants/configuration-constants';
+import { DataService } from './../../../shared/services/data.service';
+import { LeadCloseDialogComponent } from './../../../shared/dialogs/lead-close-dialog/lead-close-dialog';
 import { LeadPriceResponse } from './../../../shared/models/leads';
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,6 +38,7 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     isActedLead: boolean;
     sticky: any;
     leadPriceResponse: LeadPriceResponse;
+    isLeadCloseAction: boolean;
 
     @ViewChild('formElm', { static: false }) public formElm: ElementRef;
     constructor(
@@ -43,7 +47,8 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
         private dialog: MatDialog,
         private formBuilder: FormBuilder,
         private leadService: LeadsService,
-        private commonService: CommonService) { }
+        private commonService: CommonService,
+        private dataService: DataService) { }
 
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
@@ -66,15 +71,53 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
             });
         }
 
+        this.isLeadCloseAction = this.details.rfq.closeRemark ? true : false
+
         this.sticky = new Sticky('.sticky');
         this.sticky.update();
-
-        console.log(this.details);
 
         this.getLeadTotal();
 
     }
 
+    showRemarks(remark){
+        const d = this.dialog.open(LeadCloseDialogComponent, {
+            data: { 
+                remark
+            },
+            maxWidth: '100%',
+            disableClose: true
+        });
+    }
+
+    leadDialog(e){
+        console.log(e);
+        if(e.value === '1'){
+            this.sendLeadClosedRequest(this.details.rfq.id, {closeYn : 'Y'});
+        }
+        if(e.value === '2'){
+            const d = this.dialog.open(LeadCloseDialogComponent, {
+                data: { },
+                maxWidth: '360px',
+                disableClose: true
+            });
+            d.afterClosed().toPromise().then((data: any) => {
+                if (data) {
+                    data.closeYn = 'N';
+                    this.sendLeadClosedRequest(this.details.rfq.id, data);
+                }
+            });
+        }
+    }
+
+    sendLeadClosedRequest(id, data){
+        this.dataService.sendPutRequest(API.LEAD_CLOSEYN(id), data).then(res => {
+            console.log(res.data);
+            if(res.data){
+                this.isLeadCloseAction = true;
+            }
+        })
+    }
 
 
     formatAddress(addr): string {
