@@ -1,3 +1,4 @@
+import { LeadCloseDialogComponent } from './lead-close-dialog/lead-close-dialog';
 import { CustomConfirmationComponent } from './custom-confirmation/custom-confirmation.component';
 import { SelectAddressComponent } from './select-address/select-address-component';
 import { AddAddressDialogComponent } from './add-address/address.dialog';
@@ -27,5 +28,6 @@ export const SharedDialogs = [
     DeleteWarehouseAddressComponent,
     OtherCategoryComponent,
     DeleteReferenceComponent,
-    SkuPromptComponent
+    SkuPromptComponent,
+    LeadCloseDialogComponent
 ];

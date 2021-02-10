@@ -29,8 +29,12 @@ export interface RfqDetails {
     pid: number;
     status: string;
     statusCd: string;
-
     createDt: string;
+    sellerstoreYn?: string;
+    closeYn?: string;
+    closeRemark?: string;
+    buyerPhone?: string;
+    buyerEmail?: string;
 }
 
 export interface RfqSku {
