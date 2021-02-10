@@ -60,7 +60,7 @@
             class="d-block mb-4"
             *ngFor="let item of rfqDetails.items;"
             [size]="'SMALL'"
-            [sku]="item" [otherSkuDetail]="{buyerPhone: rfqDetails.rfq.buyerPhone, buyerEmail: rfqDetails.rfq.buyerEmail}"></app-sku>
+            [sku]="item"></app-sku>
 
         <div [@slideInOut]="open">
             <app-sku
