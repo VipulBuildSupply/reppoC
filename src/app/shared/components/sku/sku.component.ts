@@ -9,7 +9,6 @@ export class SkuComponent implements OnInit {
 
     @Input() sku: RfqSku;
     @Input() size: 'BIG' | 'SMALL';
-    @Input() otherSkuDetail: any;
     constructor(
 
     ) { }
