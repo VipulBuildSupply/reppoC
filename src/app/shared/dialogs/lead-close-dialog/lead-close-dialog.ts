@@ -24,7 +24,7 @@ export class LeadCloseDialogComponent implements OnInit {
 
     formInit(){
         this.leadCloseForm = this.fB.group({
-            closeRemark: [ {value: (this.data.remark ? this.data.remark : ''), disabled: this.data.remark}, Validators.required ]
+            closeRemark: [ {value: (this.data.remark ? this.data.remark : ''), disabled: this.data.remark}]
         })
     }
 

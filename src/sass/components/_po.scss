@@ -1000,6 +1000,7 @@
     color: #f47721;
     border-radius: 20px;
     border:0px;
+    border:1px solid #f47721;
     outline: 0;
 }
 
@@ -1010,4 +1011,14 @@
     right:40px;
     color:#f47721;
     cursor: pointer;
+}
+
+.fill-btn {
+    border-radius: 20px;
+    background-color: #f47721;
+    outline:0;
+    color:#ffffff;
+    &:hover{
+        color:#fff;
+    }
 }
