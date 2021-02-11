@@ -53,6 +53,36 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.details = this.activatedRout.snapshot.data.details;
 
+        // this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
+        // this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
+        // this.allLocations = this.details ?
+        //     this.details.items.map(sku => sku.sellerRfqItem.deliveryLocation)
+        //         .filter((loc, i, arr) => arr.indexOf(loc) === i).join(', ') : '';
+        // this.details.items.forEach(item => item.form = this.formBuilder.group({ data: this.setForm(item) }));
+        // this.initCommonForm();
+        // this.getPaymentTerms();
+        // this.getFreightTerms();
+
+        // if (this.isActedLead) {
+        //     this.details.items.forEach(itm => {
+        //         if (itm.warehousePrice && itm.warehousePrice.warehouseAddress && itm.warehousePrice.warehouseAddress.htmlData) {
+        //             itm.warehousePrice.warehouseAddress.htmlData = this.formatAddress(itm.warehousePrice.warehouseAddress.htmlData);
+        //         }
+        //     });
+        // }
+
+        this.setupLeadDetailData();
+
+        this.isLeadCloseAction = this.details.rfq.closeRemark ? true : false;
+
+        this.sticky = new Sticky('.sticky');
+        this.sticky.update();
+
+        this.getLeadTotal();
+
+    }
+
+    setupLeadDetailData(){
         this.details.rfq.statusCd = this.details.rfq.expired ? '' : this.details.rfq.statusCd;
         this.isActedLead = !!this.details.paymentTermCd || !!this.details.freightTermCd || !!this.details.validEndDt;
         this.allLocations = this.details ?
@@ -70,14 +100,6 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                 }
             });
         }
-
-        this.isLeadCloseAction = this.details.rfq.closeRemark ? true : false
-
-        this.sticky = new Sticky('.sticky');
-        this.sticky.update();
-
-        this.getLeadTotal();
-
     }
 
     showRemarks(remark){
@@ -91,9 +113,9 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
     }
 
     leadDialog(e){
-        console.log(e);
         if(e.value === '1'){
             this.sendLeadClosedRequest(this.details.rfq.id, {closeYn : 'Y'});
+            e.source.radioGroup.value = '';
         }
         if(e.value === '2'){
             const d = this.dialog.open(LeadCloseDialogComponent, {
@@ -106,15 +128,20 @@ export class LeadDetailsViewComponent implements OnInit, OnDestroy {
                     data.closeYn = 'N';
                     this.sendLeadClosedRequest(this.details.rfq.id, data);
                 }
+                e.source.radioGroup.value = '';
             });
         }
     }
 
     sendLeadClosedRequest(id, data){
         this.dataService.sendPutRequest(API.LEAD_CLOSEYN(id), data).then(res => {
-            console.log(res.data);
             if(res.data){
                 this.isLeadCloseAction = true;
+                this.leadService.getLeadDetails(id)
+                    .then((res) => {
+                        this.details = res;
+                        this.setupLeadDetailData();
+                    });
             }
         })
     }
