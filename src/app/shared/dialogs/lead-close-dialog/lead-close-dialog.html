@@ -11,7 +11,7 @@
 
                                 <mat-form-field class="full-width">
                                     <mat-label>Please tell us why the lead was not closed.</mat-label>
-                                    <textarea matInput matAutosizeMinRows="3" formControlName="closeRemark"></textarea>
+                                    <textarea matInput formControlName="closeRemark"></textarea>
                                   </mat-form-field>
                             </div>
 
@@ -19,13 +19,13 @@
                                 <ng-container *ngIf="isEdit">
                                     <button
                                         type="button"
-                                        class="btn border-btn"
+                                        class="btn border-btn mr-2 pl-3 pr-3 pt-0 pb-0"
                                         (click)="closeDialog()">
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        class="btn orangeBttn">
+                                        class="btn fill-btn pl-3 pr-3 pt-0 pb-0">
                                         SAVE
                                     </button>
                                 </ng-container>
@@ -33,7 +33,7 @@
                                 <ng-container *ngIf="!isEdit">
                                     <button
                                         type="button"
-                                        class="btn border-btn"
+                                        class="btn border-btn pl-3 pr-3 pt-0 pb-0"
                                         (click)="closeDialog()">
                                         Close
                                     </button>
